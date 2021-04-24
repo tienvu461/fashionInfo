@@ -1,6 +1,11 @@
 # fashion-info
 
-# I. How to run Docker with local environment
+# I. General
+
+![Alt text](Gitflow.png?raw=true "Title")
+
+
+# II. How to run Docker with local environment
 ## 1. Requirement:
     - Docker version 20.10.5, build 55c4c88
     - docker-compose version 1.28.5, build c4eb3a1f
@@ -48,7 +53,7 @@
 ./docker.sh -e local -c backend -a logs
 ```
 
-# II. More options
+# III. More options
 ## 1. Build images
 - Build all images
 
