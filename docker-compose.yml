@@ -1,0 +1,77 @@
+version: "3.3"
+services:
+    mysql:
+        build: 
+            context: .
+            dockerfile: ./infrastructure/docker/mysql/Dockerfile
+        image: ${PROJECT}-mysql
+        ports: 
+            - "3306:3306"
+        env_file:
+            - ./infrastructure/docker/config/local/.env.mysql
+        ports:
+            - "3306:3306"
+        volumes:
+            - ./infrastructure/docker/mysql/storage:/var/lib/mysql
+            - ./infrastructure/docker/mysql/config/custom.cnf:/etc/mysql/conf.d/custom.cnf
+
+    admin:
+        build:
+            args:
+                BASE_IMAGE_NAME: ${BASE_IMAGE_NAME}
+                BASE_IMAGE_TAG: ${BASE_IMAGE_TAG}
+                APP_ENV: ${APP_ENV}
+                SRC_DIR: ./../frontend/admin
+                COMPONENT: admin
+            context: .
+            dockerfile: ./infrastructure/docker/admin/Dockerfile
+        image: ${PROJECT}-admin
+        expose:
+            - "3000"
+        env_file:
+            - ./infrastructure/docker/config/${ENVIRONMENT}/.env.admin
+        volumes:
+            - ./../frontend/admin:/var/node
+        depends_on: 
+            - "backend"
+        
+    front:
+        build:
+            args:
+                BASE_IMAGE_NAME: ${BASE_IMAGE_NAME}
+                BASE_IMAGE_TAG: ${BASE_IMAGE_TAG}
+                APP_ENV: ${APP_ENV}
+                SRC_DIR: ./../frontend/front
+                COMPONENT: front
+            context: .
+            dockerfile: ./infrastructure/docker/front/Dockerfile
+        image: ${PROJECT}-front
+        expose:
+            - "3000"
+        env_file:
+            - ./infrastructure/docker/config/${ENVIRONMENT}/.env.front
+        volumes: 
+            - ./../frontend/front:/var/node
+        depends_on: 
+            - "backend"
+
+    backend:
+        build:
+            args:
+                BASE_IMAGE_NAME: ${BASE_IMAGE_NAME}
+                BASE_IMAGE_TAG: ${BASE_IMAGE_TAG}
+                APP_ENV: ${APP_ENV}
+                SRC_DIR: ./../backend
+                COMPONENT: backend
+            context: .
+            dockerfile: ./infrastructure/docker/backend/Dockerfile
+        image: ${PROJECT}-backend
+        expose:
+            - "3000"
+        env_file:
+            - ./infrastructure/docker/config/${ENVIRONMENT}/.env.backend
+        volumes: 
+            - ./../backend/:/var/django
+        depends_on: 
+            - "mysql"
+            # - "fluentbit-local"
