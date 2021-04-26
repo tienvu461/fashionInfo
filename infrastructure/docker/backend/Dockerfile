@@ -1,29 +1,25 @@
+# docker/backend/Dockerfile
+
 FROM python:3.8.3-alpine
 ARG SRC_DIR
 
-# work directory
 WORKDIR /app
-COPY ${SRC_DIR}/backend/requirements.txt /app/backend/
-# set environment variables
-# no .pyc
-ENV PYTHONDONTWRITEBYTECODE 1
-# no stdout stderr
-ENV PYTHONUNBUFFERED 1
 
-# install dependencies
+# install psycopg2 dependencies
+RUN apk update \
+    && apk add --virtual build-deps gcc python3-dev musl-dev \
+    && apk add postgresql-dev gcc python3-dev musl-dev \
+    && apk add postgresql \
+    && pip install psycopg2 \
+    && apk add jpeg-dev zlib-dev libjpeg \
+    && pip install Pillow \
+    && apk del build-deps
+
+ADD ${SRC_DIR}/requirements.txt /app/backend/
+
 RUN pip install --upgrade pip
 RUN pip install gunicorn
 RUN pip install -r backend/requirements.txt
 
-ADD ${SRC_DIR}/infrastructure/docker /app/docker
-ADD ${SRC_DIR}backend /app/backend
-
-# copy entrypoint.sh
-COPY ./myFirstBlog/entrypoint.sh .
-RUN chmod +x /usr/src/myFirstBlog/entrypoint.sh
-
-# source code
-COPY . .
-
-# run entrypoint.sh
-ENTRYPOINT ["/usr/src/myFirstBlog/entrypoint.sh"]
+ADD ./infrastructure/docker /app/docker
+ADD ${SRC_DIR}/ /app/backend/

@@ -1,0 +1,32 @@
+version: '2'
+
+services:
+    front: 
+        restart: unless-stopped
+        build:
+            args:
+              SRC_DIR: ./frontend/front
+            context: .
+            dockerfile: ./infrastructure/docker/front/Dockerfile
+        ports:
+            - 80:80
+        volumes:
+            - static_volume:/app/backend/server/django_static
+            - ./infrastructure/docker/front/development:/etc/nginx/conf.d
+        depends_on: 
+            - backend
+    backend:
+        restart: unless-stopped
+        build:
+            args:
+              SRC_DIR: ./backend
+            context: .
+            dockerfile: ./infrastructure/docker/backend/Dockerfile            
+        entrypoint: /app/docker/backend/wsgi-entrypoint.sh
+        volumes:
+            - static_volume:/app/backend/server/django_static
+        expose:
+            - 8000        
+
+volumes:
+    static_volume: {}

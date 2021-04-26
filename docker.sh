@@ -71,33 +71,30 @@ done
 COMPONENTs_ARRAY=($(echo $_components | tr " " "\n"))
 
 function docker_build() {
+    echo docker-compose-${ENVIRONMENT}.yml
     local _component=$1
     local _option=$2
-    if [[ $_component = "base" || $_component = "fluentbit" || $_component = "redis" || $_component = "mysql" ]]; then
-            docker-compose -p ${PROJECT} build $_option $_component
-    else
-        docker-compose  -p ${PROJECT} build $_option \
-                        --build-arg BASE_IMAGE_NAME=${BASE_IMAGE_NAME} \
-                        --build-arg BASE_IMAGE_TAG=${BASE_IMAGE_TAG} \
-                        --build-arg APP_ENV=${APP_ENV} \
-                        $_component
-    fi
+    docker-compose  -f docker-compose-${ENVIRONMENT}.yml \
+                    -p ${PROJECT} build $_option \
+                    $_component
 }
 
 function docker_up() {
     local _component=$1
-    docker-compose -p ${PROJECT} up -d $_component
-    docker_healthcheck ${_component}
+    docker-compose  -f docker-compose-${ENVIRONMENT}.yml \
+                    -p ${PROJECT} up -d $_component
 }
 
 function docker_restart() {
     local _component=$1
-    docker-compose -p ${PROJECT} restart ${_component}
+    docker-compose  -f docker-compose-${ENVIRONMENT}.yml \
+                    -p ${PROJECT} restart ${_component}
 }
 
 function docker_logs() {
     local _component=$1
-    docker-compose -p ${PROJECT} logs -f $_component
+    docker-compose  -f docker-compose-${ENVIRONMENT}.yml \
+                    -p ${PROJECT} logs -f $_component
 }
 
 function docker_tag() {
@@ -144,7 +141,8 @@ function docker_deploy() {
 }
 
 function docker_ps() {
-    docker-compose -p ${PROJECT} ps -a
+    docker-compose  -f docker-compose-${ENVIRONMENT}.yml \
+                    -p ${PROJECT} ps -a
 }
 
 function docker_prune() {
@@ -153,18 +151,21 @@ function docker_prune() {
 }
 
 function docker_down() {
-    docker-compose -p ${PROJECT} down -v
+    docker-compose  -f docker-compose-${ENVIRONMENT}.yml \
+                    -p ${PROJECT} down -v
 }
 
 function docker_stop() {
     local _component=$1
-    docker-compose -p ${PROJECT} stop $_component
+    docker-compose  -f docker-compose-${ENVIRONMENT}.yml \
+                    -p ${PROJECT} stop $_component
 }
 
 function docker_exec() {
     local _component=$1
     local _option=$2
-    docker-compose -p ${PROJECT} exec $_component $_option
+    docker-compose  -f docker-compose-${ENVIRONMENT}.yml \
+                    -p ${PROJECT} exec $_component $_option
 }
 
 function docker_cp() {
@@ -173,43 +174,6 @@ function docker_cp() {
     local _cp_dest=$3
     docker cp ${_cp_src} ${_cp_dest}
 }
-
-function docker_healthcheck() {
-    _component=$1
-
-    if [ ${_component} = "admin" ]; then URL=${ADMIN_LOCAL_URL}
-    elif [ ${_component} = "api" ]; then URL=${API_LOCAL_URL}
-    elif [ ${_component} = "front" ]; then URL=${FRONT_LOCAL_URL}
-    else
-        echo "Service doesn't have the healthcheck."; exit 0
-    fi
-
-    t=0
-    while [ $t -lt 10 ]; do
-        if [ $(curl -s -o /dev/null -w "%{http_code}" ${URL}/healthcheck) = 200 ]; then 
-            echo "Application ${_component} is ready."; break
-        else 
-            echo "Application ${_component} is not ready."; sleep 30; t=+1
-        fi
-    done
-}
-
-function docker_ut() {
-    local _component=$1
-    docker_up ${_component}
-    docker_healthcheck ${_component}
-    echo "■■■ ${_component}"
-    echo "■■■■■■ Unit Test"
-    echo "■■■■■■■■■ Config env testing"
-    docker-compose exec -T ${_component} sh -c "cp /var/www/app/env/.env.testing /var/www/app/.env.testing"
-    echo "■■■■■■■■■ Clear config"
-    docker-compose exec -T ${_component} sh -c "php artisan config:clear --env=testing"
-    echo "■■■■■■■■■ Running migration"
-    docker-compose exec -T ${_component} sh -c "php artisan migrate --force"
-    echo "■■■■■■■■■ Running Unit Test"
-    docker-compose exec -T ${_component} sh -c "php artisan test --env=testing" 2>&1 | tee ./unit_test/${_component}_output.txt
-}
-
 # Main execution
 if [ ${#COMPONENTs_ARRAY[@]} -eq 0 ]; then
     if [ ${ACTION} = "ut" ];then echo "Please put a list labels to run Unit Test"; exit 1; fi

@@ -1,136 +1,123 @@
-# fashion-info
-
-# I. General
-
-![Alt text](Gitflow.png?raw=true "Title")
+# fashionInfo
+Fashion websit e&amp; forum
 
 
-# II. How to run Docker with local environment
+# I. How to run Docker with dev environment
 ## 1. Requirement:
     - Docker version 20.10.5, build 55c4c88
     - docker-compose version 1.28.5, build c4eb3a1f
 
 - Allow action: `build` `down` `prune` `logs` `restart` `start` `stop` `up` `deploy` `ps` `exec`
-- Allow env: `local` `dev` `stg` `prd`
-- Allow compoment: `admin` `front` `backend` `mysql`
+- Allow env: `dev` `prd`
+- Allow compoment: `front` `backend` `mysql` 
 - Show help:
 
 ```
 ./docker.sh -h
 ```
-
 ## 2. Build images
 
 ```
-./docker.sh -e local -a build
+./docker.sh -e dev -a build
 ```
 
 ## 3. Run container
 - Front:
 
 ```
-./docker.sh -e local -c front -a up
+./docker.sh -e dev -c front -a up
 
 # Check logs
-./docker.sh -e local -c front -a logs
-```
-
-- Admin:
-
-```
-./docker.sh -e local -c admin -a up
-
-# Check logs
-./docker.sh -e local -c admin -a logs
+./docker.sh -e dev -c front -a logs
 ```
 
 - Backend:
 
 ```
-./docker.sh -e local -c backend -a up
+./docker.sh -e dev -c backend -a up
 
 # Check logs
-./docker.sh -e local -c backend -a logs
+./docker.sh -e dev -c backend -a logs
 ```
 
-# III. More options
+# II. More options
 ## 1. Build images
 - Build all images
 
 ```
-./docker.sh -e local -a build
+./docker.sh -e dev -a build
 ```
 
 - Build each image
 
 ```
-./docker.sh -e local -a build -c [component]
+./docker.sh -e dev -a build -c [component]
 
-    Allow compoment:`admin` `front` `backend` `mysql`
+    Allow compoment: `front` `backend` `mysql` 
 ```
 
 - Build all images no cache
 
 ```
-./docker.sh -e local -a build -o --no-cache
+./docker.sh -e dev -a build -o --no-cache
 ```
 
 - Build each image no cache
 
 ```
-./docker.sh -e local -a build -c [component] -o --no-cache
+./docker.sh -e dev -a build -c [component] -o --no-cache
 
-    Allow compoment:`admin` `front` `backend` `mysql`
+    Allow compoment: `front` `backend` `mysql` 
 ```
 
 - Build multiple images
 
 ```
-./docker.sh -e local -a build -c [component_1] -c [component_2] -c [component_3]
+./docker.sh -e dev -a build -c [component_1] -c [component_2] -c [component_3]
    
-    Allow compoment:`admin` `front` `backend` `mysql`
+    Allow compoment: `front` `backend` `mysql` 
 ```
 
 ## 2. Run container
 - Run all containers
 
 ```
-./docker.sh -e local -a up
+./docker.sh -e dev -a up
 ```
 
 - Run each container
 
 ```
-./docker.sh -e local -a up -c [component]
+./docker.sh -e dev -a up -c [component]
 
-    Allow compoment:`admin` `front` `backend` `mysql`
+    Allow compoment: `front` `backend` `mysql` 
 ```
 
 - Run multiple containers
 
 ```
-./docker.sh -e local -a up -c [component] -c [component_2] -c [component_3]
+./docker.sh -e dev -a up -c [component] -c [component_2] -c [component_3]
 
-    Allow compoment:`admin` `front` `backend` `mysql`
+    Allow compoment: `front` `backend` `mysql` 
 ```
 
 ## 3. Tail logs
 
 ```
-./docker.sh -e local -a logs -c [component]
+./docker.sh -e dev -a logs -c [component]
 ```
 
 ## 4. Stop container
 - Stop all containers
 
 ```
-./docker.sh -e local -a stop
+./docker.sh -e dev -a stop
 ```
 
 - Stop each container
 
 ```
-./docker.sh -e local -a stop -c [component]
+./docker.sh -e dev -a stop -c [component]
 
 ```
 
@@ -142,18 +129,10 @@
 
 ## 5. Execution container
 ```
-./docker.sh -e local -a exec -c [component] -o [optional]
+./docker.sh -e dev -a exec -c [component] -o [optional]
 
-    Allow component:`admin` `front` `backend` `mysql`
+    Allow component: `front` `backend` `mysql` 
     Allow optional: `sh`, `bash`
 
-    Example: ./docker.sh -e local -a exec -c api -o sh
-```
-
-## 6. Connect Database local
-```
-Host: 127.0.0.1
-DB_Name: fashion_info_user
-DB_User: fashion_info_user
-DB_Password: fashion_info_user
+    Example: ./docker.sh -e dev -a exec -c api -o sh
 ```
