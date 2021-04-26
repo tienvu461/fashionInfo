@@ -1,19 +1,20 @@
+import React from 'react';
 import logo from './assets/images/brand.svg';
 import './App.scss';
 
-function App() {
+function App(): React.FC {
   return (
     <div className='App'>
       <header className='App-header'>
-        <img src={logo} alt='logo' />
+        <img alt='logo' src={logo} />
         <p>
           Edit <code>src/App.js</code> and save to reload.
         </p>
         <a
           className='App-link'
           href='https://reactjs.org'
-          target='_blank'
           rel='noopener noreferrer'
+          target='_blank'
         >
           Learn React
         </a>
