@@ -1,12 +1,15 @@
 # The first stage
 # Build React static files
 FROM node:13.12.0-alpine as build
+ARG SRC_DIR
 
 WORKDIR /app/frontend
-COPY ${SRC_DIR}/frontend/front/package.json ./
-COPY ${SRC_DIR}/frontend/front/package-lock.json ./
-RUN npm ci --silent
-COPY ${SRC_DIR}/frontend/front/ ./
+COPY ${SRC_DIR}/package.json ./
+
+# COPY ${SRC_DIR}/package-lock.json ./
+# RUN npm ci --silent
+
+COPY ${SRC_DIR}/ ./
 RUN npm run build
 
 # The second stage
