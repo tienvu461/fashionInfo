@@ -7,6 +7,7 @@
     "jsx-no-lambda": false,
     "no-implicit-dependencies": false,
     "no-console": false,
+    "noUnusedLocals": false,
     "semi": 1,
     "quotes": [2, "prefer-single"],
     "jsx-quotes": [2, "prefer-single"]

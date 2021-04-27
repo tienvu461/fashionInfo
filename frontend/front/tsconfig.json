@@ -21,7 +21,6 @@
     "forceConsistentCasingInFileNames": true,
     "noImplicitReturns": true,
     "suppressImplicitAnyIndexErrors": true,
-    "noUnusedLocals": true,
     "noImplicitAny": false,
     "allowJs": true,
     "experimentalDecorators": true,
@@ -32,6 +31,7 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
+    "noUnusedLocals": false,
   },
   "include": [
     "./src"
