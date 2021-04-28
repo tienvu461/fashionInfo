@@ -87,7 +87,11 @@
     "react-hooks/rules-of-hooks": "error",
     "react-hooks/exhaustive-deps": "warn",
     "no-use-before-define": "off",
-    "no-unused-vars": ["warn", { "varsIgnorePattern": "^_" }]
+    "no-unused-vars": ["warn", { "varsIgnorePattern": "^_" }],
+    "indent": "off",
+    "no-param-reassign": 0,
+    "comma-dangle": 0
+    // "@typescript-eslint/indent": ["error"]
   },
   "settings": {
     "import/resolver": {
