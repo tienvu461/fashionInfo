@@ -19,8 +19,9 @@ WORKDIR /app
 #     && pip install Pillow \
 #     && apk add py-cryptography
 RUN apk update \
-    && apk add --virtual build-deps gcc musl-dev python3-dev libffi-dev openssl-dev cargo postgresql-dev jpeg-dev zlib-dev
+    && apk add --virtual build-deps gcc musl-dev python3-dev libffi-dev openssl-dev cargo postgresql-dev jpeg-dev zlib-dev \
     # && apk add psycopg2
+    && apk add postgresql
 
 ADD ${SRC_DIR}/requirements.txt /app/backend/
 
@@ -31,4 +32,4 @@ RUN pip install -r backend/requirements.txt
 RUN apk del build-deps 
 
 ADD ./infrastructure/docker /app/docker
-ADD ${SRC_DIR}/ /app/backend/
+# ADD ${SRC_DIR}/ /app/backend/
