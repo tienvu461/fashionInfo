@@ -15,7 +15,7 @@ services:
             - ./infrastructure/docker/front/development:/etc/nginx/conf.d
         depends_on: 
             - backend
-            
+
     backend:
         restart: unless-stopped
         build:
@@ -37,7 +37,11 @@ services:
             - postgresql
 
     postgresql:
-        image: postgres:12.0-alpine
+        build:
+            args:
+              SRC_DIR: ./infrastructure/docker/postgresql
+            context: .
+            dockerfile: ./infrastructure/docker/postgresql/Dockerfile    
         volumes:
             - postgresql_volume:/var/lib/postgresql/data
         ports:

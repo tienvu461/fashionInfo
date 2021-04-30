@@ -22,6 +22,17 @@ do
     sleep 2
 done
 
+cat <<EOF | python manage.py shell
+from django.contrib.auth import get_user_model
+import os
+User = get_user_model()  # get the currently active user model,
+SU_USER = os.environ.get("SU_USER", "admin")
+SU_PWD = os.environ.get("SU_PWD", "abc123!@#")
+SU_EMAIL = os.environ.get("SU_EMAIL", "admin@example.com")
+User.objects.filter(username=SU_USER).exists() or \
+    User.objects.create_superuser(SU_USER, SU_EMAIL, SU_PWD)
+EOF
+
 ./manage.py collectstatic --noinput
 
 # gunicorn backend.wsgi --bind 0.0.0.0:8000 --workers 4 --threads 4
