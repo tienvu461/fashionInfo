@@ -59,10 +59,22 @@ class photo(DateCreateModMixin):
         return u'<img src="%s" />' % (self.image_path.url)
     thumbnail.short_description = 'Thumbnail'
 
-# Note: background_image is just for my header background, not MarkdownX
 
-# list of images uploaded in a blog post
-# class uploaded_photo(models.Model):
-#     post = models.ForeignKey(photo, related_name='images', on_delete=models.CASCADE)
-#     image = models.ImageField(upload_to=datetime.now().strftime('%Y/%m/%d'))
-    # image_name = models.CharField(max_length=50)
+# Upload news
+class news(DateCreateModMixin):
+    title = models.CharField(max_length=50)
+    slug = models.SlugField(max_length=200, unique=True, null=True)
+    author = models.ForeignKey(
+        User, on_delete=models.CASCADE, default="1")
+    content = MarkdownxField()
+    # body = models.TextField()
+    # image_path = models.ImageField(upload_to=datetime.now().strftime('%Y/%m/%d'))
+    status = models.IntegerField(choices=STATUS, default=0)
+
+
+    class Meta:
+        ordering = ['-created_date']
+
+    def __str__(self):
+        return self.title
+

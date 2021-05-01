@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import photo, generic_config
+from .models import photo, news, generic_config
 from django.utils.safestring import mark_safe
 
 from markdownx.admin import MarkdownxModelAdmin
@@ -40,3 +40,11 @@ class PhotoAdmin(MarkdownxModelAdmin):
             720/obj.image_path.width,
         )
         )
+
+@admin.register(news)
+class NewsAdmin(MarkdownxModelAdmin):
+    list_display = ('title',  "status", 'created_date',
+                    'mod_date', 'content')
+    list_filter = ('created_date', 'mod_date', "status",)
+    search_fields = ('title',)
+    prepopulated_fields = {'slug': ('title',)}
