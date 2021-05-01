@@ -52,9 +52,11 @@ INSTALLED_APPS = [
     # djoser handle login request
     'djoser',
     'corsheaders',
+    # markdown for admin
+    'markdownx',
     # dev apps
-    'apps.accounts'
-    'apps.photos'
+    'apps.accounts',
+    'apps.photos',
 ]
 
 #configure DRF
@@ -149,7 +151,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Ho_Chi_Minh'
 
 USE_I18N = True
 
@@ -162,6 +164,9 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
+MEDIA_URL = '/media/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 
 SITE_ID = 2
 
