@@ -54,6 +54,7 @@ INSTALLED_APPS = [
     'corsheaders',
     # dev apps
     'apps.accounts'
+    'apps.photos'
 ]
 
 #configure DRF

@@ -11,22 +11,22 @@ ENV PYTHONUNBUFFERED 1
 
 WORKDIR /app
 
-# install psycopg2 dependencies
-# RUN apk update \
-#     && apk add --virtual build-deps gcc python3-dev musl-dev libc-dev libressl-dev musl-dev libffi-dev cairo cairo-dev cargo openssl-dev postgresql-dev jpeg-dev zlib-dev libjpeg \
-#     && apk add postgresql postgresql-client \
-#     && pip install psycopg2 \
-#     && pip install Pillow \
-#     && apk add py-cryptography
 RUN apk update \
-    && apk add --virtual build-deps gcc musl-dev python3-dev libffi-dev openssl-dev cargo postgresql-dev jpeg-dev zlib-dev \
+    && apk add --virtual build-deps gcc musl-dev python3-dev \
+    libffi-dev openssl-dev cargo  \
+    postgresql-dev \
+    jpeg-dev zlib-dev libjpeg \
     # && apk add psycopg2
     && apk add postgresql
-
+RUN apk add tiff-dev jpeg-dev openjpeg-dev zlib-dev freetype-dev lcms2-dev \
+    libwebp-dev tcl-dev tk-dev harfbuzz-dev fribidi-dev libimagequant-dev \
+    libxcb-dev libpng-dev
+    
 ADD ${SRC_DIR}/requirements.txt /app/backend/
 
 RUN pip install --upgrade pip
 RUN pip install gunicorn
+# RUN pip install pillow
 RUN pip install -r backend/requirements.txt
 
 RUN apk del build-deps 
