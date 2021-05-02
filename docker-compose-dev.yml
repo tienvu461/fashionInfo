@@ -7,12 +7,16 @@ services:
             args:
               SRC_DIR: ./frontend/front
             context: .
-            dockerfile: ./infrastructure/docker/front/Dockerfile
+            dockerfile: ./infrastructure/docker/front/Dockerfile.dev
+        expose:
+            - 3000
         ports:
-            - 80:80
+            - 3000:3000
         volumes:
             - static_volume:/app/backend/server/django_static
             - ./infrastructure/docker/front/development:/etc/nginx/conf.d
+            - ./frontend/front:/app/frontend
+            - /app/frontend/node_modules
         depends_on: 
             - backend
 
