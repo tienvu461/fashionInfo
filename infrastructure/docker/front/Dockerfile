@@ -1,6 +1,6 @@
 # The first stage
 # Build React static files
-FROM node:12-alpine as build
+FROM node:14-alpine as build
 ARG SRC_DIR
 
 WORKDIR /app/frontend
