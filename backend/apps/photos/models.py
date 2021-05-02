@@ -5,12 +5,7 @@ from django.utils import timezone
 from markdownx.models import MarkdownxField
 from datetime import datetime
 
-
-STATUS = (
-    (0, "Draft"),
-    (1, "Publish")
-)
-
+from .consts import modelConst
 
 class generic_config(models.Model):
     config_name = models.CharField(default="default", max_length=50)
@@ -47,7 +42,7 @@ class photo(DateCreateModMixin):
     # body = models.TextField()
     image_path = models.ImageField(
         upload_to=datetime.now().strftime('%Y/%m/%d'))
-    status = models.IntegerField(choices=STATUS, default=0)
+    status = models.IntegerField(choices=modelConst.STATUS, default=0)
 
     class Meta:
         ordering = ['-created_date']
@@ -65,7 +60,7 @@ class news(DateCreateModMixin):
     content = MarkdownxField()
     # body = models.TextField()
     # image_path = models.ImageField(upload_to=datetime.now().strftime('%Y/%m/%d'))
-    status = models.IntegerField(choices=STATUS, default=0)
+    status = models.IntegerField(choices=modelConst.STATUS, default=0)
 
     class Meta:
         ordering = ['-created_date']
@@ -77,3 +72,23 @@ class news(DateCreateModMixin):
     def get_description(self):
         return self.content[:20]
     get_description.short_description = "Description"
+
+class like(models.Model):
+    like_id = models.AutoField(primary_key=True, null=False)
+    user_id = models.ForeignKey(
+        User, on_delete=models.CASCADE, null=False)
+    post_type = models.IntegerField(choices=modelConst.POST_TYPES, null=False)
+    post_id = models.IntegerField(null=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+
+class comment(models.Model):
+    cmt_id = models.AutoField(primary_key=True, null=False)
+    user_id = models.ForeignKey(
+        User, on_delete=models.CASCADE, null=False)
+    post_type = models.IntegerField(choices=modelConst.POST_TYPES, null=False)
+    post_id = models.IntegerField(null=False)
+    content = models.CharField(max_length=255)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
