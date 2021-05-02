@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import photo, news, generic_config
+from .models import Photo, News, GenericConfig
 from django.utils.safestring import mark_safe
 
 from markdownx.admin import MarkdownxModelAdmin
@@ -14,7 +14,7 @@ from .consts import adminConst
 
 # admin.site.register(Post, PostAdmin)
 
-@admin.register(generic_config)
+@admin.register(GenericConfig)
 class GenericConfigAdmin(admin.ModelAdmin):
     list_display = ('config_name', 'in_use')
 
@@ -23,7 +23,7 @@ class GenericConfigAdmin(admin.ModelAdmin):
     # extra = 3
 
 
-@admin.register(photo)
+@admin.register(Photo)
 class PhotoAdmin(MarkdownxModelAdmin):
     list_display = ('title',  "status", 'created_date',
                     'mod_date', 'image_path', 'thumbnail')
@@ -58,7 +58,7 @@ class PhotoAdmin(MarkdownxModelAdmin):
     thumbnail.short_description = 'Thumbnail'
     thumbnail.allow_tags = True
 
-@admin.register(news)
+@admin.register(News)
 class NewsAdmin(MarkdownxModelAdmin):
     list_display = ('title',  "status", 'created_date',
                     'mod_date', 'get_description')

@@ -7,7 +7,7 @@ from datetime import datetime
 
 from .consts import modelConst
 
-class generic_config(models.Model):
+class GenericConfig(models.Model):
     config_name = models.CharField(default="default", max_length=50)
     short_description = models.CharField(default="Description", max_length=200)
     in_use = models.BooleanField(default=False)
@@ -33,7 +33,7 @@ class DateCreateModMixin(models.Model):
 
 
 # Upload photo
-class photo(DateCreateModMixin):
+class Photo(DateCreateModMixin):
     title = models.CharField(max_length=50)
     slug = models.SlugField(max_length=200, unique=True, null=True)
     author = models.ForeignKey(
@@ -52,7 +52,7 @@ class photo(DateCreateModMixin):
 
 
 # Upload news
-class news(DateCreateModMixin):
+class News(DateCreateModMixin):
     title = models.CharField(max_length=50)
     slug = models.SlugField(max_length=200, unique=True, null=True)
     author = models.ForeignKey(
@@ -73,7 +73,7 @@ class news(DateCreateModMixin):
         return self.content[:20]
     get_description.short_description = "Description"
 
-class like(models.Model):
+class Like(models.Model):
     like_id = models.AutoField(primary_key=True, null=False)
     user_id = models.ForeignKey(
         User, on_delete=models.CASCADE, null=False)
@@ -83,7 +83,7 @@ class like(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
 
-class comment(models.Model):
+class Comment(models.Model):
     cmt_id = models.AutoField(primary_key=True, null=False)
     user_id = models.ForeignKey(
         User, on_delete=models.CASCADE, null=False)
