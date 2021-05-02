@@ -10,7 +10,8 @@ COPY ${SRC_DIR}/package.json ./
 # RUN npm ci --silent
 
 COPY ${SRC_DIR}/ ./
-RUN npm run build
+RUN yarn install --ignore-optional
+RUN yarn build
 
 # The second stage
 # Copy React static files and start nginx
