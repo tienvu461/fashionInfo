@@ -1,6 +1,6 @@
 # The first stage
 # Build React static files
-FROM node:13.12.0-alpine as build
+FROM node:14-alpine as build
 ARG SRC_DIR
 
 WORKDIR /app/frontend
@@ -10,7 +10,8 @@ COPY ${SRC_DIR}/package.json ./
 # RUN npm ci --silent
 
 COPY ${SRC_DIR}/ ./
-RUN npm run build
+RUN yarn install --ignore-optional
+RUN yarn build
 
 # The second stage
 # Copy React static files and start nginx
