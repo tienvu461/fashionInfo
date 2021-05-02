@@ -13,9 +13,9 @@ STATUS = (
 
 
 class generic_config(models.Model):
-    config_name = models.CharField(default = "default", max_length=50)
-    short_description = models.CharField(default = "Description", max_length=200)
-    in_use = models.BooleanField(default = False)
+    config_name = models.CharField(default="default", max_length=50)
+    short_description = models.CharField(default="Description", max_length=200)
+    in_use = models.BooleanField(default=False)
 
     def save(self, *args, **kwargs):
         if not self.in_use:
@@ -45,19 +45,15 @@ class photo(DateCreateModMixin):
         User, on_delete=models.CASCADE, default="1")
     # body = MarkdownxField()
     # body = models.TextField()
-    image_path = models.ImageField(upload_to=datetime.now().strftime('%Y/%m/%d'))
+    image_path = models.ImageField(
+        upload_to=datetime.now().strftime('%Y/%m/%d'))
     status = models.IntegerField(choices=STATUS, default=0)
-
 
     class Meta:
         ordering = ['-created_date']
 
     def __str__(self):
         return self.title
-
-    def thumbnail(self):
-        return u'<img src="%s" />' % (self.image_path.url)
-    thumbnail.short_description = 'Thumbnail'
 
 
 # Upload news
@@ -71,10 +67,13 @@ class news(DateCreateModMixin):
     # image_path = models.ImageField(upload_to=datetime.now().strftime('%Y/%m/%d'))
     status = models.IntegerField(choices=STATUS, default=0)
 
-
     class Meta:
         ordering = ['-created_date']
 
     def __str__(self):
         return self.title
 
+    # truncate text in list admin view
+    def get_description(self):
+        return self.content[:20]
+    get_description.short_description = "Description"
