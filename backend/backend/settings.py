@@ -30,27 +30,25 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'corsheaders',              # I always put it first here and in Middleware!
+    'django.contrib.sites',     # We add this as extra
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    # django rest framework
+    # authentication
     'rest_framework',
-    'rest_framework.authtoken',
-    'rest_auth',
-    #for social login
-    'django.contrib.sites',
-    'rest_auth.registration',
+    'djoser',
+    'social_django',          # Not needed to add but pip install required. Adding it here will create additional acces to social user via admin
+    'rest_framework_simplejwt',
+    'rest_framework_simplejwt.token_blacklist',  # Add it to avoid problems with migrations
+    # allauth
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
-    'allauth.socialaccount.providers.facebook',
-    'allauth.socialaccount.providers.google',
-    # djoser handle login request
-    'djoser',
-    'corsheaders',
+    "allauth.socialaccount.providers.google",
     # dev apps
     'apps.accounts'
 ]
@@ -58,16 +56,39 @@ INSTALLED_APPS = [
 #configure DRF
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework.authentication.TokenAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework_simplejwt.authentication.JWTAuthentication',  # OAuth2, JWT
     ),
     'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.IsAuthenticated',
+        'rest_framework.permissions.AllowAny',
     ]
 }
 
+SIMPLE_JWT = {
+    'AUTH_HEADER_TYPES': ('Bearer', 'JWT',), # Adding Bearer for POSTMAN testing
+    'USER_ID_FIELD': 'id',
+    'USER_ID_CLAIM': 'user_id',
+    'AUTH_TOKEN_CLASSES': (
+        'rest_framework_simplejwt.tokens.AccessToken',
+        # 'location.to.custom.token.CustomJWTToken'    # This is optional - custom class where token could be manipulated e.g. enriched with tenants, UUIDs etc.
+    ),
+}
+
+white_list = ['http://localhost:8000/accounts/profile/'] # URL you add to google developers console as allowed to make redirection
+
 # configure Djoser
 DJOSER = {
-    "USER_ID_FIELD": "username"
+    "LOGIN_FIELD": "username", # Field we use to login on extended User model
+    "USER_ID_FIELD": "username",
+    "PERMISSIONS": {
+        "user": ["rest_framework.permissions.AllowAny"],
+        "user_list": ["rest_framework.permissions.AllowAny"],
+    },
+    "SERIALIZERS": {
+        "user": "apps.accounts.serializers.UserSerializer", # Custom Serializer to show more user data
+        "current_user": "apps.accounts.serializers.UserSerializer", # Custom Serializer to show more user data
+    },
+    "SOCIAL_AUTH_ALLOWED_REDIRECT_URIS": white_list # Redirected URL we listen on google console
 }
 
 # define which origins are allowed
@@ -77,14 +98,17 @@ CORS_ALLOWED_ORIGINS = [
 ]
 
 MIDDLEWARE = [
+    # IMPORTANT: CORS policies has to go before other entries
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    # IMPORTANT: Essential when using django_social
+    'social_django.middleware.SocialAuthExceptionMiddleware',
 ]
 
 ROOT_URLCONF = 'backend.urls'
@@ -96,6 +120,8 @@ TEMPLATES = [
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
+                'social_django.context_processors.backends',
+                'social_django.context_processors.login_redirect',
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
@@ -160,3 +186,19 @@ STATIC_URL = '/static/'
 SITE_ID = 2
 
 LOGIN_REDIRECT_URL = '/'
+
+AUTHENTICATION_BACKENDS = (
+# We are going to implement Google, choose the one you need from docs
+'social_core.backends.google.GoogleOAuth2',
+# Crucial when logging into admin with username & password
+'django.contrib.auth.backends.ModelBackend',
+'allauth.account.auth_backends.AuthenticationBackend',
+)
+
+# Client ID and Client Secret obtained from console.developers.google.com
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '479323917045-vqqepkpp4v1ug5dqbp78hg4i4p9omeai.apps.googleusercontent.com'
+
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'klRCBHFVNB1nbVtqmaun9TPp'
+
+# Allauth
+ACCOUNT_LOGOUT_ON_GET = True
