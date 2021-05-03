@@ -13,8 +13,8 @@ from rest_framework import generics
 
 
 class PhotoList(mixins.ListModelMixin,
-                  mixins.CreateModelMixin,
-                  generics.GenericAPIView):
+                mixins.CreateModelMixin,
+                generics.GenericAPIView):
     queryset = Photo.objects.all()
     serializer_class = PhotoSerializer
 
