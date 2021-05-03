@@ -1,5 +1,13 @@
 version: '2'
 
+networks:
+    fashion_info_nw:
+        driver: bridge
+        ipam:
+            driver: default
+            config:
+                - subnet: 172.32.1.0/16
+                
 services:
     front: 
         restart: unless-stopped
@@ -19,6 +27,8 @@ services:
             - /app/frontend/node_modules
         depends_on: 
             - backend
+        networks:
+            - fashion_info_nw
 
     backend:
         restart: unless-stopped
@@ -39,6 +49,8 @@ services:
             - 8000:8000
         depends_on: 
             - postgresql
+        networks:
+            - fashion_info_nw
 
     postgresql:
         build:
@@ -52,6 +64,9 @@ services:
             - "5432:5432"
         env_file:
             - ./infrastructure/docker/config/dev/.env.psql
+        networks:
+            fashion_info_nw:
+                ipv4_address: 172.32.1.2
         # environment:
         #     - POSTGRES_DB=fashion_info_db
         #     - POSTGRES_USER=fashion_info
