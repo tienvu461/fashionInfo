@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 
 from pathlib import Path
+import datetime
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -48,7 +49,6 @@ INSTALLED_APPS = [
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
-    "allauth.socialaccount.providers.google",
     # dev apps
     'apps.accounts'
 ]
@@ -72,6 +72,7 @@ SIMPLE_JWT = {
         'rest_framework_simplejwt.tokens.AccessToken',
         # 'location.to.custom.token.CustomJWTToken'    # This is optional - custom class where token could be manipulated e.g. enriched with tenants, UUIDs etc.
     ),
+    'ACCESS_TOKEN_LIFETIME': datetime.timedelta(days=1),
 }
 
 white_list = ['http://localhost:8000/accounts/profile/'] # URL you add to google developers console as allowed to make redirection
@@ -196,9 +197,12 @@ AUTHENTICATION_BACKENDS = (
 )
 
 # Client ID and Client Secret obtained from console.developers.google.com
-SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '479323917045-vqqepkpp4v1ug5dqbp78hg4i4p9omeai.apps.googleusercontent.com'
+# SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '479323917045-vqqepkpp4v1ug5dqbp78hg4i4p9omeai.apps.googleusercontent.com'
 
-SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'klRCBHFVNB1nbVtqmaun9TPp'
+# SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'klRCBHFVNB1nbVtqmaun9TPp'
 
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '436099598774-4o7gefl5g0qhkqf6n000rsus7am7vtpb.apps.googleusercontent.com'
+
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'AesvA88jPH9Tv2ILQ4POYPSv'
 # Allauth
 ACCOUNT_LOGOUT_ON_GET = True
