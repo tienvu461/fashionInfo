@@ -13,18 +13,10 @@ from rest_framework import generics
 
 logger = logging.getLogger('photos')
 
-class PhotoList(mixins.ListModelMixin,
-                mixins.CreateModelMixin,
-                generics.GenericAPIView):
+class PhotoList(generics.ListCreateAPIView):
     queryset = Photo.objects.all()
     serializer_class = PhotoSerializer
 
-    def get(self, request, *args, **kwargs):
-        logger.debug(request)
-        logger.info(request)
-        logger.warn(request)
-        logger.error(request)
-        return self.list(request, *args, **kwargs)
-
-    def post(self, request, *args, **kwargs):
-        return self.create(request, *args, **kwargs)
+class PhotoDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Photo.objects.all()
+    serializer_class = PhotoSerializer
