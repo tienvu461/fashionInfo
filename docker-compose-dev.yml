@@ -21,6 +21,7 @@ services:
         ports:
             - 3000:3000
         volumes:
+            - media_volume:/app/backend/media
             - static_volume:/app/backend/server/django_static
             - ./infrastructure/docker/front/development:/etc/nginx/conf.d
             - ./frontend/front:/app/frontend
@@ -43,6 +44,7 @@ services:
         volumes:
             - static_volume:/app/backend/server/django_static
             - ./backend:/app/backend
+            - media_volume:/app/backend/media
         expose:
             - 8000
         ports:
@@ -75,3 +77,4 @@ services:
 volumes:
     static_volume: {}
     postgresql_volume: {}
+    media_volume: {}
