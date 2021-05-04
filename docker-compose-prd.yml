@@ -1,0 +1,58 @@
+version: '2'
+
+services:
+    front: 
+        restart: unless-stopped
+        build:
+            args:
+              SRC_DIR: ./frontend/front
+            context: .
+            dockerfile: ./infrastructure/docker/front/Dockerfile.dev
+        ports:
+            - 80:80
+        volumes:
+            - static_volume:/app/backend/server/django_static
+            - ./infrastructure/docker/front/development:/etc/nginx/conf.d
+        depends_on: 
+            - backend
+
+    backend:
+        restart: unless-stopped
+        build:
+            args:
+              SRC_DIR: ./backend
+            context: .
+            dockerfile: ./infrastructure/docker/backend/Dockerfile            
+        entrypoint: /app/docker/backend/wsgi-entrypoint.sh
+        env_file:
+            - ./infrastructure/docker/config/dev/.env.backend
+        volumes:
+            - static_volume:/app/backend/server/django_static
+            - ./backend:/app/backend
+        expose:
+            - 8000
+        ports:
+            - 8000:8000
+        depends_on: 
+            - postgresql
+
+    postgresql:
+        build:
+            args:
+              SRC_DIR: ./infrastructure/docker/postgresql
+            context: .
+            dockerfile: ./infrastructure/docker/postgresql/Dockerfile    
+        volumes:
+            - postgresql_volume:/var/lib/postgresql/data
+        ports:
+            - "5432:5432"
+        env_file:
+            - ./infrastructure/docker/config/dev/.env.psql
+        # environment:
+        #     - POSTGRES_DB=fashion_info_db
+        #     - POSTGRES_USER=fashion_info
+        #     - POSTGRES_PASSWORD=fashion_info
+
+volumes:
+    static_volume: {}
+    postgresql_volume: {}

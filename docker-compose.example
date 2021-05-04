@@ -1,0 +1,207 @@
+version: "3.3"
+networks:
+    wallet_clo_net:
+        driver: bridge
+        ipam:
+            driver: default
+            config:
+                - subnet: 172.32.1.0/16
+services:
+    base:
+        build:
+            context: .
+            dockerfile: ./docker/base/Dockerfile
+        image: ${PROJECT}-base
+
+    fluentbit:
+        build: 
+            context: .
+            dockerfile: ./docker/fluentbit/Dockerfile
+        image: ${PROJECT}-fluentbit
+        environment: 
+            APP_ENV: ${APP_ENV}
+            DD_API_KEY: ${DD_API_KEY}
+        ports:
+            - "24224:24224"
+            - "24224:24224/udp"
+
+    fluentbit-local:
+        build: 
+            context: .
+            dockerfile: ./docker/fluentbit-local/Dockerfile
+        image: ${PROJECT}-fluentbit-local
+        environment: 
+            APP_ENV: ${APP_ENV}
+            DD_API_KEY: ${DD_API_KEY}
+            DD_SOURCE: local_source
+        ports:
+            - "24224:24224"
+            - "24224:24224/udp"
+
+    proxy:
+        build:
+            context: .
+            dockerfile: ./docker/proxy/Dockerfile
+        image: ${PROJECT}-proxy
+        ports:
+            - "80:80"
+        volumes:
+            - /var/run/docker.sock:/tmp/docker.sock:ro
+        networks:
+            wallet_clo_net:
+                ipv4_address: 172.32.1.2
+
+    mysql:
+        build: 
+            context: .
+            dockerfile: ./docker/mysql/Dockerfile
+        image: ${PROJECT}-mysql
+        ports: 
+            - "3306:3306"
+        env_file:
+            - ./docker/config/local/.env.mysql
+        ports:
+            - "3306:3306"
+        volumes:
+            - ./docker/mysql/storage:/var/lib/mysql
+            - ./docker/mysql/config/custom.cnf:/etc/mysql/conf.d/custom.cnf
+            - ./docker/mysql/log:/var/log
+        networks:
+            wallet_clo_net:
+                ipv4_address: 172.32.1.3
+
+    redis:
+        build:
+            context: .
+            dockerfile: ./docker/redis/Dockerfile
+        image: ${PROJECT}-redis
+        volumes:
+            - ./docker/redis/data:/data
+        ports:
+            - "6379:6379"
+        networks:
+            wallet_clo_net:
+                ipv4_address: 172.32.1.4
+
+    api:
+        build:
+            args:
+                BASE_IMAGE_NAME: ${BASE_IMAGE_NAME}
+                BASE_IMAGE_TAG: ${BASE_IMAGE_TAG}
+                APP_ENV: ${APP_ENV}
+                SRC_DIR: ./src/api
+                COMPONENT: api
+            context: .
+            dockerfile: ./docker/api/Dockerfile
+        image: ${PROJECT}-api
+        expose:
+            - "80"
+        extra_hosts:
+            - "api.local.info.wallet.auone.jp:127.0.0.1"
+        env_file:
+            - ./docker/config/${ENVIRONMENT}/.env.api
+        volumes:
+            - ./src/api:/var/www/app
+        # logging:
+        #     driver: fluentd
+        #     options:
+        #         tag: api-firelens-container
+        #         fluentd-async-connect: "true"
+        networks:
+            - wallet_clo_net
+        depends_on: 
+            - "proxy"
+            - "mysql"
+            - "redis"
+            # - "fluentbit-local"
+
+    admin:
+        build:
+            args:
+                BASE_IMAGE_NAME: ${BASE_IMAGE_NAME}
+                BASE_IMAGE_TAG: ${BASE_IMAGE_TAG}
+                APP_ENV: ${APP_ENV}
+                SRC_DIR: ./src/admin
+                COMPONENT: admin
+            context: .
+            dockerfile: ./docker/admin/Dockerfile
+        image: ${PROJECT}-admin
+        expose:
+            - "80"
+        extra_hosts:
+            - "admin.local.info.wallet.mediba.jp:127.0.0.1"
+        env_file:
+            - ./docker/config/${ENVIRONMENT}/.env.admin
+        volumes:
+            - ./src/admin:/var/www/app
+        # logging:
+        #     driver: fluentd
+        #     options:
+        #         tag: admin-firelens-container
+        #         fluentd-async-connect: "true"
+        networks:
+            - wallet_clo_net
+        depends_on: 
+            - "proxy"
+            - "mysql"
+            - "redis"
+            # - "fluentbit-local"
+        
+    front:
+        build:
+            args:
+                BASE_IMAGE_NAME: ${BASE_IMAGE_NAME}
+                BASE_IMAGE_TAG: ${BASE_IMAGE_TAG}
+                APP_ENV: ${APP_ENV}
+                SRC_DIR: ./src/front
+                COMPONENT: front
+            context: .
+            dockerfile: ./docker/front/Dockerfile
+        image: ${PROJECT}-front
+        expose:
+            - "80"
+        extra_hosts:
+            - "local.info.wallet.auone.jp:127.0.0.1"
+        env_file:
+            - ./docker/config/${ENVIRONMENT}/.env.front
+        volumes: 
+            - ./src/front:/var/www/app
+        # logging:
+        #     driver: fluentd
+        #     options:
+        #         tag: front-firelens-container
+        #         fluentd-async-connect: "true"
+        networks:
+            - wallet_clo_net
+        depends_on: 
+            - "proxy"
+            - "mysql"
+            - "redis"
+            # - "fluentbit-local"
+
+    batch:
+        build:
+            args:
+                BASE_IMAGE_NAME: ${BASE_IMAGE_NAME}
+                BASE_IMAGE_TAG: ${BASE_IMAGE_TAG}
+                APP_ENV: ${APP_ENV}
+                SRC_DIR: ./src/admin
+                COMPONENT: batch
+            context: .
+            dockerfile: ./docker/batch/Dockerfile
+        image: ${PROJECT}-batch
+        environment: 
+            APP_ENV: ${APP_ENV}
+            BATCH_COMMAND: "tail -f /dev/null"
+        volumes: 
+            - ./src/admin:/var/www/app
+        # logging:
+        #     driver: fluentd
+        #     options:
+        #         tag: batch-firelens-container
+        #         fluentd-async-connect: "true"
+        networks:
+            - wallet_clo_net
+        depends_on: 
+            - "mysql"
+            # - "fluentbit-local"

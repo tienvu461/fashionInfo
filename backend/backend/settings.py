@@ -11,8 +11,8 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 
 from pathlib import Path
-import datetime
-
+import os
+from datetime import datetime, timedelta
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -21,12 +21,13 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '%xi9&f=)h98&lk&sjgl5(!h%3qsi_d4+trpp&t2y-l7qc!kl8%'
+# SECRET_KEY = '%xi9&f=)h98&lk&sjgl5(!h%3qsi_d4+trpp&t2y-l7qc!kl8%'
 
+SECRET_KEY = os.environ.get("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = bool(os.environ.get("DEBUG", default=0))
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS").split(" ")
 
 # Application definition
 
@@ -41,7 +42,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     # authentication
     'rest_framework',
-    'djoser',
     'social_django',          # Not needed to add but pip install required. Adding it here will create additional acces to social user via admin
     'rest_framework_simplejwt',
     'rest_framework_simplejwt.token_blacklist',  # Add it to avoid problems with migrations
@@ -49,11 +49,23 @@ INSTALLED_APPS = [
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
+    'allauth.socialaccount.providers.facebook',
+    'allauth.socialaccount.providers.google',
+    'rest_framework.authtoken',
+    'rest_auth',
+    # for social login
+    'django.contrib.sites',
+    'rest_auth.registration',
+    # djoser handle login request
+    'djoser',
+    # markdown for admin
+    'markdownx',
     # dev apps
-    'apps.accounts'
+    'apps.accounts',
+    'apps.photos',
 ]
 
-#configure DRF
+# configure DRF
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework.authentication.SessionAuthentication',
@@ -62,6 +74,11 @@ REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.AllowAny',
     ]
+
+    'DEFAULT_PAGINATION_CLASS':   
+        'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 5,
+    'MAX_PAGE_SIZE': 50,
 }
 
 SIMPLE_JWT = {
@@ -72,7 +89,7 @@ SIMPLE_JWT = {
         'rest_framework_simplejwt.tokens.AccessToken',
         # 'location.to.custom.token.CustomJWTToken'    # This is optional - custom class where token could be manipulated e.g. enriched with tenants, UUIDs etc.
     ),
-    'ACCESS_TOKEN_LIFETIME': datetime.timedelta(days=1),
+    'ACCESS_TOKEN_LIFETIME': timedelta(days=1),
 }
 
 white_list = ['http://localhost:8000/accounts/profile/'] # URL you add to google developers console as allowed to make redirection
@@ -134,14 +151,58 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'backend.wsgi.application'
 
+# Logging configuration
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'verbose': {
+            'format': '{asctime} {filename}({lineno}) [{levelname}]: {message}',
+            'style': '{',
+        },
+        'simple': {
+            'format': '{levelname} {message}',
+            'style': '{',
+        },
+    },
+    'handlers': {
+        'console': {
+            'level': 'DEBUG',
+            'class': 'logging.StreamHandler',
+            'formatter': 'verbose'
+        },
+        'file': {
+            'level': 'INFO',
+            'class': 'logging.FileHandler',
+            'filename': 'logs/info.log',
+            'formatter': 'verbose'
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['console'],
+            'propagate': True,
+        },
+        'photos': {
+            'handlers': [os.environ.get("LOGGING_HANDLER")],
+            'propagate': True,
+            'level': os.environ.get("LOGGING_LEVEL")
+        }
+    },
+}
 
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+    "default": {
+        "ENGINE": os.environ.get("SQL_ENGINE", "django.db.backends.sqlite3"),
+        "NAME": os.environ.get("SQL_DATABASE", os.path.join(BASE_DIR, "db.sqlite3")),
+        "USER": os.environ.get("SQL_USER", "user"),
+        "PASSWORD": os.environ.get("SQL_PASSWORD", "password"),
+        "HOST": os.environ.get("SQL_HOST", "localhost"),
+        "PORT": os.environ.get("SQL_PORT", "5432"),
     }
 }
 
@@ -170,7 +231,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Ho_Chi_Minh'
 
 USE_I18N = True
 
@@ -183,6 +244,11 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
+MEDIA_URL = '/media/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
+
+MARKDOWNX_MEDIA_PATH = datetime.now().strftime('markdownx/%Y/%m/%d')
 
 SITE_ID = 2
 
