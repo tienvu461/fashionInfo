@@ -11,7 +11,7 @@ SET standard_conforming_strings = on;
 -- Drop databases (except postgres and template1)
 --
 
--- DROP DATABASE fashion_info_db WITH(FORCE);
+DROP DATABASE fashion_info_db WITH (FORCE);
 
 
 
@@ -47,8 +47,8 @@ ALTER ROLE fashion_info WITH SUPERUSER INHERIT CREATEROLE CREATEDB LOGIN REPLICA
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 13.2
--- Dumped by pg_dump version 13.2
+-- Dumped from database version 12.0
+-- Dumped by pg_dump version 12.0
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -67,7 +67,7 @@ DROP DATABASE template1;
 -- Name: template1; Type: DATABASE; Schema: -; Owner: fashion_info
 --
 
-CREATE DATABASE template1 WITH TEMPLATE = template0 ENCODING = 'UTF8' LOCALE = 'en_US.utf8';
+CREATE DATABASE template1 WITH TEMPLATE = template0 ENCODING = 'UTF8' LC_COLLATE = 'en_US.utf8' LC_CTYPE = 'en_US.utf8';
 
 
 ALTER DATABASE template1 OWNER TO fashion_info;
@@ -132,8 +132,8 @@ GRANT CONNECT ON DATABASE template1 TO PUBLIC;
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 13.2
--- Dumped by pg_dump version 13.2
+-- Dumped from database version 12.0
+-- Dumped by pg_dump version 12.0
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -150,7 +150,7 @@ SET row_security = off;
 -- Name: fashion_info_db; Type: DATABASE; Schema: -; Owner: fashion_info
 --
 
-CREATE DATABASE fashion_info_db WITH TEMPLATE = template0 ENCODING = 'UTF8' LOCALE = 'en_US.utf8';
+CREATE DATABASE fashion_info_db WITH TEMPLATE = template0 ENCODING = 'UTF8' LC_COLLATE = 'en_US.utf8' LC_CTYPE = 'en_US.utf8';
 
 
 ALTER DATABASE fashion_info_db OWNER TO fashion_info;
@@ -638,199 +638,6 @@ ALTER SEQUENCE public.django_site_id_seq OWNED BY public.django_site.id;
 
 
 --
--- Name: photos_comment; Type: TABLE; Schema: public; Owner: fashion_info
---
-
-CREATE TABLE public.photos_comment (
-    cmt_id integer NOT NULL,
-    post_type integer NOT NULL,
-    post_id integer NOT NULL,
-    content character varying(255) NOT NULL,
-    created_at timestamp with time zone NOT NULL,
-    updated_at timestamp with time zone NOT NULL,
-    user_id_id integer NOT NULL
-);
-
-
-ALTER TABLE public.photos_comment OWNER TO fashion_info;
-
---
--- Name: photos_comment_cmt_id_seq; Type: SEQUENCE; Schema: public; Owner: fashion_info
---
-
-CREATE SEQUENCE public.photos_comment_cmt_id_seq
-    AS integer
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
-ALTER TABLE public.photos_comment_cmt_id_seq OWNER TO fashion_info;
-
---
--- Name: photos_comment_cmt_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: fashion_info
---
-
-ALTER SEQUENCE public.photos_comment_cmt_id_seq OWNED BY public.photos_comment.cmt_id;
-
-
---
--- Name: photos_genericconfig; Type: TABLE; Schema: public; Owner: fashion_info
---
-
-CREATE TABLE public.photos_genericconfig (
-    id integer NOT NULL,
-    config_name character varying(50) NOT NULL,
-    short_description character varying(200) NOT NULL,
-    in_use boolean NOT NULL
-);
-
-
-ALTER TABLE public.photos_genericconfig OWNER TO fashion_info;
-
---
--- Name: photos_genericconfig_id_seq; Type: SEQUENCE; Schema: public; Owner: fashion_info
---
-
-CREATE SEQUENCE public.photos_genericconfig_id_seq
-    AS integer
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
-ALTER TABLE public.photos_genericconfig_id_seq OWNER TO fashion_info;
-
---
--- Name: photos_genericconfig_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: fashion_info
---
-
-ALTER SEQUENCE public.photos_genericconfig_id_seq OWNED BY public.photos_genericconfig.id;
-
-
---
--- Name: photos_like; Type: TABLE; Schema: public; Owner: fashion_info
---
-
-CREATE TABLE public.photos_like (
-    like_id integer NOT NULL,
-    post_type integer NOT NULL,
-    post_id integer NOT NULL,
-    created_at timestamp with time zone NOT NULL,
-    updated_at timestamp with time zone NOT NULL,
-    user_id_id integer NOT NULL
-);
-
-
-ALTER TABLE public.photos_like OWNER TO fashion_info;
-
---
--- Name: photos_like_like_id_seq; Type: SEQUENCE; Schema: public; Owner: fashion_info
---
-
-CREATE SEQUENCE public.photos_like_like_id_seq
-    AS integer
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
-ALTER TABLE public.photos_like_like_id_seq OWNER TO fashion_info;
-
---
--- Name: photos_like_like_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: fashion_info
---
-
-ALTER SEQUENCE public.photos_like_like_id_seq OWNED BY public.photos_like.like_id;
-
-
---
--- Name: photos_news; Type: TABLE; Schema: public; Owner: fashion_info
---
-
-CREATE TABLE public.photos_news (
-    id integer NOT NULL,
-    created_date timestamp with time zone NOT NULL,
-    mod_date timestamp with time zone,
-    title character varying(50) NOT NULL,
-    slug character varying(200),
-    content text NOT NULL,
-    status integer NOT NULL,
-    author_id integer NOT NULL
-);
-
-
-ALTER TABLE public.photos_news OWNER TO fashion_info;
-
---
--- Name: photos_news_id_seq; Type: SEQUENCE; Schema: public; Owner: fashion_info
---
-
-CREATE SEQUENCE public.photos_news_id_seq
-    AS integer
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
-ALTER TABLE public.photos_news_id_seq OWNER TO fashion_info;
-
---
--- Name: photos_news_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: fashion_info
---
-
-ALTER SEQUENCE public.photos_news_id_seq OWNED BY public.photos_news.id;
-
-
---
--- Name: photos_photo; Type: TABLE; Schema: public; Owner: fashion_info
---
-
-CREATE TABLE public.photos_photo (
-    id integer NOT NULL,
-    created_date timestamp with time zone NOT NULL,
-    mod_date timestamp with time zone,
-    title character varying(50) NOT NULL,
-    slug character varying(200),
-    image_path character varying(100) NOT NULL,
-    status integer NOT NULL,
-    author_id integer NOT NULL
-);
-
-
-ALTER TABLE public.photos_photo OWNER TO fashion_info;
-
---
--- Name: photos_photo_id_seq; Type: SEQUENCE; Schema: public; Owner: fashion_info
---
-
-CREATE SEQUENCE public.photos_photo_id_seq
-    AS integer
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
-ALTER TABLE public.photos_photo_id_seq OWNER TO fashion_info;
-
---
--- Name: photos_photo_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: fashion_info
---
-
-ALTER SEQUENCE public.photos_photo_id_seq OWNED BY public.photos_photo.id;
-
-
---
 -- Name: socialaccount_socialaccount; Type: TABLE; Schema: public; Owner: fashion_info
 --
 
@@ -1065,41 +872,6 @@ ALTER TABLE ONLY public.django_site ALTER COLUMN id SET DEFAULT nextval('public.
 
 
 --
--- Name: photos_comment cmt_id; Type: DEFAULT; Schema: public; Owner: fashion_info
---
-
-ALTER TABLE ONLY public.photos_comment ALTER COLUMN cmt_id SET DEFAULT nextval('public.photos_comment_cmt_id_seq'::regclass);
-
-
---
--- Name: photos_genericconfig id; Type: DEFAULT; Schema: public; Owner: fashion_info
---
-
-ALTER TABLE ONLY public.photos_genericconfig ALTER COLUMN id SET DEFAULT nextval('public.photos_genericconfig_id_seq'::regclass);
-
-
---
--- Name: photos_like like_id; Type: DEFAULT; Schema: public; Owner: fashion_info
---
-
-ALTER TABLE ONLY public.photos_like ALTER COLUMN like_id SET DEFAULT nextval('public.photos_like_like_id_seq'::regclass);
-
-
---
--- Name: photos_news id; Type: DEFAULT; Schema: public; Owner: fashion_info
---
-
-ALTER TABLE ONLY public.photos_news ALTER COLUMN id SET DEFAULT nextval('public.photos_news_id_seq'::regclass);
-
-
---
--- Name: photos_photo id; Type: DEFAULT; Schema: public; Owner: fashion_info
---
-
-ALTER TABLE ONLY public.photos_photo ALTER COLUMN id SET DEFAULT nextval('public.photos_photo_id_seq'::regclass);
-
-
---
 -- Name: socialaccount_socialaccount id; Type: DEFAULT; Schema: public; Owner: fashion_info
 --
 
@@ -1216,26 +988,6 @@ COPY public.auth_permission (id, name, content_type_id, codename) FROM stdin;
 50	Can change social application token	13	change_socialtoken
 51	Can delete social application token	13	delete_socialtoken
 52	Can view social application token	13	view_socialtoken
-53	Can add generic config	14	add_genericconfig
-54	Can change generic config	14	change_genericconfig
-55	Can delete generic config	14	delete_genericconfig
-56	Can view generic config	14	view_genericconfig
-57	Can add photo	15	add_photo
-58	Can change photo	15	change_photo
-59	Can delete photo	15	delete_photo
-60	Can view photo	15	view_photo
-61	Can add news	16	add_news
-62	Can change news	16	change_news
-63	Can delete news	16	delete_news
-64	Can view news	16	view_news
-65	Can add like	17	add_like
-66	Can change like	17	change_like
-67	Can delete like	17	delete_like
-68	Can view like	17	view_like
-69	Can add comment	18	add_comment
-70	Can change comment	18	change_comment
-71	Can delete comment	18	delete_comment
-72	Can view comment	18	view_comment
 \.
 
 
@@ -1244,7 +996,7 @@ COPY public.auth_permission (id, name, content_type_id, codename) FROM stdin;
 --
 
 COPY public.auth_user (id, password, last_login, is_superuser, username, first_name, last_name, email, is_staff, is_active, date_joined) FROM stdin;
-1	pbkdf2_sha256$216000$ElMqAn2QadsF$Fvc0Iw+8VU60hMF3RM6ATKrHB4drRMW59UAvg2dZAh4=	2021-05-04 15:03:02.707869+00	t	admin			admin@example.com	t	t	2021-05-04 14:52:43.696221+00
+1	pbkdf2_sha256$216000$LMpAiPZXMD8T$esy+tXWPinlXwEJgzzSYgtlpkQiufioYDiaIFsyoEaM=	2021-04-30 00:39:48.087808+00	t	admin			admin@example.com	t	t	2021-04-30 00:39:21.173841+00
 \.
 
 
@@ -1298,11 +1050,6 @@ COPY public.django_content_type (id, app_label, model) FROM stdin;
 11	socialaccount	socialaccount
 12	socialaccount	socialapp
 13	socialaccount	socialtoken
-14	photos	genericconfig
-15	photos	photo
-16	photos	news
-17	photos	like
-18	photos	comment
 \.
 
 
@@ -1311,34 +1058,33 @@ COPY public.django_content_type (id, app_label, model) FROM stdin;
 --
 
 COPY public.django_migrations (id, app, name, applied) FROM stdin;
-1	contenttypes	0001_initial	2021-05-04 14:52:37.978438+00
-2	auth	0001_initial	2021-05-04 14:52:38.15196+00
-3	account	0001_initial	2021-05-04 14:52:38.594338+00
-4	account	0002_email_max_length	2021-05-04 14:52:38.704083+00
-5	admin	0001_initial	2021-05-04 14:52:38.77074+00
-6	admin	0002_logentry_remove_auto_add	2021-05-04 14:52:38.848268+00
-7	admin	0003_logentry_add_action_flag_choices	2021-05-04 14:52:38.887774+00
-8	contenttypes	0002_remove_content_type_name	2021-05-04 14:52:38.988412+00
-9	auth	0002_alter_permission_name_max_length	2021-05-04 14:52:39.074866+00
-10	auth	0003_alter_user_email_max_length	2021-05-04 14:52:39.107156+00
-11	auth	0004_alter_user_username_opts	2021-05-04 14:52:39.141708+00
-12	auth	0005_alter_user_last_login_null	2021-05-04 14:52:39.179341+00
-13	auth	0006_require_contenttypes_0002	2021-05-04 14:52:39.186849+00
-14	auth	0007_alter_validators_add_error_messages	2021-05-04 14:52:39.226027+00
-15	auth	0008_alter_user_username_max_length	2021-05-04 14:52:39.275996+00
-16	auth	0009_alter_user_last_name_max_length	2021-05-04 14:52:39.316519+00
-17	auth	0010_alter_group_name_max_length	2021-05-04 14:52:39.365047+00
-18	auth	0011_update_proxy_permissions	2021-05-04 14:52:39.419907+00
-19	auth	0012_alter_user_first_name_max_length	2021-05-04 14:52:39.464019+00
-20	authtoken	0001_initial	2021-05-04 14:52:39.531709+00
-21	authtoken	0002_auto_20160226_1747	2021-05-04 14:52:39.72711+00
-22	sessions	0001_initial	2021-05-04 14:52:39.777424+00
-23	sites	0001_initial	2021-05-04 14:52:39.823015+00
-24	sites	0002_alter_domain_unique	2021-05-04 14:52:39.85548+00
-25	socialaccount	0001_initial	2021-05-04 14:52:40.332101+00
-26	socialaccount	0002_token_max_lengths	2021-05-04 14:52:40.705564+00
-27	socialaccount	0003_extra_data_default_dict	2021-05-04 14:52:40.744062+00
-28	photos	0001_initial	2021-05-04 15:02:54.253597+00
+1	contenttypes	0001_initial	2021-04-30 00:39:19.470147+00
+2	auth	0001_initial	2021-04-30 00:39:19.510327+00
+3	account	0001_initial	2021-04-30 00:39:19.576167+00
+4	account	0002_email_max_length	2021-04-30 00:39:19.598127+00
+5	admin	0001_initial	2021-04-30 00:39:19.615955+00
+6	admin	0002_logentry_remove_auto_add	2021-04-30 00:39:19.633571+00
+7	admin	0003_logentry_add_action_flag_choices	2021-04-30 00:39:19.643607+00
+8	contenttypes	0002_remove_content_type_name	2021-04-30 00:39:19.663696+00
+9	auth	0002_alter_permission_name_max_length	2021-04-30 00:39:19.675183+00
+10	auth	0003_alter_user_email_max_length	2021-04-30 00:39:19.686306+00
+11	auth	0004_alter_user_username_opts	2021-04-30 00:39:19.696785+00
+12	auth	0005_alter_user_last_login_null	2021-04-30 00:39:19.709656+00
+13	auth	0006_require_contenttypes_0002	2021-04-30 00:39:19.713385+00
+14	auth	0007_alter_validators_add_error_messages	2021-04-30 00:39:19.723218+00
+15	auth	0008_alter_user_username_max_length	2021-04-30 00:39:19.737436+00
+16	auth	0009_alter_user_last_name_max_length	2021-04-30 00:39:19.74806+00
+17	auth	0010_alter_group_name_max_length	2021-04-30 00:39:19.760446+00
+18	auth	0011_update_proxy_permissions	2021-04-30 00:39:19.772841+00
+19	auth	0012_alter_user_first_name_max_length	2021-04-30 00:39:19.78465+00
+20	authtoken	0001_initial	2021-04-30 00:39:19.806378+00
+21	authtoken	0002_auto_20160226_1747	2021-04-30 00:39:19.851104+00
+22	sessions	0001_initial	2021-04-30 00:39:19.860641+00
+23	sites	0001_initial	2021-04-30 00:39:19.872702+00
+24	sites	0002_alter_domain_unique	2021-04-30 00:39:19.881869+00
+25	socialaccount	0001_initial	2021-04-30 00:39:19.950482+00
+26	socialaccount	0002_token_max_lengths	2021-04-30 00:39:19.996844+00
+27	socialaccount	0003_extra_data_default_dict	2021-04-30 00:39:20.010823+00
 \.
 
 
@@ -1347,7 +1093,7 @@ COPY public.django_migrations (id, app, name, applied) FROM stdin;
 --
 
 COPY public.django_session (session_key, session_data, expire_date) FROM stdin;
-a5mntcyd64wz6xn74clggkm76hea6z1z	.eJxVjEEOwiAQRe_C2pAZKjB16b5nIEyHStVAUtqV8e7apAvd_vfef6kQtzWHraUlzKIuCtXpd-M4PlLZgdxjuVU91rIuM-td0QdteqiSntfD_TvIseVvTSJIHgHZWegEmYxAZzvfIxo2bIENndOUGEYEYmZAQsu96_3kHKn3B7jFNsw:1ldwZi:kKdnijteiZ0bBtoqxHwXGj7aN7UbQ0MatvQHcAiAslc	2021-05-18 15:03:02.713387+00
+4m19qpolfs2hn1qkj0ngtkwrz8h8b95s	.eJxVjEsOwjAMBe-SNYrspqYxS_Y9Q5U4MS2gROpnhbg7VOoCtm9m3ssMYVvHYVvyPEzJXAya0-8Wgzxy2UG6h3KrVmpZ5ynaXbEHXWxfU35eD_fvYAzL-K1bVEcACR22Wdk3nQNO4nwG8orQkirFgOcmQceMDaswARJLVPJi3h-04Dbp:1lcHC8:weuHx8S2t616RjpQYwJ5kGZetj97bJ480UbxdxZk-zs	2021-05-14 00:39:48.09084+00
 \.
 
 
@@ -1357,46 +1103,6 @@ a5mntcyd64wz6xn74clggkm76hea6z1z	.eJxVjEEOwiAQRe_C2pAZKjB16b5nIEyHStVAUtqV8e7apA
 
 COPY public.django_site (id, domain, name) FROM stdin;
 2	example.com	example.com
-\.
-
-
---
--- Data for Name: photos_comment; Type: TABLE DATA; Schema: public; Owner: fashion_info
---
-
-COPY public.photos_comment (cmt_id, post_type, post_id, content, created_at, updated_at, user_id_id) FROM stdin;
-\.
-
-
---
--- Data for Name: photos_genericconfig; Type: TABLE DATA; Schema: public; Owner: fashion_info
---
-
-COPY public.photos_genericconfig (id, config_name, short_description, in_use) FROM stdin;
-\.
-
-
---
--- Data for Name: photos_like; Type: TABLE DATA; Schema: public; Owner: fashion_info
---
-
-COPY public.photos_like (like_id, post_type, post_id, created_at, updated_at, user_id_id) FROM stdin;
-\.
-
-
---
--- Data for Name: photos_news; Type: TABLE DATA; Schema: public; Owner: fashion_info
---
-
-COPY public.photos_news (id, created_date, mod_date, title, slug, content, status, author_id) FROM stdin;
-\.
-
-
---
--- Data for Name: photos_photo; Type: TABLE DATA; Schema: public; Owner: fashion_info
---
-
-COPY public.photos_photo (id, created_date, mod_date, title, slug, image_path, status, author_id) FROM stdin;
 \.
 
 
@@ -1464,7 +1170,7 @@ SELECT pg_catalog.setval('public.auth_group_permissions_id_seq', 1, false);
 -- Name: auth_permission_id_seq; Type: SEQUENCE SET; Schema: public; Owner: fashion_info
 --
 
-SELECT pg_catalog.setval('public.auth_permission_id_seq', 72, true);
+SELECT pg_catalog.setval('public.auth_permission_id_seq', 52, true);
 
 
 --
@@ -1499,14 +1205,14 @@ SELECT pg_catalog.setval('public.django_admin_log_id_seq', 1, false);
 -- Name: django_content_type_id_seq; Type: SEQUENCE SET; Schema: public; Owner: fashion_info
 --
 
-SELECT pg_catalog.setval('public.django_content_type_id_seq', 18, true);
+SELECT pg_catalog.setval('public.django_content_type_id_seq', 13, true);
 
 
 --
 -- Name: django_migrations_id_seq; Type: SEQUENCE SET; Schema: public; Owner: fashion_info
 --
 
-SELECT pg_catalog.setval('public.django_migrations_id_seq', 28, true);
+SELECT pg_catalog.setval('public.django_migrations_id_seq', 27, true);
 
 
 --
@@ -1514,41 +1220,6 @@ SELECT pg_catalog.setval('public.django_migrations_id_seq', 28, true);
 --
 
 SELECT pg_catalog.setval('public.django_site_id_seq', 2, true);
-
-
---
--- Name: photos_comment_cmt_id_seq; Type: SEQUENCE SET; Schema: public; Owner: fashion_info
---
-
-SELECT pg_catalog.setval('public.photos_comment_cmt_id_seq', 1, false);
-
-
---
--- Name: photos_genericconfig_id_seq; Type: SEQUENCE SET; Schema: public; Owner: fashion_info
---
-
-SELECT pg_catalog.setval('public.photos_genericconfig_id_seq', 1, false);
-
-
---
--- Name: photos_like_like_id_seq; Type: SEQUENCE SET; Schema: public; Owner: fashion_info
---
-
-SELECT pg_catalog.setval('public.photos_like_like_id_seq', 1, false);
-
-
---
--- Name: photos_news_id_seq; Type: SEQUENCE SET; Schema: public; Owner: fashion_info
---
-
-SELECT pg_catalog.setval('public.photos_news_id_seq', 1, false);
-
-
---
--- Name: photos_photo_id_seq; Type: SEQUENCE SET; Schema: public; Owner: fashion_info
---
-
-SELECT pg_catalog.setval('public.photos_photo_id_seq', 1, false);
 
 
 --
@@ -1780,62 +1451,6 @@ ALTER TABLE ONLY public.django_site
 
 
 --
--- Name: photos_comment photos_comment_pkey; Type: CONSTRAINT; Schema: public; Owner: fashion_info
---
-
-ALTER TABLE ONLY public.photos_comment
-    ADD CONSTRAINT photos_comment_pkey PRIMARY KEY (cmt_id);
-
-
---
--- Name: photos_genericconfig photos_genericconfig_pkey; Type: CONSTRAINT; Schema: public; Owner: fashion_info
---
-
-ALTER TABLE ONLY public.photos_genericconfig
-    ADD CONSTRAINT photos_genericconfig_pkey PRIMARY KEY (id);
-
-
---
--- Name: photos_like photos_like_pkey; Type: CONSTRAINT; Schema: public; Owner: fashion_info
---
-
-ALTER TABLE ONLY public.photos_like
-    ADD CONSTRAINT photos_like_pkey PRIMARY KEY (like_id);
-
-
---
--- Name: photos_news photos_news_pkey; Type: CONSTRAINT; Schema: public; Owner: fashion_info
---
-
-ALTER TABLE ONLY public.photos_news
-    ADD CONSTRAINT photos_news_pkey PRIMARY KEY (id);
-
-
---
--- Name: photos_news photos_news_slug_key; Type: CONSTRAINT; Schema: public; Owner: fashion_info
---
-
-ALTER TABLE ONLY public.photos_news
-    ADD CONSTRAINT photos_news_slug_key UNIQUE (slug);
-
-
---
--- Name: photos_photo photos_photo_pkey; Type: CONSTRAINT; Schema: public; Owner: fashion_info
---
-
-ALTER TABLE ONLY public.photos_photo
-    ADD CONSTRAINT photos_photo_pkey PRIMARY KEY (id);
-
-
---
--- Name: photos_photo photos_photo_slug_key; Type: CONSTRAINT; Schema: public; Owner: fashion_info
---
-
-ALTER TABLE ONLY public.photos_photo
-    ADD CONSTRAINT photos_photo_slug_key UNIQUE (slug);
-
-
---
 -- Name: socialaccount_socialaccount socialaccount_socialaccount_pkey; Type: CONSTRAINT; Schema: public; Owner: fashion_info
 --
 
@@ -2025,48 +1640,6 @@ CREATE INDEX django_site_domain_a2e37b91_like ON public.django_site USING btree 
 
 
 --
--- Name: photos_comment_user_id_id_dc1bd83b; Type: INDEX; Schema: public; Owner: fashion_info
---
-
-CREATE INDEX photos_comment_user_id_id_dc1bd83b ON public.photos_comment USING btree (user_id_id);
-
-
---
--- Name: photos_like_user_id_id_251f5197; Type: INDEX; Schema: public; Owner: fashion_info
---
-
-CREATE INDEX photos_like_user_id_id_251f5197 ON public.photos_like USING btree (user_id_id);
-
-
---
--- Name: photos_news_author_id_866b1eeb; Type: INDEX; Schema: public; Owner: fashion_info
---
-
-CREATE INDEX photos_news_author_id_866b1eeb ON public.photos_news USING btree (author_id);
-
-
---
--- Name: photos_news_slug_7a1541f6_like; Type: INDEX; Schema: public; Owner: fashion_info
---
-
-CREATE INDEX photos_news_slug_7a1541f6_like ON public.photos_news USING btree (slug varchar_pattern_ops);
-
-
---
--- Name: photos_photo_author_id_d5228adb; Type: INDEX; Schema: public; Owner: fashion_info
---
-
-CREATE INDEX photos_photo_author_id_d5228adb ON public.photos_photo USING btree (author_id);
-
-
---
--- Name: photos_photo_slug_d951358b_like; Type: INDEX; Schema: public; Owner: fashion_info
---
-
-CREATE INDEX photos_photo_slug_d951358b_like ON public.photos_photo USING btree (slug varchar_pattern_ops);
-
-
---
 -- Name: socialaccount_socialaccount_user_id_8146e70c; Type: INDEX; Schema: public; Owner: fashion_info
 --
 
@@ -2198,38 +1771,6 @@ ALTER TABLE ONLY public.django_admin_log
 
 
 --
--- Name: photos_comment photos_comment_user_id_id_dc1bd83b_fk_auth_user_id; Type: FK CONSTRAINT; Schema: public; Owner: fashion_info
---
-
-ALTER TABLE ONLY public.photos_comment
-    ADD CONSTRAINT photos_comment_user_id_id_dc1bd83b_fk_auth_user_id FOREIGN KEY (user_id_id) REFERENCES public.auth_user(id) DEFERRABLE INITIALLY DEFERRED;
-
-
---
--- Name: photos_like photos_like_user_id_id_251f5197_fk_auth_user_id; Type: FK CONSTRAINT; Schema: public; Owner: fashion_info
---
-
-ALTER TABLE ONLY public.photos_like
-    ADD CONSTRAINT photos_like_user_id_id_251f5197_fk_auth_user_id FOREIGN KEY (user_id_id) REFERENCES public.auth_user(id) DEFERRABLE INITIALLY DEFERRED;
-
-
---
--- Name: photos_news photos_news_author_id_866b1eeb_fk_auth_user_id; Type: FK CONSTRAINT; Schema: public; Owner: fashion_info
---
-
-ALTER TABLE ONLY public.photos_news
-    ADD CONSTRAINT photos_news_author_id_866b1eeb_fk_auth_user_id FOREIGN KEY (author_id) REFERENCES public.auth_user(id) DEFERRABLE INITIALLY DEFERRED;
-
-
---
--- Name: photos_photo photos_photo_author_id_d5228adb_fk_auth_user_id; Type: FK CONSTRAINT; Schema: public; Owner: fashion_info
---
-
-ALTER TABLE ONLY public.photos_photo
-    ADD CONSTRAINT photos_photo_author_id_d5228adb_fk_auth_user_id FOREIGN KEY (author_id) REFERENCES public.auth_user(id) DEFERRABLE INITIALLY DEFERRED;
-
-
---
 -- Name: socialaccount_socialtoken socialaccount_social_account_id_951f210e_fk_socialacc; Type: FK CONSTRAINT; Schema: public; Owner: fashion_info
 --
 
@@ -2281,8 +1822,8 @@ ALTER TABLE ONLY public.socialaccount_socialaccount
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 13.2
--- Dumped by pg_dump version 13.2
+-- Dumped from database version 12.0
+-- Dumped by pg_dump version 12.0
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -2300,7 +1841,7 @@ DROP DATABASE postgres;
 -- Name: postgres; Type: DATABASE; Schema: -; Owner: fashion_info
 --
 
-CREATE DATABASE postgres WITH TEMPLATE = template0 ENCODING = 'UTF8' LOCALE = 'en_US.utf8';
+CREATE DATABASE postgres WITH TEMPLATE = template0 ENCODING = 'UTF8' LC_COLLATE = 'en_US.utf8' LC_CTYPE = 'en_US.utf8';
 
 
 ALTER DATABASE postgres OWNER TO fashion_info;
