@@ -16,6 +16,13 @@ then
     echo "PostgreSQL started"
 fi
 
+if [ "$(ls -A /app/backend/apps/photos/migrations)" ]; then
+     echo "Migrations exist"
+else
+    echo "Making migrations"
+    ./manage.py makemigrations photos
+fi
+
 until ./manage.py migrate
 do
     echo "Waiting for db to be ready..."
