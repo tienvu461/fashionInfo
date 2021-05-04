@@ -54,7 +54,6 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'rest_auth',
     # for social login
-    'django.contrib.sites',
     'rest_auth.registration',
     # djoser handle login request
     'djoser',
@@ -73,7 +72,7 @@ REST_FRAMEWORK = {
     ),
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.AllowAny',
-    ]
+    ],
 
     'DEFAULT_PAGINATION_CLASS':   
         'rest_framework.pagination.PageNumberPagination',
