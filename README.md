@@ -7,8 +7,8 @@ Fashion website &amp; forum
 
 ## How to create branch
 ```
-# create local feature branch from branch release/v.0.0.1
-git checkout -b feature/photo_UI origin/release/v.0.0.1
+# create local feature branch from branch release_v.0.0.1
+git checkout -b feature/photo_UI origin/release_v.0.0.1
 # push local branch to github
 git push origin feature/photo_UI
 ```
