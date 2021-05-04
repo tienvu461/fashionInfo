@@ -1,5 +1,27 @@
 # fashionInfo
-Fashion websit e&amp; forum
+Fashion website &amp; forum
+
+# Git rules
+## Git flow
+![](Gitflow.png)
+
+## How to create branch
+```
+# create local feature branch from branch release/v.0.0.1
+git checkout -b feature/photo_UI origin/release/v.0.0.1
+# push local branch to github
+git push origin feature/photo_UI
+```
+
+## How to push code to github
+```
+# check current working branch
+git status
+On branch feature/photo_UI
+Your branch is up to date with 'origin/feature/photo_UI'.
+# push local commit to remote branch on github
+git push origin feature/photo_UI
+```
 
 
 # I. How to run Docker with dev environment
