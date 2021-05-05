@@ -1,5 +1,27 @@
 # fashionInfo
-Fashion websit e&amp; forum
+Fashion website &amp; forum
+
+# Git rules
+## Git flow
+![](Gitflow.png)
+
+## How to create branch
+```
+# create local feature branch from branch release_v.0.0.1
+git checkout -b feature/photo_UI origin/release_v.0.0.1
+# push local branch to github
+git push origin feature/photo_UI
+```
+
+## How to push code to github
+```
+# check current working branch
+git status
+On branch feature/photo_UI
+Your branch is up to date with 'origin/feature/photo_UI'.
+# push local commit to remote branch on github
+git push origin feature/photo_UI
+```
 
 
 # I. How to run Docker with dev environment
@@ -147,4 +169,6 @@ cat init_psql.sql | docker exec -i info_postgresql_1 psql -U fashio_info
 ## 6. Backup db
 ```
 docker exec -u fashion_info fashion-info_postgresql_1 pg_dump -Fc fasion_info_db
+docker exec -t b1b873af3554 pg_dumpall -c -U fashion_info > dump_`date +%d-%m-%Y"_"%H_%M_%S`.sql
+
 ```
