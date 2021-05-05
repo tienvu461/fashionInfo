@@ -10,10 +10,17 @@ then
     echo "Waiting for postgres..."
 
     while ! nc -z $SQL_HOST $SQL_PORT; do
-      sleep 0.1
+      sleep 5
     done
 
     echo "PostgreSQL started"
+fi
+
+if [ "$(ls -A /app/backend/apps/photos/migrations)" ]; then
+     echo "Migrations exist"
+else
+    echo "Making migrations"
+    ./manage.py makemigrations photos
 fi
 
 until ./manage.py migrate
