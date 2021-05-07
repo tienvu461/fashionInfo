@@ -1,17 +1,15 @@
 from django.shortcuts import render
-from .models import Photo, News, Like, Comment
-from .serializers import PhotoSerializer, NewsSerializer
-import logging
 from django.http import Http404
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework import status
-from rest_framework import mixins
-from rest_framework import generics
+from rest_framework import status, mixins, generics
 
-# Create your views here.
+import logging
 
-logger = logging.getLogger('photos')
+from .models import Photo, News, Like, Comment
+from .serializers import PhotoSerializer, NewsSerializer
+
+logger = logging.getLogger(__name__)
 
 # class PhotoFilter(filters.FilterSet):
 #     price = filters.NumberFilter(name="price", lookup_expr='lte')
