@@ -85,7 +85,8 @@ class NewsAdmin(MarkdownxModelAdmin):
     
     # show attached images and achived file
     inlines = [ImageInline, FileInline]
-
+    
+    # TODO: must save twice to work
     def save_model(self, request, obj, form, change):
         obj.content = "overriden"
         try:
