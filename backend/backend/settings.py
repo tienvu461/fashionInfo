@@ -48,10 +48,6 @@ INSTALLED_APPS = [
     # allauth
     'allauth',
     'allauth.account',
-    'allauth.socialaccount',
-    'allauth.socialaccount.providers.facebook',
-    'allauth.socialaccount.providers.google',
-    'rest_framework.authtoken',
     'rest_auth',
     # for social login
     'rest_auth.registration',
@@ -89,6 +85,7 @@ SIMPLE_JWT = {
         # 'location.to.custom.token.CustomJWTToken'    # This is optional - custom class where token could be manipulated e.g. enriched with tenants, UUIDs etc.
     ),
     'ACCESS_TOKEN_LIFETIME': timedelta(days=1),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=7),
 }
 
 white_list = ['http://localhost:8000/accounts/profile/'] # URL you add to google developers console as allowed to make redirection
@@ -105,7 +102,10 @@ DJOSER = {
         "user": "apps.accounts.serializers.UserSerializer", # Custom Serializer to show more user data
         "current_user": "apps.accounts.serializers.UserSerializer", # Custom Serializer to show more user data
     },
-    "SOCIAL_AUTH_ALLOWED_REDIRECT_URIS": white_list # Redirected URL we listen on google console
+    "SOCIAL_AUTH_ALLOWED_REDIRECT_URIS": white_list, # Redirected URL we listen on google console
+    'ACTIVATION_URL': 'api/user/activate/{uid}/{token}',
+    'SEND_ACTIVATION_EMAIL': True, # user will be required to click activation link sent in email after creating an account, updating their email
+    'SEND_CONFIRMATION_EMAIL': True, # register or activation endpoint will send confirmation email to user.
 }
 
 # define which origins are allowed
@@ -271,3 +271,15 @@ SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '436099598774-4o7gefl5g0qhkqf6n000rsus7am7vtpb.a
 SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'AesvA88jPH9Tv2ILQ4POYPSv'
 # Allauth
 ACCOUNT_LOGOUT_ON_GET = True
+
+# setting for sending email by django application
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
+DEFAULT_FROM_EMAIL = 'fashion_info'
+
+PROTOCOL = "http"
+DOMAIN = "localhost:8000"
