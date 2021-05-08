@@ -1,7 +1,8 @@
 from django.contrib.sites.models import Site
 from rest_framework import serializers
 from django.http import HttpRequest as request
-
+from taggit_serializer.serializers import (TagListSerializerField,
+                                           TaggitSerializer)
 import logging
 
 from .models import Photo, News, Like, Dislike, Comment
@@ -10,9 +11,10 @@ logger = logging.getLogger('photos')
 
 class PhotoSerializer(serializers.ModelSerializer):
     activities = serializers.SerializerMethodField()
+    tags = TagListSerializerField()
     class Meta:
         model = Photo
-        fields = ['id', 'title', 'author', 'image_path', 'status', 'created_at', 'activities']
+        fields = ['id', 'title', 'author', 'image_path', 'status', 'created_at', 'activities', 'tags']
 
     def to_representation(self, instance):
         data_fields = super(PhotoSerializer, self).to_representation(instance)
@@ -43,9 +45,10 @@ class PhotoSerializer(serializers.ModelSerializer):
 
 class NewsSerializer(serializers.ModelSerializer):
     activities = serializers.SerializerMethodField()
+    tags = TagListSerializerField()
     class Meta:
         model = News
-        fields = ['id', 'title', 'author', 'formatted_markdown', 'status', 'created_at', 'activities']
+        fields = ['id', 'title', 'author', 'formatted_markdown', 'status', 'created_at', 'activities', 'tags']
 
     def to_representation(self, instance):
         data_fields = super(NewsSerializer, self).to_representation(instance)

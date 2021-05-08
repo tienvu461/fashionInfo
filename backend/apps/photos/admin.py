@@ -9,19 +9,11 @@ import zipfile
 import re
 from datetime import datetime
 
-from .models import Photo, News, NewsAttachedPhoto, NewsArchivedFile, GenericConfig
+from .models import Photo, News, NewsAttachedPhoto, NewsArchivedFile, GenericConfig, Category
 from .consts import adminConst
 
 logger = logging.getLogger('photos')
 
-# class PostAdmin(admin.ModelAdmin):
-#     list_display = ('title', 'slug', 'status', 'created_on')
-#     list_filter = ("status",)
-#     search_fields = ['title', 'content']
-#     prepopulated_fields = {'slug': ('title',)}
-
-
-# admin.site.register(Post, PostAdmin)
 
 @admin.register(GenericConfig)
 class GenericConfigAdmin(admin.ModelAdmin):
@@ -35,23 +27,35 @@ class GenericConfigAdmin(admin.ModelAdmin):
 @admin.register(Photo)
 class PhotoAdmin(MarkdownxModelAdmin):
     list_display = ('title',  "status", 'created_at',
-                    'updated_at', 'image_path', 'thumbnail')
+                    'updated_at', 'image_path', 'thumbnail', 'get_category', 'tag_list')
     list_filter = ('created_at', 'updated_at', "status",)
     search_fields = ('title',)
     prepopulated_fields = {'slug': ('title',)}
     # readonly_fields = ('thumbail',)
     readonly_fields = ['preview']
 
-    # show thumbnail when uploaded
+    # show tags in list
+    def get_queryset(self, request):
+        return super().get_queryset(request).prefetch_related('tags')
+
+    def tag_list(self, obj):
+        return u", ".join(o.name for o in obj.tags.all())
+
+    def get_category(self, obj):
+        return obj.category.cat_name
+    get_category.admin_order_field = 'category'  # Allows column order sorting
+    get_category.short_description = 'Category'  # Renames column head
+    # show preview when uploaded
 
     def preview(self, obj):
         return mark_safe('<img src="{url}" width="{width}" height={height} />'.format(
             url=obj.image_path.url,
             width=obj.image_path.width if obj.image_path.width < adminConst.WIDTH_XL else adminConst.WIDTH_XL,
             height=obj.image_path.height if obj.image_path.width < adminConst.WIDTH_XL else obj.image_path.height *
-         adminConst.WIDTH_XL/obj.image_path.width,
+            adminConst.WIDTH_XL/obj.image_path.width,
         )
         )
+    # show thumbnail on list
 
     def thumbnail(self, obj):
         if obj.image_path:
@@ -59,7 +63,7 @@ class PhotoAdmin(MarkdownxModelAdmin):
                 url=obj.image_path.url,
                 width=obj.image_path.width if obj.image_path.width < adminConst.WIDTH_XS else adminConst.WIDTH_XS,
                 height=obj.image_path.height if obj.image_path.width < adminConst.WIDTH_XS else obj.image_path.height *
-             adminConst.WIDTH_XS/obj.image_path.width,
+                adminConst.WIDTH_XS/obj.image_path.width,
             )
             )
         else:
@@ -67,14 +71,16 @@ class PhotoAdmin(MarkdownxModelAdmin):
     thumbnail.short_description = 'Thumbnail'
     thumbnail.allow_tags = True
 
+
 class ImageInline(admin.TabularInline):
     model = NewsAttachedPhoto
     extra = 3
 
+
 class FileInline(admin.TabularInline):
     model = NewsArchivedFile
     max_num = 1
-    
+
     def save_model(self, request, obj, form, change):
         super().save_model(request, obj, form, change)
         logger.debug("id = {}".format(obj.id))
@@ -85,14 +91,21 @@ class FileInline(admin.TabularInline):
 @admin.register(News)
 class NewsAdmin(MarkdownxModelAdmin):
     list_display = ('title',  "status", 'created_at',
-                    'updated_at', 'get_description')
+                    'updated_at', 'get_description', 'tag_list')
     list_filter = ('created_at', 'updated_at', "status",)
     search_fields = ('title',)
     prepopulated_fields = {'slug': ('title',)}
-    
+
+    # show tags in list
+    def get_queryset(self, request):
+        return super().get_queryset(request).prefetch_related('tags')
+
+    def tag_list(self, obj):
+        return u", ".join(o.name for o in obj.tags.all())
+
     # show attached images and achived file
     inlines = [ImageInline, FileInline]
-    
+
     # TODO: must save twice to work
     def save_model(self, request, obj, form, change):
         # obj.content = "overriden"
@@ -101,7 +114,7 @@ class NewsAdmin(MarkdownxModelAdmin):
         archived_all = NewsArchivedFile.objects.all().count()
         logger.debug("archived_all = {}".format(archived_all))
         try:
-            archived =  NewsArchivedFile.objects.get(news_id=obj.id)
+            archived = NewsArchivedFile.objects.get(news_id=obj.id)
         except Exception as e:
             logger.error(e)
         else:
@@ -114,14 +127,20 @@ class NewsAdmin(MarkdownxModelAdmin):
                             img_ptn = re.compile(r"\]\((.*.jpg)\)")
                             content = md_file.read().decode('utf8')
                             prefix = "/media/attached/"+datetime.now().strftime('%Y/%m/%d/')
-                            content =re.sub(img_ptn, rf"]({prefix}\1)", content)
+                            content = re.sub(
+                                img_ptn, rf"]({prefix}\1)", content)
                             obj.content = content
 
                     if '.jpg' in f_name:
                         with f_list.open(f_name, "r") as jpg_file:
-                            NewsAttachedPhoto.objects.create(news_id=obj.id, image= ImageFile(jpg_file))
+                            NewsAttachedPhoto.objects.create(
+                                news_id=obj.id, image=ImageFile(jpg_file))
             # delete zipfile after extracted
-            result =  NewsArchivedFile.objects.filter(news_id=obj.id).delete()
+            result = NewsArchivedFile.objects.filter(news_id=obj.id).delete()
             logger.debug("NewsArchivedFile delete result = {}".format(result))
         obj.save()
 
+
+@admin.register(Category)
+class CategoryAdmin(admin.ModelAdmin):
+    list_display = ('cat_name', 'created_at')

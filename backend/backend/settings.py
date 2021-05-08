@@ -59,6 +59,9 @@ INSTALLED_APPS = [
     'djoser',
     # markdown for admin
     'markdownx',
+    # tags
+    'taggit',
+    'taggit_serializer',
     # dev apps
     'apps.accounts',
     'apps.photos',
