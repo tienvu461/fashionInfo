@@ -3,6 +3,7 @@ from django import forms
 from django.contrib.auth.models import User
 from django.utils import timezone
 from markdownx.models import MarkdownxField
+from markdownx.utils import markdownify
 from datetime import datetime
 
 from .consts import modelConst
@@ -33,7 +34,7 @@ class DateCreateModMixin(models.Model):
 
 
 # Upload photo
-class Photo(DateCreateModMixin):
+class Photo(models.Model):
     title = models.CharField(max_length=50)
     slug = models.SlugField(max_length=200, unique=True, null=True)
     author = models.ForeignKey(
@@ -43,35 +44,54 @@ class Photo(DateCreateModMixin):
     image_path = models.ImageField(
         upload_to=datetime.now().strftime('%Y/%m/%d'))
     status = models.IntegerField(choices=modelConst.STATUS, default=0)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
-        ordering = ['-created_date']
+        ordering = ['-created_at']
 
     def __str__(self):
         return self.title
 
 
 # Upload news
-class News(DateCreateModMixin):
+class News(models.Model):
     title = models.CharField(max_length=50)
     slug = models.SlugField(max_length=200, unique=True, null=True)
     author = models.ForeignKey(
-        User, on_delete=models.CASCADE, default="1")
+        User, related_name='author', on_delete=models.CASCADE, default="1")
     content = MarkdownxField()
-    # body = models.TextField()
-    # image_path = models.ImageField(upload_to=datetime.now().strftime('%Y/%m/%d'))
+
+    def formatted_markdown(self):
+        return markdownify(self.content)
+
+    def content_summary(self):
+        return markdownify(self.content[:300] + "...")
+
     status = models.IntegerField(choices=modelConst.STATUS, default=0)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
-        ordering = ['-created_date']
+        verbose_name = 'News'
+        verbose_name_plural = 'News'
+        ordering = ['-created_at']
 
     def __str__(self):
         return self.title
 
     # truncate text in list admin view
     def get_description(self):
-        return self.content[:20]
-    get_description.short_description = "Description"
+        return markdownify(self.content[:300] + "...")
+    content_summary.short_description = "Description"
+
+class NewsAttachedPhoto(models.Model):
+    news = models.ForeignKey(News, related_name='news_photo', on_delete=models.CASCADE)
+    image = models.ImageField(upload_to="attached/"+datetime.now().strftime('%Y/%m/%d'), max_length=500)
+
+class NewsArchivedFile(models.Model):
+    news = models.ForeignKey(News, related_name='news_file', on_delete=models.CASCADE)
+    zip_file = models.FileField(upload_to="archived/"+datetime.now().strftime('%Y/%m/%d'), max_length=500)
 
 class Like(models.Model):
     like_id = models.AutoField(primary_key=True, null=False)

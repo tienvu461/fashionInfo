@@ -1,10 +1,19 @@
 from django.contrib import admin
-from .models import Photo, News, GenericConfig
 from django.utils.safestring import mark_safe
-
 from markdownx.admin import MarkdownxModelAdmin
+from django.core.files.images import ImageFile
 
+import logging
+import base64
+import zipfile
+import re
+from datetime import datetime
+
+from .models import Photo, News, NewsAttachedPhoto, NewsArchivedFile, GenericConfig
 from .consts import adminConst
+
+logger = logging.getLogger('photos')
+
 # class PostAdmin(admin.ModelAdmin):
 #     list_display = ('title', 'slug', 'status', 'created_on')
 #     list_filter = ("status",)
@@ -25,13 +34,13 @@ class GenericConfigAdmin(admin.ModelAdmin):
 
 @admin.register(Photo)
 class PhotoAdmin(MarkdownxModelAdmin):
-    list_display = ('title',  "status", 'created_date',
-                    'mod_date', 'image_path', 'thumbnail')
-    list_filter = ('created_date', 'mod_date', "status",)
+    list_display = ('title',  "status", 'created_at',
+                    'updated_at', 'image_path', 'thumbnail')
+    list_filter = ('created_at', 'updated_at', "status",)
     search_fields = ('title',)
     prepopulated_fields = {'slug': ('title',)}
     # readonly_fields = ('thumbail',)
-    readonly_fields = ["preview"]
+    readonly_fields = ['preview']
 
     # show thumbnail when uploaded
 
@@ -58,10 +67,61 @@ class PhotoAdmin(MarkdownxModelAdmin):
     thumbnail.short_description = 'Thumbnail'
     thumbnail.allow_tags = True
 
+class ImageInline(admin.TabularInline):
+    model = NewsAttachedPhoto
+    extra = 3
+
+class FileInline(admin.TabularInline):
+    model = NewsArchivedFile
+    max_num = 1
+    
+    def save_model(self, request, obj, form, change):
+        super().save_model(request, obj, form, change)
+        logger.debug("id = {}".format(obj.id))
+        archived_all = NewsArchivedFile.objects.all().count()
+        logger.debug("archived_all = {}".format(archived_all))
+
+
 @admin.register(News)
 class NewsAdmin(MarkdownxModelAdmin):
-    list_display = ('title',  "status", 'created_date',
-                    'mod_date', 'get_description')
-    list_filter = ('created_date', 'mod_date', "status",)
+    list_display = ('title',  "status", 'created_at',
+                    'updated_at', 'get_description')
+    list_filter = ('created_at', 'updated_at', "status",)
     search_fields = ('title',)
     prepopulated_fields = {'slug': ('title',)}
+    
+    # show attached images and achived file
+    inlines = [ImageInline, FileInline]
+    
+    # TODO: must save twice to work
+    def save_model(self, request, obj, form, change):
+        # obj.content = "overriden"
+        super().save_model(request, obj, form, change)
+        logger.debug("id = {}".format(obj.id))
+        archived_all = NewsArchivedFile.objects.all().count()
+        logger.debug("archived_all = {}".format(archived_all))
+        try:
+            archived =  NewsArchivedFile.objects.get(news_id=obj.id)
+        except Exception as e:
+            logger.error(e)
+        else:
+            logger.debug(type(archived))
+
+            with zipfile.ZipFile(archived.zip_file, 'r') as f_list:
+                for f_name in f_list.namelist():
+                    if '.md' in f_name:
+                        with f_list.open(f_name) as md_file:
+                            img_ptn = re.compile(r"\]\((.*.jpg)\)")
+                            content = md_file.read().decode('utf8')
+                            prefix = "/media/attached/"+datetime.now().strftime('%Y/%m/%d/')
+                            content =re.sub(img_ptn, rf"]({prefix}\1)", content)
+                            obj.content = content
+
+                    if '.jpg' in f_name:
+                        with f_list.open(f_name, "r") as jpg_file:
+                            NewsAttachedPhoto.objects.create(news_id=obj.id, image= ImageFile(jpg_file))
+            # delete zipfile after extracted
+            result =  NewsArchivedFile.objects.filter(news_id=obj.id).delete()
+            logger.debug("NewsArchivedFile delete result = {}".format(result))
+        obj.save()
+
