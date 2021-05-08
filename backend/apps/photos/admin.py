@@ -9,19 +9,11 @@ import zipfile
 import re
 from datetime import datetime
 
-from .models import Photo, News, NewsAttachedPhoto, NewsArchivedFile, GenericConfig
+from .models import Photo, News, NewsAttachedPhoto, NewsArchivedFile, GenericConfig, Category
 from .consts import adminConst
 
 logger = logging.getLogger('photos')
 
-# class PostAdmin(admin.ModelAdmin):
-#     list_display = ('title', 'slug', 'status', 'created_on')
-#     list_filter = ("status",)
-#     search_fields = ['title', 'content']
-#     prepopulated_fields = {'slug': ('title',)}
-
-
-# admin.site.register(Post, PostAdmin)
 
 @admin.register(GenericConfig)
 class GenericConfigAdmin(admin.ModelAdmin):
@@ -35,7 +27,7 @@ class GenericConfigAdmin(admin.ModelAdmin):
 @admin.register(Photo)
 class PhotoAdmin(MarkdownxModelAdmin):
     list_display = ('title',  "status", 'created_at',
-                    'updated_at', 'image_path', 'thumbnail', 'tag_list')
+                    'updated_at', 'image_path', 'thumbnail', 'get_category', 'tag_list')
     list_filter = ('created_at', 'updated_at', "status",)
     search_fields = ('title',)
     prepopulated_fields = {'slug': ('title',)}
@@ -49,7 +41,12 @@ class PhotoAdmin(MarkdownxModelAdmin):
     def tag_list(self, obj):
         return u", ".join(o.name for o in obj.tags.all())
 
+    def get_category(self, obj):
+        return obj.category.cat_name
+    get_category.admin_order_field = 'category'  # Allows column order sorting
+    get_category.short_description = 'Category'  # Renames column head
     # show preview when uploaded
+
     def preview(self, obj):
         return mark_safe('<img src="{url}" width="{width}" height={height} />'.format(
             url=obj.image_path.url,
@@ -58,7 +55,8 @@ class PhotoAdmin(MarkdownxModelAdmin):
             adminConst.WIDTH_XL/obj.image_path.width,
         )
         )
-    # show thumbnail on list 
+    # show thumbnail on list
+
     def thumbnail(self, obj):
         if obj.image_path:
             return mark_safe('<img src="{url}" width="{width}" height={height} />'.format(
@@ -73,9 +71,11 @@ class PhotoAdmin(MarkdownxModelAdmin):
     thumbnail.short_description = 'Thumbnail'
     thumbnail.allow_tags = True
 
+
 class ImageInline(admin.TabularInline):
     model = NewsAttachedPhoto
     extra = 3
+
 
 class FileInline(admin.TabularInline):
     model = NewsArchivedFile
@@ -86,6 +86,7 @@ class FileInline(admin.TabularInline):
         logger.debug("id = {}".format(obj.id))
         archived_all = NewsArchivedFile.objects.all().count()
         logger.debug("archived_all = {}".format(archived_all))
+
 
 @admin.register(News)
 class NewsAdmin(MarkdownxModelAdmin):
@@ -101,7 +102,7 @@ class NewsAdmin(MarkdownxModelAdmin):
 
     def tag_list(self, obj):
         return u", ".join(o.name for o in obj.tags.all())
-        
+
     # show attached images and achived file
     inlines = [ImageInline, FileInline]
 
@@ -138,3 +139,8 @@ class NewsAdmin(MarkdownxModelAdmin):
             result = NewsArchivedFile.objects.filter(news_id=obj.id).delete()
             logger.debug("NewsArchivedFile delete result = {}".format(result))
         obj.save()
+
+
+@admin.register(Category)
+class CategoryAdmin(admin.ModelAdmin):
+    list_display = ('cat_name', 'created_at')

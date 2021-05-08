@@ -9,6 +9,7 @@ from datetime import datetime
 
 from .consts import modelConst
 
+
 class GenericConfig(models.Model):
     config_name = models.CharField(default="default", max_length=50)
     short_description = models.CharField(default="Description", max_length=200)
@@ -34,10 +35,52 @@ class DateCreateModMixin(models.Model):
     mod_date = models.DateTimeField(blank=True, null=True)
 
 
+class Like(models.Model):
+    like_id = models.AutoField(primary_key=True, null=False)
+    user_id = models.ForeignKey(
+        User, on_delete=models.CASCADE, null=False)
+    post_type = models.IntegerField(choices=modelConst.POST_TYPES, null=False)
+    post_id = models.IntegerField(null=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+
+class Dislike(models.Model):
+    like_id = models.AutoField(primary_key=True, null=False)
+    user_id = models.ForeignKey(
+        User, on_delete=models.CASCADE, null=False)
+    post_type = models.IntegerField(choices=modelConst.POST_TYPES, null=False)
+    post_id = models.IntegerField(null=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+
+class Comment(models.Model):
+    cmt_id = models.AutoField(primary_key=True, null=False)
+    user_id = models.ForeignKey(
+        User, on_delete=models.CASCADE, null=False)
+    post_type = models.IntegerField(choices=modelConst.POST_TYPES, null=False)
+    post_id = models.IntegerField(null=False)
+    content = models.CharField(max_length=255)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+
+class Category(models.Model):
+    cat_id = models.AutoField(primary_key=True, null=False)
+    cat_name = models.CharField(max_length=255)
+    description = models.CharField(max_length=255)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.cat_name
+
 # Upload photo
 class Photo(models.Model):
     title = models.CharField(max_length=50)
     slug = models.SlugField(max_length=200, unique=True, null=True)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE)
     tags = TaggableManager()
     author = models.ForeignKey(
         User, on_delete=models.CASCADE, default="1")
@@ -48,17 +91,20 @@ class Photo(models.Model):
     status = models.IntegerField(choices=modelConst.STATUS, default=0)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
     class Meta:
         ordering = ['-created_at']
 
     def __str__(self):
         return self.title
 
-
 # Upload news
+
+
 class News(models.Model):
     title = models.CharField(max_length=50)
     slug = models.SlugField(max_length=200, unique=True, null=True)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE)
     tags = TaggableManager()
     author = models.ForeignKey(
         User, related_name='author', on_delete=models.CASCADE, default="1")
@@ -87,44 +133,16 @@ class News(models.Model):
         return markdownify(self.content[:300] + "...")
     content_summary.short_description = "Description"
 
+
 class NewsAttachedPhoto(models.Model):
-    news = models.ForeignKey(News, related_name='news_photo', on_delete=models.CASCADE)
-    image = models.ImageField(upload_to="attached/"+datetime.now().strftime('%Y/%m/%d'), max_length=500)
+    news = models.ForeignKey(
+        News, related_name='news_photo', on_delete=models.CASCADE)
+    image = models.ImageField(
+        upload_to="attached/"+datetime.now().strftime('%Y/%m/%d'), max_length=500)
+
 
 class NewsArchivedFile(models.Model):
-    news = models.ForeignKey(News, related_name='news_file', on_delete=models.CASCADE)
-    zip_file = models.FileField(upload_to="archived/"+datetime.now().strftime('%Y/%m/%d'), max_length=500)
-
-class Like(models.Model):
-    like_id = models.AutoField(primary_key=True, null=False)
-    user_id = models.ForeignKey(
-        User, on_delete=models.CASCADE, null=False)
-    post_type = models.IntegerField(choices=modelConst.POST_TYPES, null=False)
-    post_id = models.IntegerField(null=False)
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-
-class Dislike(models.Model):
-    like_id = models.AutoField(primary_key=True, null=False)
-    user_id = models.ForeignKey(
-        User, on_delete=models.CASCADE, null=False)
-    post_type = models.IntegerField(choices=modelConst.POST_TYPES, null=False)
-    post_id = models.IntegerField(null=False)
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-
-class Comment(models.Model):
-    cmt_id = models.AutoField(primary_key=True, null=False)
-    user_id = models.ForeignKey(
-        User, on_delete=models.CASCADE, null=False)
-    post_type = models.IntegerField(choices=modelConst.POST_TYPES, null=False)
-    post_id = models.IntegerField(null=False)
-    content = models.CharField(max_length=255)
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-
-class Tag(models.Model):
-    tag_id = models.AutoField(primary_key=True, null=False)
-    tag_name = models.CharField(max_length=255)
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
+    news = models.ForeignKey(
+        News, related_name='news_file', on_delete=models.CASCADE)
+    zip_file = models.FileField(
+        upload_to="archived/"+datetime.now().strftime('%Y/%m/%d'), max_length=500)

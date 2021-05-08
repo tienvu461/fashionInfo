@@ -16,7 +16,7 @@ then
     echo "PostgreSQL started"
 fi
 
-if [ "$(ls -A /app/backend/apps/photos/migrations)" ]; then
+if [ "$(ls -A /app/backend/apps/photos/migrations/0*.py| wc -l)" -ge "1" ]; then
      echo "Migrations exist"
 else
     echo "Making migrations"
