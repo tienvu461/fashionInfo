@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 from django.utils import timezone
 from markdownx.models import MarkdownxField
 from markdownx.utils import markdownify
+from taggit.managers import TaggableManager
 from datetime import datetime
 
 from .consts import modelConst
@@ -37,6 +38,7 @@ class DateCreateModMixin(models.Model):
 class Photo(models.Model):
     title = models.CharField(max_length=50)
     slug = models.SlugField(max_length=200, unique=True, null=True)
+    tags = TaggableManager()
     author = models.ForeignKey(
         User, on_delete=models.CASCADE, default="1")
     # body = MarkdownxField()
@@ -46,7 +48,6 @@ class Photo(models.Model):
     status = models.IntegerField(choices=modelConst.STATUS, default=0)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-
     class Meta:
         ordering = ['-created_at']
 
@@ -58,6 +59,7 @@ class Photo(models.Model):
 class News(models.Model):
     title = models.CharField(max_length=50)
     slug = models.SlugField(max_length=200, unique=True, null=True)
+    tags = TaggableManager()
     author = models.ForeignKey(
         User, related_name='author', on_delete=models.CASCADE, default="1")
     content = MarkdownxField()
