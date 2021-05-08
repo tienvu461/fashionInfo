@@ -5,8 +5,12 @@ from django.conf.urls.static import static
 from . import views
 
 photos_urlpatterns = [
-    url(r'^photos/$', views.PhotoList.as_view()),
-    url(r'photos/(?P<pk>\d+)/', views.PhotoDetail.as_view()),
-] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+    url(r'^api/photos/$', views.PhotoList.as_view()),
+    url(r'api/photos/(?P<pk>\d+)/', views.PhotoDetail.as_view()),
+    url(r'^api/news/$', views.NewsList.as_view()),
+    url(r'api/news/(?P<pk>\d+)/', views.NewsDetail.as_view()),
+]
 
-photos_urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+if settings.DEBUG:
+    photos_urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT )
+    photos_urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT )
