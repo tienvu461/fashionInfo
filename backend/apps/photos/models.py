@@ -82,6 +82,14 @@ class Like(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+class Dislike(models.Model):
+    like_id = models.AutoField(primary_key=True, null=False)
+    user_id = models.ForeignKey(
+        User, on_delete=models.CASCADE, null=False)
+    post_type = models.IntegerField(choices=modelConst.POST_TYPES, null=False)
+    post_id = models.IntegerField(null=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
 class Comment(models.Model):
     cmt_id = models.AutoField(primary_key=True, null=False)
@@ -90,5 +98,11 @@ class Comment(models.Model):
     post_type = models.IntegerField(choices=modelConst.POST_TYPES, null=False)
     post_id = models.IntegerField(null=False)
     content = models.CharField(max_length=255)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+class Tag(models.Model):
+    tag_id = models.AutoField(primary_key=True, null=False)
+    tag_name = models.CharField(max_length=255)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
