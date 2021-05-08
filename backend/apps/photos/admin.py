@@ -40,7 +40,7 @@ class PhotoAdmin(MarkdownxModelAdmin):
     search_fields = ('title',)
     prepopulated_fields = {'slug': ('title',)}
     # readonly_fields = ('thumbail',)
-    readonly_fields = ['preview', 'slug']
+    readonly_fields = ['preview']
 
     # show thumbnail when uploaded
 

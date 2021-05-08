@@ -1,7 +1,12 @@
+from django.contrib.sites.models import Site
 from rest_framework import serializers
+from django.http import HttpRequest as request
+
+import logging
+
 from .models import Photo, News, Like, Dislike, Comment
 from .consts import modelConst, postTypeEnum
-
+logger = logging.getLogger('photos')
 
 class PhotoSerializer(serializers.ModelSerializer):
     activities = serializers.SerializerMethodField()
@@ -12,9 +17,8 @@ class PhotoSerializer(serializers.ModelSerializer):
     def to_representation(self, instance):
         data_fields = super(PhotoSerializer, self).to_representation(instance)
         data_fields['created_at'] = int(instance.created_at.timestamp())
-
+        # data_fields['image_path'] = instance.image_path.remove()
         
-        like = serializers.RelatedField(source='like', read_only=True)
 
         return data_fields
 
