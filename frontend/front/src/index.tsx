@@ -12,7 +12,7 @@ import store from './store/store';
 ReactDOM.render(
   <ThemeProvider theme={theme}>
     <Provider store={store}>
-      <App />,
+      <App />
     </Provider>
   </ThemeProvider>,
   document.getElementById('root')
