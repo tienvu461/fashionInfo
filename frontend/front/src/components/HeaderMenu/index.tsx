@@ -57,7 +57,11 @@ function HeaderMenu({ children }: AuxProps): JSX.Element {
                     {navLinks.map(({ title, path }) => (
                       <a key={title} className={classes.linkText} href={path}>
                         <ListItem button>
-                          <ListItemText primary={title} />
+                          <ListItemText
+                            primary={
+                              <span className={classes.text}>{title}</span>
+                            }
+                          />
                         </ListItem>
                       </a>
                     ))}

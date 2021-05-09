@@ -9,6 +9,7 @@ const useStyles: () => Record<
   | 'icon'
   | 'actions'
   | 'linkText'
+  | 'text'
   | 'navLinks',
   string
 > = makeStyles((theme: Theme) => ({
@@ -45,6 +46,9 @@ const useStyles: () => Record<
   linkText: {
     textDecoration: 'none',
     color: '#373F41',
+  },
+  text: {
+    fontSize: '24px',
   },
   actions: {
     display: 'flex',
