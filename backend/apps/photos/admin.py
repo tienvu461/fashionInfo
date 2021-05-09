@@ -9,7 +9,7 @@ import zipfile
 import re
 from datetime import datetime
 
-from .models import Photo, News, NewsAttachedPhoto, NewsArchivedFile, GenericConfig, Category
+from .models import Photo, PhotoLike, PhotoDislike, PhotoComment, News, NewsAttachedPhoto, NewsArchivedFile, NewsLike, NewsDislike, NewsComment,GenericConfig, Category
 from .consts import adminConst
 
 logger = logging.getLogger('photos')
@@ -70,6 +70,23 @@ class PhotoAdmin(MarkdownxModelAdmin):
             return 'Not found'
     thumbnail.short_description = 'Thumbnail'
     thumbnail.allow_tags = True
+
+# Not really need admin for like & dislike
+# @admin.register(PhotoLike)
+# class PhotoLikeAdmin(admin.ModelAdmin):
+#     list_display = ('like_id', 'photo_id', 'user_id', 'created_at')
+
+
+# @admin.register(PhotoDislike)
+# class PhotoDislikeAdmin(admin.ModelAdmin):
+#     list_display = ('like_id', 'photo_id', 'user_id', 'created_at')
+
+
+@admin.register(PhotoComment)
+class PhotoCommentAdmin(admin.ModelAdmin):
+    list_display = ('photo_id', 'user_id', 'content', 'active', 'parent', 'created_at',)
+    list_filter = ('created_at', 'active',)
+    search_fields = ('content',)
 
 
 class ImageInline(admin.TabularInline):
@@ -139,6 +156,12 @@ class NewsAdmin(MarkdownxModelAdmin):
             result = NewsArchivedFile.objects.filter(news_id=obj.id).delete()
             logger.debug("NewsArchivedFile delete result = {}".format(result))
         obj.save()
+
+@admin.register(NewsComment)
+class NewsCommentAdmin(admin.ModelAdmin):
+    list_display = ('photo_id', 'user_id', 'content', 'active', 'parent', 'created_at',)
+    list_filter = ('created_at', 'active',)
+    search_fields = ('content',)
 
 
 @admin.register(Category)

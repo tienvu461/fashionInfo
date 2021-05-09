@@ -5,7 +5,7 @@ from rest_framework.response import Response
 from rest_framework import views, status, mixins, generics, pagination
 import logging
 
-from .models import Photo, News, Like, Comment
+from .models import Photo, News, PhotoLike, PhotoComment, PhotoDislike, NewsLike, NewsComment, NewsDislike
 from .serializers import PhotoSerializer, NewsSerializer
 
 logger = logging.getLogger("photos")

@@ -81,6 +81,11 @@ REST_FRAMEWORK = {
         'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': 5,
     'MAX_PAGE_SIZE': 50,
+    
+    # Enable if run on prd
+    # 'DEFAULT_RENDERER_CLASSES': (
+    #     'rest_framework.renderers.JSONRenderer',
+    # )
 }
 
 SIMPLE_JWT = {

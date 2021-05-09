@@ -5,7 +5,7 @@ from taggit_serializer.serializers import (TagListSerializerField,
                                            TaggitSerializer)
 import logging
 
-from .models import Photo, News, Like, Dislike, Comment
+from .models import Photo, News, PhotoLike, PhotoDislike, PhotoComment
 from .consts import modelConst, postTypeEnum
 logger = logging.getLogger('photos')
 
@@ -25,9 +25,9 @@ class PhotoSerializer(serializers.ModelSerializer):
         return data_fields
 
     def get_activities(self, instance):
-        like_num = Like.objects.filter(post_id=instance.id, post_type=postTypeEnum.Photo.value).count()
-        dislike_num = Dislike.objects.filter(post_id=instance.id, post_type=postTypeEnum.Photo.value).count()
-        comment_num =  Comment.objects.filter(post_id=instance.id, post_type=postTypeEnum.Photo.value).count()
+        like_num = PhotoLike.objects.filter(photo_id=instance.id).count()
+        dislike_num = PhotoDislike.objects.filter(photo_id=instance.id).count()
+        comment_num =  PhotoComment.objects.filter(photo_id=instance.id).count()
 
         return {'likes': like_num,
                 'dislikes': dislike_num,
@@ -57,9 +57,9 @@ class NewsSerializer(serializers.ModelSerializer):
         return data_fields
         
     def get_activities(self, instance):
-        like_num = Like.objects.filter(post_id=instance.id, post_type=postTypeEnum.News.value).count()
-        dislike_num = Dislike.objects.filter(post_id=instance.id, post_type=postTypeEnum.News.value).count()
-        comment_num =  Comment.objects.filter(post_id=instance.id, post_type=postTypeEnum.News.value).count()
+        like_num = NewsLike.objects.filter(post_id=instance.id).count()
+        dislike_num = NewsDislike.objects.filter(post_id=instance.id).count()
+        comment_num =  NewsComment.objects.filter(post_id=instance.id).count()
 
         return {'likes': like_num,
                 'dislikes': dislike_num,
