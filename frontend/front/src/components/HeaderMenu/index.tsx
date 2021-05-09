@@ -1,17 +1,45 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
-import { Container, Grid } from '@material-ui/core';
-import React from 'react';
-import useStyles from './useStyles';
+import React, { ReactChildren, ReactChild } from 'react';
+import { Grid } from '@material-ui/core';
 
-function HeaderMenu(props: any): JSX.Element {
-  const { children } = props;
+import useStyles from './useStyles';
+import logo from '../../assets/images/logo_lucete.svg';
+import icon from '../../assets/images/user.svg';
+import Search from './components/Search';
+
+interface AuxProps {
+  children: ReactChild | ReactChildren;
+}
+
+function HeaderMenu({ children }: AuxProps): JSX.Element {
   const classes = useStyles();
   return (
     <div>
-      <Container fixed>
-        <Grid className={classes.header}>Header</Grid>
-      </Container>
+      <Grid
+        alignItems='center'
+        className={classes.root}
+        container
+        direction='row'
+        justify='center'
+      >
+        <Grid className={classes.header}>
+          <Grid className={classes.logo}>
+            <img alt='Lucete' src={logo} />
+          </Grid>
+          <Grid className={classes.links}>
+            <Grid className={classes.menu}>Photo</Grid>
+            <Grid className={classes.menu}>News</Grid>
+            <Grid className={classes.menu}>Forum</Grid>
+          </Grid>
+          <Grid className={classes.actions}>
+            <Grid className={classes.icon}>
+              <img alt='Lucete' src={icon} />
+            </Grid>
+            <Grid>
+              <Search />
+            </Grid>
+          </Grid>
+        </Grid>
+      </Grid>
       <Grid>{children}</Grid>
     </div>
   );
