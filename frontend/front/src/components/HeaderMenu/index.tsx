@@ -33,10 +33,10 @@ function HeaderMenu({ children }: AuxProps): JSX.Element {
   ];
 
   return (
-    <div>
+    <div className={classes.root}>
       <Grid
         alignItems='center'
-        className={classes.root}
+        className={classes.navbar}
         container
         direction='row'
         justify='center'

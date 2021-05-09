@@ -2,6 +2,7 @@ import { makeStyles, Theme } from '@material-ui/core/styles';
 
 const useStyles: () => Record<
   | 'root'
+  | 'navbar'
   | 'header'
   | 'logo'
   | 'links'
@@ -12,7 +13,12 @@ const useStyles: () => Record<
   string
 > = makeStyles((theme: Theme) => ({
   root: {
+    display: 'flex',
+    flexDirection: 'column',
+  },
+  navbar: {
     padding: '0 200px',
+    height: '80px',
   },
   header: {
     width: '100%',

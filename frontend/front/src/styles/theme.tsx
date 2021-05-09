@@ -85,6 +85,11 @@ export const theme = createMuiTheme({
           paddingRight: '200px',
         },
       },
+      regular: {
+        '@media (min-width: 960px)': {
+          height: '80px',
+        },
+      },
     },
     // MuiButton: {
     //   root: {
