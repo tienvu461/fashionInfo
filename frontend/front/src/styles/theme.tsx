@@ -47,7 +47,7 @@ export const theme = createMuiTheme({
     },
   },
   typography: {
-    fontFamily: ['Open Sans', 'sans-serif'].join(','),
+    fontFamily: ['Roboto', 'sans-serif'].join(','),
     h6: {
       fontSize: '0.8rem',
       '@media (min-width:1302px)': {
