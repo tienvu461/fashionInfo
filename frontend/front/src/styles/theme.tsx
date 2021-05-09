@@ -68,90 +68,108 @@ export const theme = createMuiTheme({
     },
   },
   overrides: {
-    MuiButton: {
+    MuiAppBar: {
       root: {
-        backgroundColor: black,
-        '&:hover': {
-          backgroundColor: darkColor,
-        },
-      },
-      outlined: {
-        color: white,
-        borer: 'none',
-      },
-      contained: {
-        color: red,
-        border: `1px solid ${red}`,
-        backgroundColor: white,
-        borderRadius: '50px',
-        '&:hover': {
-          backgroundColor: red,
-          color: white,
-        },
-        '&:hover: none': {
-          backgroundColor: red,
-          color: white,
-        },
         boxShadow: 'none',
       },
-    },
-    MuiCheckbox: {
-      root: {
-        marginRight: '5px',
+      colorPrimary: {
+        backgroundColor: white,
       },
-      colorSecondary: {
-        color: darkColor,
-        '&$checked': {
-          color: darkColor,
+    },
+    MuiToolbar: {
+      gutters: {
+        paddingLeft: '12px',
+        paddingRight: '0',
+        '@media (min-width: 960px)': {
+          paddingLeft: '200px',
+          paddingRight: '200px',
         },
       },
     },
-    MuiFormLabel: {
-      root: {
-        '&$focused': {
-          color: darkColor,
-        },
-      },
-    },
-    MuiOutlinedInput: {
-      root: {
-        '&$focused $notchedOutline': {
-          borderColor: darkColor,
-          borderWidth: 1,
-        },
-        '&:hover:not($disabled):not($focused):not($error) $notchedOutline': {
-          borderColor: darkColor,
-          // Reset on touch devices, it doesn't add specificity
-          '@media (hover: none)': {
-            borderColor: darkColor,
-          },
-        },
-      },
-    },
-    MuiIconButton: {
-      root: {
-        '&:hover': {
-          backgroundColor: firstColor,
-          color: darkColor,
-        },
-      },
-    },
-    MuiBadge: {
-      badge: {
-        color: white,
-      },
-      anchorOriginTopRightRectangle: {
-        backgroundColor: `${red} !important`,
-      },
-    },
-    MuiListItem: {
-      button: {
-        '&:focus': {
-          backgroundColor: red,
-          color: white,
-        },
-      },
-    },
+    // MuiButton: {
+    //   root: {
+    //     backgroundColor: black,
+    //     '&:hover': {
+    //       backgroundColor: darkColor,
+    //     },
+    //   },
+    //   outlined: {
+    //     color: white,
+    //     borer: 'none',
+    //   },
+    //   contained: {
+    //     color: red,
+    //     border: `1px solid ${red}`,
+    //     backgroundColor: white,
+    //     borderRadius: '50px',
+    //     '&:hover': {
+    //       backgroundColor: red,
+    //       color: white,
+    //     },
+    //     '&:hover: none': {
+    //       backgroundColor: red,
+    //       color: white,
+    //     },
+    //     boxShadow: 'none',
+    //   },
+    // },
+    // MuiCheckbox: {
+    //   root: {
+    //     marginRight: '5px',
+    //   },
+    //   colorSecondary: {
+    //     color: darkColor,
+    //     '&$checked': {
+    //       color: darkColor,
+    //     },
+    //   },
+    // },
+    // MuiFormLabel: {
+    //   root: {
+    //     '&$focused': {
+    //       color: darkColor,
+    //     },
+    //   },
+    // },
+    // MuiOutlinedInput: {
+    //   root: {
+    //     '&$focused $notchedOutline': {
+    //       borderColor: darkColor,
+    //       borderWidth: 1,
+    //     },
+    //     '&:hover:not($disabled):not($focused):not($error) $notchedOutline': {
+    //       borderColor: darkColor,
+    //       // Reset on touch devices, it doesn't add specificity
+    //       '@media (hover: none)': {
+    //         borderColor: darkColor,
+    //       },
+    //     },
+    //   },
+    // },
+    // MuiIconButton: {
+    //   root: {
+    //     '&:hover': {
+    //       backgroundColor: firstColor,
+    //       color: darkColor,
+    //     },
+    //   },
+    // },
+    // MuiBadge: {
+    //   badge: {
+    //     color: white,
+    //   },
+    //   anchorOriginTopRightRectangle: {
+    //     backgroundColor: `${red} !important`,
+    //   },
+    // },
+    // MuiListItem: {
+    //   button: {
+    //     '&:focus': {
+    //       backgroundColor: red,
+    //       color: white,
+    //     },
+    //   },
+    // },
   },
 });
 

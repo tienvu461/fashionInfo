@@ -1,7 +1,14 @@
 import { makeStyles, Theme } from '@material-ui/core/styles';
 
 const useStyles: () => Record<
-  'root' | 'header' | 'logo' | 'links' | 'menu' | 'icon' | 'actions',
+  | 'root'
+  | 'header'
+  | 'logo'
+  | 'links'
+  | 'icon'
+  | 'actions'
+  | 'linkText'
+  | 'navLinks',
   string
 > = makeStyles((theme: Theme) => ({
   root: {
@@ -13,7 +20,6 @@ const useStyles: () => Record<
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
-    height: '80px',
   },
   logo: {
     height: 'fit-content',
@@ -24,8 +30,15 @@ const useStyles: () => Record<
     justifyContent: 'space-between',
     alignItems: 'center',
   },
-  menu: {
-    margin: '0 10px',
+  navLinks: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    width: '374px',
+  },
+  linkText: {
+    textDecoration: 'none',
+    color: '#373F41',
   },
   actions: {
     display: 'flex',
