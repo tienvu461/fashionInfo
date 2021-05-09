@@ -9,7 +9,8 @@ const useStyles: () => Record<
   | 'icon'
   | 'actions'
   | 'linkText'
-  | 'text'
+  | 'textNonActive'
+  | 'textActive'
   | 'navLinks',
   string
 > = makeStyles((theme: Theme) => ({
@@ -18,7 +19,6 @@ const useStyles: () => Record<
     flexDirection: 'column',
   },
   navbar: {
-    padding: '0 200px',
     height: '80px',
   },
   header: {
@@ -43,12 +43,20 @@ const useStyles: () => Record<
     justifyContent: 'space-between',
     alignItems: 'center',
     width: '374px',
+    '&:active': {
+      backgroundColor: 'transparent',
+    },
   },
   linkText: {
     textDecoration: 'none',
   },
-  text: {
+  textNonActive: {
     color: '#373F41',
+    fontSize: '24px',
+  },
+  textActive: {
+    color: 'black',
+    fontWeight: 'bold',
     fontSize: '24px',
   },
   actions: {

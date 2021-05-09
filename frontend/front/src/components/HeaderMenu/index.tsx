@@ -1,9 +1,8 @@
-import React, { ReactChildren, ReactChild } from 'react';
-import { useHistory, Link } from 'react-router-dom';
+import React, { ReactChildren, ReactChild, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import {
   Grid,
   AppBar,
-  Toolbar,
   List,
   ListItem,
   ListItemText,
@@ -27,14 +26,14 @@ interface NavLinksType {
 function HeaderMenu({ children }: AuxProps): JSX.Element {
   const classes = useStyles();
   const history = useHistory();
+  const pathName = window.location.pathname;
+  const [active, setActive] = useState(pathName);
 
   const navLinks: Array<NavLinksType> = [
     { title: 'Photo', path: '/' },
     { title: 'News', path: '/news' },
     { title: 'Forum', path: '/forum' },
   ];
-
-  // const getHome = () => {};
 
   return (
     <div className={classes.root}>
@@ -46,59 +45,67 @@ function HeaderMenu({ children }: AuxProps): JSX.Element {
         justify='center'
       >
         <AppBar>
-          <Toolbar>
-            <Grid className={classes.header}>
-              <Grid className={classes.logo}>
-                <img
-                  alt='Lucete'
-                  onClick={() => history.push('/')}
-                  src={logo}
-                />
-              </Grid>
-              <Hidden smDown>
-                <Grid className={classes.links}>
-                  <List
-                    aria-labelledby='main navigation'
-                    className={classes.navLinks}
-                    component='nav'
-                  >
-                    {navLinks.map(({ title, path }) => (
-                      <div key={title}>
-                        <ListItem button>
-                          <ListItemText
-                            primary={
-                              <Link className={classes.linkText} to={path}>
-                                <span className={classes.text}>{title}</span>
-                              </Link>
-                            }
-                          />
-                        </ListItem>
-                      </div>
-                    ))}
-                  </List>
-                </Grid>
-                <Grid className={classes.actions}>
-                  <Grid className={classes.icon}>
-                    <img alt='Lucete' src={icon} />
-                  </Grid>
-                  <Grid>
-                    <Search />
-                  </Grid>
-                </Grid>
-              </Hidden>
-              <Hidden mdUp>
-                <Grid className={classes.actions}>
-                  <Grid className={classes.icon}>
-                    <img alt='Lucete' src={icon} />
-                  </Grid>
-                  <Grid>
-                    <Search />
-                  </Grid>
-                </Grid>
-                <SideDrawer navLinks={navLinks} />
-              </Hidden>
+          <Grid className={classes.header}>
+            <Grid className={classes.logo}>
+              <img alt='Lucete' onClick={() => history.push('/')} src={logo} />
             </Grid>
-          </Toolbar>
+            <Hidden smDown>
+              <Grid className={classes.links}>
+                <List
+                  aria-labelledby='main navigation'
+                  className={classes.navLinks}
+                  component='nav'
+                >
+                  {navLinks.map(({ title, path }) => (
+                    <div
+                      key={title}
+                      onClick={() => {
+                        history.push(path);
+                        setActive(path);
+                      }}
+                    >
+                      <ListItem button>
+                        <ListItemText
+                          primary={
+                            <>
+                              {active === path ? (
+                                <span className={classes.textActive}>
+                                  {title}
+                                </span>
+                              ) : (
+                                <span className={classes.textNonActive}>
+                                  {title}
+                                </span>
+                              )}
+                            </>
+                          }
+                        />
+                      </ListItem>
+                    </div>
+                  ))}
+                </List>
+              </Grid>
+              <Grid className={classes.actions}>
+                <Grid className={classes.icon}>
+                  <img alt='Lucete' src={icon} />
+                </Grid>
+                <Grid>
+                  <Search />
+                </Grid>
+              </Grid>
+            </Hidden>
+            <Hidden mdUp>
+              <Grid className={classes.actions}>
+                <Grid className={classes.icon}>
+                  <img alt='Lucete' src={icon} />
+                </Grid>
+                <Grid>
+                  <Search />
+                </Grid>
+              </Grid>
+              <SideDrawer navLinks={navLinks} />
+            </Hidden>
+          </Grid>
         </AppBar>
       </Grid>
       <Grid>{children}</Grid>
