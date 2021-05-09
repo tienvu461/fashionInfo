@@ -1,4 +1,5 @@
 import React, { ReactChildren, ReactChild } from 'react';
+import { useHistory, Link } from 'react-router-dom';
 import {
   Grid,
   AppBar,
@@ -25,12 +26,15 @@ interface NavLinksType {
 
 function HeaderMenu({ children }: AuxProps): JSX.Element {
   const classes = useStyles();
+  const history = useHistory();
 
   const navLinks: Array<NavLinksType> = [
     { title: 'Photo', path: '/' },
     { title: 'News', path: '/news' },
     { title: 'Forum', path: '/forum' },
   ];
+
+  // const getHome = () => {};
 
   return (
     <div className={classes.root}>
@@ -45,7 +49,11 @@ function HeaderMenu({ children }: AuxProps): JSX.Element {
           <Toolbar>
             <Grid className={classes.header}>
               <Grid className={classes.logo}>
-                <img alt='Lucete' src={logo} />
+                <img
+                  alt='Lucete'
+                  onClick={() => history.push('/')}
+                  src={logo}
+                />
               </Grid>
               <Hidden smDown>
                 <Grid className={classes.links}>
@@ -55,15 +63,17 @@ function HeaderMenu({ children }: AuxProps): JSX.Element {
                     component='nav'
                   >
                     {navLinks.map(({ title, path }) => (
-                      <a key={title} className={classes.linkText} href={path}>
+                      <div key={title}>
                         <ListItem button>
                           <ListItemText
                             primary={
-                              <span className={classes.text}>{title}</span>
+                              <Link className={classes.linkText} to={path}>
+                                <span className={classes.text}>{title}</span>
+                              </Link>
                             }
                           />
                         </ListItem>
-                      </a>
+                      </div>
                     ))}
                   </List>
                 </Grid>

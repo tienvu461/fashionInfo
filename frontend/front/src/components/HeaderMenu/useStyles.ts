@@ -30,6 +30,7 @@ const useStyles: () => Record<
   },
   logo: {
     height: 'fit-content',
+    cursor: 'pointer',
   },
   links: {
     width: '374px',
@@ -45,9 +46,9 @@ const useStyles: () => Record<
   },
   linkText: {
     textDecoration: 'none',
-    color: '#373F41',
   },
   text: {
+    color: '#373F41',
     fontSize: '24px',
   },
   actions: {
