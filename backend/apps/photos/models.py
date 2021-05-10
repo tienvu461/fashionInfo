@@ -34,38 +34,6 @@ class DateCreateModMixin(models.Model):
     created_date = models.DateTimeField(default=timezone.now)
     mod_date = models.DateTimeField(blank=True, null=True)
 
-
-class Like(models.Model):
-    like_id = models.AutoField(primary_key=True, null=False)
-    user_id = models.ForeignKey(
-        User, on_delete=models.CASCADE, null=False)
-    post_type = models.IntegerField(choices=modelConst.POST_TYPES, null=False)
-    post_id = models.IntegerField(null=False)
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-
-
-class Dislike(models.Model):
-    like_id = models.AutoField(primary_key=True, null=False)
-    user_id = models.ForeignKey(
-        User, on_delete=models.CASCADE, null=False)
-    post_type = models.IntegerField(choices=modelConst.POST_TYPES, null=False)
-    post_id = models.IntegerField(null=False)
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-
-
-class Comment(models.Model):
-    cmt_id = models.AutoField(primary_key=True, null=False)
-    user_id = models.ForeignKey(
-        User, on_delete=models.CASCADE, null=False)
-    post_type = models.IntegerField(choices=modelConst.POST_TYPES, null=False)
-    post_id = models.IntegerField(null=False)
-    content = models.CharField(max_length=255)
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-
-
 class Category(models.Model):
     cat_id = models.AutoField(primary_key=True, null=False)
     cat_name = models.CharField(max_length=255)
@@ -98,9 +66,46 @@ class Photo(models.Model):
     def __str__(self):
         return self.title
 
+class PhotoLike(models.Model):
+    like_id = models.AutoField(primary_key=True, null=False)
+    user_id = models.ForeignKey(
+        User, on_delete=models.CASCADE, null=False)
+    photo_id = models.ForeignKey(
+        Photo, on_delete=models.CASCADE, null=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+
+class PhotoDislike(models.Model):
+    like_id = models.AutoField(primary_key=True, null=False)
+    user_id = models.ForeignKey(
+        User, on_delete=models.CASCADE, null=False)
+    photo_id = models.ForeignKey(
+        Photo, on_delete=models.CASCADE, null=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+class PhotoComment(models.Model):
+    cmt_id = models.AutoField(primary_key=True, null=False)
+    user_id = models.ForeignKey(
+        User, on_delete=models.CASCADE, null=False)
+    photo_id = models.ForeignKey(
+        Photo, on_delete=models.CASCADE, null=False)
+    content = models.CharField(max_length=255)
+    # manually deactivate inappropriate comments from admin site
+    active = models.BooleanField(default=True)
+    parent = models.ForeignKey('self', null=True, blank=True, on_delete=models.CASCADE, related_name='replies')
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        # sort comments in chronological order by default
+        ordering = ('created_at',)
+
+    def __str__(self):
+        return 'Comment by {}'.format(self.user_id)
+
 # Upload news
-
-
 class News(models.Model):
     title = models.CharField(max_length=50)
     slug = models.SlugField(max_length=200, unique=True, null=True)
@@ -140,9 +145,48 @@ class NewsAttachedPhoto(models.Model):
     image = models.ImageField(
         upload_to="attached/"+datetime.now().strftime('%Y/%m/%d'), max_length=500)
 
-
 class NewsArchivedFile(models.Model):
     news = models.ForeignKey(
         News, related_name='news_file', on_delete=models.CASCADE)
     zip_file = models.FileField(
         upload_to="archived/"+datetime.now().strftime('%Y/%m/%d'), max_length=500)
+
+class NewsLike(models.Model):
+    like_id = models.AutoField(primary_key=True, null=False)
+    user_id = models.ForeignKey(
+        User, on_delete=models.CASCADE, null=False)
+    photo_id = models.ForeignKey(
+        News, on_delete=models.CASCADE, null=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+
+class NewsDislike(models.Model):
+    like_id = models.AutoField(primary_key=True, null=False)
+    user_id = models.ForeignKey(
+        User, on_delete=models.CASCADE, null=False)
+    photo_id = models.ForeignKey(
+        News, on_delete=models.CASCADE, null=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+class NewsComment(models.Model):
+    cmt_id = models.AutoField(primary_key=True, null=False)
+    user_id = models.ForeignKey(
+        User, on_delete=models.CASCADE, null=False)
+    photo_id = models.ForeignKey(
+        News, on_delete=models.CASCADE, null=False)
+    content = models.CharField(max_length=255)
+    # manually deactivate inappropriate comments from admin site
+    active = models.BooleanField(default=True)
+    parent = models.ForeignKey('self', null=True, blank=True, on_delete=models.CASCADE, related_name='replies')
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        # sort comments in chronological order by default
+        ordering = ('created_at',)
+
+    def __str__(self):
+        return 'Comment by {}'.format(self.user_id)
+
