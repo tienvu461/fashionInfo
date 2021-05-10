@@ -9,6 +9,7 @@ const useStyles: () => Record<
 | 'avatar'
 | 'form'
 | 'field'
+| 'link'
 | 'submit', string> = makeStyles((theme: Theme) => ({
   root: {
     width: '100%',
@@ -33,9 +34,38 @@ const useStyles: () => Record<
   submit: {
     margin: theme.spacing(3, 0, 2),
     backgroundColor: 'black',
-    color: 'white'
+    color: 'white',
+    '&:hover': {
+      backgroundColor: 'gray',
+    }
   },
   field: {
+    '& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline': {
+      borderColor: 'black',
+    },
+    '&:hover .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline': {
+      borderColor: '#000',
+    },
+    '& .MuiOutlinedInput-input': {
+      color: 'black',
+    },
+    '&:hover .MuiOutlinedInput-input': {
+      color: 'black',
+    },
+    '& .MuiInputLabel-outlined': {
+      color: 'black',
+    },
+    '&:hover .MuiInputLabel-outlined': {
+      color: '#000',
+    },
+
+    // TextField select
+    '& .MuiTextField-root': {
+      margin: theme.spacing(1),
+    },
+  },
+  link: {
+    color: '#000',
   }
 }));
 

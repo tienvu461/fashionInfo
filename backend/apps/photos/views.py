@@ -5,8 +5,8 @@ from rest_framework.response import Response
 from rest_framework import views, status, mixins, generics, pagination
 import logging
 
-from .models import Photo, News, Like, Comment
-from .serializers import PhotoSerializer, NewsSerializer
+from .models import Photo, News, PhotoLike, PhotoComment, PhotoDislike, PhotoLike, PhotoComment, PhotoDislike
+from .serializers import PhotoSerializer, PhotoDetailSerializer, NewsSerializer
 
 logger = logging.getLogger("photos")
 
@@ -41,7 +41,12 @@ class PhotoList(generics.ListCreateAPIView):
 
 class PhotoDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Photo.objects.all()
-    serializer_class = PhotoSerializer
+    serializer_class = PhotoDetailSerializer
+
+    def get(self, request, *args, **kwargs):
+        instance = self.get_object()
+        serializer = self.get_serializer(instance)
+        return Response(serializer.data)
 
 class PhotoSearch(views.APIView, pagination.PageNumberPagination):
 

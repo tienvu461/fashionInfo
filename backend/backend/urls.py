@@ -20,6 +20,7 @@ from django.conf.urls import url
 from apps.accounts.urls import accounts_urlpatterns
 from apps.photos.urls import photos_urlpatterns
 from markdownx import urls as markdownx
+from . import settings
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -30,3 +31,9 @@ urlpatterns = [
 urlpatterns += accounts_urlpatterns
 # add photos urls to urlpatterns
 urlpatterns += photos_urlpatterns
+
+if settings.DEBUG:
+    import debug_toolbar
+    urlpatterns += [
+        url(r'^__debug__/', include(debug_toolbar.urls)),
+    ]

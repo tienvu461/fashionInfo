@@ -42,6 +42,8 @@ EOF
 
 ./manage.py collectstatic --noinput
 
+eval "$ENTRYPOINT_CMD"
+
 # gunicorn backend.wsgi --bind 0.0.0.0:8000 --workers 4 --threads 4
 
 #####################################################################################
@@ -50,8 +52,8 @@ EOF
 
 # Option 1:
 # run gunicorn with debug log level
-# gunicorn server.wsgi --bind 0.0.0.0:8000 --workers 1 --threads 1 --log-level debug
+# gunicorn backend.wsgi --bind 0.0.0.0:8000 --workers 1 --threads 1 --log-level debug
 
 # Option 2:
 # run development server
-DEBUG=True ./manage.py runserver 0.0.0.0:8000
+# DEBUG=True ./manage.py runserver 0.0.0.0:8000

@@ -138,10 +138,14 @@ function LoginPage() {
               </Button>
               <Grid container>
                 <Grid item md sm xs>
-                  <Link href='#'>Forgot password?</Link>
+                  <Link className={classes.link} href='#'>
+                    Forgot password?
+                  </Link>
                 </Grid>
                 <Grid item md sm xs>
-                  <Link href='#'>Sign Up</Link>
+                  <Link className={classes.link} href='#'>
+                    Sign Up
+                  </Link>
                 </Grid>
               </Grid>
             </form>
