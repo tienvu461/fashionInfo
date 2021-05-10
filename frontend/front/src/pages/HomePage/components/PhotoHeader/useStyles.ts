@@ -19,6 +19,9 @@ const useStyles: () => Record<
     flexDirection: 'column',
     justifyContent: 'flex-end',
     paddingLeft: '200px',
+    '@media (max-width:960px)': {
+      paddingLeft: '20px',
+    },
   },
   headline: {
     fontFamily: 'Darker Grotesque',

@@ -67,9 +67,12 @@ export const theme = createMuiTheme({
       },
     },
     h1: {
-      fontSize: '2rem',
+      fontSize: '3.4rem',
       '@media (min-width:1302px)': {
         fontSize: '6rem',
+      },
+      '@media (max-width:960px)': {
+        fontSize: '3rem',
       },
       '&::before': {
         padding: 0,
