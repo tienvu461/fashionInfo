@@ -31,7 +31,7 @@ export const theme = createMuiTheme({
     type: 'light',
     primary: {
       light: white,
-      main: red,
+      main: black,
       dark: black,
       contrastText: black,
     },
@@ -80,16 +80,16 @@ export const theme = createMuiTheme({
         borer: 'none',
       },
       contained: {
-        color: red,
-        border: `1px solid ${red}`,
+        color: black,
+        border: `1px solid ${black}`,
         backgroundColor: white,
         borderRadius: '50px',
         '&:hover': {
-          backgroundColor: red,
+          backgroundColor: black,
           color: white,
         },
         '&:hover: none': {
-          backgroundColor: red,
+          backgroundColor: black,
           color: white,
         },
         boxShadow: 'none',
@@ -141,13 +141,13 @@ export const theme = createMuiTheme({
         color: white,
       },
       anchorOriginTopRightRectangle: {
-        backgroundColor: `${red} !important`,
+        backgroundColor: `${black} !important`,
       },
     },
     MuiListItem: {
       button: {
         '&:focus': {
-          backgroundColor: red,
+          backgroundColor: black,
           color: white,
         },
       },
@@ -160,7 +160,7 @@ export const darkTheme = createMuiTheme({
     type: 'dark',
     primary: {
       light: darkColor,
-      main: red,
+      main: black,
       dark: white,
       contrastText: white,
     },
@@ -178,7 +178,7 @@ export const darkTheme = createMuiTheme({
   overrides: {
     MuiButton: {
       root: {
-        backgroundColor: red,
+        backgroundColor: black,
         '&:hover': {
           backgroundColor: '#000',
         },
@@ -188,12 +188,12 @@ export const darkTheme = createMuiTheme({
         borer: 'none',
       },
       contained: {
-        color: red,
-        border: `1px solid ${red}`,
+        color: black,
+        border: `1px solid ${black}`,
         backgroundColor: white,
         borderRadius: '50px',
         '&:hover': {
-          backgroundColor: red,
+          backgroundColor: black,
           color: white,
         },
         boxShadow: 'none',
@@ -203,13 +203,13 @@ export const darkTheme = createMuiTheme({
       root: {
         marginRight: '5px',
         '&:hover': {
-          backgroundColor: red,
+          backgroundColor: black,
         },
       },
       colorSecondary: {
-        color: red,
+        color: black,
         '&$checked': {
-          color: red,
+          color: black,
         },
       },
     },
@@ -222,21 +222,21 @@ export const darkTheme = createMuiTheme({
     MuiFormLabel: {
       root: {
         '&$focused': {
-          color: red,
+          color: black,
         },
       },
     },
     MuiOutlinedInput: {
       root: {
         '&$focused $notchedOutline': {
-          borderColor: red,
+          borderColor: black,
           borderWidth: 1,
         },
         '&:hover:not($disabled):not($focused):not($error) $notchedOutline': {
-          borderColor: red,
+          borderColor: black,
           // Reset on touch devices, it doesn't add specificity
           '@media (hover: none)': {
-            borderColor: red,
+            borderColor: black,
           },
         },
       },
@@ -251,7 +251,7 @@ export const darkTheme = createMuiTheme({
     MuiListItem: {
       button: {
         '&:hover': {
-          backgroundColor: red,
+          backgroundColor: black,
           // color: white,
         },
       },
@@ -261,7 +261,7 @@ export const darkTheme = createMuiTheme({
         color: white,
       },
       anchorOriginTopRightRectangle: {
-        backgroundColor: `${red} !important`,
+        backgroundColor: `${black} !important`,
       },
     },
     MuiMenu: {
