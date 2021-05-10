@@ -9,7 +9,7 @@ function PhotoHeader(): JSX.Element {
   return (
     <Grid className={classes.root} container>
       <Grid className={classes.leftSection} item sm={6} xs={12}>
-        <Typography className={classes.headline} component='h2' variant='h1'>
+        <Typography className={classes.headline} component='h1' variant='h1'>
           Khu vực dành cho Headline
         </Typography>
       </Grid>

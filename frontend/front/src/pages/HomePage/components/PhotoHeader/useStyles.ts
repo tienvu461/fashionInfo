@@ -24,7 +24,7 @@ const useStyles: () => Record<
     fontFamily: 'Darker Grotesque',
     fontStyle: 'normal',
     fontWeight: 900,
-    // fontSize: '120px',
+    marginBottom: '-20px', // fix straight line
     lineHeight: '115px',
     letterSpacing: '3.2px',
     color: '#000000',

@@ -66,6 +66,15 @@ export const theme = createMuiTheme({
         fontSize: '2.2rem',
       },
     },
+    h1: {
+      fontSize: '2rem',
+      '@media (min-width:1302px)': {
+        fontSize: '6rem',
+      },
+      '&::before': {
+        padding: 0,
+      },
+    },
   },
   overrides: {
     MuiAppBar: {
