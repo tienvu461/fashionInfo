@@ -19,8 +19,8 @@ const useStyles: () => Record<
     flexDirection: 'column',
     justifyContent: 'flex-end',
     paddingLeft: '200px',
-    '@media (max-width:960px)': {
-      paddingLeft: '20px',
+    '@media (max-width:1024px)': {
+      padding: '0 20px',
     },
   },
   headline: {
@@ -37,7 +37,7 @@ const useStyles: () => Record<
     fontFamily: 'Roboto',
     fontStyle: 'normal',
     fontWeight: 'normal',
-    fontSize: '18px',
+    // fontSize: '18px',
     letterSpacing: '1.7px',
     color: '#000000',
     textAlign: 'left',
@@ -51,6 +51,9 @@ const useStyles: () => Record<
     paddingLeft: '200px',
     display: 'flex',
     alignItems: 'flex-end',
+    '@media (max-width:1024px)': {
+      paddingLeft: '20px',
+    },
   },
 }));
 

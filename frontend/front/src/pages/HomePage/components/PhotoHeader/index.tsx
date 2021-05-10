@@ -15,7 +15,7 @@ function PhotoHeader(): JSX.Element {
       </Grid>
       <Grid className={classes.rightSection} item sm={6} xs={12} />
       <Grid className={classes.footerSection} item sm={12} xs={12}>
-        <Typography className={classes.subline} component='h2' variant='h6'>
+        <Typography className={classes.subline} component='h6' variant='h6'>
           Sites of the day Previous Winners
         </Typography>
       </Grid>
