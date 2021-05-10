@@ -286,6 +286,18 @@ SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'AesvA88jPH9Tv2ILQ4POYPSv'
 # Allauth
 ACCOUNT_LOGOUT_ON_GET = True
 
+# setting for sending email by django application
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
+DEFAULT_FROM_EMAIL = 'fashion_info'
+
+PROTOCOL = "http"
+DOMAIN = "localhost:8000"
+
 #debug_toolbar settings
 if DEBUG:
     INTERNAL_IPS = ('127.0.0.1',)
@@ -322,15 +334,4 @@ if DEBUG:
     DEBUG_TOOLBAR_CONFIG = {
     "SHOW_TOOLBAR_CALLBACK" : show_toolbar,
     }
-=======
-# setting for sending email by django application
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
-EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')
-EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
-DEFAULT_FROM_EMAIL = 'fashion_info'
-
-PROTOCOL = "http"
-DOMAIN = "localhost:8000"
+    
