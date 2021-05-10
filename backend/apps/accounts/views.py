@@ -37,7 +37,7 @@ class BlackListTokenView(APIView):
                 token = RefreshToken(refresh_token)
                 # add refresh token to black list
                 token.blacklist()
-                return Response(status=status.HTTP_200_OK)
+                return Response({'info': 'Successfully add refresh token to black list'}, status=status.HTTP_200_OK)
 
             return Response({'error':'invalid Refresh Token'},status=status.HTTP_400_BAD_REQUEST)
         except Exception as e:
@@ -52,6 +52,6 @@ class ActivateUser(APIView):
         response = requests.post(url, data = payload)
 
         if response.status_code == 204:
-            return Response({}, response.status_code)
+            return Response({'info': 'Successfully activate user!'}, status=status.HTTP_200_OK)
         else:
-            return Response(response.json())
+            return Response({'error': 'Fail activate user!'}, status=status.HTTP_400_BADREQUEST)
