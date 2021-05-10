@@ -1,5 +1,5 @@
 #!/bin/bash
-ENVs=("local" "dev" "prd")
+ENVs=("local" "dev" "stg" "prd")
 COMPONENTs=("admin" "front" "backend" "postgresql")
 ACTIONs=("build" "down" "prune" "logs" "restart" "start" "stop" "up" "deploy" "ps" "login" "push" "tag" "exec" "ut")
 
