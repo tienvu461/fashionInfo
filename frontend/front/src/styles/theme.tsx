@@ -13,12 +13,12 @@ import { useState } from 'react';
 
 export const white = '#fff';
 export const black = '#000';
-export const firstColor = '#0000000a';
-export const secondColor = '#ffffff87';
-export const darkColor = '#484848';
-export const blue = '#00B0FF';
-export const red = '#F50057';
-export const purple = '#6C63FF';
+// export const firstColor = '#0000000a';
+// export const secondColor = '#ffffff87';
+// export const darkColor = '#484848';
+// export const blue = '#00B0FF';
+// export const red = '#F50057';
+// export const purple = '#6C63FF';
 
 export const defaultFont = {
   fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
@@ -31,7 +31,7 @@ export const theme = createMuiTheme({
     type: 'light',
     primary: {
       light: white,
-      main: red,
+      main: white,
       dark: black,
       contrastText: black,
     },
@@ -42,12 +42,12 @@ export const theme = createMuiTheme({
       dark: black,
     },
     common: {
-      black: firstColor,
-      white: secondColor,
+      black: white,
+      white,
     },
   },
   typography: {
-    fontFamily: ['Open Sans', 'sans-serif'].join(','),
+    fontFamily: ['Roboto', 'sans-serif'].join(','),
     h6: {
       fontSize: '0.8rem',
       '@media (min-width:1302px)': {
@@ -68,90 +68,117 @@ export const theme = createMuiTheme({
     },
   },
   overrides: {
-    MuiButton: {
+    MuiAppBar: {
       root: {
-        backgroundColor: black,
-        '&:hover': {
-          backgroundColor: darkColor,
-        },
-      },
-      outlined: {
-        color: white,
-        borer: 'none',
-      },
-      contained: {
-        color: red,
-        border: `1px solid ${red}`,
-        backgroundColor: white,
-        borderRadius: '50px',
-        '&:hover': {
-          backgroundColor: red,
-          color: white,
-        },
-        '&:hover: none': {
-          backgroundColor: red,
-          color: white,
-        },
         boxShadow: 'none',
-      },
-    },
-    MuiCheckbox: {
-      root: {
-        marginRight: '5px',
-      },
-      colorSecondary: {
-        color: darkColor,
-        '&$checked': {
-          color: darkColor,
+        padding: '0 20px',
+        '@media (min-width: 960px)': {
+          padding: '0 200px',
         },
       },
-    },
-    MuiFormLabel: {
-      root: {
-        '&$focused': {
-          color: darkColor,
-        },
+      colorPrimary: {
+        backgroundColor: white,
       },
     },
-    MuiOutlinedInput: {
-      root: {
-        '&$focused $notchedOutline': {
-          borderColor: darkColor,
-          borderWidth: 1,
-        },
-        '&:hover:not($disabled):not($focused):not($error) $notchedOutline': {
-          borderColor: darkColor,
-          // Reset on touch devices, it doesn't add specificity
-          '@media (hover: none)': {
-            borderColor: darkColor,
-          },
-        },
-      },
-    },
-    MuiIconButton: {
-      root: {
-        '&:hover': {
-          backgroundColor: firstColor,
-          color: darkColor,
-        },
-      },
-    },
-    MuiBadge: {
-      badge: {
-        color: white,
-      },
-      anchorOriginTopRightRectangle: {
-        backgroundColor: `${red} !important`,
-      },
-    },
-    MuiListItem: {
-      button: {
-        '&:focus': {
-          backgroundColor: red,
-          color: white,
-        },
-      },
-    },
+    // MuiToolbar: {
+    //   gutters: {
+    //     paddingLeft: '12px',
+    //     paddingRight: '0',
+    //     '@media (min-width: 960px)': {
+    //       paddingLeft: '200px',
+    //       paddingRight: '200px',
+    //     },
+    //   },
+    //   regular: {
+    //     '@media (min-width: 960px)': {
+    //       height: '80px',
+    //     },
+    //   },
+    // },
+    // MuiButton: {
+    //   root: {
+    //     backgroundColor: black,
+    //     '&:hover': {
+    //       backgroundColor: darkColor,
+    //     },
+    //   },
+    //   outlined: {
+    //     color: white,
+    //     borer: 'none',
+    //   },
+    //   contained: {
+    //     color: red,
+    //     border: `1px solid ${red}`,
+    //     backgroundColor: white,
+    //     borderRadius: '50px',
+    //     '&:hover': {
+    //       backgroundColor: red,
+    //       color: white,
+    //     },
+    //     '&:hover: none': {
+    //       backgroundColor: red,
+    //       color: white,
+    //     },
+    //     boxShadow: 'none',
+    //   },
+    // },
+    // MuiCheckbox: {
+    //   root: {
+    //     marginRight: '5px',
+    //   },
+    //   colorSecondary: {
+    //     color: darkColor,
+    //     '&$checked': {
+    //       color: darkColor,
+    //     },
+    //   },
+    // },
+    // MuiFormLabel: {
+    //   root: {
+    //     '&$focused': {
+    //       color: darkColor,
+    //     },
+    //   },
+    // },
+    // MuiOutlinedInput: {
+    //   root: {
+    //     '&$focused $notchedOutline': {
+    //       borderColor: darkColor,
+    //       borderWidth: 1,
+    //     },
+    //     '&:hover:not($disabled):not($focused):not($error) $notchedOutline': {
+    //       borderColor: darkColor,
+    //       // Reset on touch devices, it doesn't add specificity
+    //       '@media (hover: none)': {
+    //         borderColor: darkColor,
+    //       },
+    //     },
+    //   },
+    // },
+    // MuiIconButton: {
+    //   root: {
+    //     '&:hover': {
+    //       backgroundColor: firstColor,
+    //       color: darkColor,
+    //     },
+    //   },
+    // },
+    // MuiBadge: {
+    //   badge: {
+    //     color: white,
+    //   },
+    //   anchorOriginTopRightRectangle: {
+    //     backgroundColor: `${red} !important`,
+    //   },
+    // },
+    // MuiListItem: {
+    //   button: {
+    //     '&:focus': {
+    //       backgroundColor: red,
+    //       color: white,
+    //     },
+    //   },
+    // },
   },
 });
 
@@ -159,8 +186,8 @@ export const darkTheme = createMuiTheme({
   palette: {
     type: 'dark',
     primary: {
-      light: darkColor,
-      main: red,
+      light: black,
+      main: black,
       dark: white,
       contrastText: white,
     },
@@ -171,14 +198,14 @@ export const darkTheme = createMuiTheme({
       dark: black,
     },
     common: {
-      black: secondColor,
-      white: firstColor,
+      black,
+      white: black,
     },
   },
   overrides: {
     MuiButton: {
       root: {
-        backgroundColor: red,
+        backgroundColor: black,
         '&:hover': {
           backgroundColor: '#000',
         },
@@ -188,12 +215,12 @@ export const darkTheme = createMuiTheme({
         borer: 'none',
       },
       contained: {
-        color: red,
-        border: `1px solid ${red}`,
+        color: black,
+        border: `1px solid ${black}`,
         backgroundColor: white,
         borderRadius: '50px',
         '&:hover': {
-          backgroundColor: red,
+          backgroundColor: black,
           color: white,
         },
         boxShadow: 'none',
@@ -203,13 +230,13 @@ export const darkTheme = createMuiTheme({
       root: {
         marginRight: '5px',
         '&:hover': {
-          backgroundColor: red,
+          backgroundColor: black,
         },
       },
       colorSecondary: {
-        color: red,
+        color: black,
         '&$checked': {
-          color: red,
+          color: black,
         },
       },
     },
@@ -222,21 +249,21 @@ export const darkTheme = createMuiTheme({
     MuiFormLabel: {
       root: {
         '&$focused': {
-          color: red,
+          color: black,
         },
       },
     },
     MuiOutlinedInput: {
       root: {
         '&$focused $notchedOutline': {
-          borderColor: red,
+          borderColor: black,
           borderWidth: 1,
         },
         '&:hover:not($disabled):not($focused):not($error) $notchedOutline': {
-          borderColor: red,
+          borderColor: black,
           // Reset on touch devices, it doesn't add specificity
           '@media (hover: none)': {
-            borderColor: red,
+            borderColor: black,
           },
         },
       },
@@ -251,7 +278,7 @@ export const darkTheme = createMuiTheme({
     MuiListItem: {
       button: {
         '&:hover': {
-          backgroundColor: red,
+          backgroundColor: black,
           // color: white,
         },
       },
@@ -261,7 +288,7 @@ export const darkTheme = createMuiTheme({
         color: white,
       },
       anchorOriginTopRightRectangle: {
-        backgroundColor: `${red} !important`,
+        backgroundColor: `${black} !important`,
       },
     },
     MuiMenu: {
