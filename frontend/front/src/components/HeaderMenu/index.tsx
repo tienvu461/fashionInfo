@@ -86,11 +86,9 @@ function HeaderMenu({ children }: AuxProps): JSX.Element {
                 </List>
               </Grid>
               <Grid className={classes.actions}>
+                <Search />
                 <Grid className={classes.icon}>
                   <img alt='Lucete' src={icon} />
-                </Grid>
-                <Grid>
-                  <Search />
                 </Grid>
               </Grid>
             </Hidden>
