@@ -2,11 +2,12 @@ from django.shortcuts import render
 from django.http import Http404
 
 from rest_framework.response import Response
+from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework import views, status, mixins, generics, pagination
 import logging
 
 from .models import Photo, News, PhotoLike, PhotoComment, PhotoDislike, PhotoLike, PhotoComment, PhotoDislike
-from .serializers import PhotoSerializer, PhotoDetailSerializer, NewsSerializer
+from .serializers import PhotoSerializer, PhotoDetailSerializer, CommentSerializer, NewsSerializer
 
 logger = logging.getLogger("photos")
 
@@ -66,6 +67,20 @@ class PhotoSearch(views.APIView, pagination.PageNumberPagination):
         logger.debug(queryset)
         serializer = PhotoSerializer(queryset, many=True)
         return Response(serializer.data)
+
+# Create comment on photo
+class PhotoCommentCreate(generics.CreateAPIView):
+    permission_classes = (IsAuthenticated,)
+    serializer_class = CommentSerializer
+    
+    def post(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        logger.debug(serializer)
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
+        headers = self.get_success_headers(serializer.data)
+
+        return Response(serializer.data, status=status.HTTP_200_OK, headers=headers)
 
 class NewsList(generics.ListCreateAPIView):
     queryset = News.objects.all()

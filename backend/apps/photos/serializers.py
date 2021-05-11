@@ -52,7 +52,7 @@ class PhotoSerializer(serializers.ModelSerializer):
 class CommentSerializer(serializers.ModelSerializer):
     class Meta:
         model = PhotoComment
-        fields = ['cmt_id', 'user_id', 'content', 'active', 'parent',
+        fields = ['cmt_id', 'user_id', 'photo_id', 'content', 'active', 'parent',
             'created_at']
 
     def to_representation(self, instance):
