@@ -8,6 +8,8 @@ photos_urlpatterns = [
     url(r'^api/photos/$', views.PhotoList.as_view()),
     url(r'api/photos/(?P<pk>\d+)/', views.PhotoDetail.as_view()),
     url(r'api/photos/search', views.PhotoSearch.as_view()),
+    url(r'api/photos/comment', views.PhotoCommentCreate.as_view()),
+
     url(r'^api/news/$', views.NewsList.as_view()),
     url(r'api/news/(?P<pk>\d+)/', views.NewsDetail.as_view()),
     url(r'api/news/search', views.NewsSearch.as_view()),
