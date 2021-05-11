@@ -55,6 +55,7 @@ services:
             - fashion_info_nw
 
     postgresql:
+        restart: unless-stopped
         build:
             args:
               SRC_DIR: ./infrastructure/docker/postgresql
