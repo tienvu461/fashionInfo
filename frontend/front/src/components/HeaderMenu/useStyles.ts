@@ -64,7 +64,7 @@ const useStyles: () => Record<
     justifyContent: 'space-between',
     alignItems: 'center',
   },
-  icon: { marginLeft: '38px' },
+  icon: { marginLeft: '38px', cursor: 'pointer' },
 }));
 
 export { useStyles as default };
