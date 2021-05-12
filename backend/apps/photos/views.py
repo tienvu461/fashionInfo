@@ -75,8 +75,22 @@ class PhotoCommentCreate(generics.CreateAPIView):
     
     def post(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
-        logger.debug(serializer)
+
         serializer.is_valid(raise_exception=True)
+        
+        parent = serializer.validated_data.get('parent')
+        if parent is not None:
+            try:
+                parent_id = getattr(parent, 'cmt_id')
+                logger.debug(parent)
+                logger.debug(type(parent))
+                existing_cmt = PhotoComment.objects.filter(cmt_id=parent_id)
+                logger.debug(existing_cmt)
+            except Exception as e:
+                logger.error(e)
+                logger.error("Parent Comment not found")
+                return Response(status=status.HTTP_400_BAD_REQUEST, headers=headers)
+                
         self.perform_create(serializer)
         headers = self.get_success_headers(serializer.data)
 

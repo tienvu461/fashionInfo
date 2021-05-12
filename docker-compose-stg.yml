@@ -40,7 +40,7 @@ services:
             dockerfile: ./infrastructure/docker/backend/Dockerfile            
         entrypoint: /app/docker/backend/wsgi-entrypoint.sh
         env_file:
-            - ./infrastructure/docker/config/dev/.env.backend
+            - ./infrastructure/docker/config/stg/.env.backend
         volumes:
             - static_volume:/app/backend/server/django_static
             - ./backend:/app/backend
@@ -65,7 +65,7 @@ services:
         ports:
             - "5432:5432"
         env_file:
-            - ./infrastructure/docker/config/dev/.env.psql
+            - ./infrastructure/docker/config/stg/.env.psql
         networks:
             fashion_info_nw:
                 ipv4_address: 172.32.1.2
