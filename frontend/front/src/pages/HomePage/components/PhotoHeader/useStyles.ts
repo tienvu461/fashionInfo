@@ -21,8 +21,8 @@ const useStyles: () => Record<
     flexDirection: 'column',
     justifyContent: 'flex-end',
     paddingLeft: '200px',
-    '@media (max-width:1024px)': {
-      padding: '0 20px',
+    '@media (max-width:1302px)': {
+      padding: '0 100px',
     },
   },
   headline: {

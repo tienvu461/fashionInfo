@@ -12,6 +12,7 @@ import {
 } from '@material-ui/core';
 import paper from '../../../../assets/images/paper.jpeg';
 import useStyles from './useStyles';
+import './_photo.scss';
 
 const Photo = (): JSX.Element => {
   const classes = useStyles();
@@ -66,8 +67,11 @@ const Photo = (): JSX.Element => {
             key={id}
             className={classes.gridItem}
             item
-            md={4}
+            lg={4}
+            md={6}
             sm={6}
+            wrap='wrap'
+            xl={4}
             xs={12}
           >
             <Paper className={classes.paper}>
@@ -97,7 +101,7 @@ const Photo = (): JSX.Element => {
   };
 
   return (
-    <div className={classes.root}>
+    <div className={`${classes.root} root`}>
       <Grid container spacing={3}>
         {renderPhoto()}
       </Grid>
