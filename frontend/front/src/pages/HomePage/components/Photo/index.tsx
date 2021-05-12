@@ -7,9 +7,15 @@ import {
   CardActionArea,
   CardMedia,
   CardActions,
-  Button,
+  // Button,
   Typography,
+  IconButton,
 } from '@material-ui/core';
+import FavoriteIcon from '@material-ui/icons/Favorite';
+import ShareIcon from '@material-ui/icons/Share';
+import CommentRoundedIcon from '@material-ui/icons/CommentRounded';
+import ThumbDownAltRoundedIcon from '@material-ui/icons/ThumbDownAltRounded';
+
 import paper from '../../../../assets/images/paper.jpeg';
 import useStyles from './useStyles';
 import './_photo.scss';
@@ -89,8 +95,18 @@ const Photo = (): JSX.Element => {
                   </CardContent>
                 </CardActionArea>
                 <CardActions>
-                  <Button size='small'>Share</Button>
-                  <Button size='small'>Learn More</Button>
+                  <IconButton aria-label='like' size='medium'>
+                    <FavoriteIcon />
+                  </IconButton>
+                  <IconButton aria-label='dislike' size='medium'>
+                    <ThumbDownAltRoundedIcon />
+                  </IconButton>
+                  <IconButton aria-label='share' size='medium'>
+                    <ShareIcon />
+                  </IconButton>
+                  <IconButton aria-label='comment' size='medium'>
+                    <CommentRoundedIcon />
+                  </IconButton>
                 </CardActions>
               </Card>
             </Paper>
