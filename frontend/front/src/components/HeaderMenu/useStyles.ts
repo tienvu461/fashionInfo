@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable no-unused-vars */
 import { makeStyles, Theme } from '@material-ui/core/styles';
+import { textMenu } from '../../styles/theme';
 
 const useStyles: () => Record<
   | 'root'
@@ -53,11 +54,11 @@ const useStyles: () => Record<
     textDecoration: 'none',
   },
   textNonActive: {
-    color: '#373F41',
+    color: textMenu,
     fontSize: '24px',
   },
   textActive: {
-    color: 'black',
+    color: textMenu,
     fontWeight: 'bold',
     fontSize: '24px',
   },

@@ -12,13 +12,16 @@ import {
 import { useState } from 'react';
 
 export const white = '#fff';
-export const black = '#000';
-// export const firstColor = '#0000000a';
-// export const secondColor = '#ffffff87';
-// export const darkColor = '#484848';
-// export const blue = '#00B0FF';
-// export const red = '#F50057';
-// export const purple = '#6C63FF';
+export const black = '#000000';
+export const grayPrimary = '#C4C4C4';
+export const gray = '#EEEEEE';
+export const textMenu = '#373F41';
+
+// padding (view + responsive)
+export const paddingContainer = '0 200px';
+export const paddingResponsive = '0 20px';
+export const paddingLeft = '200px'; // view
+export const paddingLeftResponsive = '20px'; // view
 
 export const defaultFont = {
   fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',

@@ -1,6 +1,13 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable no-unused-vars */
 import { makeStyles, Theme } from '@material-ui/core/styles';
+import {
+  paddingResponsive,
+  black,
+  grayPrimary,
+  paddingLeft,
+  paddingLeftResponsive,
+} from '../../../../styles/theme';
 
 const useStyles: () => Record<
   | 'root'
@@ -20,9 +27,9 @@ const useStyles: () => Record<
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'flex-end',
-    paddingLeft: '200px',
+    paddingLeft,
     '@media (max-width:1302px)': {
-      padding: '0 20px',
+      padding: paddingResponsive,
     },
   },
   headline: {
@@ -52,38 +59,38 @@ const useStyles: () => Record<
     fontWeight: 'normal',
     // fontSize: '18px',
     letterSpacing: '1.7px',
-    color: '#000000',
+    color: black,
     textAlign: 'left',
   },
   rightSection: {
     height: '720px',
-    backgroundColor: '#C4C4C4',
+    backgroundColor: grayPrimary,
   },
   footerSection: {
     height: '112px',
-    paddingLeft: '200px',
+    paddingLeft,
     display: 'flex',
     paddingBottom: '10px',
     alignItems: 'flex-end',
     '@media (max-width:1302px)': {
-      padding: '0 20px',
+      padding: paddingResponsive,
       paddingBottom: '20px',
     },
     '@media (max-width:1024px)': {
-      paddingLeft: '20px',
+      paddingLeft: paddingLeftResponsive,
     },
   },
   footerSectionMatches: {
     // height: '112px',
-    paddingLeft: '200px',
+    paddingLeft,
     display: 'flex',
     alignItems: 'flex-start',
     '@media (max-width:1302px)': {
-      padding: '0 20px',
+      padding: paddingResponsive,
       paddingBottom: '20px',
     },
     '@media (max-width:1024px)': {
-      paddingLeft: '20px',
+      paddingLeft: paddingLeftResponsive,
     },
   },
 }));

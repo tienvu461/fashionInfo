@@ -2,6 +2,7 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable operator-linebreak */
 import { makeStyles, Theme } from '@material-ui/core/styles';
+import { black } from '../../../../styles/theme';
 
 const useStyles: () => Record<'list' | 'linkText' | 'icon', string> =
   makeStyles((theme: Theme) => ({
@@ -11,7 +12,7 @@ const useStyles: () => Record<'list' | 'linkText' | 'icon', string> =
     linkText: {
       textDecoration: 'none',
       textTransform: 'uppercase',
-      color: '#000',
+      color: black,
     },
     icon: {},
   }));

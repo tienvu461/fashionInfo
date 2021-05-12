@@ -2,6 +2,7 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable operator-linebreak */
 import { makeStyles, Theme } from '@material-ui/core/styles';
+import { gray, paddingContainer } from '../../../../styles/theme';
 
 const useStyles: () => Record<
   'root' | 'card' | 'paper' | 'picture' | 'gridItem',
@@ -9,8 +10,8 @@ const useStyles: () => Record<
 > = makeStyles((theme: Theme) => ({
   root: {
     height: 'auto',
-    padding: '0 200px',
-    backgroundColor: '#EEEEEE',
+    padding: paddingContainer,
+    backgroundColor: gray,
   },
   card: {},
   paper: {},
