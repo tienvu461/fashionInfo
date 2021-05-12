@@ -7,6 +7,7 @@ const useStyles: () => Record<
   | 'leftSection'
   | 'rightSection'
   | 'footerSection'
+  | 'footerSectionMatches'
   | 'headline'
   | 'subline',
   string
@@ -14,7 +15,6 @@ const useStyles: () => Record<
   root: {
     width: '100%',
     height: 'auto',
-    // paddingBottom: '112px',
   },
   leftSection: {
     display: 'flex',
@@ -65,6 +65,19 @@ const useStyles: () => Record<
     display: 'flex',
     paddingBottom: '10px',
     alignItems: 'flex-end',
+    '@media (max-width:1302px)': {
+      padding: '0 20px',
+      paddingBottom: '20px',
+    },
+    '@media (max-width:1024px)': {
+      paddingLeft: '20px',
+    },
+  },
+  footerSectionMatches: {
+    // height: '112px',
+    paddingLeft: '200px',
+    display: 'flex',
+    alignItems: 'flex-start',
     '@media (max-width:1302px)': {
       padding: '0 20px',
       paddingBottom: '20px',
