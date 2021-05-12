@@ -1,6 +1,17 @@
 import React from 'react';
-import { Grid, Paper } from '@material-ui/core';
-
+import {
+  GridList,
+  Paper,
+  Grid,
+  CardContent,
+  Card,
+  CardActionArea,
+  CardMedia,
+  CardActions,
+  Button,
+  Typography,
+} from '@material-ui/core';
+import paper from '../../../../assets/images/paper.jpeg';
 import useStyles from './useStyles';
 
 const Photo = (): JSX.Element => {
@@ -50,36 +61,49 @@ const Photo = (): JSX.Element => {
       },
     ];
     return (
-      // <Grid item xs={12}>
-      //   <Grid container justify='space-between' spacing={1}>
-      //     {gallery.map(({ title = '', id = 0 }) => (
-      //       <Grid key={id} item>
-      //         <Paper className={classes.picture}>{title}</Paper>
-      //       </Grid>
-      //     ))}
-      //   </Grid>
-      // </Grid>
-      <Grid container style={{ backgroundColor: 'red' }}>
-        <Grid
-          alignItems='center'
-          container
-          direction='row'
-          item
-          justify='center'
-          spacing={3}
-          xs={12}
-        >
-          {gallery.map(({ title = '', id = 0 }) => (
-            <Grid key={id} item xs={4}>
-              <Paper className={classes.picture}>{title}</Paper>
-            </Grid>
-          ))}
-        </Grid>
-      </Grid>
+      <>
+        {gallery.map(({ title = '', id = '' }) => (
+          <Grid
+            key={id}
+            className={classes.gridItem}
+            item
+            md={4}
+            sm={6}
+            xs={12}
+          >
+            <Paper className={classes.paper}>
+              <Card className={classes.card}>
+                <CardActionArea>
+                  <CardMedia
+                    className={classes.picture}
+                    image={paper}
+                    title='Contemplative Reptile'
+                  />
+                  <CardContent>
+                    <Typography component='h2' gutterBottom variant='h5'>
+                      {title}
+                    </Typography>
+                  </CardContent>
+                </CardActionArea>
+                <CardActions>
+                  <Button size='small'>Share</Button>
+                  <Button size='small'>Learn More</Button>
+                </CardActions>
+              </Card>
+            </Paper>
+          </Grid>
+        ))}
+      </>
     );
   };
 
-  return <div className={classes.root}>{renderPhoto()}</div>;
+  return (
+    <div className={classes.root}>
+      <Grid container spacing={3}>
+        {renderPhoto()}
+      </Grid>
+    </div>
+  );
 };
 
 export default Photo;

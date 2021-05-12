@@ -1,24 +1,29 @@
 /* eslint-disable operator-linebreak */
 import { makeStyles, Theme } from '@material-ui/core/styles';
 
-const useStyles: () => Record<'root' | 'layout' | 'picture', string> =
-  makeStyles((theme: Theme) => ({
-    root: {
-      // width: '100%',
-      height: 'auto',
-      padding: '0 200px',
-      backgroundColor: '#EEEEEE',
-      flexGrow: 1,
-    },
-    layout: {
-      height: '600px',
-    },
-    picture: {
-      background: '#C4C4C4',
-      width: '440px',
-      height: '600px',
-      // height: '100%',
-    },
-  }));
+const useStyles: () => Record<
+  'root' | 'card' | 'paper' | 'picture' | 'gridItem',
+  string
+> = makeStyles((theme: Theme) => ({
+  root: {
+    height: 'auto',
+    padding: '0 200px',
+    backgroundColor: '#EEEEEE',
+    // flexGrow: 1,
+  },
+  card: {},
+  paper: {
+    // width: '480px',
+  },
+  picture: {
+    // paddingBottom: '40px',
+    height: '600px',
+    // height: 'fit-content',
+  },
+  gridItem: {
+    paddingTop: '0 !important',
+    paddingBottom: '24px !important',
+  },
+}));
 
 export { useStyles as default };

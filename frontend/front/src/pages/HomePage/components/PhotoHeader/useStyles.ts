@@ -50,6 +50,7 @@ const useStyles: () => Record<
     height: '112px',
     paddingLeft: '200px',
     display: 'flex',
+    paddingBottom: '10px',
     alignItems: 'flex-end',
     '@media (max-width:1024px)': {
       paddingLeft: '20px',
