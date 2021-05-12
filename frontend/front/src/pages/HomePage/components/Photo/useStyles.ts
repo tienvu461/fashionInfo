@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable no-unused-vars */
 /* eslint-disable operator-linebreak */
 import { makeStyles, Theme } from '@material-ui/core/styles';
 
@@ -9,16 +11,11 @@ const useStyles: () => Record<
     height: 'auto',
     padding: '0 200px',
     backgroundColor: '#EEEEEE',
-    // flexGrow: 1,
   },
   card: {},
-  paper: {
-    // width: '480px',
-  },
+  paper: {},
   picture: {
-    // paddingBottom: '40px',
     height: '600px',
-    // height: 'fit-content',
   },
   gridItem: {
     paddingTop: '0 !important',
