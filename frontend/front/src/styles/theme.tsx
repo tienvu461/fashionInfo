@@ -49,12 +49,12 @@ export const theme = createMuiTheme({
   typography: {
     fontFamily: ['Roboto', 'sans-serif'].join(','),
     h6: {
-      fontSize: '1.2rem',
+      fontSize: '18px',
       '@media (max-width:1302px)': {
-        fontSize: '0.8rem',
+        fontSize: '20px',
       },
       '@media (max-width:960px)': {
-        fontSize: '1rem',
+        fontSize: '18px',
       },
     },
     h5: {
@@ -75,7 +75,10 @@ export const theme = createMuiTheme({
         fontSize: '3.4rem',
       },
       '@media (max-width:960px)': {
-        fontSize: '3rem',
+        fontSize: '2.8rem',
+      },
+      '@media (max-width:720px)': {
+        fontSize: '2.4rem',
       },
       '&::before': {
         padding: 0,

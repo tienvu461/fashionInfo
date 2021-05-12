@@ -22,7 +22,7 @@ const useStyles: () => Record<
     justifyContent: 'flex-end',
     paddingLeft: '200px',
     '@media (max-width:1302px)': {
-      padding: '0 100px',
+      padding: '0 20px',
     },
   },
   headline: {
@@ -34,6 +34,17 @@ const useStyles: () => Record<
     letterSpacing: '3.2px',
     color: '#000000',
     textAlign: 'left',
+    '@media (max-width:1302px)': {
+      lineHeight: '80px',
+    },
+    '@media (max-width:960px)': {
+      lineHeight: '60px',
+      letterSpacing: 0,
+    },
+    '@media (max-width:600px)': {
+      lineHeight: '80px',
+      marginBottom: '20px',
+    },
   },
   subline: {
     fontFamily: 'Roboto',
@@ -54,6 +65,10 @@ const useStyles: () => Record<
     display: 'flex',
     paddingBottom: '10px',
     alignItems: 'flex-end',
+    '@media (max-width:1302px)': {
+      padding: '0 20px',
+      paddingBottom: '20px',
+    },
     '@media (max-width:1024px)': {
       paddingLeft: '20px',
     },
