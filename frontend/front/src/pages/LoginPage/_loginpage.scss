@@ -1,0 +1,9 @@
+@import '../../styles/styles.scss';
+
+@include MediaQuery($sm) {
+  .login-page {
+    flex-direction: column;
+    align-items: center;
+  }
+}
+ 
