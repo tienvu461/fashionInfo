@@ -16,6 +16,8 @@ services:
               SRC_DIR: ./frontend/front
             context: .
             dockerfile: ./infrastructure/docker/front/Dockerfile.dev
+        env_file:
+            - ./infrastructure/docker/config/dev/.env.front
         expose:
             - 3000
         ports:
