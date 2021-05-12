@@ -69,7 +69,7 @@ class PhotoDetailSerializer(PhotoSerializer):
     class Meta:
         model = Photo
         fields = ['id', 'title', 'author', 'image_path', 'status',
-            'created_at', 'likes', 'dislikes', 'comments', 'tags']
+            'created_at', 'likes', 'dislikes', 'comments', 'tags', 'view_count']
 
     # def get_activities(self, instance):
     #     like_num = PhotoLike.objects.filter(photo_id=instance.id).count()

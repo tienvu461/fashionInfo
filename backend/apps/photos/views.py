@@ -46,6 +46,10 @@ class PhotoDetail(generics.RetrieveUpdateDestroyAPIView):
 
     def get(self, request, *args, **kwargs):
         instance = self.get_object()
+        
+        instance.view_count = instance.view_count + 1
+        instance.save(update_fields=("view_count", ))
+
         serializer = self.get_serializer(instance)
         return Response(serializer.data)
 
@@ -68,6 +72,24 @@ class PhotoSearch(views.APIView, pagination.PageNumberPagination):
         serializer = PhotoSerializer(queryset, many=True)
         return Response(serializer.data)
 
+class PhotoSuggest(views.APIView, pagination.PageNumberPagination):
+
+    def get(self, request):
+        searched_tags = request.GET.get('photo_id','').split()
+        logger.debug(searched_tags)
+        
+        # Food.objects.filter(tags__name__in=["delicious"])
+        queryset = Photo.objects.filter(tags__name__in=searched_tags).distinct()
+        queryset = queryset.order_by('-created_at')
+        # page = pagination.PageNumberPagination.paginate_queryset(queryset=queryset, request=request)
+        page = self.paginate_queryset(queryset, request, view=self)
+        if page is not None:
+            serializer = PhotoSerializer(queryset, many=True)
+            return self.get_paginated_response(serializer.data)
+            
+        logger.debug(queryset)
+        serializer = PhotoSerializer(queryset, many=True)
+        return Response(serializer.data)
 # Create comment on photo
 class PhotoCommentCreate(generics.CreateAPIView):
     permission_classes = (IsAuthenticated,)
@@ -90,7 +112,7 @@ class PhotoCommentCreate(generics.CreateAPIView):
                 logger.error(e)
                 logger.error("Parent Comment not found")
                 return Response(status=status.HTTP_400_BAD_REQUEST, headers=headers)
-                
+
         self.perform_create(serializer)
         headers = self.get_success_headers(serializer.data)
 

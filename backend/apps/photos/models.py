@@ -57,6 +57,7 @@ class Photo(models.Model):
     image_path = models.ImageField(
         upload_to=datetime.now().strftime('%Y/%m/%d'))
     status = models.IntegerField(choices=modelConst.STATUS, default=0)
+    view_count = models.IntegerField(default=0)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
