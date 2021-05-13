@@ -6,8 +6,10 @@ from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework import views, status, mixins, generics, pagination
 import logging
 
-from .models import Photo, News, PhotoLike, PhotoComment, PhotoDislike, PhotoLike, PhotoComment, PhotoDislike
+from .models import GenericConfig, Photo, News, PhotoLike, PhotoComment, PhotoDislike, PhotoLike, PhotoComment, PhotoDislike
 from .serializers import PhotoSerializer, PhotoDetailSerializer, CommentSerializer, NewsSerializer
+from .consts import photosConst
+from .utils import calc_interactive_pt
 
 logger = logging.getLogger("photos")
 
@@ -75,21 +77,35 @@ class PhotoSearch(views.APIView, pagination.PageNumberPagination):
 class PhotoSuggest(views.APIView, pagination.PageNumberPagination):
 
     def get(self, request):
-        searched_tags = request.GET.get('photo_id','').split()
-        logger.debug(searched_tags)
-        
+        photo_id = request.GET.get('photo_id')
+        logger.debug(photo_id)
+        test_param = {
+            'like' : 8,
+            'dislike' : 3,
+            'comment' : 10,
+            'view' : 10
+        }
+        config_obj = GenericConfig.objects.filter(in_use=True)
+        interactive_ratio = config_obj.values().first()
+        logger.debug("interactive_ratio = {}".format(interactive_ratio))
+
+        queryset = Photo.objects.filter(id=photo_id).distinct()
+        serializer = PhotoDetailSerializer(queryset, many=True)
+        logger.debug((serializer.data[0]))
+
+        calc_interactive_pt(serializer.data[0], interactive_ratio)
         # Food.objects.filter(tags__name__in=["delicious"])
-        queryset = Photo.objects.filter(tags__name__in=searched_tags).distinct()
-        queryset = queryset.order_by('-created_at')
-        # page = pagination.PageNumberPagination.paginate_queryset(queryset=queryset, request=request)
-        page = self.paginate_queryset(queryset, request, view=self)
-        if page is not None:
-            serializer = PhotoSerializer(queryset, many=True)
-            return self.get_paginated_response(serializer.data)
+        # queryset = Photo.objects.filter(tags__name__in=searched_tags).distinct()
+        # queryset = queryset.order_by('-created_at')
+        # # page = pagination.PageNumberPagination.paginate_queryset(queryset=queryset, request=request)
+        # page = self.paginate_queryset(queryset, request, view=self)
+        # if page is not None:
+        #     serializer = PhotoSerializer(queryset, many=True)
+        #     return self.get_paginated_response(serializer.data)
             
-        logger.debug(queryset)
-        serializer = PhotoSerializer(queryset, many=True)
-        return Response(serializer.data)
+        # logger.debug(queryset)
+        # serializer = PhotoSerializer(queryset, many=True)
+        return Response("200 OK")
 # Create comment on photo
 class PhotoCommentCreate(generics.CreateAPIView):
     permission_classes = (IsAuthenticated,)

@@ -32,11 +32,14 @@ class PhotoSerializer(serializers.ModelSerializer):
         like_num = PhotoLike.objects.filter(photo_id=instance.id).count()
         dislike_num = PhotoDislike.objects.filter(photo_id=instance.id).count()
         comment_num = PhotoComment.objects.filter(photo_id=instance.id).count()
+        view_count = getattr(instance, 'view_count')
 
-        return {'likes': like_num,
-                'dislikes': dislike_num,
-                'comments': comment_num
-                }
+        return {
+            'likes': like_num,
+            'dislikes': dislike_num,
+            'comments': comment_num,
+            'views': view_count,
+        }
 
     # def get_likes(self, instance):
     #     return Like.objects.filter(post_id=instance.id).count()

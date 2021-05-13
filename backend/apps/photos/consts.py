@@ -24,3 +24,10 @@ class postTypeEnum(Enum):
     News = 3
     Comment = 4
     
+class photosConst:
+    INTERACTIVE_RATIO = [
+        'likes',
+        'dislikes',
+        'comments',
+        'views',
+    ]

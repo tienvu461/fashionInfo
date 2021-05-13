@@ -14,14 +14,18 @@ class GenericConfig(models.Model):
     config_name = models.CharField(default="default", max_length=50)
     short_description = models.CharField(default="Description", max_length=200)
     in_use = models.BooleanField(default=False)
+    likes_interact_weight = models.IntegerField(default = 10)
+    dislikes_interact_weight = models.IntegerField(default = -10)
+    comments_interact_weight = models.IntegerField(default = 10)
+    views_interact_weight = models.IntegerField(default = 10)
+    site_name = models.CharField(default = "api.tienvv.com", max_length=50)
 
     def save(self, *args, **kwargs):
         if not self.in_use:
-            return super(generic_config, self).save(*args, **kwargs)
+            return super(GenericConfig, self).save(*args, **kwargs)
         with transaction.atomic():
-            generic_config.objects.filter(
-                in_use=True).update(in_use=False)
-            return super(generic_config, self).save(*args, **kwargs)
+            GenericConfig.objects.filter(in_use=True).update(in_use=False)
+            return super(GenericConfig, self).save(*args, **kwargs)
 
     def __str__(self):
         return self.config_name
