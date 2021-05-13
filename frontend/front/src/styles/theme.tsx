@@ -106,13 +106,6 @@ export const theme = createMuiTheme({
     MuiAppBar: {
       root: {
         boxShadow: 'none',
-        padding: '0 20px',
-        '@media (min-width: 1303px)': {
-          padding: '0 200px',
-        },
-        '@media (max-width: 576)': {
-          padding: '0 20px',
-        },
       },
       colorPrimary: {
         backgroundColor: white,
