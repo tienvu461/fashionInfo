@@ -31,6 +31,9 @@ const useStyles: () => Record<
   },
   gridItem: {
     padding: '0 20px 40px 20px !important',
+    [theme.breakpoints.up('sm')]: {
+      width: '480px',
+    },
   },
 }));
 

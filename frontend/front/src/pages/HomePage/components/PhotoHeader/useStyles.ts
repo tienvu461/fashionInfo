@@ -1,12 +1,13 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable no-unused-vars */
-import { makeStyles, Theme } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 import {
   pdSM,
   black,
   grayPrimary,
-  pdLeft,
-  pdLeftResponsive,
+  pdLeftXL,
+  pdLeftLG,
+  pdLeftMD,
+  pdLeftSM,
+  theme,
 } from '../../../../styles/theme';
 
 const useStyles: () => Record<
@@ -18,7 +19,7 @@ const useStyles: () => Record<
   | 'headline'
   | 'subline',
   string
-> = makeStyles((theme: Theme) => ({
+> = makeStyles(() => ({
   root: {
     width: '100%',
     height: 'auto',
@@ -27,9 +28,19 @@ const useStyles: () => Record<
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'flex-end',
-    pdLeft,
-    '@media (max-width:1302px)': {
-      padding: pdSM,
+
+    // responsive
+    [theme.breakpoints.up('sm')]: {
+      paddingLeft: pdLeftSM,
+    },
+    [theme.breakpoints.up('md')]: {
+      padding: pdLeftMD,
+    },
+    [theme.breakpoints.up('lg')]: {
+      paddingLeft: pdLeftLG,
+    },
+    [theme.breakpoints.up('xl')]: {
+      paddingLeft: pdLeftXL,
     },
   },
   headline: {
@@ -68,7 +79,7 @@ const useStyles: () => Record<
   },
   footerSection: {
     height: '112px',
-    pdLeft,
+    pdLeftLG,
     display: 'flex',
     paddingBottom: '10px',
     alignItems: 'flex-end',
@@ -77,12 +88,12 @@ const useStyles: () => Record<
       paddingBottom: '20px',
     },
     '@media (max-width:1024px)': {
-      pdLeft: pdLeftResponsive,
+      pdLeftLG: pdLeftSM,
     },
   },
   footerSectionMatches: {
     // height: '112px',
-    pdLeft,
+    pdLeftLG,
     display: 'flex',
     alignItems: 'flex-start',
     '@media (max-width:1302px)': {
@@ -90,7 +101,7 @@ const useStyles: () => Record<
       paddingBottom: '20px',
     },
     '@media (max-width:1024px)': {
-      pdLeft: pdLeftResponsive,
+      pdLeftLG: pdLeftSM,
     },
   },
 }));

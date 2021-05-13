@@ -23,8 +23,10 @@ export const pdLG = '0 100px';
 export const pdMD = '0 50px';
 export const pdSM = '0 20px';
 
-export const pdLeft = '200px'; // view
-export const pdLeftResponsive = '20px'; // view
+export const pdLeftXL = '200px'; // view
+export const pdLeftLG = '100px'; // view
+export const pdLeftMD = '50px'; // view
+export const pdLeftSM = '20px'; // view
 
 export const defaultFont = {
   fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
@@ -118,10 +120,10 @@ export const theme = createMuiTheme({
     },
     // MuiToolbar: {
     //   gutters: {
-    //     pdLeft: '12px',
+    //     pdLeftXL: '12px',
     //     paddingRight: '0',
     //     '@media (min-width: 960px)': {
-    //       pdLeft: '200px',
+    //       pdLeftXL: '200px',
     //       paddingRight: '200px',
     //     },
     //   },

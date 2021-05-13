@@ -32,7 +32,7 @@ const useStyles: () => Record<
   },
   inputInput: {
     // vertical padding + font size from searchIcon
-    pdLeft: `calc(1em + ${theme.spacing(3)}px)`,
+    pdLeftXL: `calc(1em + ${theme.spacing(3)}px)`,
     transition: theme.transitions.create('width'),
     width: '100%',
     [theme.breakpoints.up('sm')]: {
