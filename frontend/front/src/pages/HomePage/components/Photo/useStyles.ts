@@ -1,17 +1,28 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable no-unused-vars */
-/* eslint-disable operator-linebreak */
-import { makeStyles, Theme } from '@material-ui/core/styles';
-import { gray, paddingContainer } from '../../../../styles/theme';
+/* eslint-disable object-curly-newline */
+import { makeStyles } from '@material-ui/core/styles';
+import { gray, pdXL, pdSM, pdLG, pdMD, theme } from '../../../../styles/theme';
 
 const useStyles: () => Record<
   'root' | 'card' | 'paper' | 'picture' | 'gridItem',
   string
-> = makeStyles((theme: Theme) => ({
+> = makeStyles(() => ({
   root: {
     height: 'auto',
-    padding: paddingContainer,
     backgroundColor: gray,
+
+    // responsive
+    [theme.breakpoints.up('sm')]: {
+      padding: pdSM,
+    },
+    [theme.breakpoints.up('md')]: {
+      padding: pdMD,
+    },
+    [theme.breakpoints.up('lg')]: {
+      padding: pdLG,
+    },
+    [theme.breakpoints.up('xl')]: {
+      padding: pdXL,
+    },
   },
   card: {},
   paper: {},
@@ -19,8 +30,7 @@ const useStyles: () => Record<
     height: '600px',
   },
   gridItem: {
-    paddingTop: '0 !important',
-    paddingBottom: '24px !important',
+    padding: '0 20px 40px 20px !important',
   },
 }));
 

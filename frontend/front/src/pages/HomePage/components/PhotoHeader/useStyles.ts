@@ -2,11 +2,11 @@
 /* eslint-disable no-unused-vars */
 import { makeStyles, Theme } from '@material-ui/core/styles';
 import {
-  paddingResponsive,
+  pdSM,
   black,
   grayPrimary,
-  paddingLeft,
-  paddingLeftResponsive,
+  pdLeft,
+  pdLeftResponsive,
 } from '../../../../styles/theme';
 
 const useStyles: () => Record<
@@ -27,9 +27,9 @@ const useStyles: () => Record<
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'flex-end',
-    paddingLeft,
+    pdLeft,
     '@media (max-width:1302px)': {
-      padding: paddingResponsive,
+      padding: pdSM,
     },
   },
   headline: {
@@ -68,29 +68,29 @@ const useStyles: () => Record<
   },
   footerSection: {
     height: '112px',
-    paddingLeft,
+    pdLeft,
     display: 'flex',
     paddingBottom: '10px',
     alignItems: 'flex-end',
     '@media (max-width:1302px)': {
-      padding: paddingResponsive,
+      padding: pdSM,
       paddingBottom: '20px',
     },
     '@media (max-width:1024px)': {
-      paddingLeft: paddingLeftResponsive,
+      pdLeft: pdLeftResponsive,
     },
   },
   footerSectionMatches: {
     // height: '112px',
-    paddingLeft,
+    pdLeft,
     display: 'flex',
     alignItems: 'flex-start',
     '@media (max-width:1302px)': {
-      padding: paddingResponsive,
+      padding: pdSM,
       paddingBottom: '20px',
     },
     '@media (max-width:1024px)': {
-      paddingLeft: paddingLeftResponsive,
+      pdLeft: pdLeftResponsive,
     },
   },
 }));

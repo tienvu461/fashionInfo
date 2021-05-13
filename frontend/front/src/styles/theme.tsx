@@ -18,10 +18,13 @@ export const gray = '#EEEEEE';
 export const textMenu = '#373F41';
 
 // padding (view + responsive)
-export const paddingContainer = '0 200px';
-export const paddingResponsive = '0 20px';
-export const paddingLeft = '200px'; // view
-export const paddingLeftResponsive = '20px'; // view
+export const pdXL = '0 200px';
+export const pdLG = '0 100px';
+export const pdMD = '0 50px';
+export const pdSM = '0 20px';
+
+export const pdLeft = '200px'; // view
+export const pdLeftResponsive = '20px'; // view
 
 export const defaultFont = {
   fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
@@ -88,6 +91,15 @@ export const theme = createMuiTheme({
       },
     },
   },
+  breakpoints: {
+    values: {
+      xs: 0,
+      sm: 600,
+      md: 960,
+      lg: 1280,
+      xl: 1920,
+    },
+  },
   overrides: {
     MuiAppBar: {
       root: {
@@ -106,10 +118,10 @@ export const theme = createMuiTheme({
     },
     // MuiToolbar: {
     //   gutters: {
-    //     paddingLeft: '12px',
+    //     pdLeft: '12px',
     //     paddingRight: '0',
     //     '@media (min-width: 960px)': {
-    //       paddingLeft: '200px',
+    //       pdLeft: '200px',
     //       paddingRight: '200px',
     //     },
     //   },

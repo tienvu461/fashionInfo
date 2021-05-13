@@ -68,7 +68,7 @@ const Photo = (): JSX.Element => {
     ];
     return (
       <>
-        {gallery.map(({ title = '', id = '' }) => (
+        {gallery.map(({ title = '', id = '' }, index) => (
           <Grid
             key={id}
             className={classes.gridItem}
@@ -76,6 +76,10 @@ const Photo = (): JSX.Element => {
             lg={4}
             md={6}
             sm={6}
+            spacing={2}
+            style={
+              index >= 0 && index <= 2 ? { paddingTop: '0 !important' } : {}
+            }
             wrap='wrap'
             xl={4}
             xs={12}
