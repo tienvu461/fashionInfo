@@ -1,5 +1,128 @@
 import React from 'react';
+import {
+  Paper,
+  Grid,
+  CardContent,
+  Card,
+  CardActionArea,
+  CardMedia,
+  CardActions,
+  // Button,
+  Typography,
+  IconButton,
+} from '@material-ui/core';
+import FavoriteIcon from '@material-ui/icons/Favorite';
+import ShareIcon from '@material-ui/icons/Share';
+import CommentRoundedIcon from '@material-ui/icons/CommentRounded';
+import ThumbDownAltRoundedIcon from '@material-ui/icons/ThumbDownAltRounded';
 
-const Photo = (): JSX.Element => <div>Photos</div>;
+import paper from '../../../../assets/images/paper.jpeg';
+import useStyles from './useStyles';
+import './_photo.scss';
+
+const Photo = (): JSX.Element => {
+  const classes = useStyles();
+
+  const renderPhoto = () => {
+    interface GalleryType {
+      title: string;
+      id: number;
+    }
+    const gallery: Array<GalleryType> = [
+      {
+        title: 'pic1',
+        id: 1,
+      },
+      {
+        title: 'pic2',
+        id: 2,
+      },
+      {
+        title: 'pic3',
+        id: 3,
+      },
+      {
+        title: 'pic4',
+        id: 4,
+      },
+      {
+        title: 'pic5',
+        id: 5,
+      },
+      {
+        title: 'pic6',
+        id: 6,
+      },
+      {
+        title: 'pic7',
+        id: 7,
+      },
+      {
+        title: 'pic8',
+        id: 8,
+      },
+      {
+        title: 'pic9',
+        id: 9,
+      },
+    ];
+    return (
+      <>
+        {gallery.map(({ title = '', id = '' }) => (
+          <Grid
+            key={id}
+            className={classes.gridItem}
+            item
+            lg={4}
+            md={6}
+            sm={6}
+            wrap='wrap'
+            xl={4}
+            xs={12}
+          >
+            <Paper className={classes.paper}>
+              <Card className={classes.card}>
+                <CardActionArea>
+                  <CardMedia
+                    className={classes.picture}
+                    image={paper}
+                    title='Contemplative Reptile'
+                  />
+                  <CardContent>
+                    <Typography component='h2' gutterBottom variant='h5'>
+                      {title}
+                    </Typography>
+                  </CardContent>
+                </CardActionArea>
+                <CardActions>
+                  <IconButton aria-label='like' size='medium'>
+                    <FavoriteIcon />
+                  </IconButton>
+                  <IconButton aria-label='dislike' size='medium'>
+                    <ThumbDownAltRoundedIcon />
+                  </IconButton>
+                  <IconButton aria-label='share' size='medium'>
+                    <ShareIcon />
+                  </IconButton>
+                  <IconButton aria-label='comment' size='medium'>
+                    <CommentRoundedIcon />
+                  </IconButton>
+                </CardActions>
+              </Card>
+            </Paper>
+          </Grid>
+        ))}
+      </>
+    );
+  };
+
+  return (
+    <div className={`${classes.root} root`}>
+      <Grid container spacing={3}>
+        {renderPhoto()}
+      </Grid>
+    </div>
+  );
+};
 
 export default Photo;

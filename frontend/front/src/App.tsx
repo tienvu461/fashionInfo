@@ -5,6 +5,7 @@ import './App.scss';
 import HeaderMenu from './components/HeaderMenu';
 import ForumPage from './pages/ForumPage';
 import HomePage from './pages/HomePage';
+import LoginPage from './pages/LoginPage';
 import NewsPage from './pages/NewsPage';
 import NotFound from './pages/NotFound';
 
@@ -16,6 +17,7 @@ function App(): JSX.Element {
           <Route component={HomePage} exact path='/' />
           <Route component={NewsPage} exact path='/news' />
           <Route component={ForumPage} exact path='/forum' />
+          <Route component={LoginPage} exact path='/login' />
           <Route component={NotFound} />
         </Switch>
       </HeaderMenu>

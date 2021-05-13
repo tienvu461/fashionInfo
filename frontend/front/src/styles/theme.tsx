@@ -12,13 +12,16 @@ import {
 import { useState } from 'react';
 
 export const white = '#fff';
-export const black = '#000';
-// export const firstColor = '#0000000a';
-// export const secondColor = '#ffffff87';
-// export const darkColor = '#484848';
-// export const blue = '#00B0FF';
-// export const red = '#F50057';
-// export const purple = '#6C63FF';
+export const black = '#000000';
+export const grayPrimary = '#C4C4C4';
+export const gray = '#EEEEEE';
+export const textMenu = '#373F41';
+
+// padding (view + responsive)
+export const paddingContainer = '0 200px';
+export const paddingResponsive = '0 20px';
+export const paddingLeft = '200px'; // view
+export const paddingLeftResponsive = '20px'; // view
 
 export const defaultFont = {
   fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
@@ -49,9 +52,12 @@ export const theme = createMuiTheme({
   typography: {
     fontFamily: ['Roboto', 'sans-serif'].join(','),
     h6: {
-      fontSize: '0.8rem',
-      '@media (min-width:1302px)': {
-        fontSize: '1.2rem',
+      fontSize: '18px',
+      '@media (max-width:1302px)': {
+        fontSize: '20px',
+      },
+      '@media (max-width:960px)': {
+        fontSize: '18px',
       },
     },
     h5: {
@@ -66,14 +72,32 @@ export const theme = createMuiTheme({
         fontSize: '2.2rem',
       },
     },
+    h1: {
+      fontSize: '6rem',
+      '@media (max-width:1302px)': {
+        fontSize: '3.4rem',
+      },
+      '@media (max-width:960px)': {
+        fontSize: '2.8rem',
+      },
+      '@media (max-width:720px)': {
+        fontSize: '2.4rem',
+      },
+      '&::before': {
+        padding: 0,
+      },
+    },
   },
   overrides: {
     MuiAppBar: {
       root: {
         boxShadow: 'none',
         padding: '0 20px',
-        '@media (min-width: 960px)': {
+        '@media (min-width: 1303px)': {
           padding: '0 200px',
+        },
+        '@media (max-width: 576)': {
+          padding: '0 20px',
         },
       },
       colorPrimary: {

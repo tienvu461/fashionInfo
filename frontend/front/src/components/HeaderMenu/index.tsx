@@ -88,14 +88,22 @@ function HeaderMenu({ children }: AuxProps): JSX.Element {
               <Grid className={classes.actions}>
                 <Search />
                 <Grid className={classes.icon}>
-                  <img alt='Lucete' src={icon} />
+                  <img
+                    alt='Lucete'
+                    onClick={() => history.push('/login')}
+                    src={icon}
+                  />
                 </Grid>
               </Grid>
             </Hidden>
             <Hidden mdUp>
               <Grid className={classes.actions}>
                 <Grid className={classes.icon}>
-                  <img alt='Lucete' src={icon} />
+                  <img
+                    alt='Lucete'
+                    onClick={() => history.push('/login')}
+                    src={icon}
+                  />
                 </Grid>
                 <Grid>
                   <Search />
