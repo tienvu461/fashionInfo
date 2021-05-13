@@ -1,24 +1,25 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable no-unused-vars */
-import { makeStyles, Theme } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 import {
-  paddingResponsive,
   black,
   grayPrimary,
-  paddingLeft,
-  paddingLeftResponsive,
+  pdLeftXL,
+  pdLeftLG,
+  pdLeftMD,
+  pdLeftSM,
+  theme,
 } from '../../../../styles/theme';
 
 const useStyles: () => Record<
   | 'root'
   | 'leftSection'
+  | 'leftSectionMatches'
   | 'rightSection'
   | 'footerSection'
   | 'footerSectionMatches'
   | 'headline'
   | 'subline',
   string
-> = makeStyles((theme: Theme) => ({
+> = makeStyles(() => ({
   root: {
     width: '100%',
     height: 'auto',
@@ -27,9 +28,19 @@ const useStyles: () => Record<
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'flex-end',
-    paddingLeft,
-    '@media (max-width:1302px)': {
-      padding: paddingResponsive,
+
+    // responsive
+    [theme.breakpoints.up('sm')]: {
+      paddingLeft: pdLeftSM,
+    },
+    [theme.breakpoints.up('md')]: {
+      padding: pdLeftMD,
+    },
+    [theme.breakpoints.up('lg')]: {
+      paddingLeft: pdLeftLG,
+    },
+    [theme.breakpoints.up('xl')]: {
+      paddingLeft: pdLeftXL,
     },
   },
   headline: {
@@ -68,30 +79,29 @@ const useStyles: () => Record<
   },
   footerSection: {
     height: '112px',
-    paddingLeft,
     display: 'flex',
     paddingBottom: '10px',
     alignItems: 'flex-end',
-    '@media (max-width:1302px)': {
-      padding: paddingResponsive,
-      paddingBottom: '20px',
+
+    // responsive
+    [theme.breakpoints.up('sm')]: {
+      paddingLeft: pdLeftSM,
     },
-    '@media (max-width:1024px)': {
-      paddingLeft: paddingLeftResponsive,
+    [theme.breakpoints.up('md')]: {
+      padding: pdLeftMD,
+    },
+    [theme.breakpoints.up('lg')]: {
+      paddingLeft: pdLeftLG,
+    },
+    [theme.breakpoints.up('xl')]: {
+      paddingLeft: pdLeftXL,
     },
   },
   footerSectionMatches: {
-    // height: '112px',
-    paddingLeft,
-    display: 'flex',
-    alignItems: 'flex-start',
-    '@media (max-width:1302px)': {
-      padding: paddingResponsive,
-      paddingBottom: '20px',
-    },
-    '@media (max-width:1024px)': {
-      paddingLeft: paddingLeftResponsive,
-    },
+    padding: pdLeftSM,
+  },
+  leftSectionMatches: {
+    padding: pdLeftSM,
   },
 }));
 

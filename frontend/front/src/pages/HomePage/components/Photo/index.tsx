@@ -2,21 +2,21 @@ import React from 'react';
 import {
   Paper,
   Grid,
-  CardContent,
+  // CardContent,
   Card,
   CardActionArea,
   CardMedia,
   CardActions,
   // Button,
-  Typography,
-  IconButton,
+  // Typography,
+  // IconButton,
 } from '@material-ui/core';
-import FavoriteIcon from '@material-ui/icons/Favorite';
-import ShareIcon from '@material-ui/icons/Share';
-import CommentRoundedIcon from '@material-ui/icons/CommentRounded';
-import ThumbDownAltRoundedIcon from '@material-ui/icons/ThumbDownAltRounded';
 
 import paper from '../../../../assets/images/paper.jpeg';
+import HeartIcon from '../../../../assets/images/heart.svg';
+import CommentIcon from '../../../../assets/images/comment.svg';
+import ShareIcon from '../../../../assets/images/share.svg';
+
 import useStyles from './useStyles';
 import './_photo.scss';
 
@@ -68,7 +68,7 @@ const Photo = (): JSX.Element => {
     ];
     return (
       <>
-        {gallery.map(({ title = '', id = '' }) => (
+        {gallery.map(({ id = '' }, index) => (
           <Grid
             key={id}
             className={classes.gridItem}
@@ -76,6 +76,10 @@ const Photo = (): JSX.Element => {
             lg={4}
             md={6}
             sm={6}
+            spacing={2}
+            style={
+              index >= 0 && index <= 2 ? { paddingTop: '0 !important' } : {}
+            }
             wrap='wrap'
             xl={4}
             xs={12}
@@ -88,25 +92,39 @@ const Photo = (): JSX.Element => {
                     image={paper}
                     title='Contemplative Reptile'
                   />
-                  <CardContent>
+                  {/* <CardContent>
                     <Typography component='h2' gutterBottom variant='h5'>
                       {title}
                     </Typography>
-                  </CardContent>
+                  </CardContent> */}
                 </CardActionArea>
-                <CardActions>
-                  <IconButton aria-label='like' size='medium'>
-                    <FavoriteIcon />
-                  </IconButton>
-                  <IconButton aria-label='dislike' size='medium'>
-                    <ThumbDownAltRoundedIcon />
-                  </IconButton>
-                  <IconButton aria-label='share' size='medium'>
-                    <ShareIcon />
-                  </IconButton>
-                  <IconButton aria-label='comment' size='medium'>
-                    <CommentRoundedIcon />
-                  </IconButton>
+                <CardActions className={classes.cardActions}>
+                  <div className={classes.actions}>
+                    <div className={classes.left}>
+                      <div className={classes.leftActions}>
+                        <img
+                          alt='heart-icon'
+                          className={classes.icon}
+                          src={HeartIcon}
+                        />
+                        <div>8</div>
+                      </div>
+                      <div className={classes.leftActions}>
+                        <img
+                          alt='comment-icon'
+                          className={classes.icon}
+                          src={CommentIcon}
+                        />
+                        <div>11</div>
+                      </div>
+                    </div>
+                    <div className={classes.right}>
+                      <img alt='share-icon' src={ShareIcon} />
+                    </div>
+                    {/* <IconButton aria-label='comment' size='medium'>
+                      <img alt='share-icon' src={ShareIcon} />
+                    </IconButton> */}
+                  </div>
                 </CardActions>
               </Card>
             </Paper>
