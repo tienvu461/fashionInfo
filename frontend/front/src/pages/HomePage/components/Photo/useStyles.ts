@@ -61,7 +61,7 @@ const useStyles: () => Record<
     display: 'flex',
     justifyContent: 'space-between',
   },
-  right: {},
+  right: { cursor: 'pointer' },
   leftActions: {
     display: 'flex',
     justifyContent: 'space-between',
