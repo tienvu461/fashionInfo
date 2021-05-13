@@ -25,9 +25,9 @@ const useStyles: () => Record<
     height: 'auto',
   },
   leftSection: {
-    // display: 'flex',
-    // flexDirection: 'column',
-    // justifyContent: 'flex-end',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'flex-end',
 
     // responsive
     [theme.breakpoints.up('sm')]: {

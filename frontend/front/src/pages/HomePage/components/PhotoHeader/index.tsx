@@ -10,7 +10,7 @@ function PhotoHeader(): JSX.Element {
   return (
     <Grid className={classes.root} container>
       <Grid
-        className={classes.leftSectionMatches}
+        className={matches ? classes.leftSectionMatches : classes.leftSection}
         item
         sm={matches ? 12 : 6}
         xs={12}
