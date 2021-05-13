@@ -1,6 +1,5 @@
 import { makeStyles } from '@material-ui/core/styles';
 import {
-  pdSM,
   black,
   grayPrimary,
   pdLeftXL,
@@ -13,6 +12,7 @@ import {
 const useStyles: () => Record<
   | 'root'
   | 'leftSection'
+  | 'leftSectionMatches'
   | 'rightSection'
   | 'footerSection'
   | 'footerSectionMatches'
@@ -25,9 +25,9 @@ const useStyles: () => Record<
     height: 'auto',
   },
   leftSection: {
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'flex-end',
+    // display: 'flex',
+    // flexDirection: 'column',
+    // justifyContent: 'flex-end',
 
     // responsive
     [theme.breakpoints.up('sm')]: {
@@ -79,30 +79,29 @@ const useStyles: () => Record<
   },
   footerSection: {
     height: '112px',
-    pdLeftLG,
     display: 'flex',
     paddingBottom: '10px',
     alignItems: 'flex-end',
-    '@media (max-width:1302px)': {
-      padding: pdSM,
-      paddingBottom: '20px',
+
+    // responsive
+    [theme.breakpoints.up('sm')]: {
+      paddingLeft: pdLeftSM,
     },
-    '@media (max-width:1024px)': {
-      pdLeftLG: pdLeftSM,
+    [theme.breakpoints.up('md')]: {
+      padding: pdLeftMD,
+    },
+    [theme.breakpoints.up('lg')]: {
+      paddingLeft: pdLeftLG,
+    },
+    [theme.breakpoints.up('xl')]: {
+      paddingLeft: pdLeftXL,
     },
   },
   footerSectionMatches: {
-    // height: '112px',
-    pdLeftLG,
-    display: 'flex',
-    alignItems: 'flex-start',
-    '@media (max-width:1302px)': {
-      padding: pdSM,
-      paddingBottom: '20px',
-    },
-    '@media (max-width:1024px)': {
-      pdLeftLG: pdLeftSM,
-    },
+    padding: pdLeftSM,
+  },
+  leftSectionMatches: {
+    padding: pdLeftSM,
   },
 }));
 
