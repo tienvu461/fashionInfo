@@ -103,7 +103,7 @@ class PhotoComment(models.Model):
         ordering = ('created_at',)
 
     def __str__(self):
-        return 'Comment by {}'.format(self.user_id)
+        return str(self.cmt_id)
 
 # Upload news
 class News(models.Model):

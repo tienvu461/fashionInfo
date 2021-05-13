@@ -16,6 +16,8 @@ services:
               SRC_DIR: ./frontend/front
             context: .
             dockerfile: ./infrastructure/docker/front/Dockerfile.dev
+        env_file:
+            - ./infrastructure/docker/config/dev/.env.front
         expose:
             - 3000
         ports:
@@ -55,6 +57,7 @@ services:
             - fashion_info_nw
 
     postgresql:
+        restart: unless-stopped
         build:
             args:
               SRC_DIR: ./infrastructure/docker/postgresql
