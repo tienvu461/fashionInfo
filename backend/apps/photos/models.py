@@ -1,6 +1,7 @@
 from django.db import models, transaction
 from django import forms
 from django.contrib.auth.models import User
+from django.core.validators import MaxValueValidator, MinValueValidator
 from django.utils import timezone
 from markdownx.models import MarkdownxField
 from markdownx.utils import markdownify
@@ -14,11 +15,16 @@ class GenericConfig(models.Model):
     config_name = models.CharField(default="default", max_length=50)
     short_description = models.CharField(default="Description", max_length=200)
     in_use = models.BooleanField(default=False)
-    likes_interact_weight = models.IntegerField(default = 10)
-    dislikes_interact_weight = models.IntegerField(default = -10)
-    comments_interact_weight = models.IntegerField(default = 10)
-    views_interact_weight = models.IntegerField(default = 10)
-    site_name = models.CharField(default = "api.tienvv.com", max_length=50)
+    # weight value is ranged from [-10:10]
+    likes_interact_weight = models.IntegerField(
+        default=10, validators=[MaxValueValidator(10), MinValueValidator(-10)])
+    dislikes_interact_weight = models.IntegerField(
+        default=-10, validators=[MaxValueValidator(10), MinValueValidator(-10)])
+    comments_interact_weight = models.IntegerField(
+        default=10, validators=[MaxValueValidator(10), MinValueValidator(-10)])
+    views_interact_weight = models.IntegerField(
+        default=10, validators=[MaxValueValidator(10), MinValueValidator(-10)])
+    site_name = models.CharField(default="api.tienvv.com", max_length=50)
 
     def save(self, *args, **kwargs):
         if not self.in_use:
@@ -38,6 +44,7 @@ class DateCreateModMixin(models.Model):
     created_date = models.DateTimeField(default=timezone.now)
     mod_date = models.DateTimeField(blank=True, null=True)
 
+
 class Category(models.Model):
     cat_id = models.AutoField(primary_key=True, null=False)
     cat_name = models.CharField(max_length=255)
@@ -49,6 +56,8 @@ class Category(models.Model):
         return self.cat_name
 
 # Upload photo
+
+
 class Photo(models.Model):
     title = models.CharField(max_length=50)
     slug = models.SlugField(max_length=200, unique=True, null=True)
@@ -71,6 +80,7 @@ class Photo(models.Model):
     def __str__(self):
         return self.title
 
+
 class PhotoLike(models.Model):
     like_id = models.AutoField(primary_key=True, null=False)
     user_id = models.ForeignKey(
@@ -90,6 +100,7 @@ class PhotoDislike(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+
 class PhotoComment(models.Model):
     cmt_id = models.AutoField(primary_key=True, null=False)
     user_id = models.ForeignKey(
@@ -99,7 +110,8 @@ class PhotoComment(models.Model):
     content = models.CharField(max_length=255)
     # manually deactivate inappropriate comments from admin site
     active = models.BooleanField(default=True)
-    parent = models.ForeignKey('self', null=True, blank=True, on_delete=models.CASCADE, related_name='replies')
+    parent = models.ForeignKey(
+        'self', null=True, blank=True, on_delete=models.CASCADE, related_name='replies')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -111,6 +123,8 @@ class PhotoComment(models.Model):
         return str(self.cmt_id)
 
 # Upload news
+
+
 class News(models.Model):
     title = models.CharField(max_length=50)
     slug = models.SlugField(max_length=200, unique=True, null=True)
@@ -150,11 +164,13 @@ class NewsAttachedPhoto(models.Model):
     image = models.ImageField(
         upload_to="attached/"+datetime.now().strftime('%Y/%m/%d'), max_length=500)
 
+
 class NewsArchivedFile(models.Model):
     news = models.ForeignKey(
         News, related_name='news_file', on_delete=models.CASCADE)
     zip_file = models.FileField(
         upload_to="archived/"+datetime.now().strftime('%Y/%m/%d'), max_length=500)
+
 
 class NewsLike(models.Model):
     like_id = models.AutoField(primary_key=True, null=False)
@@ -175,6 +191,7 @@ class NewsDislike(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+
 class NewsComment(models.Model):
     cmt_id = models.AutoField(primary_key=True, null=False)
     user_id = models.ForeignKey(
@@ -184,7 +201,8 @@ class NewsComment(models.Model):
     content = models.CharField(max_length=255)
     # manually deactivate inappropriate comments from admin site
     active = models.BooleanField(default=True)
-    parent = models.ForeignKey('self', null=True, blank=True, on_delete=models.CASCADE, related_name='replies')
+    parent = models.ForeignKey(
+        'self', null=True, blank=True, on_delete=models.CASCADE, related_name='replies')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -194,4 +212,3 @@ class NewsComment(models.Model):
 
     def __str__(self):
         return 'Comment by {}'.format(self.user_id)
-

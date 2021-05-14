@@ -32,7 +32,7 @@ class PhotoAdmin(MarkdownxModelAdmin):
     search_fields = ('title',)
     prepopulated_fields = {'slug': ('title',)}
     # readonly_fields = ('thumbail',)
-    readonly_fields = ['preview']
+    readonly_fields = ['preview', 'view_count']
 
     # show tags in list
     def get_queryset(self, request):
@@ -72,14 +72,14 @@ class PhotoAdmin(MarkdownxModelAdmin):
     thumbnail.allow_tags = True
 
 # Not really need admin for like & dislike
-# @admin.register(PhotoLike)
-# class PhotoLikeAdmin(admin.ModelAdmin):
-#     list_display = ('like_id', 'photo_id', 'user_id', 'created_at')
+@admin.register(PhotoLike)
+class PhotoLikeAdmin(admin.ModelAdmin):
+    list_display = ('like_id', 'photo_id', 'user_id', 'created_at')
 
 
-# @admin.register(PhotoDislike)
-# class PhotoDislikeAdmin(admin.ModelAdmin):
-#     list_display = ('like_id', 'photo_id', 'user_id', 'created_at')
+@admin.register(PhotoDislike)
+class PhotoDislikeAdmin(admin.ModelAdmin):
+    list_display = ('like_id', 'photo_id', 'user_id', 'created_at')
 
 
 @admin.register(PhotoComment)
