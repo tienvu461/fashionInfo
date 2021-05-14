@@ -1,7 +1,6 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable no-unused-vars */
-import { makeStyles, Theme } from '@material-ui/core/styles';
-import { textMenu } from '../../styles/theme';
+/* eslint-disable object-curly-newline */
+import { makeStyles } from '@material-ui/core/styles';
+import { textMenu, pdSM, pdMD, pdLG, pdXL, theme } from '../../styles/theme';
 
 const useStyles: () => Record<
   | 'root'
@@ -16,7 +15,7 @@ const useStyles: () => Record<
   | 'textActive'
   | 'navLinks',
   string
-> = makeStyles((theme: Theme) => ({
+> = makeStyles(() => ({
   root: {
     display: 'flex',
     flexDirection: 'column',
@@ -30,6 +29,23 @@ const useStyles: () => Record<
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
+
+    // responsive
+    [theme.breakpoints.up('sm')]: {
+      padding: pdSM,
+    },
+    [theme.breakpoints.down('sm')]: {
+      padding: pdSM,
+    },
+    [theme.breakpoints.up('md')]: {
+      padding: pdMD,
+    },
+    [theme.breakpoints.up('lg')]: {
+      padding: pdLG,
+    },
+    [theme.breakpoints.up('xl')]: {
+      padding: pdXL,
+    },
   },
   logo: {
     height: 'fit-content',
