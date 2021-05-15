@@ -72,9 +72,9 @@ class PhotoAdmin(MarkdownxModelAdmin):
     thumbnail.allow_tags = True
 
 # Not really need admin for like & dislike
-# @admin.register(PhotoLike)
-# class PhotoLikeAdmin(admin.ModelAdmin):
-#     list_display = ('like_id', 'photo_id', 'user_id', 'created_at')
+@admin.register(PhotoLike)
+class PhotoLikeAdmin(admin.ModelAdmin):
+    list_display = ('like_id', 'photo_id', 'user_id', 'created_at')
 
 
 # @admin.register(PhotoDislike)
