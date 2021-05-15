@@ -12,7 +12,7 @@ import {
   // IconButton,
 } from '@material-ui/core';
 
-import paper from '../../../../assets/images/paper.jpeg';
+import BannerPic from '../../../../assets/images/photos/hotPic.jpg';
 import HeartIcon from '../../../../assets/images/heart.svg';
 import CommentIcon from '../../../../assets/images/comment.svg';
 import ShareIcon from '../../../../assets/images/share.svg';
@@ -89,7 +89,7 @@ const Photo = (): JSX.Element => {
                 <CardActionArea>
                   <CardMedia
                     className={classes.picture}
-                    image={paper}
+                    image={BannerPic}
                     title='Contemplative Reptile'
                   />
                   {/* <CardContent>

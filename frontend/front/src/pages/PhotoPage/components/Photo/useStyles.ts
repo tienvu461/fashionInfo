@@ -1,6 +1,6 @@
 /* eslint-disable object-curly-newline */
 import { makeStyles } from '@material-ui/core/styles';
-import { gray, pdXL, pdSM, pdLG, pdMD, theme } from '../../../../styles/theme';
+import { white, pdXL, pdSM, pdLG, pdMD, theme } from '../../../../styles/theme';
 
 const useStyles: () => Record<
   | 'root'
@@ -18,20 +18,24 @@ const useStyles: () => Record<
 > = makeStyles(() => ({
   root: {
     height: 'auto',
-    backgroundColor: gray,
+    backgroundColor: white,
 
     // responsive
     [theme.breakpoints.up('sm')]: {
       padding: pdSM,
+      paddingTop: '77px',
     },
     [theme.breakpoints.up('md')]: {
       padding: pdMD,
+      paddingTop: '77px',
     },
     [theme.breakpoints.up('lg')]: {
       padding: pdLG,
+      paddingTop: '77px',
     },
     [theme.breakpoints.up('xl')]: {
       padding: pdXL,
+      paddingTop: '77px',
     },
   },
   card: {},
