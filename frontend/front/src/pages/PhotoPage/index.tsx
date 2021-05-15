@@ -1,12 +1,12 @@
 import React from 'react';
-import Photo from './components/Photo';
+import Photos from './components/Photos';
 import PhotoHeader from './components/PhotoHeader';
 
 function PhotoPage(): JSX.Element {
   return (
     <div>
       <PhotoHeader />
-      <Photo />
+      <Photos />
     </div>
   );
 }

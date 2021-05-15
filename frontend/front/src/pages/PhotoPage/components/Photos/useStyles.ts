@@ -9,6 +9,7 @@ const useStyles: () => Record<
   | 'picture'
   | 'gridItem'
   | 'actions'
+  | 'hoverAction'
   | 'cardActions'
   | 'left'
   | 'leftActions'
@@ -51,9 +52,15 @@ const useStyles: () => Record<
   },
   cardActions: {
     height: '80px',
+    display: 'none',
+    transition: 'all 0.3s ease-in-out',
     '&.MuiCardActions-root': {
       padding: '0 30px',
     },
+  },
+  hoverAction: {
+    display: 'block',
+    transition: 'all 0.3s ease-in-out',
   },
   actions: {
     display: 'flex',
