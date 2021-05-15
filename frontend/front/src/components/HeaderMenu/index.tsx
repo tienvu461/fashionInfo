@@ -14,6 +14,7 @@ import logo from '../../assets/images/logoLucete.svg';
 import icon from '../../assets/images/user.svg';
 import Search from './components/Search';
 import SideDrawer from './components/Drawer';
+import { ROUTE_FORUM, ROUTE_HOME, ROUTE_PHOTO } from '../../constants';
 
 interface AuxProps {
   children: ReactChild | ReactChildren;
@@ -30,9 +31,9 @@ function HeaderMenu({ children }: AuxProps): JSX.Element {
   const [active, setActive] = useState(pathName);
 
   const navLinks: Array<NavLinksType> = [
-    { title: 'Photo', path: '/' },
-    { title: 'News', path: '/news' },
-    { title: 'Forum', path: '/forum' },
+    { title: 'Magazine', path: ROUTE_HOME },
+    { title: 'Photo', path: ROUTE_PHOTO },
+    { title: 'Forum', path: ROUTE_FORUM },
   ];
 
   return (

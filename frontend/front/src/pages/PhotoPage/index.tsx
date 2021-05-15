@@ -2,7 +2,7 @@ import React from 'react';
 import Photo from './components/Photo';
 import PhotoHeader from './components/PhotoHeader';
 
-function HomePage(): JSX.Element {
+function PhotoPage(): JSX.Element {
   return (
     <div>
       <PhotoHeader />
@@ -11,4 +11,4 @@ function HomePage(): JSX.Element {
   );
 }
 
-export default HomePage;
+export default PhotoPage;
