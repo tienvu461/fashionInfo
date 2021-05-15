@@ -70,7 +70,7 @@ function Photos(): JSX.Element {
             xl={4}
             xs={12}
           >
-            <Photo gallery={gallery} idPhoto={id} />
+            <Photo />
           </Grid>
         ))}
       </>

@@ -18,38 +18,15 @@ import ShareIcon from '../../../../../assets/images/share.svg';
 
 import useStyles from '../useStyles';
 
-interface PhotoProps {
-  gallery: Array<{
-    title: string;
-    id: number;
-  }>;
-  idPhoto: number;
-}
-
-function Photo(props: PhotoProps): JSX.Element {
-  const { gallery = [], idPhoto = 0 } = props;
+function Photo(): JSX.Element {
   const classes = useStyles();
   const [isHover, setisHover] = useState<boolean>(false);
 
-  const handleOnMouseOut = (id: number) => {
-    let hoverItem = false;
-    gallery.forEach(({ id: idItem }) => {
-      if (idItem === id) hoverItem = true;
-    });
-
-    if (hoverItem) {
-      setisHover(false);
-    }
+  const handleOnMouseOut = () => {
+    setisHover(false);
   };
-  const handleOnMouseOver = (id: number) => {
-    let hoverItem = false;
-    gallery.forEach(({ id: idItem }) => {
-      if (idItem === id) hoverItem = true;
-    });
-
-    if (hoverItem) {
-      setisHover(true);
-    }
+  const handleOnMouseOver = () => {
+    setisHover(true);
   };
 
   return (
@@ -57,8 +34,8 @@ function Photo(props: PhotoProps): JSX.Element {
       <Paper className={classes.paper}>
         <Card
           className={classes.card}
-          onMouseOut={() => handleOnMouseOut(idPhoto)}
-          onMouseOver={() => handleOnMouseOver(idPhoto)}
+          onMouseOut={handleOnMouseOut}
+          onMouseOver={handleOnMouseOver}
         >
           <CardActionArea>
             <CardMedia
@@ -67,9 +44,7 @@ function Photo(props: PhotoProps): JSX.Element {
               title='Contemplative Reptile'
             />
           </CardActionArea>
-          <CardActions
-            className={isHover ? classes.hoverAction : classes.cardActions}
-          >
+          <div className={isHover ? classes.hoverAction : classes.cardActions}>
             <div className={classes.actions}>
               <div className={classes.left}>
                 <div className={classes.leftActions}>
@@ -93,7 +68,7 @@ function Photo(props: PhotoProps): JSX.Element {
                 <img alt='share-icon' src={ShareIcon} />
               </div>
             </div>
-          </CardActions>
+          </div>
         </Card>
       </Paper>
     </>

@@ -39,7 +39,9 @@ const useStyles: () => Record<
       paddingTop: '77px',
     },
   },
-  card: {},
+  card: {
+    position: 'relative',
+  },
   paper: {},
   picture: {
     height: '600px',
@@ -51,22 +53,20 @@ const useStyles: () => Record<
     },
   },
   cardActions: {
-    height: '80px',
     display: 'none',
-    transition: 'all 0.3s ease-in-out',
-    '&.MuiCardActions-root': {
-      padding: '0 30px',
-    },
   },
   hoverAction: {
-    display: 'block',
-    transition: 'all 0.3s ease-in-out',
+    width: '100%',
+    position: 'absolute',
+    bottom: 0,
   },
   actions: {
+    height: '80px',
+    padding: '0 30px',
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
-    width: '100%',
+    background: '#EEEEEE',
   },
   left: {
     display: 'flex',
