@@ -11,7 +11,7 @@ import zipfile
 import re
 from datetime import datetime
 
-from .models import Photo, PhotoLike, PhotoDislike, PhotoComment, News, NewsAttachedPhoto, NewsArchivedFile, NewsLike, NewsDislike, NewsComment,GenericConfig, Category
+from .models import Photo, PhotoLike, PhotoComment, News, NewsAttachedPhoto, NewsArchivedFile, NewsLike, NewsDislike, NewsComment,GenericConfig, Category
 from .consts import adminConst
 
 from django import forms
@@ -89,12 +89,6 @@ class PhotoAdmin(MarkdownxModelAdmin):
 @admin.register(PhotoLike)
 class PhotoLikeAdmin(admin.ModelAdmin):
     list_display = ('like_id', 'photo_id', 'user_id', 'created_at')
-
-
-@admin.register(PhotoDislike)
-class PhotoDislikeAdmin(admin.ModelAdmin):
-    list_display = ('like_id', 'photo_id', 'user_id', 'created_at')
-
 
 @admin.register(PhotoComment)
 class PhotoCommentAdmin(admin.ModelAdmin):

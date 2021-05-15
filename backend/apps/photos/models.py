@@ -17,8 +17,6 @@ class GenericConfig(models.Model):
     # weight value is ranged from [-10:10]
     likes_interact_weight = models.IntegerField(
         default=10, validators=[MaxValueValidator(10), MinValueValidator(-10)])
-    dislikes_interact_weight = models.IntegerField(
-        default=-10, validators=[MaxValueValidator(10), MinValueValidator(-10)])
     comments_interact_weight = models.IntegerField(
         default=10, validators=[MaxValueValidator(10), MinValueValidator(-10)])
     views_interact_weight = models.IntegerField(
@@ -91,17 +89,6 @@ class PhotoLike(models.Model):
         Photo, on_delete=models.CASCADE, null=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-
-
-class PhotoDislike(models.Model):
-    like_id = models.AutoField(primary_key=True, null=False)
-    user_id = models.ForeignKey(
-        User, on_delete=models.CASCADE, null=False)
-    photo_id = models.ForeignKey(
-        Photo, on_delete=models.CASCADE, null=False)
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-
 
 class PhotoComment(models.Model):
     cmt_id = models.AutoField(primary_key=True, null=False)

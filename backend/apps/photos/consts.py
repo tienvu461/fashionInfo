@@ -31,7 +31,6 @@ class postTypeEnum(Enum):
 class photosConst:
     INTERACTIVE_RATIO = [
         'likes',
-        'dislikes',
         'comments',
         'views',
     ]
