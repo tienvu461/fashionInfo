@@ -1,7 +1,9 @@
 from django.contrib import admin
-from django.utils.safestring import mark_safe
-from markdownx.admin import MarkdownxModelAdmin
+from django.forms import ModelForm
 from django.core.files.images import ImageFile
+from django.utils.safestring import mark_safe
+from django_toggle_switch_widget.widgets import DjangoToggleSwitchWidget
+from markdownx.admin import MarkdownxModelAdmin
 
 import logging
 import base64
@@ -12,12 +14,24 @@ from datetime import datetime
 from .models import Photo, PhotoLike, PhotoDislike, PhotoComment, News, NewsAttachedPhoto, NewsArchivedFile, NewsLike, NewsDislike, NewsComment,GenericConfig, Category
 from .consts import adminConst
 
+from django import forms
 logger = logging.getLogger('photos')
 
 
+# class CustomizedConfigForm(ModelForm):
+#     class Meta:
+#         model = GenericConfig
+#         fields = "__all__"
+#         widgets = {
+#             # "published": DjangoToggleSwitchWidget(klass="django-toggle-switch-dark-primary"),
+#             "in_use": forms.RadioSelect,
+#             "show_activities": forms.RadioSelect,
+#         }
+
 @admin.register(GenericConfig)
 class GenericConfigAdmin(admin.ModelAdmin):
-    list_display = ('config_name', 'in_use')
+    # form = CustomizedConfigForm
+    list_display = ('config_name', 'show_activities', 'in_use', 'short_description')
 
 # class ImageInline(admin.TabularInline):
 #     model = uploaded_photo

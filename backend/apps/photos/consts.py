@@ -17,6 +17,10 @@ class modelConst:
         (2, "News"),
         (3, "Comment")
     )
+    BINARY = (
+        (0, "No"),
+        (1, "Yes")
+    )
 
 class postTypeEnum(Enum):
     NoType = 1

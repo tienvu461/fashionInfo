@@ -14,7 +14,6 @@ from .consts import modelConst
 class GenericConfig(models.Model):
     config_name = models.CharField(default="default", max_length=50)
     short_description = models.CharField(default="Description", max_length=200)
-    in_use = models.BooleanField(default=False)
     # weight value is ranged from [-10:10]
     likes_interact_weight = models.IntegerField(
         default=10, validators=[MaxValueValidator(10), MinValueValidator(-10)])
@@ -24,6 +23,9 @@ class GenericConfig(models.Model):
         default=10, validators=[MaxValueValidator(10), MinValueValidator(-10)])
     views_interact_weight = models.IntegerField(
         default=10, validators=[MaxValueValidator(10), MinValueValidator(-10)])
+    #other configuration
+    show_activities = models.BooleanField(choices=modelConst.BINARY, default=0)
+    in_use = models.BooleanField(choices=modelConst.BINARY, default=0)
     site_name = models.CharField(default="api.tienvv.com", max_length=50)
 
     def save(self, *args, **kwargs):

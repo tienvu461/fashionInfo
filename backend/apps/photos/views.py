@@ -104,7 +104,7 @@ class PhotoSuggest(views.APIView, pagination.PageNumberPagination):
             serializer = PhotoDetailSerializer(queryset, many=True)
             logger.debug(("queryset data = {}".format(serializer.data[0])))
             
-            # get tags list
+            # get tags list, filter and sort photos having matched tags
             tag_lists = serializer.data[0]["tags"]
             logger.debug(("tag_lists = {}".format(tag_lists)))
 
