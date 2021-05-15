@@ -1,7 +1,6 @@
 import { makeStyles } from '@material-ui/core/styles';
 import {
-  black,
-  grayPrimary,
+  textColor,
   pdLeftXL,
   pdLeftLG,
   pdLeftMD,
@@ -33,7 +32,7 @@ const useStyles: () => Record<
       paddingLeft: pdLeftSM,
     },
     [theme.breakpoints.up('md')]: {
-      padding: pdLeftMD,
+      // padding: pdLeftMD,
     },
     [theme.breakpoints.up('lg')]: {
       paddingLeft: pdLeftLG,
@@ -43,12 +42,11 @@ const useStyles: () => Record<
     },
   },
   headline: {
-    fontFamily: 'Darker Grotesque',
     fontStyle: 'normal',
     fontWeight: 900,
     marginBottom: '-20px', // fix straight line
     lineHeight: '115px',
-    letterSpacing: '3.2px',
+    // letterSpacing: '3.2px',
     color: '#000000',
     textAlign: 'left',
     '@media (max-width:1302px)': {
@@ -68,12 +66,11 @@ const useStyles: () => Record<
     fontStyle: 'normal',
     fontWeight: 'normal',
     letterSpacing: '1.7px',
-    color: black,
+    color: textColor,
     textAlign: 'left',
   },
   rightSection: {
     height: 'fit-content',
-    backgroundColor: grayPrimary,
   },
   imgBanner: {
     width: '100%',
