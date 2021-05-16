@@ -45,7 +45,7 @@ function HeaderMenu({ children }: AuxProps): JSX.Element {
         justify='center'
       >
         <AppBar>
-          <Grid className={classes.header}>
+          <Grid className={classes.header} item lg={12} md={12} sm={12} xs={12}>
             <Grid className={classes.logo}>
               <img alt='Lucete' onClick={() => history.push('/')} src={logo} />
             </Grid>
@@ -88,14 +88,22 @@ function HeaderMenu({ children }: AuxProps): JSX.Element {
               <Grid className={classes.actions}>
                 <Search />
                 <Grid className={classes.icon}>
-                  <img alt='Lucete' src={icon} />
+                  <img
+                    alt='Lucete'
+                    onClick={() => history.push('/login')}
+                    src={icon}
+                  />
                 </Grid>
               </Grid>
             </Hidden>
             <Hidden mdUp>
               <Grid className={classes.actions}>
                 <Grid className={classes.icon}>
-                  <img alt='Lucete' src={icon} />
+                  <img
+                    alt='Lucete'
+                    onClick={() => history.push('/login')}
+                    src={icon}
+                  />
                 </Grid>
                 <Grid>
                   <Search />

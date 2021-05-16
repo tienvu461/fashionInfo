@@ -7,7 +7,7 @@ from taggit_serializer.serializers import (TagListSerializerField,
 import logging
 import json
 
-from .models import Photo, News, PhotoLike, PhotoDislike, PhotoComment
+from .models import Photo, News, PhotoLike, PhotoComment, GenericConfig
 from .consts import modelConst, postTypeEnum
 logger = logging.getLogger('photos')
 
@@ -29,14 +29,23 @@ class PhotoSerializer(serializers.ModelSerializer):
         return data_fields
 
     def get_activities(self, instance):
-        like_num = PhotoLike.objects.filter(photo_id=instance.id).count()
-        dislike_num = PhotoDislike.objects.filter(photo_id=instance.id).count()
-        comment_num = PhotoComment.objects.filter(photo_id=instance.id).count()
+        # getting show/hide setting from Generic Config tbl
+        config_obj = GenericConfig.objects.filter(in_use=True)
+        show_activities = config_obj.values().first()["show_activities"]
+        logger.debug("show_activities = {}".format(show_activities))
 
-        return {'likes': like_num,
-                'dislikes': dislike_num,
-                'comments': comment_num
-                }
+        if show_activities is True:
+            like_num = PhotoLike.objects.filter(photo_id=instance.id).count()
+            comment_num = PhotoComment.objects.filter(photo_id=instance.id).count()
+            view_count = getattr(instance, 'view_count')
+
+            return {
+                'likes': like_num,
+                'comments': comment_num,
+                'views': view_count,
+            }
+            
+        return None
 
     # def get_likes(self, instance):
     #     return Like.objects.filter(post_id=instance.id).count()
@@ -52,7 +61,7 @@ class PhotoSerializer(serializers.ModelSerializer):
 class CommentSerializer(serializers.ModelSerializer):
     class Meta:
         model = PhotoComment
-        fields = ['cmt_id', 'user_id', 'content', 'active', 'parent',
+        fields = ['cmt_id', 'user_id', 'photo_id', 'content', 'active', 'parent',
             'created_at']
 
     def to_representation(self, instance):
@@ -62,34 +71,37 @@ class CommentSerializer(serializers.ModelSerializer):
         return data_fields
 
 class PhotoDetailSerializer(PhotoSerializer):
-    likes = serializers.SerializerMethodField()
-    dislikes = serializers.SerializerMethodField()
-    comments = serializers.SerializerMethodField()
+    # getting show/hide setting from Generic Config tbl
+    config_obj = GenericConfig.objects.filter(in_use=True)
+    show_activities = config_obj.values().first()["show_activities"]
+    logger.debug("show_activities = {}".format(show_activities))
 
-    class Meta:
-        model = Photo
-        fields = ['id', 'title', 'author', 'image_path', 'status',
-            'created_at', 'likes', 'dislikes', 'comments', 'tags']
+    if show_activities:
+        likes = serializers.SerializerMethodField()
+        comments = serializers.SerializerMethodField()
 
+        class Meta:
+            model = Photo
+            fields = ['id', 'title', 'author', 'image_path', 'status',
+                'created_at', 'likes', 'comments', 'tags', 'view_count']
+    else:
+        class Meta:
+            model = Photo
+            fields = ['id', 'title', 'author', 'image_path', 'status',
+                'created_at', 'tags']
     # def get_activities(self, instance):
     #     like_num = PhotoLike.objects.filter(photo_id=instance.id).count()
-    #     dislike_num = PhotoDislike.objects.filter(photo_id=instance.id).count()
     #     comment_num = PhotoComment.objects.filter(photo_id=instance.id).count()
 
     #     return {'likes': like_num,
-    #             'dislikes': dislike_num,
     #             'comments': comment_num
     #             }
 
+    # getting show/h
     def get_likes(self, instance):
         return PhotoLike.objects.filter(photo_id=instance.id).count()
 
-    def get_dislikes(self, instance):
-        return PhotoDislike.objects.filter(photo_id=instance.id).count()
-
     def get_comments(self, instance):
-        from django.forms.models import model_to_dict
-
         comment_queryset = PhotoComment.objects.filter(photo_id=instance.id)
 
         # data = serializers.serialize('json', query)
