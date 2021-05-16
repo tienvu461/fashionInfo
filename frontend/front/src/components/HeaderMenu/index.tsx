@@ -16,7 +16,6 @@ import {
 import useStyles from './useStyles';
 import logo from '../../assets/images/logoLucete.svg';
 import icon from '../../assets/images/user.svg';
-import ScrollIcon from '../../assets/images/scrollToTop.svg';
 import Search from './components/Search';
 import SideDrawer from './components/Drawer';
 import ScrollToTop from './components/ScrollToTop';
@@ -26,6 +25,7 @@ interface AuxProps {
   window?: () => Window;
   children: ReactChild | ReactChildren;
 }
+
 interface NavLinksType {
   title: string;
   path: string;
@@ -140,11 +140,7 @@ function HeaderMenu(props: AuxProps): JSX.Element {
         </Grid>
         <Grid>{children}</Grid>
         <ScrollToTop {...props}>
-          <img
-            alt='scroll-to-top'
-            src={ScrollIcon}
-            style={{ cursor: 'pointer' }}
-          />
+          <div style={{ display: 'none' }} />
         </ScrollToTop>
       </div>
     </div>
