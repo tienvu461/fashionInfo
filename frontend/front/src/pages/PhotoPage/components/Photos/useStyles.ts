@@ -4,13 +4,10 @@ import { white, pdXL, pdSM, pdLG, pdMD, theme } from '../../../../styles/theme';
 
 const useStyles: () => Record<
   | 'root'
-  | 'card'
   | 'paper'
   | 'picture'
   | 'gridItem'
   | 'actions'
-  | 'hoverAction'
-  | 'cardActions'
   | 'left'
   | 'leftActions'
   | 'right'
@@ -39,12 +36,10 @@ const useStyles: () => Record<
       paddingTop: '77px',
     },
   },
-  card: {
-    position: 'relative',
-  },
   paper: {},
   picture: {
     height: '600px',
+    zIndex: 4,
   },
   gridItem: {
     padding: '0 20px 40px 20px !important',
@@ -52,21 +47,11 @@ const useStyles: () => Record<
       width: '480px',
     },
   },
-  cardActions: {
-    display: 'none',
-  },
-  hoverAction: {
-    width: '100%',
-    position: 'absolute',
-    bottom: 0,
-  },
   actions: {
-    height: '80px',
-    padding: '0 30px',
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
-    background: '#EEEEEE',
+    padding: '30px',
   },
   left: {
     display: 'flex',

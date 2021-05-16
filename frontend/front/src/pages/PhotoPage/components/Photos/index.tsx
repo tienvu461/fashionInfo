@@ -2,7 +2,6 @@ import React from 'react';
 import { Grid } from '@material-ui/core';
 
 import useStyles from './useStyles';
-import './_photo.scss';
 import Photo from './Photo';
 
 function Photos(): JSX.Element {

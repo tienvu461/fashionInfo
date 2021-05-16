@@ -1,15 +1,10 @@
 import React, { useState } from 'react';
 import {
   Paper,
-  Grid,
-  // CardContent,
   Card,
   CardActionArea,
   CardMedia,
   CardActions,
-  // Button,
-  // Typography,
-  // IconButton,
 } from '@material-ui/core';
 import BannerPic from '../../../../../assets/images/photos/hotPic.jpg';
 import HeartIcon from '../../../../../assets/images/heart.svg';
@@ -17,26 +12,15 @@ import CommentIcon from '../../../../../assets/images/comment.svg';
 import ShareIcon from '../../../../../assets/images/share.svg';
 
 import useStyles from '../useStyles';
+import './_photo.scss';
 
 function Photo(): JSX.Element {
   const classes = useStyles();
-  const [isHover, setisHover] = useState<boolean>(false);
-
-  const handleOnMouseOut = () => {
-    setisHover(false);
-  };
-  const handleOnMouseOver = () => {
-    setisHover(true);
-  };
 
   return (
     <>
       <Paper className={classes.paper}>
-        <Card
-          className={classes.card}
-          onMouseOut={handleOnMouseOut}
-          onMouseOver={handleOnMouseOver}
-        >
+        <Card className='card'>
           <CardActionArea>
             <CardMedia
               className={classes.picture}
@@ -44,7 +28,7 @@ function Photo(): JSX.Element {
               title='Contemplative Reptile'
             />
           </CardActionArea>
-          <div className={isHover ? classes.hoverAction : classes.cardActions}>
+          <div className='cardActions'>
             <div className={classes.actions}>
               <div className={classes.left}>
                 <div className={classes.leftActions}>
