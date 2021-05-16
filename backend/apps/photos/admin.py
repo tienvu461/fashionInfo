@@ -77,9 +77,9 @@ class PhotoLikeAdmin(admin.ModelAdmin):
     list_display = ('like_id', 'photo_id', 'user_id', 'created_at')
 
 
-# @admin.register(PhotoDislike)
-# class PhotoDislikeAdmin(admin.ModelAdmin):
-#     list_display = ('like_id', 'photo_id', 'user_id', 'created_at')
+@admin.register(PhotoDislike)
+class PhotoDislikeAdmin(admin.ModelAdmin):
+    list_display = ('dislike_id', 'photo_id', 'user_id', 'created_at')
 
 
 @admin.register(PhotoComment)

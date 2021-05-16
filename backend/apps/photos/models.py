@@ -77,7 +77,7 @@ class PhotoLike(models.Model):
 
 
 class PhotoDislike(models.Model):
-    like_id = models.AutoField(primary_key=True, null=False)
+    dislike_id = models.AutoField(primary_key=True, null=False)
     user_id = models.ForeignKey(
         User, on_delete=models.CASCADE, null=False)
     photo_id = models.ForeignKey(
