@@ -3,11 +3,13 @@ from django.http import Http404
 
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated, AllowAny
-from rest_framework import views, status, mixins, generics, pagination
+from rest_framework import serializers, views, status, mixins, generics, pagination
 import logging
 
-from .models import Photo, News, PhotoLike, PhotoComment, PhotoDislike, PhotoLike, PhotoComment, PhotoDislike
+from .models import GenericConfig, Photo, News, PhotoLike, PhotoComment, PhotoLike, PhotoComment
 from .serializers import PhotoSerializer, PhotoDetailSerializer, CommentSerializer, NewsSerializer
+from .consts import photosConst
+from .utils import calc_interactive_pt
 
 logger = logging.getLogger("photos")
 
@@ -22,6 +24,11 @@ logger = logging.getLogger("photos")
 #     class Meta:
 #         model = Room
 #         fields = ['price', 'features']
+
+
+
+# if request.method == 'POST':
+#     print 'Raw Data: "%s"' % request.body  
 
 class PhotoList(generics.ListCreateAPIView):
     queryset = Photo.objects.all()
@@ -46,6 +53,10 @@ class PhotoDetail(generics.RetrieveUpdateDestroyAPIView):
 
     def get(self, request, *args, **kwargs):
         instance = self.get_object()
+        
+        instance.view_count = instance.view_count + 1
+        instance.save(update_fields=("view_count", ))
+
         serializer = self.get_serializer(instance)
         return Response(serializer.data)
 
@@ -68,6 +79,74 @@ class PhotoSearch(views.APIView, pagination.PageNumberPagination):
         serializer = PhotoSerializer(queryset, many=True)
         return Response(serializer.data)
 
+class PhotoSuggest(views.APIView, pagination.PageNumberPagination):
+
+    def get(self, request):
+        photo_id = request.GET.get('photo_id')
+        logger.debug(photo_id)
+        test_param = {
+            'like' : 8,
+            'dislike' : 3,
+            'comment' : 10,
+            'view' : 10
+        }
+
+        # getting interactive ratio from Generic Config tbl
+        config_obj = GenericConfig.objects.filter(in_use=True)
+        interactive_ratio = config_obj.values().first()
+        logger.debug("interactive_ratio = {}".format(interactive_ratio))
+        if not interactive_ratio:
+            logger.error("Config not found")
+            return Response(status=status.HTTP_400_BAD_REQUEST,)
+
+        try:
+            queryset = Photo.objects.filter(id=photo_id).distinct()
+            serializer = PhotoDetailSerializer(queryset, many=True)
+            logger.debug(("queryset data = {}".format(serializer.data[0])))
+            
+            # get tags list, filter and sort photos having matched tags
+            tag_lists = serializer.data[0]["tags"]
+            logger.debug(("tag_lists = {}".format(tag_lists)))
+
+            similar_photos_queryset = Photo.objects.filter(tags__name__in=tag_lists).distinct()
+            similar_photos_queryset = similar_photos_queryset.exclude(id=photo_id)
+            similar_photos_queryset = similar_photos_queryset.order_by('-created_at')
+            similar_photos_serializer = PhotoSerializer(similar_photos_queryset, many=True)
+            logger.debug(("similar_photos_serializer data = {}".format(similar_photos_serializer.data)))
+
+            for photo in similar_photos_serializer.data:
+                photo['interactive_pt'] = calc_interactive_pt(photo['activities'], interactive_ratio)
+
+            sorted_suggestion_list = sorted(similar_photos_serializer.data, key=lambda k: (-k['interactive_pt']))
+            logger.debug(type(similar_photos_serializer.data))
+            logger.debug(("ranking list = {}".format(sorted_suggestion_list)))
+            page = self.paginate_queryset(similar_photos_queryset, request, view=self)
+            if page is not None:
+                return self.get_paginated_response(sorted_suggestion_list)
+
+            return Response(sorted_suggestion_list)
+            #TODO: get suggesstion base on photograper name
+                        
+        except IndexError as e:
+            logger.error("Cannot get suggestion")
+            logger.error("Exception = {}".format(e))
+            logger.error("Request: {}".format(request.GET.dict()))
+            return Response(status=status.HTTP_400_BAD_REQUEST,)
+            
+        
+
+        # Food.objects.filter(tags__name__in=["delicious"])
+        # queryset = Photo.objects.filter(tags__name__in=searched_tags).distinct()
+        # queryset = queryset.order_by('-created_at')
+        # # page = pagination.PageNumberPagination.paginate_queryset(queryset=queryset, request=request)
+        # page = self.paginate_queryset(queryset, request, view=self)
+        # if page is not None:
+        #     serializer = PhotoSerializer(queryset, many=True)
+        #     return self.get_paginated_response(serializer.data)
+            
+        # logger.debug(queryset)
+        # serializer = PhotoSerializer(queryset, many=True)
+        return Response(status=status.HTTP_200_OK,)
 # Create comment on photo
 class PhotoCommentCreate(generics.CreateAPIView):
     permission_classes = (IsAuthenticated,)
@@ -90,7 +169,7 @@ class PhotoCommentCreate(generics.CreateAPIView):
                 logger.error(e)
                 logger.error("Parent Comment not found")
                 return Response(status=status.HTTP_400_BAD_REQUEST, headers=headers)
-                
+
         self.perform_create(serializer)
         headers = self.get_success_headers(serializer.data)
 
