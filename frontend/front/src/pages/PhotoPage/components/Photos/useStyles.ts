@@ -1,43 +1,54 @@
 /* eslint-disable object-curly-newline */
 import { makeStyles } from '@material-ui/core/styles';
-import { gray, pdXL, pdSM, pdLG, pdMD, theme } from '../../../../styles/theme';
+import {
+  white,
+  pdXL,
+  pdSM,
+  pdLG,
+  pdMD,
+  theme,
+  black,
+} from '../../../../styles/theme';
 
 const useStyles: () => Record<
   | 'root'
-  | 'card'
   | 'paper'
   | 'picture'
   | 'gridItem'
   | 'actions'
-  | 'cardActions'
   | 'left'
   | 'leftActions'
   | 'right'
+  | 'num'
   | 'icon',
   string
 > = makeStyles(() => ({
   root: {
     height: 'auto',
-    backgroundColor: gray,
+    backgroundColor: white,
 
     // responsive
     [theme.breakpoints.up('sm')]: {
       padding: pdSM,
+      paddingTop: '77px',
     },
     [theme.breakpoints.up('md')]: {
       padding: pdMD,
+      paddingTop: '77px',
     },
     [theme.breakpoints.up('lg')]: {
       padding: pdLG,
+      paddingTop: '77px',
     },
     [theme.breakpoints.up('xl')]: {
       padding: pdXL,
+      paddingTop: '77px',
     },
   },
-  card: {},
   paper: {},
   picture: {
     height: '600px',
+    zIndex: 4,
   },
   gridItem: {
     padding: '0 20px 40px 20px !important',
@@ -45,23 +56,17 @@ const useStyles: () => Record<
       width: '480px',
     },
   },
-  cardActions: {
-    height: '80px',
-    '&.MuiCardActions-root': {
-      padding: '0 30px',
-    },
-  },
   actions: {
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
-    width: '100%',
+    padding: '30px',
   },
   left: {
     display: 'flex',
     justifyContent: 'space-between',
   },
-  right: {},
+  right: { cursor: 'pointer' },
   leftActions: {
     display: 'flex',
     justifyContent: 'space-between',
@@ -71,6 +76,14 @@ const useStyles: () => Record<
   icon: {
     paddingRight: '8px',
     cursor: 'pointer',
+  },
+  num: {
+    fontFamily: 'Roboto Mono',
+    fontStyle: 'normal',
+    fontWeight: 'normal',
+    fontSize: '18px',
+    lineHeight: '24px',
+    color: black,
   },
 }));
 
