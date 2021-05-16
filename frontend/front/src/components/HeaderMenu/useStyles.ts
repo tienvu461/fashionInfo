@@ -1,6 +1,6 @@
 /* eslint-disable object-curly-newline */
 import { makeStyles } from '@material-ui/core/styles';
-import { textMenu, pdSM, pdMD, pdLG, pdXL, theme } from '../../styles/theme';
+import { textColor, pdSM, pdMD, pdLG, pdXL, theme } from '../../styles/theme';
 
 const useStyles: () => Record<
   | 'root'
@@ -70,11 +70,11 @@ const useStyles: () => Record<
     textDecoration: 'none',
   },
   textNonActive: {
-    color: textMenu,
+    color: textColor,
     fontSize: '24px',
   },
   textActive: {
-    color: textMenu,
+    color: textColor,
     fontWeight: 'bold',
     fontSize: '24px',
   },
