@@ -1,6 +1,14 @@
 /* eslint-disable object-curly-newline */
 import { makeStyles } from '@material-ui/core/styles';
-import { white, pdXL, pdSM, pdLG, pdMD, theme } from '../../../../styles/theme';
+import {
+  white,
+  pdXL,
+  pdSM,
+  pdLG,
+  pdMD,
+  theme,
+  black,
+} from '../../../../styles/theme';
 
 const useStyles: () => Record<
   | 'root'
@@ -11,6 +19,7 @@ const useStyles: () => Record<
   | 'left'
   | 'leftActions'
   | 'right'
+  | 'num'
   | 'icon',
   string
 > = makeStyles(() => ({
@@ -67,6 +76,14 @@ const useStyles: () => Record<
   icon: {
     paddingRight: '8px',
     cursor: 'pointer',
+  },
+  num: {
+    fontFamily: 'Roboto Mono',
+    fontStyle: 'normal',
+    fontWeight: 'normal',
+    fontSize: '18px',
+    lineHeight: '24px',
+    color: black,
   },
 }));
 

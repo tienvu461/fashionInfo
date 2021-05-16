@@ -1,11 +1,6 @@
-import React, { useState } from 'react';
-import {
-  Paper,
-  Card,
-  CardActionArea,
-  CardMedia,
-  CardActions,
-} from '@material-ui/core';
+/* eslint-disable object-curly-newline */
+import React from 'react';
+import { Paper, Card, CardActionArea, CardMedia } from '@material-ui/core';
 import BannerPic from '../../../../../assets/images/photos/hotPic.jpg';
 import HeartIcon from '../../../../../assets/images/heart.svg';
 import CommentIcon from '../../../../../assets/images/comment.svg';
@@ -37,7 +32,7 @@ function Photo(): JSX.Element {
                     className={classes.icon}
                     src={HeartIcon}
                   />
-                  <div>8</div>
+                  <div className={classes.num}>8</div>
                 </div>
                 <div className={classes.leftActions}>
                   <img
@@ -45,7 +40,7 @@ function Photo(): JSX.Element {
                     className={classes.icon}
                     src={CommentIcon}
                   />
-                  <div>11</div>
+                  <div className={classes.num}>11</div>
                 </div>
               </div>
               <div className={classes.right}>
