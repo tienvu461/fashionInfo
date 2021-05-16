@@ -18,8 +18,8 @@ class modelConst:
         (3, "Comment")
     )
     BINARY = (
-        (0, "No"),
-        (1, "Yes")
+        (False, "No"),
+        (True, "Yes")
     )
 
 class postTypeEnum(Enum):

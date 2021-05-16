@@ -22,10 +22,11 @@ class GenericConfig(models.Model):
     views_interact_weight = models.IntegerField(
         default=10, validators=[MaxValueValidator(10), MinValueValidator(-10)])
     #other configuration
-    show_activities = models.BooleanField(choices=modelConst.BINARY, default=0)
-    in_use = models.BooleanField(choices=modelConst.BINARY, default=0)
+    show_activities = models.BooleanField(choices=modelConst.BINARY, default=False)
+    in_use = models.BooleanField(choices=modelConst.BINARY, default=True)
     site_name = models.CharField(default="api.tienvv.com", max_length=50)
 
+    # when updated, there is only 1 config in use = true, others are false
     def save(self, *args, **kwargs):
         if not self.in_use:
             return super(GenericConfig, self).save(*args, **kwargs)
@@ -56,8 +57,6 @@ class Category(models.Model):
         return self.cat_name
 
 # Upload photo
-
-
 class Photo(models.Model):
     title = models.CharField(max_length=50)
     slug = models.SlugField(max_length=200, unique=True, null=True)

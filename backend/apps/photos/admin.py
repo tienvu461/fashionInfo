@@ -33,11 +33,6 @@ class GenericConfigAdmin(admin.ModelAdmin):
     # form = CustomizedConfigForm
     list_display = ('config_name', 'show_activities', 'in_use', 'short_description')
 
-# class ImageInline(admin.TabularInline):
-#     model = uploaded_photo
-    # extra = 3
-
-
 @admin.register(Photo)
 class PhotoAdmin(MarkdownxModelAdmin):
     list_display = ('title',  "status", 'created_at',

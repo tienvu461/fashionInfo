@@ -125,7 +125,8 @@ class PhotoSuggest(views.APIView, pagination.PageNumberPagination):
                 return self.get_paginated_response(sorted_suggestion_list)
 
             return Response(sorted_suggestion_list)
-            
+            #TODO: get suggesstion base on photograper name
+                        
         except IndexError as e:
             logger.error("Cannot get suggestion")
             logger.error("Exception = {}".format(e))
