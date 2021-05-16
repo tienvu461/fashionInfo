@@ -1,7 +1,7 @@
 from django.contrib.auth.models import User
 from django.views import View
 from django.http import JsonResponse
-from .serializers import UserSerializer
+from .serializers import UserSerializer, CustomTokenObtainPairSerializer
 from rest_framework import generics
 from rest_framework.views import APIView
 from rest_framework_simplejwt.tokens import RefreshToken
@@ -10,6 +10,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from django.contrib.auth.models import User
 import json, requests
+from rest_framework_simplejwt.views import TokenObtainPairView
 
 class RedirectSocial(View):
 
@@ -37,7 +38,7 @@ class BlackListTokenView(APIView):
                 token = RefreshToken(refresh_token)
                 # add refresh token to black list
                 token.blacklist()
-                return Response({'info': 'Successfully add refresh token to black list'}, status=status.HTTP_200_OK)
+                return Response(status=status.HTTP_200_OK)
 
             return Response({'error':'invalid Refresh Token'},status=status.HTTP_400_BAD_REQUEST)
         except Exception as e:
@@ -52,6 +53,9 @@ class ActivateUser(APIView):
         response = requests.post(url, data = payload)
 
         if response.status_code == 204:
-            return Response({'info': 'Successfully activate user!'}, status=status.HTTP_200_OK)
+            return Response({}, response.status_code)
         else:
-            return Response({'error': 'Fail activate user!'}, status=status.HTTP_400_BADREQUEST)
+            return Response(response.json())
+
+class EmailTokenObtainPairView(TokenObtainPairView):
+    serializer_class = CustomTokenObtainPairSerializer
