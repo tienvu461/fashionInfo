@@ -10,6 +10,12 @@ const useStyles: () => Record<
 | 'form'
 | 'field'
 | 'link'
+| 'small'
+| 'socialButton'
+| 'button'
+| 'savepassword'
+| 'header'
+| 'titleLogin'
 | 'submit', string> = makeStyles((theme: Theme) => ({
   root: {
     width: '100%',
@@ -21,7 +27,8 @@ const useStyles: () => Record<
     margin: theme.spacing(8, 4),
     display: 'flex',
     flexDirection: 'column',
-    alignItems: 'center',
+    alignItems: 'left',
+    width: '390px',
   },
   avatar: {
     margin: theme.spacing(1),
@@ -33,7 +40,7 @@ const useStyles: () => Record<
   },
   submit: {
     margin: theme.spacing(3, 0, 2),
-    backgroundColor: 'black',
+    backgroundColor: '#383838',
     color: 'white',
     '&:hover': {
       backgroundColor: 'gray',
@@ -41,31 +48,58 @@ const useStyles: () => Record<
   },
   field: {
     '& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline': {
-      borderColor: 'black',
+      borderColor: 'FAFAFA',
     },
     '&:hover .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline': {
-      borderColor: '#000',
+      borderColor: '#FAFAFA',
     },
     '& .MuiOutlinedInput-input': {
-      color: 'black',
+      color: 'FAFAFA',
     },
     '&:hover .MuiOutlinedInput-input': {
-      color: 'black',
+      color: 'FAFAFA',
     },
     '& .MuiInputLabel-outlined': {
-      color: 'black',
+      color: 'FAFAFA',
     },
     '&:hover .MuiInputLabel-outlined': {
-      color: '#000',
+      color: '#FAFAFA',
     },
 
     // TextField select
     '& .MuiTextField-root': {
       margin: theme.spacing(1),
     },
+    width: '390px',
+    height: '50px'
   },
   link: {
-    color: '#000',
+    color: '#2C5282',
+  },
+  small: {
+    width: theme.spacing(2),
+    height: theme.spacing(2),
+  },
+  socialButton: {
+    textTransform: 'none'
+  },
+  button: {
+    width: '175px',
+    height: '50px'
+  },
+  savepassword: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center'
+  },
+  header: {
+    fontSize: '16px',
+    color: '#2D3748',
+  },
+  titleLogin: {
+    fontSize: '30px',
+    color: '#2D3748',
+    paddingBottom: '33px',
   }
 }));
 
