@@ -137,13 +137,14 @@ class PhotoSuggest(views.APIView, pagination.PageNumberPagination):
             
             # get tags list, filter and sort photos having matched tags
             tag_list = serializer.data[0]["tags"]
+            photographer = serializer.data[0]["detail_info"]["photographer"]
             logger.debug(("tag_list = {}".format(tag_list)))
             import operator
             from functools import reduce
 
-            clauses = (Q(tags__icontains=tag) for tag in tag_list)
+            clauses = ((Q(tags__name__icontains=tag) for tag in tag_list))
             query = reduce(operator.or_, clauses)
-            similar_photos_queryset = Photo.objects.filte(query)
+            similar_photos_queryset = Photo.objects.filter(query | Q(photographer__icontains=photographer)).distinct()
 
             # similar_photos_queryset = Photo.objects.filter(tags__name__in=tag_list).distinct()
             # similar_photos_queryset = Photo.objects.filter(Q(tags__icontains='candy')|Q(body__icontains='candy'))

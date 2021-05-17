@@ -80,13 +80,14 @@ class CommentSerializer(serializers.ModelSerializer):
 class PhotoDetailSerializer(PhotoSerializer):
     likes = serializers.SerializerMethodField()
     comments = serializers.SerializerMethodField()
+    detail_info = serializers.SerializerMethodField()
 
     class Meta:
         model = Photo
-        fields = ['id', 'title', 'author', 'image_path', 'status',
+        fields = ['id', 'title', 'author', 'image_path', 'status', 'detail_info',
             'created_at', 'likes', 'comments', 'tags', 'view_count']
         removed_fields = []
-        
+
     def __init__(self, *args, **kwargs):
         # Don't pass the 'fields' arg up to the superclass
         removed_fields = kwargs.pop('removed_fields', None)
@@ -100,6 +101,25 @@ class PhotoDetailSerializer(PhotoSerializer):
             existing = set(self.fields)
             for field_name in removed:
                 self.fields.pop(field_name)
+
+    def get_detail_info(self, instance):
+        model_name = getattr(instance, 'model_name')
+        model_job = getattr(instance, 'model_job')
+        shoot_date = int(getattr(instance, 'shoot_date').timestamp())
+        location = getattr(instance, 'location')
+        brand = getattr(instance, 'brand')
+        photographer = getattr(instance, 'photographer')
+        post_date = int(getattr(instance, 'post_date').timestamp())
+
+        return {
+            'model_name': model_name,
+            'model_job': model_job,
+            'shoot_date': shoot_date,
+            'location': location,
+            'brand': brand,
+            'photographer': photographer,
+            'post_date': post_date,
+        }
 
     def get_likes(self, instance):
         return PhotoLike.objects.filter(photo_id=instance.id).count()
