@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.http import Http404
+from django.db.models import Q
 
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated, AllowAny
@@ -37,14 +38,31 @@ class PhotoList(generics.ListCreateAPIView):
     # filter_class = PhotoFilter
 
     def list(self, request, *args, **kwargs):
+        # getting show/hide setting from Generic Config tbl
+        config_obj = GenericConfig.objects.filter(in_use=True)
+        try:
+            show_activities = config_obj.values().first()["show_activities"]
+            logger.debug("show_activities = {}".format(show_activities)) 
+        except Exception as e:
+            logger.error("Cannot get config\nException: {}".format(e))
+            show_activities = True
+            
         queryset = Photo.objects.all()
         # queryset = queryset.order_by('-created_at')
+
         page = self.paginate_queryset(queryset)
         if page is not None:
-            serializer = self.get_serializer(page, many=True)
+            if show_activities:
+                serializer = self.get_serializer(page, many=True,)
+            else:
+                serializer = self.get_serializer(page, many=True, removed_fields=('activities',))
             return self.get_paginated_response(serializer.data)
-            
-        serializer = self.get_serializer(queryset, many=True)
+        
+        if show_activities:
+            serializer = self.get_serializer(queryset, many=True)
+        else:
+            serializer = self.get_serializer(page, many=True, removed_fields=('activities',))
+
         return Response(serializer.data)
 
 class PhotoDetail(generics.RetrieveUpdateDestroyAPIView):
@@ -52,13 +70,26 @@ class PhotoDetail(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = PhotoDetailSerializer
 
     def get(self, request, *args, **kwargs):
+        # view increment
         instance = self.get_object()
-        
         instance.view_count = instance.view_count + 1
         instance.save(update_fields=("view_count", ))
 
-        serializer = self.get_serializer(instance)
+        # getting show/hide setting from Generic Config tbl
+        config_obj = GenericConfig.objects.filter(in_use=True)
+        try:
+            show_activities = config_obj.values().first()["show_activities"]
+            logger.debug("show_activities = {}".format(show_activities))
+        except Exception as e:
+            logger.error("Cannot get config\nException: {}".format(e))
+            show_activities = True
+        if show_activities:
+            serializer = self.get_serializer(instance)
+        else:
+            serializer = self.get_serializer(instance, removed_fields=('likes', 'comments',))
+
         return Response(serializer.data)
+        
 
 class PhotoSearch(views.APIView, pagination.PageNumberPagination):
 
@@ -105,10 +136,18 @@ class PhotoSuggest(views.APIView, pagination.PageNumberPagination):
             logger.debug(("queryset data = {}".format(serializer.data[0])))
             
             # get tags list, filter and sort photos having matched tags
-            tag_lists = serializer.data[0]["tags"]
-            logger.debug(("tag_lists = {}".format(tag_lists)))
+            tag_list = serializer.data[0]["tags"]
+            logger.debug(("tag_list = {}".format(tag_list)))
+            import operator
+            from functools import reduce
 
-            similar_photos_queryset = Photo.objects.filter(tags__name__in=tag_lists).distinct()
+            clauses = (Q(tags__icontains=tag) for tag in tag_list)
+            query = reduce(operator.or_, clauses)
+            similar_photos_queryset = Photo.objects.filte(query)
+
+            # similar_photos_queryset = Photo.objects.filter(tags__name__in=tag_list).distinct()
+            # similar_photos_queryset = Photo.objects.filter(Q(tags__icontains='candy')|Q(body__icontains='candy'))
+            
             similar_photos_queryset = similar_photos_queryset.exclude(id=photo_id)
             similar_photos_queryset = similar_photos_queryset.order_by('-created_at')
             similar_photos_serializer = PhotoSerializer(similar_photos_queryset, many=True)

@@ -55,7 +55,6 @@ INSTALLED_APPS = [
     'djoser',
     # markdown for admin
     'markdownx',
-    'django_toggle_switch_widget',
     # tags
     'taggit',
     'taggit_serializer',
