@@ -1,11 +1,18 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Grid } from '@material-ui/core';
+import { useDispatch } from 'react-redux';
 
 import useStyles from './useStyles';
 import Photo from './Photo';
+import { listPhotoAction } from '../../../../features/Photo/photoAction';
 
 function Photos(): JSX.Element {
   const classes = useStyles();
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(listPhotoAction());
+  });
 
   const renderPhoto = () => {
     interface GalleryType {
