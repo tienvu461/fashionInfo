@@ -15,7 +15,9 @@ const useStyles: () => Record<
 | 'button'
 | 'savepassword'
 | 'header'
+| 'fontManual'
 | 'titleLogin'
+| 'title'
 | 'submit', string> = makeStyles((theme: Theme) => ({
   root: {
     width: '100%',
@@ -48,22 +50,23 @@ const useStyles: () => Record<
   },
   field: {
     '& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline': {
-      borderColor: 'FAFAFA',
+      borderColor: '#E8E8E8',
     },
     '&:hover .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline': {
-      borderColor: '#FAFAFA',
+      borderColor: '#000000',
     },
     '& .MuiOutlinedInput-input': {
-      color: 'FAFAFA',
+      color: '#000000',
+      fontFamily: 'Roboto',
     },
     '&:hover .MuiOutlinedInput-input': {
-      color: 'FAFAFA',
+      color: '#000000',
     },
     '& .MuiInputLabel-outlined': {
-      color: 'FAFAFA',
+      color: '#000000',
     },
     '&:hover .MuiInputLabel-outlined': {
-      color: '#FAFAFA',
+      color: '#000000',
     },
 
     // TextField select
@@ -81,7 +84,8 @@ const useStyles: () => Record<
     height: theme.spacing(2),
   },
   socialButton: {
-    textTransform: 'none'
+    textTransform: 'none',
+    fontFamily: 'Roboto',
   },
   button: {
     width: '175px',
@@ -95,11 +99,21 @@ const useStyles: () => Record<
   header: {
     fontSize: '16px',
     color: '#2D3748',
+    fontFamily: 'Roboto',
   },
   titleLogin: {
     fontSize: '30px',
     color: '#2D3748',
     paddingBottom: '33px',
+    fontFamily: 'Roboto',
+  },
+  fontManual: {
+    fontFamily: 'Roboto',
+  },
+  title: {
+    paddingRight: '20px',
+    paddingLeft: '20px',
+    fontFamily: 'Roboto',
   }
 }));
 

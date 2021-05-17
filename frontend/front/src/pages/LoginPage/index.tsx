@@ -130,11 +130,11 @@ function LoginPage(): JSX.Element {
               }}
             >
               <hr className='line'></hr>
-              <span className='title'>hoặc</span>
+              <span className={classes.title}>hoặc</span>
               <hr className='line'></hr>
             </div>
             <form className={classes.form} noValidate onSubmit={handleSubmit}>
-              <div>Email</div>
+              <div className={classes.fontManual}>Email</div>
               <TextField
                 autoComplete='username'
                 autoFocus
@@ -144,11 +144,15 @@ function LoginPage(): JSX.Element {
                 margin='normal'
                 name='username'
                 onChange={(event) => handleChange(event)}
-                placeholder='Email'
                 required
                 variant='outlined'
               />
-              <div style={{ paddingTop: '16px' }}>Mật khẩu</div>
+              <div
+                style={{ paddingTop: '16px' }}
+                className={classes.fontManual}
+              >
+                Mật khẩu
+              </div>
               <TextField
                 autoComplete='password'
                 className={classes.field}
@@ -173,7 +177,6 @@ function LoginPage(): JSX.Element {
                 margin='normal'
                 name='password'
                 onChange={(event) => handleChange(event)}
-                placeholder='Mật khẩu'
                 required
                 type={field.showPassword ? 'text' : 'password'}
                 variant='outlined'
@@ -182,11 +185,17 @@ function LoginPage(): JSX.Element {
                 <div>
                   <FormControlLabel
                     control={<Checkbox value='remember' color='secondary' />}
-                    label='Ghi nhớ mật khẩu'
+                    label={
+                      <span style={{ fontFamily: 'Roboto' }}>
+                        Ghi nhớ mật khẩu
+                      </span>
+                    }
                   />
                 </div>
                 <div>
-                  <Link className={classes.link}>Quên mật khẩu?</Link>
+                  <Link className={classes.link}>
+                    <span className={classes.fontManual}>Quên mật khẩu?</span>
+                  </Link>
                 </div>
               </div>
               <Button className={classes.submit} fullWidth type='submit'>
@@ -203,8 +212,10 @@ function LoginPage(): JSX.Element {
               </Button>
             </form>
             <Box textAlign='center'>
-              <span>Chưa có tài khoản?</span>
-              <Link className={classes.link}>Đăng ký ngay</Link>
+              <span className={classes.fontManual}>Chưa có tài khoản?</span>
+              <Link className={classes.link}>
+                <span className={classes.fontManual}> Đăng ký ngay</span>
+              </Link>
             </Box>
             {/* </div> */}
           </Box>
