@@ -19,7 +19,7 @@ class PhotoSerializer(serializers.ModelSerializer):
     class Meta:
         model = Photo
         fields = ['id', 'title', 'author', 'image_path',
-            'status', 'created_at', 'activities', 'tags']
+            'status', 'created_at', 'activities', 'tags', 'photographer']
         removed_fields = []
 
     def __init__(self, *args, **kwargs):
@@ -105,7 +105,10 @@ class PhotoDetailSerializer(PhotoSerializer):
     def get_detail_info(self, instance):
         model_name = getattr(instance, 'model_name')
         model_job = getattr(instance, 'model_job')
-        shoot_date = int(getattr(instance, 'shoot_date').timestamp())
+        try:
+            shoot_date = int(getattr(instance, 'shoot_date').timestamp())
+        except:
+            shoot_date = "N/A"
         location = getattr(instance, 'location')
         brand = getattr(instance, 'brand')
         photographer = getattr(instance, 'photographer')
