@@ -1,7 +1,7 @@
 from django.contrib.auth.models import User
 from django.views import View
 from django.http import JsonResponse
-from .serializers import UserSerializer
+from .serializers import UserSerializer, CustomTokenObtainPairSerializer
 from rest_framework import generics
 from rest_framework.views import APIView
 from rest_framework_simplejwt.tokens import RefreshToken
@@ -10,6 +10,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from django.contrib.auth.models import User
 import json, requests
+from rest_framework_simplejwt.views import TokenObtainPairView
 
 class RedirectSocial(View):
 
@@ -55,3 +56,6 @@ class ActivateUser(APIView):
             return Response({}, response.status_code)
         else:
             return Response(response.json())
+
+class EmailTokenObtainPairView(TokenObtainPairView):
+    serializer_class = CustomTokenObtainPairSerializer

@@ -7,8 +7,8 @@ from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework import serializers, views, status, mixins, generics, pagination
 import logging
 
-from .models import GenericConfig, Photo, News, PhotoLike, PhotoComment, PhotoLike, PhotoComment, PhotoFeature
-from .serializers import PhotoSerializer, PhotoDetailSerializer, PhotoFeatureSerializer, CommentSerializer, NewsSerializer
+from .models import Photo, News, PhotoLike, PhotoComment, PhotoDislike, PhotoLike, PhotoComment, PhotoDislike
+from .serializers import PhotoSerializer, PhotoDetailSerializer, PhotoFeatureSerializer, CommentSerializer, NewsSerializer, LikeSerializer, DislikeSerializer
 from .consts import photosConst
 from .utils import calc_interactive_pt
 
@@ -285,3 +285,54 @@ class NewsSearch(views.APIView, pagination.PageNumberPagination):
         logger.debug(queryset)
         serializer = NewsSerializer(queryset, many=True)
         return Response(serializer.data)
+
+# Create like on photo
+class PhotoLikeCreate(generics.CreateAPIView):
+    permission_classes = (IsAuthenticated,)
+    serializer_class = LikeSerializer
+    
+    def post(self, request, *args, **kwargs):
+        # query photolike object from DB
+        photo_like = PhotoLike.objects.filter(user_id=self.request.data['user_id'],
+                                                photo_id=self.request.data['photo_id'])
+        
+        if not photo_like:
+            # if there is no photolike object with above condition => create one
+            serializer = self.get_serializer(data=request.data)
+            logger.debug(serializer)
+            serializer.is_valid(raise_exception=True)
+            self.perform_create(serializer)
+            headers = self.get_success_headers(serializer.data)
+
+            return Response(serializer.data, status=status.HTTP_200_OK, headers=headers)
+        
+        else:
+            # if there is photolike object with above condition => delete it
+            photo_like.delete()
+            return Response({'info': 'you have unlike this photo!'}, status=status.HTTP_200_OK)
+
+# Create dislike on photo
+class PhotoDislikeCreate(generics.CreateAPIView):
+    permission_classes = (IsAuthenticated,)
+    serializer_class = DislikeSerializer
+    
+    def post(self, request, *args, **kwargs):
+        # query photolike object from DB
+        photo_dislike = PhotoDislike.objects.filter(user_id=self.request.data['user_id'],
+                                                photo_id=self.request.data['photo_id'])
+        
+        if not photo_dislike:
+            # if there is no photodislike object with above condition => create one
+            serializer = self.get_serializer(data=request.data)
+            logger.debug(serializer)
+            serializer.is_valid(raise_exception=True)
+            self.perform_create(serializer)
+            headers = self.get_success_headers(serializer.data)
+
+            return Response(serializer.data, status=status.HTTP_200_OK, headers=headers)
+        
+        else:
+            # if there is photodislike object with above condition => delete it
+            photo_dislike.delete()
+            return Response({'info': 'you have undislike this photo!'}, status=status.HTTP_200_OK)
+        
