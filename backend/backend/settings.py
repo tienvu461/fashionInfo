@@ -106,6 +106,7 @@ DJOSER = {
     'ACTIVATION_URL': 'api/user/activate/{uid}/{token}',
     'SEND_ACTIVATION_EMAIL': True, # user will be required to click activation link sent in email after creating an account, updating their email
     'SEND_CONFIRMATION_EMAIL': True, # register or activation endpoint will send confirmation email to user.
+    'USER_CREATE_PASSWORD_RETYPE': True, # make user retype password when register
 }
 
 # define which origins are allowed
@@ -221,6 +222,12 @@ AUTH_PASSWORD_VALIDATORS = [
     },
     {
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+    },
+    {
+        'NAME': 'apps.accounts.password_validations.NumberSpecialCharrValidator',
+    },
+    {
+        'NAME': 'apps.accounts.password_validations.UpperCaseValidator',
     },
 ]
 
