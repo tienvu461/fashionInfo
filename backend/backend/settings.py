@@ -55,7 +55,6 @@ INSTALLED_APPS = [
     'djoser',
     # markdown for admin
     'markdownx',
-    'django_toggle_switch_widget',
     # tags
     'taggit',
     'taggit_serializer',
@@ -120,7 +119,9 @@ DJOSER = {
 # define which origins are allowed
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
-    "http://127.0.0.1:3000"
+    "http://127.0.0.1:3000",
+    "http://localhost:3001",
+    "http://127.0.0.1:3001",
 ]
 
 MIDDLEWARE = [

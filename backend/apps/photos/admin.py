@@ -2,7 +2,6 @@ from django.contrib import admin
 from django.forms import ModelForm
 from django.core.files.images import ImageFile
 from django.utils.safestring import mark_safe
-from django_toggle_switch_widget.widgets import DjangoToggleSwitchWidget
 from markdownx.admin import MarkdownxModelAdmin
 
 import logging

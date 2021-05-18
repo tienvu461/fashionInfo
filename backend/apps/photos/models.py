@@ -59,8 +59,15 @@ class Category(models.Model):
 # Upload photo
 class Photo(models.Model):
     title = models.CharField(max_length=50)
-    slug = models.SlugField(max_length=200, unique=True, null=True)
+    slug = models.SlugField(max_length=255, unique=True, null=True)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
+    model_name = models.CharField(max_length=255, null=True, blank=True)
+    model_job =  models.CharField(max_length=255, null=True, blank=True)
+    shoot_date = models.DateTimeField(null=True, blank=True)
+    location = models.CharField(max_length=255, null=True, blank=True)
+    brand =  models.CharField(max_length=255, null=True, blank=True)
+    photographer =  models.CharField(max_length=255, null=True, blank=True)
+    post_date = models.DateTimeField(auto_now=True)
     tags = TaggableManager()
     author = models.ForeignKey(
         User, on_delete=models.CASCADE, default="1")
@@ -78,7 +85,6 @@ class Photo(models.Model):
 
     def __str__(self):
         return self.title
-
 
 class PhotoLike(models.Model):
     like_id = models.AutoField(primary_key=True, null=False)
