@@ -10,7 +10,6 @@ photos_urlpatterns = [
     url(r'api/photos/search', views.PhotoSearch.as_view()),
     url(r'api/photos/comment', views.PhotoCommentCreate.as_view()),
     url(r'api/photos/like', views.PhotoLikeCreate.as_view()),
-    url(r'api/photos/dislike', views.PhotoDislikeCreate.as_view()),
     url(r'api/photos/suggest', views.PhotoSuggest.as_view()),
     url(r'api/photos/feature', views.PhotoFeatureDetail.as_view()),
 
