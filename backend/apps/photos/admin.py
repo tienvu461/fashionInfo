@@ -1,7 +1,8 @@
 from django.contrib import admin
+from django.forms import ModelForm
+from django.core.files.images import ImageFile
 from django.utils.safestring import mark_safe
 from markdownx.admin import MarkdownxModelAdmin
-from django.core.files.images import ImageFile
 
 import logging
 import base64
@@ -9,30 +10,46 @@ import zipfile
 import re
 from datetime import datetime
 
-from .models import Photo, PhotoLike, PhotoDislike, PhotoComment, News, NewsAttachedPhoto, NewsArchivedFile, NewsLike, NewsDislike, NewsComment,GenericConfig, Category
+from .models import Photo, PhotoFeature, PhotoLike, PhotoComment, News, NewsAttachedPhoto, NewsArchivedFile, NewsLike, NewsDislike, NewsComment, GenericConfig, Category
 from .consts import adminConst
 
+from django import forms
 logger = logging.getLogger('photos')
 
 
+# class CustomizedConfigForm(ModelForm):
+#     class Meta:
+#         model = GenericConfig
+#         fields = "__all__"
+#         widgets = {
+#             # "published": DjangoToggleSwitchWidget(klass="django-toggle-switch-dark-primary"),
+#             "in_use": forms.RadioSelect,
+#             "show_activities": forms.RadioSelect,
+#         }
+
 @admin.register(GenericConfig)
 class GenericConfigAdmin(admin.ModelAdmin):
-    list_display = ('config_name', 'in_use')
+    # form = CustomizedConfigForm
+    list_display = ('config_name', 'show_activities',
+                    'in_use', 'short_description')
 
-# class ImageInline(admin.TabularInline):
-#     model = uploaded_photo
-    # extra = 3
+
+@admin.register(PhotoFeature)
+class PhotoFeatureAdmin(admin.ModelAdmin):
+    # form = CustomizedConfigForm
+    list_display = ('id', 'feature_photo', 'login_photo', 'signup_photo',
+                    'popup_photo', 'subscribe_photo', 'in_use', 'created_at')
 
 
 @admin.register(Photo)
 class PhotoAdmin(MarkdownxModelAdmin):
     list_display = ('title',  "status", 'created_at',
-                    'updated_at', 'image_path', 'thumbnail', 'get_category', 'tag_list')
+                    'updated_at', 'image_path', 'thumbnail', 'get_category', 'tag_list', 'view_count')
     list_filter = ('created_at', 'updated_at', "status",)
     search_fields = ('title',)
     prepopulated_fields = {'slug': ('title',)}
     # readonly_fields = ('thumbail',)
-    readonly_fields = ['preview']
+    readonly_fields = ['preview', 'view_count']
 
     # show tags in list
     def get_queryset(self, request):
@@ -72,19 +89,17 @@ class PhotoAdmin(MarkdownxModelAdmin):
     thumbnail.allow_tags = True
 
 # Not really need admin for like & dislike
-# @admin.register(PhotoLike)
-# class PhotoLikeAdmin(admin.ModelAdmin):
-#     list_display = ('like_id', 'photo_id', 'user_id', 'created_at')
 
 
-# @admin.register(PhotoDislike)
-# class PhotoDislikeAdmin(admin.ModelAdmin):
-#     list_display = ('like_id', 'photo_id', 'user_id', 'created_at')
+@admin.register(PhotoLike)
+class PhotoLikeAdmin(admin.ModelAdmin):
+    list_display = ('like_id', 'photo_id', 'user_id', 'created_at')
 
 
 @admin.register(PhotoComment)
 class PhotoCommentAdmin(admin.ModelAdmin):
-    list_display = ('photo_id', 'user_id', 'content', 'active', 'parent', 'created_at',)
+    list_display = ('photo_id', 'user_id', 'content',
+                    'active', 'parent', 'created_at',)
     list_filter = ('created_at', 'active',)
     search_fields = ('content',)
 
@@ -157,9 +172,11 @@ class NewsAdmin(MarkdownxModelAdmin):
             logger.debug("NewsArchivedFile delete result = {}".format(result))
         obj.save()
 
+
 @admin.register(NewsComment)
 class NewsCommentAdmin(admin.ModelAdmin):
-    list_display = ('photo_id', 'user_id', 'content', 'active', 'parent', 'created_at',)
+    list_display = ('photo_id', 'user_id', 'content',
+                    'active', 'parent', 'created_at',)
     list_filter = ('created_at', 'active',)
     search_fields = ('content',)
 
