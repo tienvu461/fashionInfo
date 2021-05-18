@@ -2,6 +2,7 @@ from django.db import models, transaction
 from django import forms
 from django.contrib.auth.models import User
 from django.core.validators import MaxValueValidator, MinValueValidator
+from django.db.models.fields.related import ForeignKey
 from django.utils import timezone
 from markdownx.models import MarkdownxField
 from markdownx.utils import markdownify
@@ -116,8 +117,30 @@ class PhotoComment(models.Model):
     def __str__(self):
         return str(self.cmt_id)
 
-# Upload news
+def get_default_photo():
+    return Photo.objects.get_or_create(id=1)
 
+class PhotoFeature(models.Model):
+    feature_photo = ForeignKey(Photo, related_name='feature', on_delete=models.CASCADE, default=get_default_photo)
+    login_photo = ForeignKey(Photo, related_name='login', on_delete=models.CASCADE, default=get_default_photo)
+    signup_photo = ForeignKey(Photo, related_name='signup', on_delete=models.CASCADE, default=get_default_photo)
+    popup_photo = ForeignKey(Photo, related_name='popup', on_delete=models.CASCADE, default=get_default_photo)
+    subscribe_photo = ForeignKey(Photo, related_name='subscribe', on_delete=models.CASCADE, default=get_default_photo)
+    in_use = models.BooleanField(choices=modelConst.BINARY, default=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    # when updated, there is only 1 config in use = true, others are false
+    def save(self, *args, **kwargs):
+        if not self.in_use:
+            return super(PhotoFeature, self).save(*args, **kwargs)
+        with transaction.atomic():
+            PhotoFeature.objects.filter(in_use=True).update(in_use=False)
+            return super(PhotoFeature, self).save(*args, **kwargs)
+
+
+
+# Upload news
 
 class News(models.Model):
     title = models.CharField(max_length=50)

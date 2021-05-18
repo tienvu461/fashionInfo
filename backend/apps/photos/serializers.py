@@ -4,10 +4,12 @@ from django.http import HttpRequest as request
 from django.http import HttpResponse
 from taggit_serializer.serializers import (TagListSerializerField,
                                            TaggitSerializer)
+from django.conf import settings
+
 import logging
 import json
 
-from .models import Photo, News, PhotoLike, PhotoComment, GenericConfig
+from .models import Photo, News, PhotoFeature, PhotoLike, PhotoComment, GenericConfig
 from .consts import modelConst, postTypeEnum
 logger = logging.getLogger('photos')
 
@@ -19,7 +21,7 @@ class PhotoSerializer(serializers.ModelSerializer):
     class Meta:
         model = Photo
         fields = ['id', 'title', 'author', 'image_path',
-            'status', 'created_at', 'activities', 'tags', 'photographer']
+                  'status', 'created_at', 'activities', 'tags', 'photographer']
         removed_fields = []
 
     def __init__(self, *args, **kwargs):
@@ -52,7 +54,7 @@ class PhotoSerializer(serializers.ModelSerializer):
             'likes': like_num,
             'comments': comment_num,
             'views': view_count,
-        }            
+        }
 
     # def get_likes(self, instance):
     #     return Like.objects.filter(post_id=instance.id).count()
@@ -65,17 +67,20 @@ class PhotoSerializer(serializers.ModelSerializer):
 
 # detail of photo
 
+
 class CommentSerializer(serializers.ModelSerializer):
     class Meta:
         model = PhotoComment
         fields = ['cmt_id', 'user_id', 'photo_id', 'content', 'active', 'parent',
-            'created_at']
+                  'created_at']
 
     def to_representation(self, instance):
-        data_fields = super(CommentSerializer, self).to_representation(instance)
+        data_fields = super(CommentSerializer,
+                            self).to_representation(instance)
         data_fields['created_at'] = int(instance.created_at.timestamp())
 
         return data_fields
+
 
 class PhotoDetailSerializer(PhotoSerializer):
     likes = serializers.SerializerMethodField()
@@ -85,7 +90,7 @@ class PhotoDetailSerializer(PhotoSerializer):
     class Meta:
         model = Photo
         fields = ['id', 'title', 'author', 'image_path', 'status', 'detail_info',
-            'created_at', 'likes', 'comments', 'tags', 'view_count']
+                  'created_at', 'likes', 'comments', 'tags', 'view_count']
         removed_fields = []
 
     def __init__(self, *args, **kwargs):
@@ -131,7 +136,27 @@ class PhotoDetailSerializer(PhotoSerializer):
         comment_queryset = PhotoComment.objects.filter(photo_id=instance.id)
 
         # data = serializers.serialize('json', query)
-        return  CommentSerializer(comment_queryset, many=True).data
+        return CommentSerializer(comment_queryset, many=True).data
+
+
+class PhotoFeatureSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = PhotoFeature
+        fields = ['id', 'feature_photo', 'login_photo', 'signup_photo',
+                  'popup_photo', 'subscribe_photo', 'in_use', 'created_at']
+
+    def to_representation(self, instance):
+        data_fields = super(PhotoFeatureSerializer, self).to_representation(instance)
+        queryset = Photo.objects.values_list('image_path', flat=True)
+        data_fields['feature_photo'] = settings.MEDIA_URL + queryset.get(id=data_fields['feature_photo'])
+        data_fields['login_photo'] = settings.MEDIA_URL + queryset.get(id=data_fields['login_photo'])
+        data_fields['signup_photo'] = settings.MEDIA_URL + queryset.get(id=data_fields['signup_photo'])
+        data_fields['popup_photo'] = settings.MEDIA_URL + queryset.get(id=data_fields['popup_photo'])
+        data_fields['subscribe_photo'] = settings.MEDIA_URL + queryset.get(id=data_fields['subscribe_photo'])
+        data_fields['created_at'] = int(instance.created_at.timestamp())
+
+        return data_fields
+
 
 class NewsSerializer(serializers.ModelSerializer):
     activities = serializers.SerializerMethodField()
@@ -140,7 +165,7 @@ class NewsSerializer(serializers.ModelSerializer):
     class Meta:
         model = News
         fields = ['id', 'title', 'author', 'formatted_markdown',
-            'status', 'created_at', 'activities', 'tags']
+                  'status', 'created_at', 'activities', 'tags']
 
     def to_representation(self, instance):
         data_fields = super(NewsSerializer, self).to_representation(instance)
@@ -163,7 +188,7 @@ class LikeSerializer(serializers.ModelSerializer):
     class Meta:
         model = News
         fields = ['id', 'title', 'author',
-            'formatted_markdown', 'status', 'created_at']
+                  'formatted_markdown', 'status', 'created_at']
 
     def to_representation(self, instance):
         data_fields = super(NewsSerializer, self).to_representation(instance)
