@@ -4,7 +4,7 @@ import { createSlice } from '@reduxjs/toolkit';
 interface InitialState {
   photoList: {
     listPhoto: Array<Record<string, unknown>>;
-    dataOrigin: Record<string, unknown>;
+    dataOrigin: Record<string, string>;
   };
 }
 

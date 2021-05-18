@@ -3,9 +3,9 @@ import { Dispatch } from '@reduxjs/toolkit';
 import { getListPhoto } from './photoSlice';
 import { getListPhoto as listPhotoService } from '../../services/photo';
 
-export const listPhotoAction = () => async (dispatch: Dispatch) => {
+export const listPhotoAction = (page: number) => async (dispatch: Dispatch) => {
   try {
-    const response = await listPhotoService();
+    const response = await listPhotoService(page);
     const { data = {}, status = '' } = response;
     if (status === 200) {
       dispatch(getListPhoto({ data, status }));

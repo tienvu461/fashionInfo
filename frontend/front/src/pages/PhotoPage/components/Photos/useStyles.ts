@@ -21,6 +21,7 @@ const useStyles: () => Record<
   | 'right'
   | 'num'
   | 'icon'
+  | 'btn'
   | 'nextBtn'
   | 'textBtn',
   string
@@ -87,9 +88,10 @@ const useStyles: () => Record<
     lineHeight: '24px',
     color: black,
   },
+  btn: {
+    padding: '40px 0',
+  },
   nextBtn: {
-    backgroundColor: black,
-    color: white,
     height: '60px',
     width: '220px',
   },

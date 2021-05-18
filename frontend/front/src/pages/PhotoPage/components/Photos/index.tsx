@@ -12,7 +12,7 @@ function Photos(): JSX.Element {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(listPhotoAction());
+    dispatch(listPhotoAction(1));
   }, [dispatch]);
 
   const gallery = useSelector(
@@ -50,20 +50,70 @@ function Photos(): JSX.Element {
     </>
   );
 
-  const handleClickNext = () => {
-    console.log(dataPhoto);
+  const handleClick = (key: string) => {
+    const { next: nextPage = '', previous: previousPage = '' } = dataPhoto;
+
+    if (key === 'next') {
+      const nextNum = nextPage.split('?page=').pop();
+      dispatch(listPhotoAction(+`${nextNum}`));
+    } else {
+      const exist = previousPage.includes('?page=');
+      let prevNum = 1;
+
+      if (exist) {
+        prevNum = +`${previousPage.split('?page=').pop()}`;
+      }
+      dispatch(listPhotoAction(+`${prevNum}`));
+    }
   };
 
   return (
     <div className={`${classes.root} root`}>
       <Grid container spacing={3}>
         {renderPhoto()}
-        <Grid item lg={12} md={12} sm={12} spacing={2}>
-          <Button className={classes.nextBtn} onClick={handleClickNext}>
-            <Typography className={classes.textBtn} component='h5' variant='h5'>
-              Xem thêm
-            </Typography>
-          </Button>
+        <Grid
+          className={classes.btn}
+          lg={12}
+          md={12}
+          sm={12}
+          spacing={2}
+          xs={12}
+        >
+          <>
+            {dataPhoto.previous ? (
+              <Button
+                className={classes.nextBtn}
+                onClick={() => handleClick('previous')}
+                variant='contained'
+              >
+                <Typography
+                  className={classes.textBtn}
+                  component='h5'
+                  variant='h5'
+                >
+                  Trang trước
+                </Typography>
+              </Button>
+            ) : null}
+          </>
+
+          <>
+            {dataPhoto.next ? (
+              <Button
+                className={classes.nextBtn}
+                onClick={() => handleClick('next')}
+                variant='contained'
+              >
+                <Typography
+                  className={classes.textBtn}
+                  component='h5'
+                  variant='h5'
+                >
+                  Xem thêm
+                </Typography>
+              </Button>
+            ) : null}
+          </>
         </Grid>
       </Grid>
     </div>
