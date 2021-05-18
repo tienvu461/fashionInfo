@@ -74,6 +74,7 @@ class CommentSerializer(serializers.ModelSerializer):
         fields = ['cmt_id', 'user_id', 'photo_id', 'content', 'active', 'parent',
                   'created_at']
 
+    # take the current photo comment object from DB, which is a list => append a new comment to that list
     def to_representation(self, instance):
         data_fields = super(CommentSerializer,
                             self).to_representation(instance)
@@ -186,12 +187,22 @@ class NewsSerializer(serializers.ModelSerializer):
 
 class LikeSerializer(serializers.ModelSerializer):
     class Meta:
-        model = News
-        fields = ['id', 'title', 'author',
-                  'formatted_markdown', 'status', 'created_at']
+        model = PhotoLike
+        fields = ['like_id', 'user_id', 'photo_id', 'created_at']
 
     def to_representation(self, instance):
-        data_fields = super(NewsSerializer, self).to_representation(instance)
+        data_fields = super(LikeSerializer, self).to_representation(instance)
+        data_fields['created_at'] = int(instance.created_at.timestamp())
+
+        return data_fields
+
+class DislikeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = PhotoDislike
+        fields = ['dislike_id', 'user_id', 'photo_id', 'created_at']
+
+    def to_representation(self, instance):
+        data_fields = super(DislikeSerializer, self).to_representation(instance)
         data_fields['created_at'] = int(instance.created_at.timestamp())
 
         return data_fields
