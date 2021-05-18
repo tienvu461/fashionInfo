@@ -22,7 +22,7 @@ const photoSlice = createSlice({
     getListPhoto: (state, { payload }) => {
       state.photoList = {
         listPhoto: payload.data.results,
-        ...payload,
+        dataOrigin: { ...payload.data },
       };
     },
   },

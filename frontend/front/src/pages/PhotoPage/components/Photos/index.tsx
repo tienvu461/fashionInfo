@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Grid } from '@material-ui/core';
+import { Button, Grid, Typography } from '@material-ui/core';
 import { useDispatch, useSelector } from 'react-redux';
 
 import useStyles from './useStyles';
@@ -17,6 +17,9 @@ function Photos(): JSX.Element {
 
   const gallery = useSelector(
     (state: RootState) => state.photo.photoList.listPhoto
+  );
+  const dataPhoto = useSelector(
+    (state: RootState) => state.photo.photoList.dataOrigin
   );
 
   const renderPhoto = () => (
@@ -47,10 +50,21 @@ function Photos(): JSX.Element {
     </>
   );
 
+  const handleClickNext = () => {
+    console.log(dataPhoto);
+  };
+
   return (
     <div className={`${classes.root} root`}>
       <Grid container spacing={3}>
         {renderPhoto()}
+        <Grid item lg={12} md={12} sm={12} spacing={2}>
+          <Button className={classes.nextBtn} onClick={handleClickNext}>
+            <Typography className={classes.textBtn} component='h5' variant='h5'>
+              Xem thêm
+            </Typography>
+          </Button>
+        </Grid>
       </Grid>
     </div>
   );

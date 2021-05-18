@@ -20,7 +20,9 @@ const useStyles: () => Record<
   | 'leftActions'
   | 'right'
   | 'num'
-  | 'icon',
+  | 'icon'
+  | 'nextBtn'
+  | 'textBtn',
   string
 > = makeStyles(() => ({
   root: {
@@ -84,6 +86,16 @@ const useStyles: () => Record<
     fontSize: '18px',
     lineHeight: '24px',
     color: black,
+  },
+  nextBtn: {
+    backgroundColor: black,
+    color: white,
+    height: '60px',
+    width: '220px',
+  },
+  textBtn: {
+    textTransform: 'initial',
+    paddingBottom: '6px',
   },
 }));
 
