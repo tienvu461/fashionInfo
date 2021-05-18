@@ -24,7 +24,8 @@ const useStyles: () => Record<
   | 'icon'
   | 'btn'
   | 'nextBtn'
-  | 'textBtn',
+  | 'textBtn'
+  | 'skeleton',
   string
 > = makeStyles(() => ({
   root: {
@@ -105,6 +106,10 @@ const useStyles: () => Record<
     width: '100%',
     zIndex: 1,
     color: white,
+  },
+  skeleton: {
+    padding: '100px 0',
+    width: '100%',
   },
 }));
 
