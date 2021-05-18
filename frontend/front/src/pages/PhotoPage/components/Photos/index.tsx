@@ -1,10 +1,11 @@
 import React, { useEffect } from 'react';
 import { Grid } from '@material-ui/core';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import useStyles from './useStyles';
 import Photo from './Photo';
 import { listPhotoAction } from '../../../../features/Photo/photoAction';
+import { RootState } from '../../../../store/store';
 
 function Photos(): JSX.Element {
   const classes = useStyles();
@@ -12,57 +13,20 @@ function Photos(): JSX.Element {
 
   useEffect(() => {
     dispatch(listPhotoAction());
-  });
+  }, [dispatch]);
 
-  const renderPhoto = () => {
-    interface GalleryType {
-      title: string;
-      id: number;
-    }
-    const gallery: Array<GalleryType> = [
-      {
-        title: 'pic1',
-        id: 1,
-      },
-      {
-        title: 'pic2',
-        id: 2,
-      },
-      {
-        title: 'pic3',
-        id: 3,
-      },
-      {
-        title: 'pic4',
-        id: 4,
-      },
-      {
-        title: 'pic5',
-        id: 5,
-      },
-      {
-        title: 'pic6',
-        id: 6,
-      },
-      {
-        title: 'pic7',
-        id: 7,
-      },
-      {
-        title: 'pic8',
-        id: 8,
-      },
-      {
-        title: 'pic9',
-        id: 9,
-      },
-    ];
+  const gallery = useSelector(
+    (state: RootState) => state.photo.photoList.listPhoto
+  );
 
-    return (
-      <>
-        {gallery.map(({ id = 0 }, index) => (
+  const renderPhoto = () => (
+    <>
+      {gallery.map((item: any, index: number) => {
+        const { id = 0, image_path: pathImgs = '' } = item;
+
+        return (
           <Grid
-            key={id}
+            key={`${id}`}
             className={classes.gridItem}
             item
             lg={4}
@@ -76,12 +40,12 @@ function Photos(): JSX.Element {
             xl={4}
             xs={12}
           >
-            <Photo />
+            <Photo pathImg={pathImgs} />
           </Grid>
-        ))}
-      </>
-    );
-  };
+        );
+      })}
+    </>
+  );
 
   return (
     <div className={`${classes.root} root`}>

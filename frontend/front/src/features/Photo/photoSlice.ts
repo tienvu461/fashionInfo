@@ -2,13 +2,17 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 interface InitialState {
-  photoOrigin: any;
-  photoList: Array<Record<string, unknown>>;
+  photoList: {
+    listPhoto: Array<Record<string, unknown>>;
+    dataOrigin: Record<string, unknown>;
+  };
 }
 
 const initialState: InitialState = {
-  photoOrigin: {},
-  photoList: [],
+  photoList: {
+    listPhoto: [],
+    dataOrigin: {},
+  },
 };
 
 const photoSlice = createSlice({
@@ -16,11 +20,9 @@ const photoSlice = createSlice({
   initialState,
   reducers: {
     getListPhoto: (state, { payload }) => {
-      state.photoOrigin = {
-        ...payload,
-      };
       state.photoList = {
-        ...payload.data,
+        listPhoto: payload.data.results,
+        ...payload,
       };
     },
   },

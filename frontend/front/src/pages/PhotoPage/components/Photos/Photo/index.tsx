@@ -9,8 +9,13 @@ import ShareIcon from '../../../../../assets/images/share.svg';
 import useStyles from '../useStyles';
 import './_photo.scss';
 
-function Photo(): JSX.Element {
+interface PropsType {
+  pathImg: string;
+}
+
+function Photo(props: PropsType): JSX.Element {
   const classes = useStyles();
+  const { pathImg } = props;
 
   return (
     <>
@@ -19,7 +24,7 @@ function Photo(): JSX.Element {
           <CardActionArea>
             <CardMedia
               className={classes.picture}
-              image={BannerPic}
+              image={pathImg || BannerPic}
               title='Contemplative Reptile'
             />
           </CardActionArea>
