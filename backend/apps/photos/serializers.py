@@ -195,14 +195,3 @@ class LikeSerializer(serializers.ModelSerializer):
         data_fields['created_at'] = int(instance.created_at.timestamp())
 
         return data_fields
-
-class DislikeSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = PhotoDislike
-        fields = ['dislike_id', 'user_id', 'photo_id', 'created_at']
-
-    def to_representation(self, instance):
-        data_fields = super(DislikeSerializer, self).to_representation(instance)
-        data_fields['created_at'] = int(instance.created_at.timestamp())
-
-        return data_fields
