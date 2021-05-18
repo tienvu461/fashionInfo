@@ -10,7 +10,9 @@ export const listPhotoAction = (page: number) => async (dispatch: Dispatch) => {
     if (status === 200) {
       dispatch(getListPhoto({ data, status }));
     }
+    return data;
   } catch (error) {
     console.log('ERROR', error);
   }
+  return 0;
 };

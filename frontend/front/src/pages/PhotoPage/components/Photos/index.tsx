@@ -1,5 +1,6 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable camelcase */
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button, Grid, Typography } from '@material-ui/core';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -10,15 +11,17 @@ import { RootState } from '../../../../store/store';
 
 function Photos(): JSX.Element {
   const classes = useStyles();
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<any>();
+  const [listImg, setListImg] = useState<Array<any>>([]);
 
+  // initial fetch data and set gallery to state once time
   useEffect(() => {
-    dispatch(listPhotoAction(1));
+    dispatch(listPhotoAction(1)).then((data) => {
+      const { results = [] } = data;
+      setListImg(results);
+    });
   }, [dispatch]);
 
-  const gallery = useSelector(
-    (state: RootState) => state.photo.photoList.listPhoto
-  );
   const dataPhoto = useSelector(
     (state: RootState) => state.photo.photoList.dataOrigin
   );
@@ -30,7 +33,7 @@ function Photos(): JSX.Element {
 
   const renderPhoto = () => (
     <>
-      {gallery.map((item: GalleryKeys, index: number) => {
+      {listImg.map((item: GalleryKeys, index: number) => {
         const { id = 0, image_path: pathImgs = '' } = item;
 
         return (
@@ -56,12 +59,16 @@ function Photos(): JSX.Element {
     </>
   );
 
-  const handleClick = (key: string) => {
+  const handleClick = async (key: string) => {
     const { next: nextPage = '', previous: previousPage = '' } = dataPhoto;
+    const newListImg = [...listImg];
 
     if (key === 'next') {
       const nextNum = nextPage.split('?page=').pop();
-      dispatch(listPhotoAction(+`${nextNum}`));
+      await dispatch(listPhotoAction(+`${nextNum}`)).then((data) => {
+        const { results = [] } = data;
+        results.forEach((item) => newListImg.push(item));
+      });
     } else {
       const exist = previousPage.includes('?page=');
       let prevNum = 1;
@@ -71,6 +78,8 @@ function Photos(): JSX.Element {
       }
       dispatch(listPhotoAction(+`${prevNum}`));
     }
+
+    setListImg(newListImg);
   };
 
   return (
@@ -85,24 +94,6 @@ function Photos(): JSX.Element {
           spacing={2}
           xs={12}
         >
-          <>
-            {dataPhoto.previous ? (
-              <Button
-                className={classes.nextBtn}
-                onClick={() => handleClick('previous')}
-                variant='contained'
-              >
-                <Typography
-                  className={classes.textBtn}
-                  component='h5'
-                  variant='h5'
-                >
-                  Trang trước
-                </Typography>
-              </Button>
-            ) : null}
-          </>
-
           <>
             {dataPhoto.next ? (
               <Button
