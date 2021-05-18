@@ -12,6 +12,7 @@ import {
 
 const useStyles: () => Record<
   | 'root'
+  | 'backDrop'
   | 'paper'
   | 'picture'
   | 'gridItem'
@@ -99,6 +100,11 @@ const useStyles: () => Record<
   textBtn: {
     textTransform: 'initial',
     paddingBottom: '6px',
+  },
+  backDrop: {
+    width: '100%',
+    zIndex: 1,
+    color: white,
   },
 }));
 

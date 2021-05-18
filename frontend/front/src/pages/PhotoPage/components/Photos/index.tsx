@@ -1,7 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable camelcase */
 import React, { useEffect, useState } from 'react';
-import { Button, Grid, Typography } from '@material-ui/core';
+import { Button, Grid, Typography, Backdrop } from '@material-ui/core';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import { useDispatch, useSelector } from 'react-redux';
 
 import useStyles from './useStyles';
@@ -13,6 +14,8 @@ function Photos(): JSX.Element {
   const classes = useStyles();
   const dispatch = useDispatch<any>();
   const [listImg, setListImg] = useState<Array<any>>([]);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [open, setOpen] = useState<boolean>(false);
 
   // initial fetch data and set gallery to state once time
   useEffect(() => {
@@ -62,12 +65,16 @@ function Photos(): JSX.Element {
   const handleClick = async (key: string) => {
     const { next: nextPage = '', previous: previousPage = '' } = dataPhoto;
     const newListImg = [...listImg];
+    setLoading(true);
+    setOpen(true);
 
     if (key === 'next') {
       const nextNum = nextPage.split('?page=').pop();
       await dispatch(listPhotoAction(+`${nextNum}`)).then((data) => {
         const { results = [] } = data;
         results.forEach((item) => newListImg.push(item));
+        setLoading(false);
+        setOpen(false);
       });
     } else {
       const exist = previousPage.includes('?page=');
@@ -84,6 +91,9 @@ function Photos(): JSX.Element {
 
   return (
     <div className={`${classes.root} root`}>
+      <Backdrop className={classes.backDrop} open={open}>
+        <CircularProgress color='inherit' />
+      </Backdrop>
       <Grid container spacing={3}>
         {renderPhoto()}
         <Grid
@@ -98,6 +108,7 @@ function Photos(): JSX.Element {
             {dataPhoto.next ? (
               <Button
                 className={classes.nextBtn}
+                endIcon={loading ? <CircularProgress /> : null}
                 onClick={() => handleClick('next')}
                 variant='contained'
               >
