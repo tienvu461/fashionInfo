@@ -148,10 +148,10 @@ class PhotoSuggest(views.APIView, pagination.PageNumberPagination):
             import operator
             from functools import reduce
 
-            clauses = ((Q(tags__name__icontains=tag) for tag in org_tag_list))
+            clauses = ((Q(tags__name__iexact=tag) for tag in org_tag_list))
             query = reduce(operator.or_, clauses)
             similar_photos_queryset = Photo.objects.filter(
-                query | Q(photographer__icontains=org_photographer)).distinct()
+                query | Q(photographer__iexact=org_photographer)).distinct()
 
             # similar_photos_queryset = Photo.objects.filter(tags__name__in=org_tag_list).distinct()
             # similar_photos_queryset = Photo.objects.filter(Q(tags__icontains='candy')|Q(body__icontains='candy'))
