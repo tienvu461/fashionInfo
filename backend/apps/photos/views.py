@@ -147,6 +147,22 @@ class PhotoSuggest(views.APIView, pagination.PageNumberPagination):
         # logger.debug(queryset)
         # serializer = PhotoSerializer(queryset, many=True)
         return Response(status=status.HTTP_200_OK,)
+
+# Get the most trending photo
+
+class PhotoFeature(views.APIView):
+    queryset = Photo.objects.all()
+    serializer_class = PhotoDetailSerializer
+
+    def get(self, request, *args, **kwargs):
+        instance = self.get_object()
+        
+        instance.view_count = instance.view_count + 1
+        instance.save(update_fields=("view_count", ))
+
+        serializer = self.get_serializer(instance)
+        return Response(serializer.data)
+    
 # Create comment on photo
 class PhotoCommentCreate(generics.CreateAPIView):
     permission_classes = (IsAuthenticated,)
