@@ -207,6 +207,7 @@ class PhotoFeatureDetail(views.APIView):
     def get(self, request, *args, **kwargs):
         queryset = PhotoFeature.objects.filter(in_use=True)
         if queryset.count() == 0:
+            logger.error("Feature photos does not exist")
             return Response("Feature photos does not exist", status=status.HTTP_500_INTERNAL_SERVER_ERROR)
         serializer = PhotoFeatureSerializer(queryset, many=True)
         return Response(serializer.data)
