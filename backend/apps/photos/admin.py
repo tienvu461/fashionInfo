@@ -10,7 +10,7 @@ import zipfile
 import re
 from datetime import datetime
 
-from .models import Photo, PhotoLike, PhotoComment, News, NewsAttachedPhoto, NewsArchivedFile, NewsLike, NewsDislike, NewsComment,GenericConfig, Category
+from .models import Photo, PhotoFeature, PhotoLike, PhotoComment, News, NewsAttachedPhoto, NewsArchivedFile, NewsLike, NewsDislike, NewsComment, GenericConfig, Category
 from .consts import adminConst
 
 from django import forms
@@ -30,7 +30,16 @@ logger = logging.getLogger('photos')
 @admin.register(GenericConfig)
 class GenericConfigAdmin(admin.ModelAdmin):
     # form = CustomizedConfigForm
-    list_display = ('config_name', 'show_activities', 'in_use', 'short_description')
+    list_display = ('config_name', 'show_activities',
+                    'in_use', 'short_description')
+
+
+@admin.register(PhotoFeature)
+class PhotoFeatureAdmin(admin.ModelAdmin):
+    # form = CustomizedConfigForm
+    list_display = ('id', 'feature_photo', 'login_photo', 'signup_photo',
+                    'popup_photo', 'subscribe_photo', 'in_use', 'created_at')
+
 
 @admin.register(Photo)
 class PhotoAdmin(MarkdownxModelAdmin):
@@ -80,13 +89,17 @@ class PhotoAdmin(MarkdownxModelAdmin):
     thumbnail.allow_tags = True
 
 # Not really need admin for like & dislike
+
+
 @admin.register(PhotoLike)
 class PhotoLikeAdmin(admin.ModelAdmin):
     list_display = ('like_id', 'photo_id', 'user_id', 'created_at')
 
+
 @admin.register(PhotoComment)
 class PhotoCommentAdmin(admin.ModelAdmin):
-    list_display = ('photo_id', 'user_id', 'content', 'active', 'parent', 'created_at',)
+    list_display = ('photo_id', 'user_id', 'content',
+                    'active', 'parent', 'created_at',)
     list_filter = ('created_at', 'active',)
     search_fields = ('content',)
 
@@ -159,9 +172,11 @@ class NewsAdmin(MarkdownxModelAdmin):
             logger.debug("NewsArchivedFile delete result = {}".format(result))
         obj.save()
 
+
 @admin.register(NewsComment)
 class NewsCommentAdmin(admin.ModelAdmin):
-    list_display = ('photo_id', 'user_id', 'content', 'active', 'parent', 'created_at',)
+    list_display = ('photo_id', 'user_id', 'content',
+                    'active', 'parent', 'created_at',)
     list_filter = ('created_at', 'active',)
     search_fields = ('content',)
 

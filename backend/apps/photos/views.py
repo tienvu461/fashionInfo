@@ -7,8 +7,8 @@ from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework import serializers, views, status, mixins, generics, pagination
 import logging
 
-from .models import GenericConfig, Photo, News, PhotoLike, PhotoComment, PhotoLike, PhotoComment
-from .serializers import PhotoSerializer, PhotoDetailSerializer, CommentSerializer, NewsSerializer
+from .models import GenericConfig, Photo, News, PhotoLike, PhotoComment, PhotoLike, PhotoComment, PhotoFeature
+from .serializers import PhotoSerializer, PhotoDetailSerializer, PhotoFeatureSerializer, CommentSerializer, NewsSerializer
 from .consts import photosConst
 from .utils import calc_interactive_pt
 
@@ -199,19 +199,18 @@ class PhotoSuggest(views.APIView, pagination.PageNumberPagination):
 
 # Get the most trending photo
 
-class PhotoFeature(views.APIView):
-    queryset = Photo.objects.all()
-    serializer_class = PhotoDetailSerializer
+
+class PhotoFeatureDetail(views.APIView):
+    # queryset = PhotoFeature.objects.all()
+    # serializer_class = PhotoFeatureSerializer
 
     def get(self, request, *args, **kwargs):
-        instance = self.get_object()
-        
-        instance.view_count = instance.view_count + 1
-        instance.save(update_fields=("view_count", ))
-
-        serializer = self.get_serializer(instance)
+        queryset = PhotoFeature.objects.filter(in_use=True)
+        if queryset.count() == 0:
+            return Response("Feature photos does not exist", status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        serializer = PhotoFeatureSerializer(queryset, many=True)
         return Response(serializer.data)
-    
+
 # Create comment on photo
 
 
