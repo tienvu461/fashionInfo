@@ -59,6 +59,29 @@ function LoginPage(): JSX.Element {
     setfield({ ...field, showPassword: !field.showPassword });
   };
 
+  const loginStatus = useSelector(
+    (state: any) => state.login.loginResponse.status
+  );
+  // console.log('STATUS', loginStatus);
+
+  function handleError() {
+    if (loginStatus === 400) {
+      return (
+        <span className={classes.errorText}>
+          Vui lòng nhập tài khoản và mật khẩu
+        </span>
+      );
+    }
+    if (loginStatus === 401) {
+      return (
+        <span className={classes.errorText}>
+          Tài khoản hoặc mật khẩu không đúng
+        </span>
+      );
+    }
+    return null;
+  }
+
   return (
     <Grid
       className={clsx(classes.root && 'login-page')}
@@ -181,12 +204,13 @@ function LoginPage(): JSX.Element {
                 type={field.showPassword ? 'text' : 'password'}
                 variant='outlined'
               />
+              <Typography>{handleError()}</Typography>
               <div className={classes.savepassword}>
                 <div>
                   <FormControlLabel
                     control={<Checkbox value='remember' color='secondary' />}
                     label={
-                      <span style={{ fontFamily: 'Roboto' }}>
+                      <span style={{ fontFamily: 'Roboto', fontSize: '14' }}>
                         Ghi nhớ mật khẩu
                       </span>
                     }

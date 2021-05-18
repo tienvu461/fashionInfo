@@ -18,6 +18,7 @@ const useStyles: () => Record<
 | 'fontManual'
 | 'titleLogin'
 | 'title'
+| 'errorText'
 | 'submit', string> = makeStyles((theme: Theme) => ({
   root: {
     width: '100%',
@@ -114,7 +115,11 @@ const useStyles: () => Record<
     paddingRight: '20px',
     paddingLeft: '20px',
     fontFamily: 'Roboto',
-  }
+  },
+  errorText: {
+    fontFamily: 'Roboto',
+    color: '#FF0000'
+  },
 }));
 
 export { useStyles as default };
