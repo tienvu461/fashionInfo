@@ -1,5 +1,7 @@
+/* eslint-disable react/jsx-props-no-spreading */
+/* eslint-disable react/require-default-props */
 import React, { ReactChildren, ReactChild, useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import {
   Grid,
   AppBar,
@@ -7,6 +9,8 @@ import {
   ListItem,
   ListItemText,
   Hidden,
+  CssBaseline,
+  Toolbar,
 } from '@material-ui/core';
 
 import useStyles from './useStyles';
@@ -14,99 +18,131 @@ import logo from '../../assets/images/logoLucete.svg';
 import icon from '../../assets/images/user.svg';
 import Search from './components/Search';
 import SideDrawer from './components/Drawer';
+import ScrollToTop from './components/ScrollToTop';
+import { ROUTE_FORUM, ROUTE_HOME, ROUTE_PHOTO } from '../../constants';
 
 interface AuxProps {
+  window?: () => Window;
   children: ReactChild | ReactChildren;
 }
+
 interface NavLinksType {
   title: string;
   path: string;
 }
 
-function HeaderMenu({ children }: AuxProps): JSX.Element {
+function HeaderMenu(props: AuxProps): JSX.Element {
+  const { children } = props;
   const classes = useStyles();
   const history = useHistory();
-  const pathName = window.location.pathname;
-  const [active, setActive] = useState(pathName);
+  const location = useLocation();
+  const [active, setActive] = useState(location.pathname);
 
   const navLinks: Array<NavLinksType> = [
-    { title: 'Photo', path: '/' },
-    { title: 'News', path: '/news' },
-    { title: 'Forum', path: '/forum' },
+    { title: 'Magazine', path: ROUTE_HOME },
+    { title: 'Photo', path: ROUTE_PHOTO },
+    { title: 'Forum', path: ROUTE_FORUM },
   ];
 
   return (
-    <div className={classes.root}>
-      <Grid
-        alignItems='center'
-        className={classes.navbar}
-        container
-        direction='row'
-        justify='center'
-      >
-        <AppBar>
-          <Grid className={classes.header}>
-            <Grid className={classes.logo}>
-              <img alt='Lucete' onClick={() => history.push('/')} src={logo} />
-            </Grid>
-            <Hidden smDown>
-              <Grid className={classes.links}>
-                <List
-                  aria-labelledby='main navigation'
-                  className={classes.navLinks}
-                  component='nav'
-                >
-                  {navLinks.map(({ title, path }) => (
-                    <div
-                      key={title}
-                      onClick={() => {
-                        history.push(path);
-                        setActive(path);
-                      }}
-                    >
-                      <ListItem button>
-                        <ListItemText
-                          primary={
-                            <>
-                              {active === path ? (
-                                <span className={classes.textActive}>
-                                  {title}
-                                </span>
-                              ) : (
-                                <span className={classes.textNonActive}>
-                                  {title}
-                                </span>
-                              )}
-                            </>
-                          }
-                        />
-                      </ListItem>
-                    </div>
-                  ))}
-                </List>
+    <div style={{ position: 'relative' }}>
+      <CssBaseline />
+
+      <div className={classes.root}>
+        <Grid
+          alignItems='center'
+          className={classes.navbar}
+          container
+          direction='row'
+          justify='center'
+        >
+          <AppBar>
+            <Grid
+              className={classes.header}
+              item
+              lg={12}
+              md={12}
+              sm={12}
+              xs={12}
+            >
+              <Grid className={classes.logo}>
+                <img
+                  alt='Lucete'
+                  onClick={() => history.push('/')}
+                  src={logo}
+                />
               </Grid>
-              <Grid className={classes.actions}>
-                <Search />
-                <Grid className={classes.icon}>
-                  <img alt='Lucete' src={icon} />
+              <Hidden smDown>
+                <Grid className={classes.links}>
+                  <List
+                    aria-labelledby='main navigation'
+                    className={classes.navLinks}
+                    component='nav'
+                  >
+                    {navLinks.map(({ title, path }) => (
+                      <div
+                        key={title}
+                        onClick={() => {
+                          history.push(path);
+                          setActive(path);
+                        }}
+                      >
+                        <ListItem button>
+                          <ListItemText
+                            primary={
+                              <>
+                                {active === path ? (
+                                  <span className={classes.textActive}>
+                                    {title}
+                                  </span>
+                                ) : (
+                                  <span className={classes.textNonActive}>
+                                    {title}
+                                  </span>
+                                )}
+                              </>
+                            }
+                          />
+                        </ListItem>
+                      </div>
+                    ))}
+                  </List>
                 </Grid>
-              </Grid>
-            </Hidden>
-            <Hidden mdUp>
-              <Grid className={classes.actions}>
-                <Grid className={classes.icon}>
-                  <img alt='Lucete' src={icon} />
-                </Grid>
-                <Grid>
+                <Grid className={classes.actions}>
                   <Search />
+                  <Grid className={classes.icon}>
+                    <img
+                      alt='Lucete'
+                      onClick={() => history.push('/login')}
+                      src={icon}
+                    />
+                  </Grid>
                 </Grid>
-              </Grid>
-              <SideDrawer navLinks={navLinks} />
-            </Hidden>
-          </Grid>
-        </AppBar>
-      </Grid>
-      <Grid>{children}</Grid>
+              </Hidden>
+              <Hidden mdUp>
+                <Grid className={classes.actions}>
+                  <Grid className={classes.icon}>
+                    <img
+                      alt='Lucete'
+                      onClick={() => history.push('/login')}
+                      src={icon}
+                    />
+                  </Grid>
+                  <Grid>
+                    <Search />
+                  </Grid>
+                </Grid>
+                <SideDrawer navLinks={navLinks} />
+              </Hidden>
+            </Grid>
+          </AppBar>
+          <Toolbar id='back-to-top-anchor' />
+        </Grid>
+        <Grid>{children}</Grid>
+        <ScrollToTop {...props}>
+          <div style={{ display: 'none' }} />
+        </ScrollToTop>
+      </div>
     </div>
   );
 }

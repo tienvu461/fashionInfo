@@ -17,6 +17,10 @@ class modelConst:
         (2, "News"),
         (3, "Comment")
     )
+    BINARY = (
+        (False, "No"),
+        (True, "Yes")
+    )
 
 class postTypeEnum(Enum):
     NoType = 1
@@ -24,3 +28,6 @@ class postTypeEnum(Enum):
     News = 3
     Comment = 4
     
+class photosConst:
+    TAGS_RATIO = 8
+    PHOTOGRAPHER_RATIO = 2

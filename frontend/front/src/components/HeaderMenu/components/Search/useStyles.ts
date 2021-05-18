@@ -12,7 +12,7 @@ const useStyles: () => Record<
       backgroundColor: fade(theme.palette.common.white, 0.25),
     },
     marginLeft: 0,
-    width: '20px !important',
+    // width: '100% !important',
     [theme.breakpoints.up('sm')]: {
       marginLeft: theme.spacing(1),
       width: 'auto',
@@ -32,7 +32,7 @@ const useStyles: () => Record<
   },
   inputInput: {
     // vertical padding + font size from searchIcon
-    paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
+    pdLeftXL: `calc(1em + ${theme.spacing(3)}px)`,
     transition: theme.transitions.create('width'),
     width: '100%',
     [theme.breakpoints.up('sm')]: {

@@ -12,45 +12,46 @@ import {
   Checkbox,
   Link,
   InputAdornment,
+  IconButton,
 } from '@material-ui/core';
-import clsx from 'clsx';
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import AccountCircleOutlined from '@material-ui/icons/AccountCircleOutlined';
-import IconButton from '@material-ui/core/IconButton';
+import clsx from 'clsx';
 import useStyles from './useStyles';
 import './_loginpage.scss';
+import { loginAction } from '../../features/Login/LoginAction';
 
 type FieldStates = {
-  account: string;
+  username: string;
   password: string;
   showPassword: boolean;
 };
 
-function LoginPage() {
+function LoginPage(): JSX.Element {
   const classes = useStyles();
   const dispatch = useDispatch();
   const history = useHistory();
 
   const [field, setfield] = useState<FieldStates>({
-    account: '',
+    username: '',
     password: '',
     showPassword: false,
   });
 
-  const handleChange = (event: any) => {
+  const handleChange = (
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     setfield({
       ...field,
       [event.target.name]: event.target.value,
     });
   };
 
-  const handleSubmit = (event: any) => {
+  const handleSubmit = (event: React.ChangeEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const dataLogin = field;
-    console.log('field', dataLogin);
-    // dispatch(loginAction(dataLogin));
+    dispatch(loginAction(field));
   };
 
   const handleClickShowPassword = () => {
@@ -72,11 +73,11 @@ function LoginPage() {
           <Grid item md={6} sm={8} xs={12}>
             <form className={classes.form} noValidate onSubmit={handleSubmit}>
               <TextField
-                autoComplete='account'
+                autoComplete='username'
                 autoFocus
                 className={classes.field}
                 fullWidth
-                id='account'
+                id='username'
                 InputProps={{
                   startAdornment: (
                     <InputAdornment position='start'>
@@ -87,7 +88,7 @@ function LoginPage() {
                   ),
                 }}
                 margin='normal'
-                name='account'
+                name='username'
                 onChange={(event) => handleChange(event)}
                 placeholder='Your Account'
                 required
