@@ -99,7 +99,7 @@ function Photos(): JSX.Element {
         <CircularProgress color='inherit' />
       </Backdrop>
       <Grid container spacing={3}>
-        {!loading ? (
+        {loading ? (
           <div className={classes.skeleton}>
             {[100, 90, 80, 70, 60].map((width) => (
               <Skeleton
