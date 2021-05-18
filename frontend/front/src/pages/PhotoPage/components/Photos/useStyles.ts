@@ -94,6 +94,7 @@ const useStyles: () => Record<
   nextBtn: {
     height: '60px',
     width: '220px',
+    marginRight: '20px',
   },
   textBtn: {
     textTransform: 'initial',

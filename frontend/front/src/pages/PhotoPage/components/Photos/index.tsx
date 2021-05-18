@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 import React, { useEffect } from 'react';
 import { Button, Grid, Typography } from '@material-ui/core';
 import { useDispatch, useSelector } from 'react-redux';
@@ -22,9 +23,14 @@ function Photos(): JSX.Element {
     (state: RootState) => state.photo.photoList.dataOrigin
   );
 
+  interface GalleryKeys {
+    image_path: string;
+    id: number;
+  }
+
   const renderPhoto = () => (
     <>
-      {gallery.map((item: any, index: number) => {
+      {gallery.map((item: GalleryKeys, index: number) => {
         const { id = 0, image_path: pathImgs = '' } = item;
 
         return (
