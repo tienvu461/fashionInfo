@@ -29,8 +29,5 @@ class postTypeEnum(Enum):
     Comment = 4
     
 class photosConst:
-    INTERACTIVE_RATIO = [
-        'likes',
-        'comments',
-        'views',
-    ]
+    TAGS_RATIO = 8
+    PHOTOGRAPHER_RATIO = 2

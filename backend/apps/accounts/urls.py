@@ -1,5 +1,5 @@
 from django.urls import path, include
-from .views import RedirectSocial, UserListView, BlackListTokenView, ActivateUser
+from .views import RedirectSocial, UserListView, BlackListTokenView, ActivateUser, EmailTokenObtainPairView
 
 accounts_urlpatterns = [
     path('api/', include('djoser.urls')),
@@ -10,6 +10,7 @@ accounts_urlpatterns = [
     # The URL that you could use for testing and that later on can be used for Front-End app Authentication.
     path('accounts/profile/', RedirectSocial.as_view()),
     path('userlist/', UserListView.as_view()),
+    path('api/token', EmailTokenObtainPairView.as_view()),
     path('api/user/logout/', BlackListTokenView.as_view(), name='logout-view'),
-    path('api/user/activate/<str:uid>/<str:token>/', ActivateUser.as_view(), name='activate-view')
+    path('api/user/activate/<str:uid>/<str:token>/', ActivateUser.as_view(), name='activate-view'),
 ]

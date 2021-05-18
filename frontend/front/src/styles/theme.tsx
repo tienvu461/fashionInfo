@@ -15,7 +15,7 @@ export const white = '#fff';
 export const black = '#000000';
 export const grayPrimary = '#C4C4C4';
 export const gray = '#EEEEEE';
-export const textMenu = '#373F41';
+export const textColor = '#373F41';
 
 // padding (view + responsive)
 export const pdXL = '0 200px';
@@ -55,7 +55,7 @@ export const theme = createMuiTheme({
     },
   },
   typography: {
-    fontFamily: ['Roboto', 'sans-serif'].join(','),
+    fontFamily: ['Darker Grotesque', 'sans-serif'].join(','),
     h6: {
       fontSize: '18px',
       '@media (max-width:1302px)': {
@@ -78,9 +78,9 @@ export const theme = createMuiTheme({
       },
     },
     h1: {
-      fontSize: '6rem',
+      fontSize: '120px',
       '@media (max-width:1302px)': {
-        fontSize: '3.4rem',
+        fontSize: '100px',
       },
       '@media (max-width:960px)': {
         fontSize: '2.8rem',
