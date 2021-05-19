@@ -1,6 +1,6 @@
 import { Dispatch } from '@reduxjs/toolkit';
 import { loginSucess, loginFail } from './LoginSlice';
-import { loginService } from '../../services/auth';
+import { loginService, getUrlSocialService } from '../../services/auth';
 import { setDataFromLocalStorage, setTokenToLocalStorage } from '../../utils/localStorage';
 
 export const loginAction = (payload: unknown) => async (dispatch: Dispatch) => {
@@ -20,3 +20,16 @@ export const loginAction = (payload: unknown) => async (dispatch: Dispatch) => {
             // console.log('LOGIN ERROR', error);
         }
     };
+
+export const getUrlSocialAction = () => async (dispatch: Dispatch) => {
+    try {
+        const response = await getUrlSocialService();
+        const url = response.data.authorization_url
+        const win = window.open(url, '_blank');
+            if (win != null) {
+                win.focus();
+            }
+    } catch (error) {
+        console.log(error)
+    }
+}

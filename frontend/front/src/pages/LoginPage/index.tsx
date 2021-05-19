@@ -20,7 +20,7 @@ import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import clsx from 'clsx';
 import useStyles from './useStyles';
 import './_loginpage.scss';
-import { loginAction } from '../../features/Login/LoginAction';
+import { loginAction, getUrlSocialAction } from '../../features/Login/LoginAction';
 import iconGg from '../../assets/images/iconfinder_Google_Loginin.png';
 import iconFb from '../../assets/images/iconFb_Login.png';
 
@@ -110,6 +110,9 @@ function LoginPage(): JSX.Element {
                 />
               }
               className={classes.button}
+              onClick={() => {
+                  dispatch(getUrlSocialAction());
+                }}
             >
               <Typography component='span'>
                 <Box
