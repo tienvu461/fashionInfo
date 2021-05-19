@@ -13,15 +13,19 @@ import {
   Link,
   InputAdornment,
   IconButton,
+  Divider,
 } from '@material-ui/core';
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
-import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
-import AccountCircleOutlined from '@material-ui/icons/AccountCircleOutlined';
 import clsx from 'clsx';
 import useStyles from './useStyles';
 import './_loginpage.scss';
-import { loginAction } from '../../features/Login/LoginAction';
+import {
+  loginAction,
+  getUrlSocialAction,
+} from '../../features/Login/LoginAction';
+import iconGg from '../../assets/images/iconfinder_Google_Loginin.png';
+import iconFb from '../../assets/images/iconFb_Login.png';
 
 type FieldStates = {
   username: string;
@@ -58,55 +62,134 @@ function LoginPage(): JSX.Element {
     setfield({ ...field, showPassword: !field.showPassword });
   };
 
+  const loginStatus = useSelector(
+    (state: any) => state.login.loginResponse.status
+  );
+  // console.log('STATUS', loginStatus);
+
+  function handleError() {
+    if (loginStatus === 400) {
+      return (
+        <span className={classes.errorText}>
+          Vui lòng nhập tài khoản/email và mật khẩu
+        </span>
+      );
+    }
+    if (loginStatus === 401) {
+      return (
+        <span className={classes.errorText}>
+          Tài khoản/Email hoặc mật khẩu không đúng
+        </span>
+      );
+    }
+    return null;
+  }
+
   return (
     <Grid
       className={clsx(classes.root && 'login-page')}
       component='main'
       container
+      item
     >
-      <Grid item md={3} sm={12} xs={12} />
+      <Grid item md={6} sm={12} xs={12} className='imageBannerLogin'></Grid>
       <Grid item md={6} sm={12} xs={12}>
         <div className={classes.paper}>
-          <Typography component='h1' variant='h5'>
-            Log in your account!
-          </Typography>
-          <Grid item md={6} sm={8} xs={12}>
+          <Box textAlign='left'>
+            <Typography component='span'>
+              <Box className={classes.header}>Welcome back!</Box>
+            </Typography>
+            <Typography component='span'>
+              <Box className={classes.titleLogin} fontWeight='fontWeightBold'>
+                Đăng nhập
+              </Box>
+            </Typography>
+            <div className={classes.savepassword}>
+              <Button
+                startIcon={
+                  <Avatar
+                    alt='goole-icon'
+                    src={iconGg}
+                    className={classes.small}
+                  />
+                }
+                className={classes.button}
+                onClick={() => {
+                  dispatch(getUrlSocialAction());
+                }}
+              >
+                <Typography component='span'>
+                  <Box
+                    fontWeight='fontWeightBold'
+                    fontSize={16}
+                    color='#000000'
+                    className={classes.socialButton}
+                  >
+                    Qua Google
+                  </Box>
+                </Typography>
+              </Button>
+              <Button
+                startIcon={
+                  <Avatar
+                    alt='goole-icon'
+                    src={iconFb}
+                    className={classes.small}
+                  />
+                }
+                className={classes.button}
+              >
+                <Typography component='span'>
+                  <Box
+                    fontWeight='fontWeightBold'
+                    fontSize={16}
+                    color='#000000'
+                    className={classes.socialButton}
+                  >
+                    Qua Facebook
+                  </Box>
+                </Typography>
+              </Button>
+            </div>
+            {/* <div> */}
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                padding: '4px 0 4px 0',
+              }}
+            >
+              <hr className='line'></hr>
+              <span className={classes.title}>hoặc</span>
+              <hr className='line'></hr>
+            </div>
             <form className={classes.form} noValidate onSubmit={handleSubmit}>
+              <div className={classes.fontManual}>Email</div>
               <TextField
                 autoComplete='username'
                 autoFocus
                 className={classes.field}
                 fullWidth
                 id='username'
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position='start'>
-                      <Avatar className={classes.avatar}>
-                        <AccountCircleOutlined />
-                      </Avatar>
-                    </InputAdornment>
-                  ),
-                }}
                 margin='normal'
                 name='username'
                 onChange={(event) => handleChange(event)}
-                placeholder='Your Account'
                 required
                 variant='outlined'
               />
+              <div
+                style={{ paddingTop: '16px' }}
+                className={classes.fontManual}
+              >
+                Mật khẩu
+              </div>
               <TextField
                 autoComplete='password'
                 className={classes.field}
                 fullWidth
                 id='password'
                 InputProps={{
-                  startAdornment: (
-                    <InputAdornment position='start'>
-                      <Avatar className={classes.avatar}>
-                        <LockOutlinedIcon />
-                      </Avatar>
-                    </InputAdornment>
-                  ),
                   endAdornment: (
                     <InputAdornment position='end'>
                       <IconButton
@@ -125,36 +208,51 @@ function LoginPage(): JSX.Element {
                 margin='normal'
                 name='password'
                 onChange={(event) => handleChange(event)}
-                placeholder='Password'
                 required
                 type={field.showPassword ? 'text' : 'password'}
                 variant='outlined'
               />
-              <FormControlLabel
-                control={<Checkbox color='secondary' value='remember' />}
-                label='Remember me'
-              />
+              <Typography>{handleError()}</Typography>
+              <div className={classes.savepassword}>
+                <div>
+                  <FormControlLabel
+                    control={<Checkbox value='remember' color='secondary' />}
+                    label={
+                      <span style={{ fontFamily: 'Roboto', fontSize: '14' }}>
+                        Ghi nhớ mật khẩu
+                      </span>
+                    }
+                  />
+                </div>
+                <div>
+                  <Link className={classes.link}>
+                    <span className={classes.fontManual}>Quên mật khẩu?</span>
+                  </Link>
+                </div>
+              </div>
               <Button className={classes.submit} fullWidth type='submit'>
-                Log In
+                <Typography component='span'>
+                  <Box
+                    fontWeight='fontWeightBold'
+                    fontSize={16}
+                    color='#ffffff'
+                    className={classes.socialButton}
+                  >
+                    Đăng nhập
+                  </Box>
+                </Typography>
               </Button>
-              <Grid container>
-                <Grid item md sm xs>
-                  <Link className={classes.link} href='#'>
-                    Forgot password?
-                  </Link>
-                </Grid>
-                <Grid item md sm xs>
-                  <Link className={classes.link} href='#'>
-                    Sign Up
-                  </Link>
-                </Grid>
-              </Grid>
             </form>
-          </Grid>
+            <Box textAlign='center'>
+              <span className={classes.fontManual}>Chưa có tài khoản?</span>
+              <Link className={classes.link}>
+                <span className={classes.fontManual}> Đăng ký ngay</span>
+              </Link>
+            </Box>
+            {/* </div> */}
+          </Box>
         </div>
-        <Box mt={8} />
       </Grid>
-      <Grid item md={3} sm={12} xs={12} />
     </Grid>
   );
 }
