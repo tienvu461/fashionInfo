@@ -20,10 +20,6 @@ function Photo(props: PropsType): JSX.Element {
   const classes = useStyles();
   const { pathImg, id } = props;
 
-  // const clickOnPhoto = () => {
-
-  // }
-
   return (
     <>
       <Paper className={classes.paper}>

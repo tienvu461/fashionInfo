@@ -1,4 +1,6 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { getDetailAction } from '../../../../../features/Photo/photoAction';
 
 interface DetailProps {
   match: {
@@ -10,7 +12,12 @@ interface DetailProps {
 
 function Detail(props: DetailProps): JSX.Element {
   const { match: { params: { id = '' } = {} } = {} } = props;
-  console.log(id);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getDetailAction(id));
+  }, [dispatch, id]);
+
   return <div>abc</div>;
 }
 
