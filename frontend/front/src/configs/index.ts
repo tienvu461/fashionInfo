@@ -1,7 +1,8 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import axios from 'axios';
 import { getDataFromLocalStorage } from '../utils/localStorage';
 
-export const request = async (url = '', method = '', data = {}) => {
+export const request: any = async (url = '', method = '', data = {}) => {
   const config: any = {};
 
   const token = getDataFromLocalStorage();
