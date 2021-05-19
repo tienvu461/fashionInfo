@@ -20,7 +20,10 @@ import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import clsx from 'clsx';
 import useStyles from './useStyles';
 import './_loginpage.scss';
-import { loginAction, getUrlSocialAction } from '../../features/Login/LoginAction';
+import {
+  loginAction,
+  getUrlSocialAction,
+} from '../../features/Login/LoginAction';
 import iconGg from '../../assets/images/iconfinder_Google_Loginin.png';
 import iconFb from '../../assets/images/iconFb_Login.png';
 
@@ -68,14 +71,14 @@ function LoginPage(): JSX.Element {
     if (loginStatus === 400) {
       return (
         <span className={classes.errorText}>
-          Vui lòng nhập tài khoản và mật khẩu
+          Vui lòng nhập tài khoản/email và mật khẩu
         </span>
       );
     }
     if (loginStatus === 401) {
       return (
         <span className={classes.errorText}>
-          Tài khoản hoặc mật khẩu không đúng
+          Tài khoản/Email hoặc mật khẩu không đúng
         </span>
       );
     }
@@ -101,51 +104,53 @@ function LoginPage(): JSX.Element {
                 Đăng nhập
               </Box>
             </Typography>
-            <Button
-              startIcon={
-                <Avatar
-                  alt='goole-icon'
-                  src={iconGg}
-                  className={classes.small}
-                />
-              }
-              className={classes.button}
-              onClick={() => {
+            <div className={classes.savepassword}>
+              <Button
+                startIcon={
+                  <Avatar
+                    alt='goole-icon'
+                    src={iconGg}
+                    className={classes.small}
+                  />
+                }
+                className={classes.button}
+                onClick={() => {
                   dispatch(getUrlSocialAction());
                 }}
-            >
-              <Typography component='span'>
-                <Box
-                  fontWeight='fontWeightBold'
-                  fontSize={16}
-                  color='#000000'
-                  className={classes.socialButton}
-                >
-                  Qua Google
-                </Box>
-              </Typography>
-            </Button>
-            <Button
-              startIcon={
-                <Avatar
-                  alt='goole-icon'
-                  src={iconFb}
-                  className={classes.small}
-                />
-              }
-              className={classes.button}
-            >
-              <Typography component='span'>
-                <Box
-                  fontWeight='fontWeightBold'
-                  fontSize={16}
-                  color='#000000'
-                  className={classes.socialButton}
-                >
-                  Qua Facebook
-                </Box>
-              </Typography>
-            </Button>
+              >
+                <Typography component='span'>
+                  <Box
+                    fontWeight='fontWeightBold'
+                    fontSize={16}
+                    color='#000000'
+                    className={classes.socialButton}
+                  >
+                    Qua Google
+                  </Box>
+                </Typography>
+              </Button>
+              <Button
+                startIcon={
+                  <Avatar
+                    alt='goole-icon'
+                    src={iconFb}
+                    className={classes.small}
+                  />
+                }
+                className={classes.button}
+              >
+                <Typography component='span'>
+                  <Box
+                    fontWeight='fontWeightBold'
+                    fontSize={16}
+                    color='#000000'
+                    className={classes.socialButton}
+                  >
+                    Qua Facebook
+                  </Box>
+                </Typography>
+              </Button>
+            </div>
             {/* <div> */}
             <div
               style={{

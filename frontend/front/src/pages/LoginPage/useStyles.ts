@@ -90,7 +90,8 @@ const useStyles: () => Record<
   },
   button: {
     width: '175px',
-    height: '50px'
+    height: '50px',
+    backgroundColor: '#FFFFFF',
   },
   savepassword: {
     display: 'flex',
