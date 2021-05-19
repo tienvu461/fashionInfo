@@ -129,9 +129,6 @@ function Photos(): JSX.Element {
 
   return (
     <div className={`${classes.root} root`}>
-      {/* <Backdrop className={classes.backDrop} open={open}>
-        <CircularProgress color='inherit' />
-      </Backdrop> */}
       <Grid container spacing={3}>
         {initialLoading ? (
           <>{loadingPhoto()}</>
