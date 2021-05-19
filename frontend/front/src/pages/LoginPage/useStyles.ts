@@ -10,6 +10,15 @@ const useStyles: () => Record<
 | 'form'
 | 'field'
 | 'link'
+| 'small'
+| 'socialButton'
+| 'button'
+| 'savepassword'
+| 'header'
+| 'fontManual'
+| 'titleLogin'
+| 'title'
+| 'errorText'
 | 'submit', string> = makeStyles((theme: Theme) => ({
   root: {
     width: '100%',
@@ -21,7 +30,8 @@ const useStyles: () => Record<
     margin: theme.spacing(8, 4),
     display: 'flex',
     flexDirection: 'column',
-    alignItems: 'center',
+    alignItems: 'left',
+    width: '390px',
   },
   avatar: {
     margin: theme.spacing(1),
@@ -33,7 +43,7 @@ const useStyles: () => Record<
   },
   submit: {
     margin: theme.spacing(3, 0, 2),
-    backgroundColor: 'black',
+    backgroundColor: '#383838',
     color: 'white',
     '&:hover': {
       backgroundColor: 'gray',
@@ -41,32 +51,76 @@ const useStyles: () => Record<
   },
   field: {
     '& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline': {
-      borderColor: 'black',
+      borderColor: '#E8E8E8',
     },
     '&:hover .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline': {
-      borderColor: '#000',
+      borderColor: '#000000',
     },
     '& .MuiOutlinedInput-input': {
-      color: 'black',
+      color: '#000000',
+      fontFamily: 'Roboto',
     },
     '&:hover .MuiOutlinedInput-input': {
-      color: 'black',
+      color: '#000000',
     },
     '& .MuiInputLabel-outlined': {
-      color: 'black',
+      color: '#000000',
     },
     '&:hover .MuiInputLabel-outlined': {
-      color: '#000',
+      color: '#000000',
     },
 
     // TextField select
     '& .MuiTextField-root': {
       margin: theme.spacing(1),
     },
+    width: '390px',
+    height: '50px'
   },
   link: {
-    color: '#000',
-  }
+    color: '#2C5282',
+  },
+  small: {
+    width: theme.spacing(2),
+    height: theme.spacing(2),
+  },
+  socialButton: {
+    textTransform: 'none',
+    fontFamily: 'Roboto',
+  },
+  button: {
+    width: '175px',
+    height: '50px',
+    backgroundColor: '#FFFFFF',
+  },
+  savepassword: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center'
+  },
+  header: {
+    fontSize: '16px',
+    color: '#2D3748',
+    fontFamily: 'Roboto',
+  },
+  titleLogin: {
+    fontSize: '30px',
+    color: '#2D3748',
+    paddingBottom: '33px',
+    fontFamily: 'Roboto',
+  },
+  fontManual: {
+    fontFamily: 'Roboto',
+  },
+  title: {
+    paddingRight: '20px',
+    paddingLeft: '20px',
+    fontFamily: 'Roboto',
+  },
+  errorText: {
+    fontFamily: 'Roboto',
+    color: '#FF0000'
+  },
 }));
 
 export { useStyles as default };

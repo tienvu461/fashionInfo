@@ -1,4 +1,4 @@
-import { LOGIN_API } from '../apis/index';
+import { LOGIN_API, GET_AUTHEN_URL } from '../apis/index';
 import request from '../configs/index';
 
 export async function loginService(payload: any) {
@@ -9,4 +9,13 @@ export async function loginService(payload: any) {
             payload
         )
     );
+}
+
+export async function getUrlSocialService() {
+    return (
+        request(
+            GET_AUTHEN_URL,
+            'GET',
+        )
+    )
 }
