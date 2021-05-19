@@ -6,7 +6,7 @@ interface InitialState {
     listPhoto: Array<any>;
     dataOrigin: Record<string, string>;
   };
-  photoDetail: Record<string, string>;
+  photoDetail: Record<any, any>;
 }
 
 const initialState: InitialState = {

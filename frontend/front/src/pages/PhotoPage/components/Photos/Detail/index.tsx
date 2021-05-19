@@ -1,5 +1,7 @@
+/* eslint-disable camelcase */
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import moment from 'moment';
 import {
   Grid,
   Paper,
@@ -35,29 +37,33 @@ function Detail(props: DetailProps): JSX.Element {
     (state: RootState) => state.photo.photoDetail
   );
 
+  const detail = useSelector(
+    (state: RootState) => state.photo.photoDetail.detail_info
+  );
+
   const arrInfo: Array<{
     name: string;
     value: string;
   }> = [
     {
       name: 'Tên (tuổi)',
-      value: 'Kim JinYoung (35)',
+      value: detail?.model_name,
     },
     {
       name: 'Ngày chụp',
-      value: '15-03-2021',
+      value: moment(detail?.shoot_date).format('DD-MM-YYYY'),
     },
     {
       name: 'Ngày đăng',
-      value: '30-03-2021',
+      value: moment(detail?.post_date).format('DD-MM-YYYY'),
     },
     {
       name: 'Địa điểm',
-      value: 'Vincom Center, Đồng Khởi, HCMC',
+      value: detail?.location,
     },
     {
       name: 'Nghề nghiệp',
-      value: 'Nhân viên văn phòng',
+      value: detail?.model_job,
     },
     {
       name: 'Phong cách',
@@ -65,13 +71,15 @@ function Detail(props: DetailProps): JSX.Element {
     },
     {
       name: 'Thương hiệu',
-      value: 'KIDO',
+      value: detail?.brand,
     },
     {
       name: 'Photographer',
-      value: 'Dang Vinh Quang',
+      value: detail?.photographer,
     },
   ];
+
+  console.log(arrInfo);
 
   const renderInformation = () => (
     <>
