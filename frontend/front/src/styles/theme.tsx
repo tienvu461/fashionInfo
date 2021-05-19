@@ -126,33 +126,33 @@ export const theme = createMuiTheme({
     //     },
     //   },
     // },
-    // MuiButton: {
-    //   root: {
-    //     backgroundColor: black,
-    //     '&:hover': {
-    //       backgroundColor: darkColor,
-    //     },
-    //   },
-    //   outlined: {
-    //     color: white,
-    //     borer: 'none',
-    //   },
-    //   contained: {
-    //     color: red,
-    //     border: `1px solid ${red}`,
-    //     backgroundColor: white,
-    //     borderRadius: '50px',
-    //     '&:hover': {
-    //       backgroundColor: red,
-    //       color: white,
-    //     },
-    //     '&:hover: none': {
-    //       backgroundColor: red,
-    //       color: white,
-    //     },
-    //     boxShadow: 'none',
-    //   },
-    // },
+    MuiButton: {
+      root: {
+        backgroundColor: black,
+        '&:hover': {
+          backgroundColor: grayPrimary,
+        },
+      },
+      // outlined: {
+      //   color: white,
+      //   borer: 'none',
+      // },
+      contained: {
+        color: white,
+        border: `1px solid ${black}`,
+        backgroundColor: black,
+        '&:hover': {
+          backgroundColor: grayPrimary,
+          color: black,
+          border: 'transparent',
+        },
+        // '&:hover: none': {
+        //   backgroundColor: red,
+        //   color: white,
+        // },
+        boxShadow: 'none',
+      },
+    },
     // MuiCheckbox: {
     //   root: {
     //     marginRight: '5px',
