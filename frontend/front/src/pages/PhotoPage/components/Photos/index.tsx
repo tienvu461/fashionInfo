@@ -61,7 +61,7 @@ function Photos(): JSX.Element {
             xl={4}
             xs={12}
           >
-            <Photo pathImg={pathImgs} />
+            <Photo id={id} pathImg={pathImgs} />
           </Grid>
         );
       })}

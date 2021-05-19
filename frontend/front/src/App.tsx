@@ -15,6 +15,7 @@ import PhotoPage from './pages/PhotoPage';
 import LoginPage from './pages/LoginPage';
 import MagazinePage from './pages/MagaginzePage';
 import NotFound from './pages/NotFound';
+import Detail from './pages/PhotoPage/components/Photos/Detail';
 
 function App(): JSX.Element {
   return (
@@ -22,6 +23,7 @@ function App(): JSX.Element {
       <HeaderMenu>
         <Switch>
           <Route component={PhotoPage} exact path={ROUTE_PHOTO} />
+          <Route component={Detail} exact path={`${ROUTE_PHOTO}/:id`} />
           <Route component={MagazinePage} exact path={ROUTE_HOME} />
           <Route component={ForumPage} exact path={ROUTE_FORUM} />
           <Route component={LoginPage} exact path={ROUTE_LOGIN} />
