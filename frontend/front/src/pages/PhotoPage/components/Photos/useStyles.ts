@@ -12,6 +12,7 @@ import {
 
 const useStyles: () => Record<
   | 'root'
+  | 'backDrop'
   | 'paper'
   | 'picture'
   | 'gridItem'
@@ -20,7 +21,11 @@ const useStyles: () => Record<
   | 'leftActions'
   | 'right'
   | 'num'
-  | 'icon',
+  | 'icon'
+  | 'btn'
+  | 'nextBtn'
+  | 'textBtn'
+  | 'skeleton',
   string
 > = makeStyles(() => ({
   root: {
@@ -84,6 +89,27 @@ const useStyles: () => Record<
     fontSize: '18px',
     lineHeight: '24px',
     color: black,
+  },
+  btn: {
+    padding: '40px 0',
+  },
+  nextBtn: {
+    height: '60px',
+    width: '220px',
+    marginRight: '20px',
+  },
+  textBtn: {
+    textTransform: 'initial',
+    paddingBottom: '6px',
+  },
+  backDrop: {
+    width: '100%',
+    zIndex: 1,
+    color: white,
+  },
+  skeleton: {
+    padding: '100px 0',
+    width: '100%',
   },
 }));
 
