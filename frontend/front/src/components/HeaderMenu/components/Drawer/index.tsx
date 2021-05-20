@@ -1,12 +1,6 @@
-/* eslint-disable operator-linebreak */
+/* eslint-disable object-curly-newline */
 import React, { useState } from 'react';
-import {
-  Drawer,
-  IconButton,
-  List,
-  ListItem,
-  ListItemText,
-} from '@material-ui/core';
+import { Drawer, IconButton, List, ListItem, ListItemText } from '@material-ui/core';
 import { Menu } from '@material-ui/icons';
 import useStyles from './useStyles';
 
@@ -25,10 +19,7 @@ function SideDrawer({ navLinks }: NavLinksType): JSX.Element {
   const [state, setState] = useState<AnchorState>({ right: false });
 
   const toggleDrawer = (anchor: string, open: boolean) => (event) => {
-    if (
-      event.type === 'keydown' &&
-      (event.key === 'Tab' || event.key === 'Shift')
-    ) {
+    if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
       return;
     }
 
@@ -40,12 +31,7 @@ function SideDrawer({ navLinks }: NavLinksType): JSX.Element {
   };
 
   const sideDrawerList = (anchor: string) => (
-    <div
-      className={classes.list}
-      onClick={toggleDrawer(anchor, false)}
-      onKeyDown={toggleDrawer(anchor, false)}
-      role='presentation'
-    >
+    <div className={classes.list} onClick={toggleDrawer(anchor, false)} onKeyDown={toggleDrawer(anchor, false)} role='presentation'>
       <List component='nav'>
         {navLinks.map(({ title, path }) => (
           <a key={title} className={classes.linkText} href={path}>
@@ -60,19 +46,11 @@ function SideDrawer({ navLinks }: NavLinksType): JSX.Element {
 
   return (
     <>
-      <IconButton
-        aria-label='menu'
-        edge='start'
-        onClick={toggleDrawer('right', true)}
-      >
+      <IconButton aria-label='menu' edge='start' onClick={toggleDrawer('right', true)}>
         <Menu fontSize='large' style={{ color: 'black' }} />
       </IconButton>
 
-      <Drawer
-        anchor='right'
-        onClose={toggleDrawer('right', false)}
-        open={state.right}
-      >
+      <Drawer anchor='right' onClose={toggleDrawer('right', false)} open={state.right}>
         {sideDrawerList('right')}
       </Drawer>
     </>
