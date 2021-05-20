@@ -9,6 +9,7 @@ import {
   CardActionArea,
   CardMedia,
   Typography,
+  Divider,
 } from '@material-ui/core';
 import { getDetailAction } from '../../../../../features/Photo/photoAction';
 import HeartIcon from '../../../../../assets/images/heart.svg';
@@ -85,15 +86,30 @@ function Detail(props: DetailProps): JSX.Element {
         const { name = '', value = '' } = item;
         return (
           <React.Fragment key={`${index + 1}`}>
-            <Grid item lg={4} md={4} sm={12} wrap='wrap' xl={12} xs={12}>
+            <Grid
+              item
+              lg={4}
+              md={6}
+              sm={12}
+              style={{ background: '#EEEEEF' }}
+              wrap='wrap'
+              xl={12}
+              xs={6}
+            >
               <Typography className={classes.name} component='h6' variant='h6'>
                 {name}
               </Typography>
             </Grid>
-            <Grid item lg={8} md={8} sm={12} wrap='wrap' xl={12} xs={12}>
-              <Typography className={classes.value} component='h6' variant='h6'>
-                {value}
-              </Typography>
+            <Grid item lg={8} md={6} sm={12} wrap='wrap' xl={12} xs={6}>
+              <div className={classes.valueName}>
+                <Typography
+                  className={classes.value}
+                  component='h6'
+                  variant='h6'
+                >
+                  {value}
+                </Typography>
+              </div>
             </Grid>
           </React.Fragment>
         );
@@ -105,7 +121,7 @@ function Detail(props: DetailProps): JSX.Element {
     const { tags: listTags = [] } = photoDetail;
 
     return (
-      <Grid item lg={6} md={6} sm={6} wrap='wrap' xl={12} xs={12}>
+      <Grid item lg={6} md={12} sm={12} wrap='wrap' xl={12} xs={12}>
         <div className={classes.tags}>
           {listTags.map((item: string, index: number) => (
             <Grid key={`${index + 1}`} className={classes.tag}>
@@ -127,10 +143,10 @@ function Detail(props: DetailProps): JSX.Element {
           item
           lg={6}
           md={6}
-          sm={6}
+          sm={8}
           spacing={2}
           wrap='wrap'
-          xl={4}
+          xl={12}
           xs={12}
         >
           <Paper className={classes.paper}>
@@ -146,7 +162,7 @@ function Detail(props: DetailProps): JSX.Element {
                 <div className={classes.actions}>
                   <div className={classes.left}>
                     <img alt='heart-icon' src={HeartIcon} />
-                    <div className={classes.num}>8</div>
+                    <div className={classes.num}>{photoDetail.likes}</div>
                   </div>
                   <div className={classes.right}>
                     <img alt='share-icon' src={ShareIcon} />
@@ -156,7 +172,7 @@ function Detail(props: DetailProps): JSX.Element {
             </Card>
           </Paper>
         </Grid>
-        <Grid item lg={6} md={6} sm={6} spacing={2} wrap='wrap' xl={4} xs={12}>
+        <Grid item lg={6} md={6} sm={4} spacing={2} wrap='wrap' xl={12} xs={12}>
           <div className={classes.information}>
             <Grid container lg={12} md={12} sm={12} wrap='wrap' xl={12} xs={12}>
               <Grid
@@ -190,6 +206,21 @@ function Detail(props: DetailProps): JSX.Element {
   return (
     <div className={`${classes.root} root`}>
       <Grid container>{renderDetailPhoto()}</Grid>
+      <Divider />
+      <Grid container>
+        <Grid
+          item
+          lg={12}
+          md={12}
+          sm={12}
+          spacing={2}
+          wrap='wrap'
+          xl={12}
+          xs={12}
+        >
+          <div style={{ background: '#EEEEEF', height: '100vh' }} />
+        </Grid>
+      </Grid>
     </div>
   );
 }

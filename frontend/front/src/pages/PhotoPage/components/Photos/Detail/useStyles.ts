@@ -25,6 +25,7 @@ const useStyles: () => Record<
   | 'information'
   | 'title'
   | 'name'
+  | 'valueName'
   | 'value'
   | 'tag'
   | 'tags'
@@ -90,6 +91,14 @@ const useStyles: () => Record<
     display: 'flex',
     alignItems: 'flex-end',
     padding: '0 0 88px 130px',
+
+    // responsive
+    [theme.breakpoints.up('sm')]: {
+      padding: '0 0 88px 40px',
+    },
+    [theme.breakpoints.down('sm')]: {
+      padding: '0 0 88px 30px',
+    },
   },
   title: {
     letterSpacing: '1px',
@@ -115,6 +124,9 @@ const useStyles: () => Record<
     fontWeight: 'bold',
     textAlign: 'left',
     fontFamily: 'Roboto',
+  },
+  valueName: {
+    wordBreak: 'break-word',
   },
   tag: {
     width: 'fit-content',

@@ -61,10 +61,10 @@ export const theme = createMuiTheme({
     h6: {
       fontSize: '18px',
       '@media (max-width:1302px)': {
-        fontSize: '20px',
+        fontSize: '16px',
       },
       '@media (max-width:960px)': {
-        fontSize: '18px',
+        fontSize: '14px',
       },
     },
     h5: {
