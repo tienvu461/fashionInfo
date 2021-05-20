@@ -33,11 +33,10 @@ services:
 
     nginx:
         build:
-            dockerfile: ./infrastructure/docker/backend/Dockerfile
-        depends_on:
-          - backend
+            context: .
+            dockerfile: ./infrastructure/docker/nginx/staging/Dockerfile
         ports:
-          - "0.0.0.0:80:80"
+            - "0.0.0.0:80:80"
         volumes:
             - media_volume:/app/backend/media
             - static_volume:/app/backend/static
