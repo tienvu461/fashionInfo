@@ -47,35 +47,35 @@ function Detail(props: DetailProps): JSX.Element {
   }> = [
     {
       name: 'Tên (tuổi)',
-      value: detailInfo?.model_name,
+      value: detailInfo?.model_name || 'N/A',
     },
     {
       name: 'Ngày chụp',
-      value: moment(detailInfo?.shoot_date).format('DD-MM-YYYY'),
+      value: moment(detailInfo?.shoot_date).format('DD-MM-YYYY') || 'N/A',
     },
     {
       name: 'Địa điểm',
-      value: detailInfo?.location,
+      value: detailInfo?.location || 'N/A',
     },
     {
       name: 'Nghề nghiệp',
-      value: detailInfo?.model_job,
+      value: detailInfo?.model_job || 'N/A',
     },
     {
       name: 'Phong cách',
-      value: 'Vintage, Casual',
+      value: 'Vintage, Casual' || 'N/A',
     },
     {
       name: 'Thương hiệu',
-      value: detailInfo?.brand,
+      value: detailInfo?.brand || 'N/A',
     },
     {
       name: 'Instagram',
-      value: detailInfo?.brand || '',
+      value: detailInfo?.brand || 'N/A',
     },
     {
       name: 'Photographer',
-      value: detailInfo?.photographer,
+      value: detailInfo?.photographer || 'N/A',
     },
   ];
 
