@@ -31,7 +31,12 @@ function SideDrawer({ navLinks }: NavLinksType): JSX.Element {
   };
 
   const sideDrawerList = (anchor: string) => (
-    <div className={classes.list} onClick={toggleDrawer(anchor, false)} onKeyDown={toggleDrawer(anchor, false)} role='presentation'>
+    <div
+      className={classes.list}
+      onClick={toggleDrawer(anchor, false)}
+      onKeyDown={toggleDrawer(anchor, false)}
+      role='presentation'
+    >
       <List component='nav'>
         {navLinks.map(({ title, path }) => (
           <a key={title} className={classes.linkText} href={path}>
