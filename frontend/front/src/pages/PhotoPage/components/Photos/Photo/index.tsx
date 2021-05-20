@@ -14,11 +14,15 @@ import './_photo.scss';
 interface PropsType {
   pathImg: string;
   id: number;
+  activities: {
+    likes: number;
+    comments: number;
+  };
 }
 
 function Photo(props: PropsType): JSX.Element {
   const classes = useStyles();
-  const { pathImg, id } = props;
+  const { pathImg, id, activities: { likes = 0, comments } = {} } = props;
 
   return (
     <>
@@ -41,7 +45,7 @@ function Photo(props: PropsType): JSX.Element {
                       className={classes.icon}
                       src={HeartIcon}
                     />
-                    <div className={classes.num}>8</div>
+                    <div className={classes.num}>{likes}</div>
                   </div>
                   <div className={classes.leftActions}>
                     <img
@@ -49,7 +53,7 @@ function Photo(props: PropsType): JSX.Element {
                       className={classes.icon}
                       src={CommentIcon}
                     />
-                    <div className={classes.num}>11</div>
+                    <div className={classes.num}>{comments}</div>
                   </div>
                 </div>
                 <div className={classes.right}>
