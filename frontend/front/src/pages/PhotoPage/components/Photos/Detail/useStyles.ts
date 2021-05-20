@@ -8,25 +8,22 @@ import {
   pdMD,
   theme,
   black,
-} from '../../../../styles/theme';
+} from '../../../../../styles/theme';
 
 const useStyles: () => Record<
   | 'root'
-  | 'backDrop'
+  | 'gridPhoto'
+  | 'card'
   | 'paper'
   | 'picture'
-  | 'gridItem'
   | 'actions'
   | 'left'
-  | 'leftActions'
   | 'right'
   | 'num'
-  | 'icon'
-  | 'btn'
-  | 'nextBtn'
-  | 'textBtn'
-  | 'loadingPhoto'
-  | 'skeleton',
+  | 'information'
+  | 'title'
+  | 'name'
+  | 'value',
   string
 > = makeStyles(() => ({
   root: {
@@ -51,16 +48,16 @@ const useStyles: () => Record<
       paddingTop: '77px',
     },
   },
-  paper: {},
-  picture: {
-    height: '600px',
-    zIndex: 4,
+  gridPhoto: {},
+  card: {
+    boxShadow: 'none',
   },
-  gridItem: {
-    padding: '0 20px 40px 20px !important',
-    [theme.breakpoints.up('sm')]: {
-      width: '480px',
-    },
+  paper: {
+    boxShadow: 'none',
+  },
+  picture: {
+    height: '975px',
+    zIndex: 4,
   },
   actions: {
     display: 'flex',
@@ -72,17 +69,7 @@ const useStyles: () => Record<
     display: 'flex',
     justifyContent: 'space-between',
   },
-  right: { cursor: 'pointer' },
-  leftActions: {
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginRight: '30px',
-  },
-  icon: {
-    paddingRight: '8px',
-    cursor: 'pointer',
-  },
+  right: {},
   num: {
     fontFamily: 'Roboto Mono',
     fontStyle: 'normal',
@@ -90,29 +77,40 @@ const useStyles: () => Record<
     fontSize: '18px',
     lineHeight: '24px',
     color: black,
+    paddingLeft: '8px',
   },
-  btn: {
-    padding: '40px 0',
-  },
-  nextBtn: {
-    height: '60px',
-    width: '220px',
-    marginRight: '20px',
-  },
-  textBtn: {
-    textTransform: 'initial',
-    paddingBottom: '6px',
-  },
-  backDrop: {
+  information: {
     width: '100%',
-    zIndex: 1,
-    color: white,
+    height: '100%',
+    display: 'flex',
+    alignItems: 'flex-end',
+    padding: '0 0 88px 130px',
   },
-  skeleton: {
-    padding: '100px 0',
-    width: '100%',
+  title: {
+    letterSpacing: '1px',
+    color: black,
+    lineHeight: '36px',
+    fontWeight: 'bold',
+    textAlign: 'left',
+    fontFamily: 'Roboto',
+    paddingBottom: '30px',
   },
-  loadingPhoto: {},
+  name: {
+    letterSpacing: '1px',
+    color: black,
+    lineHeight: '36px',
+    fontWeight: 'normal',
+    textAlign: 'left',
+    fontFamily: 'Roboto',
+  },
+  value: {
+    letterSpacing: '1px',
+    color: black,
+    lineHeight: '36px',
+    fontWeight: 'bold',
+    textAlign: 'left',
+    fontFamily: 'Roboto',
+  },
 }));
 
 export { useStyles as default };

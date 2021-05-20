@@ -1,8 +1,8 @@
+/* eslint-disable object-curly-newline */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable camelcase */
 import React, { useEffect, useState } from 'react';
-// eslint-disable-next-line object-curly-newline
-import { Button, Grid, Typography, Backdrop } from '@material-ui/core';
+import { Button, Grid, Typography, Box } from '@material-ui/core';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Skeleton from '@material-ui/lab/Skeleton';
 import { useDispatch, useSelector } from 'react-redux';
@@ -16,15 +16,17 @@ function Photos(): JSX.Element {
   const classes = useStyles();
   const dispatch = useDispatch<any>();
   const [listImg, setListImg] = useState<Array<any>>([]);
+  const [initialLoading, setInitialLoading] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
-  const [open, setOpen] = useState<boolean>(false);
 
   // initial fetch data and set gallery to state once time
   useEffect(() => {
     setLoading(true);
+    setInitialLoading(true);
     dispatch(listPhotoAction(1)).then((data) => {
       const { results = [] } = data;
       setListImg(results);
+      setInitialLoading(false);
       setLoading(false);
     });
   }, [dispatch]);
@@ -59,7 +61,7 @@ function Photos(): JSX.Element {
             xl={4}
             xs={12}
           >
-            <Photo pathImg={pathImgs} />
+            <Photo id={id} pathImg={pathImgs} />
           </Grid>
         );
       })}
@@ -70,7 +72,6 @@ function Photos(): JSX.Element {
     const { next: nextPage = '', previous: previousPage = '' } = dataPhoto;
     const newListImg = [...listImg];
     setLoading(true);
-    setOpen(true);
 
     if (key === 'next') {
       const nextNum = nextPage.split('?page=').pop();
@@ -78,7 +79,6 @@ function Photos(): JSX.Element {
         const { results = [] } = data;
         results.forEach((item) => newListImg.push(item));
         setLoading(false);
-        setOpen(false);
       });
     } else {
       const exist = previousPage.includes('?page=');
@@ -93,24 +93,45 @@ function Photos(): JSX.Element {
     setListImg(newListImg);
   };
 
+  const loadingPhoto = () => (
+    <>
+      {[1, 2, 3].map((id) => (
+        <Grid
+          key={id}
+          className={classes.loadingPhoto}
+          item
+          lg={4}
+          md={6}
+          sm={6}
+          spacing={2}
+          wrap='wrap'
+          xl={4}
+          xs={12}
+        >
+          <Box marginRight={2} my={5} width='100%'>
+            <Skeleton
+              animation='wave'
+              height={250}
+              variant='rect'
+              width='100%'
+            />
+            <Box pt={0.5}>
+              <Skeleton variant='rect' />
+            </Box>
+            <Box pt={0.5}>
+              <Skeleton variant='rect' width='60%' />
+            </Box>
+          </Box>
+        </Grid>
+      ))}
+    </>
+  );
+
   return (
     <div className={`${classes.root} root`}>
-      <Backdrop className={classes.backDrop} open={open}>
-        <CircularProgress color='inherit' />
-      </Backdrop>
       <Grid container spacing={3}>
-        {loading ? (
-          <div className={classes.skeleton}>
-            {[100, 90, 80, 70, 60].map((width) => (
-              <Skeleton
-                animation='wave'
-                height={10}
-                style={{ marginBottom: '20px' }}
-                variant='rect'
-                width={`${width}%`}
-              />
-            ))}
-          </div>
+        {initialLoading ? (
+          <>{loadingPhoto()}</>
         ) : (
           <>
             {renderPhoto()}

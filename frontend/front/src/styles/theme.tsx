@@ -74,7 +74,7 @@ export const theme = createMuiTheme({
     h4: {
       fontSize: '1.4rem',
       '@media (min-width:1302px)': {
-        fontSize: '2.2rem',
+        fontSize: '30px',
       },
     },
     h1: {
