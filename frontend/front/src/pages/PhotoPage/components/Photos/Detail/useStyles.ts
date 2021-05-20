@@ -9,6 +9,7 @@ import {
   theme,
   black,
   gray1,
+  blackBlue,
   blackThin,
 } from '../../../../../styles/theme';
 
@@ -27,6 +28,7 @@ const useStyles: () => Record<
   | 'name'
   | 'valueName'
   | 'value'
+  | 'value2'
   | 'tag'
   | 'tags'
   | 'tagText',
@@ -120,6 +122,14 @@ const useStyles: () => Record<
   value: {
     letterSpacing: '1px',
     color: black,
+    lineHeight: '36px',
+    fontWeight: 'bold',
+    textAlign: 'left',
+    fontFamily: 'Roboto',
+  },
+  value2: {
+    letterSpacing: '1px',
+    color: blackBlue,
     lineHeight: '36px',
     fontWeight: 'bold',
     textAlign: 'left',

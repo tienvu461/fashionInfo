@@ -86,16 +86,7 @@ function Detail(props: DetailProps): JSX.Element {
         const { name = '', value = '' } = item;
         return (
           <React.Fragment key={`${index + 1}`}>
-            <Grid
-              item
-              lg={4}
-              md={6}
-              sm={12}
-              style={{ background: '#EEEEEF' }}
-              wrap='wrap'
-              xl={12}
-              xs={6}
-            >
+            <Grid item lg={4} md={6} sm={12} wrap='wrap' xl={12} xs={6}>
               <Typography className={classes.name} component='h6' variant='h6'>
                 {name}
               </Typography>
@@ -103,7 +94,11 @@ function Detail(props: DetailProps): JSX.Element {
             <Grid item lg={8} md={6} sm={12} wrap='wrap' xl={12} xs={6}>
               <div className={classes.valueName}>
                 <Typography
-                  className={classes.value}
+                  className={
+                    name === 'Instagram' || name === 'Photographer'
+                      ? classes.value2
+                      : classes.value
+                  }
                   component='h6'
                   variant='h6'
                 >

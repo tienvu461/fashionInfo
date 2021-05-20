@@ -14,6 +14,7 @@ import { useState } from 'react';
 export const white = '#fff';
 export const black = '#000000';
 export const blackThin = '#474747';
+export const blackBlue = '#2E4A90';
 export const grayPrimary = '#C4C4C4';
 export const gray = '#EEEEEE';
 export const gray1 = '#EFEFEF';
