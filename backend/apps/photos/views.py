@@ -7,7 +7,7 @@ from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework import serializers, views, status, mixins, generics, pagination
 import logging
 
-from .models import Photo, News, PhotoLike, PhotoComment, PhotoLike, PhotoComment
+from .models import Photo, News, PhotoLike, PhotoComment, PhotoLike, PhotoComment, GenericConfig
 from .serializers import PhotoSerializer, PhotoDetailSerializer, PhotoFeatureSerializer, CommentSerializer, NewsSerializer, LikeSerializer
 from .consts import photosConst
 from .utils import calc_interactive_pt
