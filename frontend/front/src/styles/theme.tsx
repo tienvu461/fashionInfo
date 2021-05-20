@@ -41,7 +41,7 @@ export const theme = createMuiTheme({
   palette: {
     type: 'light',
     primary: {
-      light: white,
+      light: gray,
       main: white,
       dark: black,
       contrastText: black,
@@ -155,6 +155,9 @@ export const theme = createMuiTheme({
         // },
         boxShadow: 'none',
       },
+    },
+    MuiCircularProgress: {
+      colorPrimary: { color: grayPrimary },
     },
     // MuiCheckbox: {
     //   root: {

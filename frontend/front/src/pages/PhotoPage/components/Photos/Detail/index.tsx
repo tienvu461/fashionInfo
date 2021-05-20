@@ -1,5 +1,6 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable camelcase */
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
 import {
@@ -10,6 +11,7 @@ import {
   CardMedia,
   Typography,
   Divider,
+  CircularProgress,
 } from '@material-ui/core';
 import { getDetailAction } from '../../../../../features/Photo/photoAction';
 import HeartIcon from '../../../../../assets/images/heart.svg';
@@ -28,10 +30,12 @@ interface DetailProps {
 function Detail(props: DetailProps): JSX.Element {
   const { match: { params: { id = '' } = {} } = {} } = props;
   const classes = useStyles();
-  const dispatch = useDispatch();
+  const [loading, setLoading] = useState<boolean>(false);
+  const dispatch = useDispatch<any>();
 
   useEffect(() => {
-    dispatch(getDetailAction(id));
+    setLoading(true);
+    dispatch(getDetailAction(id)).then(() => setLoading(false));
   }, [dispatch, id]);
 
   const photoDetail = useSelector(
@@ -144,27 +148,33 @@ function Detail(props: DetailProps): JSX.Element {
           xl={12}
           xs={12}
         >
-          <Paper className={classes.paper}>
-            <Card className={classes.card}>
-              <CardActionArea>
-                <CardMedia
-                  className={classes.picture}
-                  image={pathImg}
-                  title='Contemplative Reptile'
-                />
-              </CardActionArea>
-              <div>
-                <div className={classes.actions}>
-                  <div className={classes.left}>
-                    <img alt='heart-icon' src={HeartIcon} />
-                    <div className={classes.num}>{photoDetail.likes}</div>
-                  </div>
-                  <div className={classes.right}>
-                    <img alt='share-icon' src={ShareIcon} />
+          <Paper className={loading ? classes.paperLoading : classes.paper}>
+            {loading ? (
+              <div className={classes.loading}>
+                <CircularProgress color='primary' />
+              </div>
+            ) : (
+              <Card className={classes.card}>
+                <CardActionArea>
+                  <CardMedia
+                    className={classes.picture}
+                    image={pathImg}
+                    title='Contemplative Reptile'
+                  />
+                </CardActionArea>
+                <div>
+                  <div className={classes.actions}>
+                    <div className={classes.left}>
+                      <img alt='heart-icon' src={HeartIcon} />
+                      <div className={classes.num}>{photoDetail.likes}</div>
+                    </div>
+                    <div className={classes.right}>
+                      <img alt='share-icon' src={ShareIcon} />
+                    </div>
                   </div>
                 </div>
-              </div>
-            </Card>
+              </Card>
+            )}
           </Paper>
         </Grid>
         <Grid item lg={6} md={6} sm={4} spacing={2} wrap='wrap' xl={12} xs={12}>

@@ -9,6 +9,7 @@ import {
   theme,
   black,
   gray1,
+  gray,
   blackBlue,
   blackThin,
 } from '../../../../../styles/theme';
@@ -16,8 +17,10 @@ import {
 const useStyles: () => Record<
   | 'root'
   | 'gridPhoto'
+  | 'loading'
   | 'card'
   | 'paper'
+  | 'paperLoading'
   | 'picture'
   | 'actions'
   | 'left'
@@ -57,11 +60,24 @@ const useStyles: () => Record<
     },
   },
   gridPhoto: {},
+  loading: {
+    height: '975px',
+    width: '100%',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   card: {
     boxShadow: 'none',
   },
   paper: {
     boxShadow: 'none',
+    width: '100%',
+  },
+  paperLoading: {
+    backgroundColor: gray1,
+    // opacity: 0.4,
+    width: '100%',
   },
   picture: {
     height: '975px',
