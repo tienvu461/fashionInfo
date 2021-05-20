@@ -8,6 +8,8 @@ import {
   pdMD,
   theme,
   black,
+  gray1,
+  blackThin,
 } from '../../../../../styles/theme';
 
 const useStyles: () => Record<
@@ -23,7 +25,10 @@ const useStyles: () => Record<
   | 'information'
   | 'title'
   | 'name'
-  | 'value',
+  | 'value'
+  | 'tag'
+  | 'tags'
+  | 'tagText',
   string
 > = makeStyles(() => ({
   root: {
@@ -110,6 +115,29 @@ const useStyles: () => Record<
     fontWeight: 'bold',
     textAlign: 'left',
     fontFamily: 'Roboto',
+  },
+  tag: {
+    width: 'fit-content',
+    background: gray1,
+    padding: '3px 15px',
+    marginRight: '4px',
+    marginBottom: '4px',
+  },
+  tags: {
+    display: 'flex',
+    flexWrap: 'wrap',
+    paddingTop: '80px',
+  },
+  tagText: {
+    fontFamily: 'Roboto',
+    fontStyle: 'normal',
+    fontWeight: 'normal',
+    fontSize: '12px',
+    lineHeight: '36px',
+
+    alignItems: 'center',
+    letterSpacing: '1px',
+    color: blackThin,
   },
 }));
 

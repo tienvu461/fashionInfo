@@ -37,7 +37,7 @@ function Detail(props: DetailProps): JSX.Element {
     (state: RootState) => state.photo.photoDetail
   );
 
-  const detail = useSelector(
+  const detailInfo = useSelector(
     (state: RootState) => state.photo.photoDetail.detail_info
   );
 
@@ -47,23 +47,19 @@ function Detail(props: DetailProps): JSX.Element {
   }> = [
     {
       name: 'Tên (tuổi)',
-      value: detail?.model_name,
+      value: detailInfo?.model_name,
     },
     {
       name: 'Ngày chụp',
-      value: moment(detail?.shoot_date).format('DD-MM-YYYY'),
-    },
-    {
-      name: 'Ngày đăng',
-      value: moment(detail?.post_date).format('DD-MM-YYYY'),
+      value: moment(detailInfo?.shoot_date).format('DD-MM-YYYY'),
     },
     {
       name: 'Địa điểm',
-      value: detail?.location,
+      value: detailInfo?.location,
     },
     {
       name: 'Nghề nghiệp',
-      value: detail?.model_job,
+      value: detailInfo?.model_job,
     },
     {
       name: 'Phong cách',
@@ -71,15 +67,17 @@ function Detail(props: DetailProps): JSX.Element {
     },
     {
       name: 'Thương hiệu',
-      value: detail?.brand,
+      value: detailInfo?.brand,
+    },
+    {
+      name: 'Instagram',
+      value: detailInfo?.brand || '',
     },
     {
       name: 'Photographer',
-      value: detail?.photographer,
+      value: detailInfo?.photographer,
     },
   ];
-
-  console.log(arrInfo);
 
   const renderInformation = () => (
     <>
@@ -102,6 +100,22 @@ function Detail(props: DetailProps): JSX.Element {
       })}
     </>
   );
+
+  const renderTags = () => {
+    const { tags: listTags = [] } = photoDetail;
+
+    return (
+      <Grid item lg={6} md={6} sm={6} wrap='wrap' xl={12} xs={12}>
+        <div className={classes.tags}>
+          {listTags.map((item: string, index: number) => (
+            <Grid key={`${index + 1}`} className={classes.tag}>
+              <Typography className={classes.tagText}>#{item}</Typography>
+            </Grid>
+          ))}
+        </div>
+      </Grid>
+    );
+  };
 
   const renderDetailPhoto = () => {
     const { image_path: pathImg = '' } = photoDetail;
@@ -165,6 +179,7 @@ function Detail(props: DetailProps): JSX.Element {
               </Grid>
 
               {renderInformation()}
+              {renderTags()}
             </Grid>
           </div>
         </Grid>
