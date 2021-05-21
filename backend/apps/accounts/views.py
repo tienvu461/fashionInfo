@@ -1,6 +1,7 @@
 from django.contrib.auth.models import User
 from django.views import View
 from django.http import JsonResponse
+from requests import api
 from .serializers import UserSerializer, CustomTokenObtainPairSerializer
 from rest_framework import generics
 from rest_framework.views import APIView
@@ -11,14 +12,44 @@ from rest_framework import status
 from django.contrib.auth.models import User
 import json, requests
 from rest_framework_simplejwt.views import TokenObtainPairView
+import urllib
 
 class RedirectSocial(View):
 
     def get(self, request, *args, **kwargs):
         code, state = str(request.GET['code']), str(request.GET['state'])
-        json_obj = {'code': code, 'state': state}
-        print(json_obj)
-        return JsonResponse(json_obj)
+        payload = {'code': code, 'state': state}
+        payload = urllib.parse.urlencode(payload)
+        print(payload)
+        headers = {
+            'Content-Type': 'application/x-www-form-urlencoded'
+        }
+        url = "http://localhost:8000/api/social/o/google-oauth2/"
+        response = requests.request("POST", url, headers=headers, data=payload)
+        return JsonResponse(response.json())
+        # return JsonResponse(payload) 
+
+# class RedirectSocial(APIView):
+
+#     def get(self, request):
+#         code, state = str(request.GET['code']), str(request.GET['state'])
+#         payload = {'code': code, 'state': state}
+#         print(payload)
+#         url = "http://localhost:8000/api/social/o/google-oauth2/"
+#         response = requests.post(url, data = payload)
+#         return Response(response.json())
+#         if response.status_code == 204:
+#             return Response({}, response.status_code)
+#         else:
+#             return Response(response.json())
+
+
+class TestView(APIView):
+
+    def post(self, request, *args, **kwargs):
+        
+        return Response(request.json())
+        
 
 # used to test auth
 class UserListView(generics.ListCreateAPIView):
@@ -59,3 +90,11 @@ class ActivateUser(APIView):
 
 class EmailTokenObtainPairView(TokenObtainPairView):
     serializer_class = CustomTokenObtainPairSerializer
+
+class ForgotPasswordView(View):
+
+    def get(self, request, *args, **kwargs):
+        uid, token = str(request.GET['uid']), str(request.GET['token'])
+        json_obj = {'uid': uid, 'token': token}
+        print(json_obj)
+        return JsonResponse(json_obj)
