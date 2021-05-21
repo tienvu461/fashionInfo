@@ -4,11 +4,7 @@
 /* eslint-disable react/display-name */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /* eslint-disable react/react-in-jsx-scope */
-import {
-  createMuiTheme,
-  ThemeProvider,
-  responsiveFontSizes,
-} from '@material-ui/core/styles';
+import { createMuiTheme, ThemeProvider, responsiveFontSizes } from '@material-ui/core/styles';
 import { useState } from 'react';
 
 export const white = '#fff';
@@ -18,6 +14,7 @@ export const blackBlue = '#2E4A90';
 export const grayPrimary = '#C4C4C4';
 export const gray = '#EEEEEE';
 export const gray1 = '#EFEFEF';
+export const gray2 = '#E5E5E5;';
 export const textColor = '#373F41';
 
 // padding (view + responsive)

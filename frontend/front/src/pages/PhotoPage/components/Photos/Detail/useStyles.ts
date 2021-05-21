@@ -1,18 +1,6 @@
 /* eslint-disable object-curly-newline */
 import { makeStyles } from '@material-ui/core/styles';
-import {
-  white,
-  pdXL,
-  pdSM,
-  pdLG,
-  pdMD,
-  theme,
-  black,
-  gray1,
-  gray,
-  blackBlue,
-  blackThin,
-} from '../../../../../styles/theme';
+import { pdXL, pdSM, pdLG, pdMD, theme, black, gray1, gray2, blackBlue, blackThin } from '../../../../../styles/theme';
 
 const useStyles: () => Record<
   | 'root'
@@ -39,7 +27,7 @@ const useStyles: () => Record<
 > = makeStyles(() => ({
   root: {
     height: 'auto',
-    backgroundColor: white,
+    backgroundColor: gray2,
 
     // responsive
     [theme.breakpoints.up('sm')]: {

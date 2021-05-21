@@ -10,6 +10,8 @@ import HeartIcon from '../../../../../assets/images/heart.svg';
 import ShareIcon from '../../../../../assets/images/share.svg';
 import useStyles from './useStyles';
 import { RootState } from '../../../../../store/store';
+import CommentComponent from './components/Comment';
+import SuggestionComponent from './components/Suggestion';
 
 interface DetailProps {
   match: {
@@ -174,11 +176,23 @@ function Detail(props: DetailProps): JSX.Element {
     <div className={`${classes.root} root`}>
       <Grid container>{renderDetailPhoto()}</Grid>
       <Divider />
-      <Grid container>
+      <div style={{ background: '#EEEEEF', height: '100vh' }}>
+        <CommentComponent />
+      </div>
+      <SuggestionComponent />
+
+      {/* <Grid container>
         <Grid item lg={12} md={12} sm={12} spacing={2} wrap='wrap' xl={12} xs={12}>
-          <div style={{ background: '#EEEEEF', height: '100vh' }} />
+          <div style={{ background: '#EEEEEF', height: '100vh' }}>
+            <CommentComponent />
+          </div>
         </Grid>
-      </Grid>
+        <Grid item lg={12} md={12} sm={12} spacing={2} wrap='wrap' xl={12} xs={12}>
+          <div style={{ background: 'red', height: '100vh' }}>
+          <SuggestionComponent />
+          </div>
+        </Grid>
+      </Grid> */}
     </div>
   );
 }
