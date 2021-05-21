@@ -1,6 +1,7 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable camelcase */
 /* eslint-disable object-curly-newline */
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Grid,
   Paper,
@@ -15,43 +16,50 @@ import {
 import useStyles from './useStyles';
 import Photo from '../../../Photo';
 
-function SuggestionComponent(): JSX.Element {
-  const classes = useStyles();
+interface SuggestionProps {
+  photoSuggestionList: Array<any>;
+  dataPhoto: Record<string, string>;
+}
 
-  const listImg = [
-    {
-      image_path: '',
-      id: 1,
-      activities: {
-        likes: 2,
-        comments: 10,
-      },
-    },
-    {
-      image_path: '',
-      id: 2,
-      activities: {
-        likes: 2,
-        comments: 10,
-      },
-    },
-    {
-      image_path: '',
-      id: 3,
-      activities: {
-        likes: 2,
-        comments: 10,
-      },
-    },
-    {
-      image_path: '',
-      id: 4,
-      activities: {
-        likes: 2,
-        comments: 10,
-      },
-    },
-  ];
+function SuggestionComponent(props: SuggestionProps): JSX.Element {
+  const { photoSuggestionList, dataPhoto } = props;
+  const classes = useStyles();
+  const [listImg, setListImg] = useState<Array<any>>([]);
+
+  // const listImg = [
+  //   {
+  //     image_path: '',
+  //     id: 1,
+  //     activities: {
+  //       likes: 2,
+  //       comments: 10,
+  //     },
+  //   },
+  //   {
+  //     image_path: '',
+  //     id: 2,
+  //     activities: {
+  //       likes: 2,
+  //       comments: 10,
+  //     },
+  //   },
+  //   {
+  //     image_path: '',
+  //     id: 3,
+  //     activities: {
+  //       likes: 2,
+  //       comments: 10,
+  //     },
+  //   },
+  //   {
+  //     image_path: '',
+  //     id: 4,
+  //     activities: {
+  //       likes: 2,
+  //       comments: 10,
+  //     },
+  //   },
+  // ];
 
   interface GalleryKeys {
     image_path: string;
@@ -61,6 +69,9 @@ function SuggestionComponent(): JSX.Element {
       comments: number;
     };
   }
+  useEffect(() => {
+    setListImg(photoSuggestionList);
+  }, [photoSuggestionList]);
 
   const renderPhoto = () => (
     <>

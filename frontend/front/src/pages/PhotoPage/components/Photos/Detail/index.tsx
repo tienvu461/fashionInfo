@@ -5,7 +5,7 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
 import { Grid, Paper, Card, CardActionArea, CardMedia, Typography, Divider, CircularProgress } from '@material-ui/core';
-import { getDetailAction } from '../../../../../features/Photo/photoAction';
+import { getDetailAction, getPhotoSuggestAction } from '../../../../../features/Photo/photoAction';
 import HeartIcon from '../../../../../assets/images/heart.svg';
 import ShareIcon from '../../../../../assets/images/share.svg';
 import useStyles from './useStyles';
@@ -25,21 +25,40 @@ function Detail(props: DetailProps): JSX.Element {
   const { match: { params: { id = '' } = {} } = {} } = props;
   const classes = useStyles();
   const [loading, setLoading] = useState<boolean>(false);
+  const [loadingSuggest, setLoadingSuggest] = useState<boolean>(false);
   const dispatch = useDispatch<any>();
 
   useEffect(() => {
     setLoading(true);
+    setLoadingSuggest(true);
     window.scrollTo({
       top: 100,
       left: 0,
       behavior: 'smooth',
     });
-    dispatch(getDetailAction(id)).then(() => setLoading(false));
+
+    // fetch data detail information
+    dispatch(getDetailAction(id)).then((res) => {
+      const { status = '' } = res;
+      if (status === 200) {
+        setLoading(false);
+      }
+    });
+
+    // fetch data suggestion photo list
+    dispatch(getPhotoSuggestAction(id)).then((res) => {
+      const { status = '' } = res;
+      if (status === 200) {
+        setLoadingSuggest(false);
+      }
+    });
   }, [dispatch, id]);
 
   const photoDetail = useSelector((state: RootState) => state.photo.photoDetail);
+  const photoSuggestionList = useSelector((state: RootState) => state.photo.photoSuggestionList.listPhoto);
 
   const detailInfo = useSelector((state: RootState) => state.photo.photoDetail.detail_info);
+  const dataPhoto = useSelector((state: RootState) => state.photo.photoSuggestionList.dataOrigin);
 
   const arrInfo: Array<{
     name: string;
@@ -179,7 +198,7 @@ function Detail(props: DetailProps): JSX.Element {
       <div style={{ background: '#EEEEEF', height: '100vh' }}>
         <CommentComponent />
       </div>
-      <SuggestionComponent />
+      <SuggestionComponent dataPhoto={dataPhoto} photoSuggestionList={photoSuggestionList} />
 
       {/* <Grid container>
         <Grid item lg={12} md={12} sm={12} spacing={2} wrap='wrap' xl={12} xs={12}>

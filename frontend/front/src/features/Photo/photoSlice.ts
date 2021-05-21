@@ -7,6 +7,10 @@ interface InitialState {
     dataOrigin: Record<string, string>;
   };
   photoDetail: Record<any, any>;
+  photoSuggestionList: {
+    listPhoto: Array<any>;
+    dataOrigin: Record<string, string>;
+  };
 }
 
 const initialState: InitialState = {
@@ -15,6 +19,10 @@ const initialState: InitialState = {
     dataOrigin: {},
   },
   photoDetail: {},
+  photoSuggestionList: {
+    listPhoto: [],
+    dataOrigin: {},
+  },
 };
 
 const photoSlice = createSlice({
@@ -33,11 +41,18 @@ const photoSlice = createSlice({
         ...payload.data,
       };
     },
+
+    getListPhotoSuggestion: (state, { payload }) => {
+      state.photoSuggestionList = {
+        listPhoto: payload.data.results,
+        dataOrigin: { ...payload.data },
+      };
+    },
   },
 });
 
 const { actions, reducer } = photoSlice;
-const { getListPhoto, getPhotoDetail } = actions;
-export { getListPhoto, getPhotoDetail };
+const { getListPhoto, getPhotoDetail, getListPhotoSuggestion } = actions;
+export { getListPhoto, getPhotoDetail, getListPhotoSuggestion };
 
 export default reducer;

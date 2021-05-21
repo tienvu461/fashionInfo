@@ -12,7 +12,10 @@
     "eslint:recommended",
     "plugin:react/recommended",
     "airbnb",
-    "plugin:@typescript-eslint/recommended"
+    "plugin:@typescript-eslint/recommended",
+    "plugin:import/errors",
+    "plugin:import/warnings",
+    "plugin:import/typescript"
   ],
   "parserOptions": {
     // specify the JavaScript language options want to support
@@ -37,7 +40,7 @@
     "react/prop-types": 0,
     "react/forbid-prop-types": 0,
     "react/jsx-one-expression-per-line": "off",
-    "import/no-unresolved": 2,
+    "import/no-unresolved": [2,{"caseSensitive": false }],
     "import/extensions": [
       "error",
       "ignorePackages",
@@ -99,7 +102,8 @@
     "import/resolver": {
       "node": {
         "extensions": [".js", ".jsx", ".ts", ".tsx"],
-        "moduleDirectory": ["node_modules", "src/"]
+        "moduleDirectory": ["node_modules", "src/"],
+        "paths": ["src"]
       }
     }
   }
