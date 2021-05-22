@@ -5,16 +5,8 @@ import { theme, black, pdSM } from '../../../../../../../styles/theme';
 // eslint-disable-next-line operator-linebreak
 const useStyles: () => Record<'root' | 'titleSuggestion' | 'btn' | 'nextBtn' | 'textBtn' | 'gridItem', string> =
   makeStyles(() => ({
-    root: {},
-    titleSuggestion: {
+    root: {
       height: 'auto',
-      color: black,
-      textAlign: 'left',
-      fontStyle: 'normal',
-      fontWeight: 'bold',
-      fontSize: '30px',
-      lineHeight: '36px',
-
       // responsive
       [theme.breakpoints.up('sm')]: {
         paddingTop: '97px',
@@ -35,6 +27,23 @@ const useStyles: () => Record<'root' | 'titleSuggestion' | 'btn' | 'nextBtn' | '
       },
       [theme.breakpoints.up('xl')]: {
         paddingTop: '97px',
+        paddingBottom: '40px',
+      },
+    },
+    titleSuggestion: {
+      height: 'auto',
+      color: black,
+      textAlign: 'left',
+      fontStyle: 'normal',
+      fontWeight: 'bold',
+      fontSize: '30px',
+      lineHeight: '36px',
+
+      // // responsive
+      [theme.breakpoints.up('sm')]: {
+        paddingBottom: '40px',
+      },
+      [theme.breakpoints.down('sm')]: {
         paddingBottom: '40px',
       },
     },

@@ -16,20 +16,14 @@ const useStyles: () => Record<
 
       // responsive
       [theme.breakpoints.down('sm')]: {
-        // padding: pdSM,
+        padding: pdSM,
           paddingTop: '61px',
       },
       [theme.breakpoints.up('md')]: {
-        // padding: pdMD,
-        //   paddingTop: '61px',
       },
       [theme.breakpoints.up('lg')]: {
-        // padding: pdLG,
-        //   paddingTop: '61px',
       },
       [theme.breakpoints.up('xl')]: {
-        // padding: pdXL,
-        //   paddingTop: '61px',
       },
     },
     titleReporter: {
