@@ -6,8 +6,8 @@ import { useDispatch } from 'react-redux';
 import { Grid, Button, Typography } from '@material-ui/core';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { getPhotoSuggestAction } from 'src/features/Photo/photoAction';
-import useStyles from './useStyles';
 import Photo from '../../../Photo';
+import useStyles from './useStyles';
 
 interface SuggestionProps {
   photoSuggestionList: Array<any>;

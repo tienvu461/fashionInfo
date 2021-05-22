@@ -40,7 +40,10 @@
     "react/prop-types": 0,
     "react/forbid-prop-types": 0,
     "react/jsx-one-expression-per-line": "off",
-    // "import/no-unresolved": 2,
+    "import/no-unresolved": [
+      2, 
+      { "caseSensitive": false }
+   ],
     "import/no-named-as-default": 0,
     "object-curly-newline": ["error", {"multiline": true, "minProperties": 5}],
     "import/extensions": [
@@ -97,7 +100,17 @@
     "no-param-reassign": 0,
     "comma-dangle": 0,
     "max-len": ["error", { "code": 150 }],
-    "import/prefer-default-export": 0
+    "import/prefer-default-export": 0,
+    "import/order": ["error", {
+    "pathGroups": [
+      {
+        "pattern": "@app/**",
+        "group": "external",
+        "position": "after"
+      }
+    ],
+    "pathGroupsExcludedImportTypes": ["builtin"]
+  }]
     // "@typescript-eslint/indent": ["error"]
   },
   "settings": {
