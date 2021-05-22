@@ -10,14 +10,11 @@ from rest_framework.response import Response
 from rest_framework import status
 from django.contrib.auth.models import User
 import json, requests
-<<<<<<< Updated upstream
-=======
 import logging
 from django.shortcuts import render
 
 from django.conf import settings
 
->>>>>>> Stashed changes
 from rest_framework_simplejwt.views import TokenObtainPairView
 
 class RedirectSocial(View):
