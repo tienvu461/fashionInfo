@@ -1,18 +1,20 @@
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { Grid, InputBase } from '@material-ui/core';
 import searchIcon from '../../../../assets/images/searchIcon.svg';
-
+import { searchAction } from '../../../../features/Search/searchAction';
 import useStyles from './useStyles';
 
 function Search(): JSX.Element {
   const classes = useStyles();
   const [value, setValue] = useState();
-
+  const dispatch = useDispatch();
   const onChange = (event) => { setValue(event.target.value) };
 
   const handleKeyDown = (event) => {
     if (event.target.value !== '') {
       if (event.key === 'Enter') {
+      dispatch(searchAction(event.target.value))
       console.log('Enter', event.target.value)
     }
     }
