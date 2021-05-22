@@ -45,7 +45,7 @@
       { "caseSensitive": false }
    ],
     "import/no-named-as-default": 0,
-    "object-curly-newline": ["error", {"multiline": true, "minProperties": 5}],
+    "object-curly-newline": ["error", {"multiline": true, "minProperties": 4}],
     "import/extensions": [
       "error",
       "ignorePackages",
