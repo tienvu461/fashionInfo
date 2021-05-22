@@ -29,7 +29,8 @@ DEBUG = bool(os.environ.get("DEBUG", default=0))
 
 ALLOWED_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS").split(" ")
 
-HOSTNAME = os.environ.get("HOSTNAME", "localhost:8000")
+HOSTNAME = os.environ.get("HOSTNAME", default="localhost:8000")
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -99,7 +100,7 @@ SIMPLE_JWT = {
 
 SOCIAL_AUTH_WHITELIST = [
     'http://localhost:8000/accounts/profile/',
-    'http://{0}:8000/accounts/profile/'.format(HOSTNAME),
+    'http://{0}/accounts/profile/'.format(HOSTNAME),
 ] # URL you add to google developers console as allowed to make redirection
 
 # configure Djoser
@@ -127,6 +128,7 @@ CORS_ALLOWED_ORIGINS = [
     "http://localhost:3001",
     "http://127.0.0.1:3001",
     "http://{}:3000".format(HOSTNAME),
+    "http://{}".format(HOSTNAME),
 ]
 
 MIDDLEWARE = [
@@ -145,10 +147,11 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'backend.urls'
 
+TEMPLATES_DIRS = os.path.join(BASE_DIR, 'templates')
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [TEMPLATES_DIRS],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -306,7 +309,7 @@ DEFAULT_FROM_EMAIL = 'fashion_info'
 PROTOCOL = os.environ.get("ACTIVATION_PROTOCOL", "http")
 DOMAIN = HOSTNAME
 
-#debug_toolbar settings
+# debug_toolbar settings
 if DEBUG:
     INTERNAL_IPS = ('127.0.0.1',)
     MIDDLEWARE += (
