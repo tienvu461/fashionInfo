@@ -191,14 +191,7 @@ function Detail(props: DetailProps): JSX.Element {
     <div className={`${classes.root} root`}>
       <Grid container>{renderDetailPhoto()}</Grid>
       <Divider />
-      <div
-        style={{
-          background: '#EEEEEF',
-          height: '100vh',
-        }}
-      >
-        <CommentComponent />
-      </div>
+      <CommentComponent />
       <SuggestionComponent dataPhoto={dataPhoto} paramsId={id} photoSuggestionList={photoSuggestionList} />
     </div>
   );

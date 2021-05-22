@@ -2,7 +2,7 @@
 import { makeStyles } from '@material-ui/core/styles';
 import { pdXL, pdSM, pdLG, pdMD, theme, black } from '../../../../../../../styles/theme';
 
-const useStyles: () => Record<'root', string> = makeStyles(() => ({
+const useStyles: () => Record<'root' | 'container', string> = makeStyles(() => ({
   root: {
     height: 'auto',
     // backgroundColor: white,
@@ -10,21 +10,24 @@ const useStyles: () => Record<'root', string> = makeStyles(() => ({
 
     // responsive
     [theme.breakpoints.up('sm')]: {
-      padding: pdSM,
-      paddingTop: '77px',
+      // padding: pdSM,
+      paddingTop: '61px',
     },
     [theme.breakpoints.up('md')]: {
-      padding: pdMD,
-      paddingTop: '77px',
+      // padding: pdMD,
+      paddingTop: '61px',
     },
     [theme.breakpoints.up('lg')]: {
-      padding: pdLG,
-      paddingTop: '77px',
+      // padding: pdLG,
+      paddingTop: '61px',
     },
     [theme.breakpoints.up('xl')]: {
-      padding: pdXL,
-      paddingTop: '77px',
+      // padding: pdXL,
+      paddingTop: '61px',
     },
+  },
+  container: {
+    paddingBottom: '103px',
   },
 }));
 
