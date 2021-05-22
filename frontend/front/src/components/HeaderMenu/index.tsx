@@ -1,3 +1,4 @@
+/* eslint-disable import/no-unresolved */
 /* eslint-disable react/jsx-props-no-spreading */
 /* eslint-disable react/require-default-props */
 import React, { ReactChildren, ReactChild, useState } from 'react';
@@ -13,13 +14,13 @@ import {
   Toolbar,
 } from '@material-ui/core';
 
+import logo from 'src/assets/images/logoLucete.svg';
+import icon from 'src/assets/images/user.svg';
+import { ROUTE_FORUM, ROUTE_HOME, ROUTE_PHOTO } from 'src/constants';
 import useStyles from './useStyles';
-import logo from '../../assets/images/logoLucete.svg';
-import icon from '../../assets/images/user.svg';
 import Search from './components/Search';
 import SideDrawer from './components/Drawer';
 import ScrollToTop from './components/ScrollToTop';
-import { ROUTE_FORUM, ROUTE_HOME, ROUTE_PHOTO } from '../../constants';
 
 interface AuxProps {
   window?: () => Window;

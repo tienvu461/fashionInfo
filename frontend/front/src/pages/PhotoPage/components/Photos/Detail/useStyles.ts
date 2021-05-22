@@ -1,20 +1,14 @@
 /* eslint-disable object-curly-newline */
 import { makeStyles } from '@material-ui/core/styles';
-import {
-  white,
-  pdXL,
-  pdSM,
-  pdLG,
-  pdMD,
-  theme,
-  black,
-} from '../../../../../styles/theme';
+import { pdXL, pdSM, pdLG, pdMD, theme, black, gray1, gray2, blackBlue, blackThin } from '../../../../../styles/theme';
 
 const useStyles: () => Record<
   | 'root'
   | 'gridPhoto'
+  | 'loading'
   | 'card'
   | 'paper'
+  | 'paperLoading'
   | 'picture'
   | 'actions'
   | 'left'
@@ -23,12 +17,17 @@ const useStyles: () => Record<
   | 'information'
   | 'title'
   | 'name'
-  | 'value',
+  | 'valueName'
+  | 'value'
+  | 'value2'
+  | 'tag'
+  | 'tags'
+  | 'tagText',
   string
 > = makeStyles(() => ({
   root: {
     height: 'auto',
-    backgroundColor: white,
+    backgroundColor: gray2,
 
     // responsive
     [theme.breakpoints.up('sm')]: {
@@ -49,11 +48,24 @@ const useStyles: () => Record<
     },
   },
   gridPhoto: {},
+  loading: {
+    height: '975px',
+    width: '100%',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   card: {
     boxShadow: 'none',
   },
   paper: {
     boxShadow: 'none',
+    width: '100%',
+  },
+  paperLoading: {
+    backgroundColor: gray1,
+    // opacity: 0.4,
+    width: '100%',
   },
   picture: {
     height: '975px',
@@ -85,6 +97,14 @@ const useStyles: () => Record<
     display: 'flex',
     alignItems: 'flex-end',
     padding: '0 0 88px 130px',
+
+    // responsive
+    [theme.breakpoints.up('sm')]: {
+      padding: '0 0 88px 40px',
+    },
+    [theme.breakpoints.down('sm')]: {
+      padding: '0 0 88px 30px',
+    },
   },
   title: {
     letterSpacing: '1px',
@@ -110,6 +130,40 @@ const useStyles: () => Record<
     fontWeight: 'bold',
     textAlign: 'left',
     fontFamily: 'Roboto',
+  },
+  value2: {
+    letterSpacing: '1px',
+    color: blackBlue,
+    lineHeight: '36px',
+    fontWeight: 'bold',
+    textAlign: 'left',
+    fontFamily: 'Roboto',
+  },
+  valueName: {
+    wordBreak: 'break-word',
+  },
+  tag: {
+    width: 'fit-content',
+    background: gray1,
+    padding: '3px 15px',
+    marginRight: '4px',
+    marginBottom: '4px',
+  },
+  tags: {
+    display: 'flex',
+    flexWrap: 'wrap',
+    paddingTop: '80px',
+  },
+  tagText: {
+    fontFamily: 'Roboto',
+    fontStyle: 'normal',
+    fontWeight: 'normal',
+    fontSize: '12px',
+    lineHeight: '36px',
+
+    alignItems: 'center',
+    letterSpacing: '1px',
+    color: blackThin,
   },
 }));
 

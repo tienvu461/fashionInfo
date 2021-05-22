@@ -38,12 +38,16 @@ function Photos(): JSX.Element {
   interface GalleryKeys {
     image_path: string;
     id: number;
+    activities: {
+      likes: number;
+      comments: number;
+    };
   }
 
   const renderPhoto = () => (
     <>
       {listImg.map((item: GalleryKeys, index: number) => {
-        const { id = 0, image_path: pathImgs = '' } = item;
+        const { id = 0, image_path: pathImgs = '', activities } = item;
 
         return (
           <Grid
@@ -61,7 +65,7 @@ function Photos(): JSX.Element {
             xl={4}
             xs={12}
           >
-            <Photo id={id} pathImg={pathImgs} />
+            <Photo activities={activities} id={id} pathImg={pathImgs} />
           </Grid>
         );
       })}
