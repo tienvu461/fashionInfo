@@ -21,6 +21,11 @@ const useStyles: () => Record<'root' | 'titleSuggestion' | 'btn' | 'nextBtn' | '
         paddingLeft: '12px',
         paddingBottom: '40px',
       },
+      [theme.breakpoints.down('sm')]: {
+        paddingTop: '97px',
+        paddingLeft: '12px',
+        paddingBottom: '40px',
+      },
       [theme.breakpoints.up('md')]: {
         paddingTop: '97px',
         paddingLeft: '12px',

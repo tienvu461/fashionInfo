@@ -15,9 +15,9 @@ const useStyles: () => Record<
       height: 'auto',
 
       // responsive
-      [theme.breakpoints.up('sm')]: {
+      [theme.breakpoints.down('sm')]: {
         // padding: pdSM,
-        //   paddingTop: '61px',
+          paddingTop: '61px',
       },
       [theme.breakpoints.up('md')]: {
         // padding: pdMD,
