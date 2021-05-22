@@ -1,6 +1,7 @@
+/* eslint-disable import/no-unresolved */
 import React from 'react';
 import { Divider, Grid, useMediaQuery } from '@material-ui/core';
-import Comment from './components/Comment';
+import Comment from 'src/components/Comment';
 import useStyles from './useStyles';
 import Reporter from './components/Reporter';
 

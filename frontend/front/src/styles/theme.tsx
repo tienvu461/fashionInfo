@@ -58,23 +58,23 @@ export const theme = createMuiTheme({
     fontFamily: ['Darker Grotesque', 'sans-serif'].join(','),
     h6: {
       fontSize: '18px',
-      '@media (max-width:1302px)': { fontSize: '16px', },
-      '@media (max-width:960px)': { fontSize: '14px', },
+      '@media (max-width:1302px)': { fontSize: '16px' },
+      '@media (max-width:960px)': { fontSize: '14px' },
     },
     h5: {
       fontSize: '1.2rem',
-      '@media (min-width:1302px)': { fontSize: '2rem', },
+      '@media (min-width:1302px)': { fontSize: '2rem' },
     },
     h4: {
       fontSize: '1.4rem',
-      '@media (min-width:1302px)': { fontSize: '30px', },
+      '@media (min-width:1302px)': { fontSize: '30px' },
     },
     h1: {
       fontSize: '120px',
-      '@media (max-width:1302px)': { fontSize: '100px', },
-      '@media (max-width:960px)': { fontSize: '2.8rem', },
-      '@media (max-width:720px)': { fontSize: '2.4rem', },
-      '&::before': { padding: 0, },
+      '@media (max-width:1302px)': { fontSize: '100px' },
+      '@media (max-width:960px)': { fontSize: '2.8rem' },
+      '@media (max-width:720px)': { fontSize: '2.4rem' },
+      '&::before': { padding: 0 },
     },
   },
   breakpoints: {
@@ -88,28 +88,13 @@ export const theme = createMuiTheme({
   },
   overrides: {
     MuiAppBar: {
-      root: { boxShadow: 'none', },
-      colorPrimary: { backgroundColor: white, },
+      root: { boxShadow: 'none' },
+      colorPrimary: { backgroundColor: white },
     },
-    // MuiToolbar: {
-    //   gutters: {
-    //     pdLeftXL: '12px',
-    //     paddingRight: '0',
-    //     '@media (min-width: 960px)': {
-    //       pdLeftXL: '200px',
-    //       paddingRight: '200px',
-    //     },
-    //   },
-    //   regular: {
-    //     '@media (min-width: 960px)': {
-    //       height: '80px',
-    //     },
-    //   },
-    // },
     MuiButton: {
       root: {
         backgroundColor: black,
-        '&:hover': { backgroundColor: grayPrimary, },
+        '&:hover': { backgroundColor: grayPrimary },
       },
       // outlined: {
       //   color: white,
@@ -131,7 +116,15 @@ export const theme = createMuiTheme({
         boxShadow: 'none',
       },
     },
-    MuiCircularProgress: { colorPrimary: { color: grayPrimary }, },
+    MuiCircularProgress: { colorPrimary: { color: grayPrimary } },
+    MuiAccordion: { root: { backgroundColor: 'transparent' } },
+    MuiAccordionSummary: {
+      content: { margin: '0 !important' },
+      root: { minHeight: 'fit-content !important' }
+    //     transform: rotate(0deg);
+    // transition: transform 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+    },
+    MuiAccordionDetails: { root: { padding: '0px 16px 16px' } },
     // MuiCheckbox: {
     //   root: {
     //     marginRight: '5px',
