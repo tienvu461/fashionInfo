@@ -2,7 +2,7 @@
 import axios from 'axios';
 import { getDataFromLocalStorage } from '../utils/localStorage';
 
-export const request: any = async (url = '', method = '', data = {}) => {
+const request: any = async (url = '', method = '', data = {}) => {
   const config: any = {};
 
   const token = getDataFromLocalStorage();

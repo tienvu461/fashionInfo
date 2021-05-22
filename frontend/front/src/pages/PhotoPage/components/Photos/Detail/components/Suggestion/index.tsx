@@ -1,65 +1,26 @@
+/* eslint-disable import/no-unresolved */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable camelcase */
-/* eslint-disable object-curly-newline */
 import React, { useEffect, useState } from 'react';
-import {
-  Grid,
-  Paper,
-  Card,
-  CardActionArea,
-  CardMedia,
-  Button,
-  Typography,
-  Divider,
-  CircularProgress,
-} from '@material-ui/core';
+import { useDispatch } from 'react-redux';
+import { Grid, Button, Typography } from '@material-ui/core';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import { getPhotoSuggestAction } from 'src/features/Photo/photoAction';
 import useStyles from './useStyles';
 import Photo from '../../../Photo';
 
 interface SuggestionProps {
   photoSuggestionList: Array<any>;
   dataPhoto: Record<string, string>;
+  paramsId: string;
 }
 
 function SuggestionComponent(props: SuggestionProps): JSX.Element {
-  const { photoSuggestionList, dataPhoto } = props;
+  const { photoSuggestionList, dataPhoto, paramsId } = props;
   const classes = useStyles();
+  const dispatch = useDispatch<any>();
   const [listImg, setListImg] = useState<Array<any>>([]);
-
-  // const listImg = [
-  //   {
-  //     image_path: '',
-  //     id: 1,
-  //     activities: {
-  //       likes: 2,
-  //       comments: 10,
-  //     },
-  //   },
-  //   {
-  //     image_path: '',
-  //     id: 2,
-  //     activities: {
-  //       likes: 2,
-  //       comments: 10,
-  //     },
-  //   },
-  //   {
-  //     image_path: '',
-  //     id: 3,
-  //     activities: {
-  //       likes: 2,
-  //       comments: 10,
-  //     },
-  //   },
-  //   {
-  //     image_path: '',
-  //     id: 4,
-  //     activities: {
-  //       likes: 2,
-  //       comments: 10,
-  //     },
-  //   },
-  // ];
+  const [loading, setLoading] = useState<boolean>(false);
 
   interface GalleryKeys {
     image_path: string;
@@ -99,6 +60,34 @@ function SuggestionComponent(props: SuggestionProps): JSX.Element {
     </>
   );
 
+  const handleClick = async (key: string) => {
+    const { next: nextPage = '', previous: previousPage = '' } = dataPhoto;
+    const newListImg = [...listImg];
+    setLoading(true);
+
+    if (key === 'next') {
+      const nextNum = nextPage.split('suggest?page=').pop();
+      const formatNum = nextNum?.replace(`&photo_id=${paramsId}`, '');
+
+      await dispatch(getPhotoSuggestAction(+`${formatNum}`, paramsId)).then((data) => {
+        const { results = [] } = data;
+        results.forEach((item) => newListImg.push(item));
+        setLoading(false);
+      });
+    } else {
+      const exist = previousPage.includes('suggest?page=');
+      let prevNum: any = '';
+
+      if (exist) {
+        prevNum = previousPage.split('suggest?page=').pop();
+        prevNum = prevNum?.replace(`&photo_id=${paramsId}`, '');
+      }
+      await dispatch(getPhotoSuggestAction(+`${prevNum}`, paramsId));
+    }
+
+    // setListImg(newListImg);
+  };
+
   return (
     <div className={`${classes.root} root`}>
       <Grid container spacing={3}>
@@ -109,16 +98,20 @@ function SuggestionComponent(props: SuggestionProps): JSX.Element {
         </Grid>
         {renderPhoto()}
         <Grid className={classes.btn} lg={12} md={12} sm={12} spacing={2} xs={12}>
-          <Button
-            className={classes.nextBtn}
-            // endIcon={loading ? <CircularProgress /> : null}
-            // onClick={() => handleClick('next')}
-            variant='contained'
-          >
-            <Typography className={classes.textBtn} component='h5' variant='h5'>
-              Xem thêm
-            </Typography>
-          </Button>
+          <>
+            {dataPhoto.next ? (
+              <Button
+                className={classes.nextBtn}
+                endIcon={loading ? <CircularProgress /> : null}
+                onClick={() => handleClick('next')}
+                variant='contained'
+              >
+                <Typography className={classes.textBtn} component='h5' variant='h5'>
+                  Xem thêm
+                </Typography>
+              </Button>
+            ) : null}
+          </>
         </Grid>
       </Grid>
     </div>

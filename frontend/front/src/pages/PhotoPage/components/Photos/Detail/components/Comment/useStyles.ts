@@ -1,6 +1,6 @@
 /* eslint-disable object-curly-newline */
 import { makeStyles } from '@material-ui/core/styles';
-import { white, pdXL, pdSM, pdLG, pdMD, theme, black } from '../../../../../../../styles/theme';
+import { pdXL, pdSM, pdLG, pdMD, theme, black } from '../../../../../../../styles/theme';
 
 const useStyles: () => Record<'root', string> = makeStyles(() => ({
   root: {

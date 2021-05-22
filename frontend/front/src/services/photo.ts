@@ -7,4 +7,5 @@ export const getListPhoto: any = (page: number) => request(`${PHOTO_LIST_API}${p
 
 export const getPhotoById: any = (id: string) => request(`${PHOTO_GET_BY_ID_API}/${id}`, 'GET');
 
-export const getListSuggestionPhoto: any = (id: string) => request(`${PHOTO_LIST_SUGGEST_API}${id}`, 'GET');
+export const getListSuggestionPhoto: any = (num: number, id: string) =>
+  request(`${PHOTO_LIST_SUGGEST_API}${num}&photo_id=${id}`, 'GET');

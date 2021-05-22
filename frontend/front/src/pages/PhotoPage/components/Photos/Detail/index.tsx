@@ -25,12 +25,11 @@ function Detail(props: DetailProps): JSX.Element {
   const { match: { params: { id = '' } = {} } = {} } = props;
   const classes = useStyles();
   const [loading, setLoading] = useState<boolean>(false);
-  const [loadingSuggest, setLoadingSuggest] = useState<boolean>(false);
   const dispatch = useDispatch<any>();
 
   useEffect(() => {
     setLoading(true);
-    setLoadingSuggest(true);
+
     window.scrollTo({
       top: 100,
       left: 0,
@@ -46,12 +45,7 @@ function Detail(props: DetailProps): JSX.Element {
     });
 
     // fetch data suggestion photo list
-    dispatch(getPhotoSuggestAction(id)).then((res) => {
-      const { status = '' } = res;
-      if (status === 200) {
-        setLoadingSuggest(false);
-      }
-    });
+    dispatch(getPhotoSuggestAction(1, id));
   }, [dispatch, id]);
 
   const photoDetail = useSelector((state: RootState) => state.photo.photoDetail);
@@ -198,20 +192,7 @@ function Detail(props: DetailProps): JSX.Element {
       <div style={{ background: '#EEEEEF', height: '100vh' }}>
         <CommentComponent />
       </div>
-      <SuggestionComponent dataPhoto={dataPhoto} photoSuggestionList={photoSuggestionList} />
-
-      {/* <Grid container>
-        <Grid item lg={12} md={12} sm={12} spacing={2} wrap='wrap' xl={12} xs={12}>
-          <div style={{ background: '#EEEEEF', height: '100vh' }}>
-            <CommentComponent />
-          </div>
-        </Grid>
-        <Grid item lg={12} md={12} sm={12} spacing={2} wrap='wrap' xl={12} xs={12}>
-          <div style={{ background: 'red', height: '100vh' }}>
-          <SuggestionComponent />
-          </div>
-        </Grid>
-      </Grid> */}
+      <SuggestionComponent dataPhoto={dataPhoto} paramsId={id} photoSuggestionList={photoSuggestionList} />
     </div>
   );
 }

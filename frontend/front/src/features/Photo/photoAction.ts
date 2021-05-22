@@ -32,9 +32,9 @@ export const getDetailAction = (id: string) => async (dispatch: Dispatch) => {
   return 0;
 };
 
-export const getPhotoSuggestAction = (id: string) => async (dispatch: Dispatch) => {
+export const getPhotoSuggestAction = (num: number, id: string) => async (dispatch: Dispatch) => {
   try {
-    const response = await getListSuggestionPhoto(id);
+    const response = await getListSuggestionPhoto(num, id);
     const { data = {}, status = '' } = response;
     if (status === 200) {
       dispatch(getListPhotoSuggestion({ data }));

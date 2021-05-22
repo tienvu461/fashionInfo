@@ -1,21 +1,9 @@
+/* eslint-disable object-curly-newline */
 import { makeStyles } from '@material-ui/core/styles';
-import {
-  textColor,
-  pdLeftXL,
-  pdLeftLG,
-  pdLeftMD,
-  pdLeftSM,
-  theme,
-} from '../../../../styles/theme';
+import { textColor, pdLeftXL, pdLeftLG, pdLeftSM, theme } from '../../../../styles/theme';
 
 const useStyles: () => Record<
-  | 'root'
-  | 'leftSection'
-  | 'leftSectionMatches'
-  | 'rightSection'
-  | 'imgBanner'
-  | 'headline'
-  | 'subline',
+  'root' | 'leftSection' | 'leftSectionMatches' | 'rightSection' | 'imgBanner' | 'headline' | 'subline',
   string
 > = makeStyles(() => ({
   root: {

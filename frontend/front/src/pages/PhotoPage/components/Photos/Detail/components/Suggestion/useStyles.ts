@@ -1,6 +1,6 @@
 /* eslint-disable object-curly-newline */
 import { makeStyles } from '@material-ui/core/styles';
-import { white, pdXL, pdSM, pdLG, pdMD, theme, black } from '../../../../../../../styles/theme';
+import { theme, black } from '../../../../../../../styles/theme';
 
 // eslint-disable-next-line operator-linebreak
 const useStyles: () => Record<'root' | 'titleSuggestion' | 'btn' | 'nextBtn' | 'textBtn' | 'gridItem', string> =

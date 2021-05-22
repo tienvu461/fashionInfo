@@ -13,4 +13,4 @@ export const GET_AUTHEN_URL =
 // PHOTO
 export const PHOTO_LIST_API = `${HOST}/api/photos/?page=`;
 export const PHOTO_GET_BY_ID_API = `${HOST}/api/photos`;
-export const PHOTO_LIST_SUGGEST_API = `${HOST}/api/photos/suggest?photo_id=`;
+export const PHOTO_LIST_SUGGEST_API = `${HOST}/api/photos/suggest?page=`;
