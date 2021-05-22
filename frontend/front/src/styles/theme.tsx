@@ -58,39 +58,23 @@ export const theme = createMuiTheme({
     fontFamily: ['Darker Grotesque', 'sans-serif'].join(','),
     h6: {
       fontSize: '18px',
-      '@media (max-width:1302px)': {
-        fontSize: '16px',
-      },
-      '@media (max-width:960px)': {
-        fontSize: '14px',
-      },
+      '@media (max-width:1302px)': { fontSize: '16px', },
+      '@media (max-width:960px)': { fontSize: '14px', },
     },
     h5: {
       fontSize: '1.2rem',
-      '@media (min-width:1302px)': {
-        fontSize: '2rem',
-      },
+      '@media (min-width:1302px)': { fontSize: '2rem', },
     },
     h4: {
       fontSize: '1.4rem',
-      '@media (min-width:1302px)': {
-        fontSize: '30px',
-      },
+      '@media (min-width:1302px)': { fontSize: '30px', },
     },
     h1: {
       fontSize: '120px',
-      '@media (max-width:1302px)': {
-        fontSize: '100px',
-      },
-      '@media (max-width:960px)': {
-        fontSize: '2.8rem',
-      },
-      '@media (max-width:720px)': {
-        fontSize: '2.4rem',
-      },
-      '&::before': {
-        padding: 0,
-      },
+      '@media (max-width:1302px)': { fontSize: '100px', },
+      '@media (max-width:960px)': { fontSize: '2.8rem', },
+      '@media (max-width:720px)': { fontSize: '2.4rem', },
+      '&::before': { padding: 0, },
     },
   },
   breakpoints: {
@@ -104,12 +88,8 @@ export const theme = createMuiTheme({
   },
   overrides: {
     MuiAppBar: {
-      root: {
-        boxShadow: 'none',
-      },
-      colorPrimary: {
-        backgroundColor: white,
-      },
+      root: { boxShadow: 'none', },
+      colorPrimary: { backgroundColor: white, },
     },
     // MuiToolbar: {
     //   gutters: {
@@ -129,9 +109,7 @@ export const theme = createMuiTheme({
     MuiButton: {
       root: {
         backgroundColor: black,
-        '&:hover': {
-          backgroundColor: grayPrimary,
-        },
+        '&:hover': { backgroundColor: grayPrimary, },
       },
       // outlined: {
       //   color: white,
@@ -153,9 +131,7 @@ export const theme = createMuiTheme({
         boxShadow: 'none',
       },
     },
-    MuiCircularProgress: {
-      colorPrimary: { color: grayPrimary },
-    },
+    MuiCircularProgress: { colorPrimary: { color: grayPrimary }, },
     // MuiCheckbox: {
     //   root: {
     //     marginRight: '5px',
@@ -240,9 +216,7 @@ export const darkTheme = createMuiTheme({
     MuiButton: {
       root: {
         backgroundColor: black,
-        '&:hover': {
-          backgroundColor: '#000',
-        },
+        '&:hover': { backgroundColor: '#000', },
       },
       outlined: {
         color: white,
@@ -263,15 +237,11 @@ export const darkTheme = createMuiTheme({
     MuiCheckbox: {
       root: {
         marginRight: '5px',
-        '&:hover': {
-          backgroundColor: black,
-        },
+        '&:hover': { backgroundColor: black, },
       },
       colorSecondary: {
         color: black,
-        '&$checked': {
-          color: black,
-        },
+        '&$checked': { color: black, },
       },
     },
     MuiFormControlLabel: {
@@ -280,13 +250,7 @@ export const darkTheme = createMuiTheme({
         fontWeight: 'bold',
       },
     },
-    MuiFormLabel: {
-      root: {
-        '&$focused': {
-          color: black,
-        },
-      },
-    },
+    MuiFormLabel: { root: { '&$focused': { color: black, }, }, },
     MuiOutlinedInput: {
       root: {
         '&$focused $notchedOutline': {
@@ -296,19 +260,11 @@ export const darkTheme = createMuiTheme({
         '&:hover:not($disabled):not($focused):not($error) $notchedOutline': {
           borderColor: black,
           // Reset on touch devices, it doesn't add specificity
-          '@media (hover: none)': {
-            borderColor: black,
-          },
+          '@media (hover: none)': { borderColor: black, },
         },
       },
     },
-    MuiIconButton: {
-      root: {
-        '&:hover': {
-          backgroundColor: '#ffffff3b',
-        },
-      },
-    },
+    MuiIconButton: { root: { '&:hover': { backgroundColor: '#ffffff3b', }, }, },
     MuiListItem: {
       button: {
         '&:hover': {
@@ -318,18 +274,10 @@ export const darkTheme = createMuiTheme({
       },
     },
     MuiBadge: {
-      badge: {
-        color: white,
-      },
-      anchorOriginTopRightRectangle: {
-        backgroundColor: `${black} !important`,
-      },
+      badge: { color: white, },
+      anchorOriginTopRightRectangle: { backgroundColor: `${black} !important`, },
     },
-    MuiMenu: {
-      paper: {
-        backgroundColor: white,
-      },
-    },
+    MuiMenu: { paper: { backgroundColor: white, }, },
   },
 });
 
