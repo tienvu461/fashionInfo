@@ -99,7 +99,7 @@ SIMPLE_JWT = {
 
 SOCIAL_AUTH_WHITELIST = [
     'http://localhost:8000/accounts/profile/',
-    'http://{0}:8000/accounts/profile/'.format(HOSTNAME),
+    'http://{0}/accounts/profile/'.format(HOSTNAME),
 ] # URL you add to google developers console as allowed to make redirection
 
 # configure Djoser
@@ -127,6 +127,7 @@ CORS_ALLOWED_ORIGINS = [
     "http://localhost:3001",
     "http://127.0.0.1:3001",
     "http://{}:3000".format(HOSTNAME),
+    "http://{}".format(HOSTNAME),
 ]
 
 MIDDLEWARE = [

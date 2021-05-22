@@ -10,6 +10,14 @@ from rest_framework.response import Response
 from rest_framework import status
 from django.contrib.auth.models import User
 import json, requests
+<<<<<<< Updated upstream
+=======
+import logging
+from django.shortcuts import render
+
+from django.conf import settings
+
+>>>>>>> Stashed changes
 from rest_framework_simplejwt.views import TokenObtainPairView
 
 class RedirectSocial(View):
@@ -48,8 +56,8 @@ class ActivateUser(APIView):
 
     def get(self, request, uid, token, format = None):
         payload = {'uid': uid, 'token': token}
-
-        url = "http://localhost:8000/api/users/activation/"
+        
+        url = "http://{}/api/users/activation/".format(settings.HOSTNAME)
         response = requests.post(url, data = payload)
 
         if response.status_code == 204:
