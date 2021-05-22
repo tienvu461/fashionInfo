@@ -1,6 +1,6 @@
 /* eslint-disable object-curly-newline */
 import { makeStyles } from '@material-ui/core/styles';
-import { theme, black } from '../../../../../../../styles/theme';
+import { theme, black, pdSM } from '../../../../../../../styles/theme';
 
 // eslint-disable-next-line operator-linebreak
 const useStyles: () => Record<'root' | 'titleSuggestion' | 'btn' | 'nextBtn' | 'textBtn' | 'gridItem', string> =
@@ -18,27 +18,23 @@ const useStyles: () => Record<'root' | 'titleSuggestion' | 'btn' | 'nextBtn' | '
       // responsive
       [theme.breakpoints.up('sm')]: {
         paddingTop: '97px',
-        paddingLeft: '12px',
         paddingBottom: '40px',
       },
       [theme.breakpoints.down('sm')]: {
         paddingTop: '97px',
-        paddingLeft: '12px',
+        padding: pdSM,
         paddingBottom: '40px',
       },
       [theme.breakpoints.up('md')]: {
         paddingTop: '97px',
-        paddingLeft: '12px',
         paddingBottom: '40px',
       },
       [theme.breakpoints.up('lg')]: {
         paddingTop: '97px',
-        paddingLeft: '12px',
         paddingBottom: '40px',
       },
       [theme.breakpoints.up('xl')]: {
         paddingTop: '97px',
-        paddingLeft: '12px',
         paddingBottom: '40px',
       },
     },

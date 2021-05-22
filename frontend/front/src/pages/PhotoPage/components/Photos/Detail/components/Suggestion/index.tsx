@@ -90,12 +90,12 @@ function SuggestionComponent(props: SuggestionProps): JSX.Element {
 
   return (
     <div className={`${classes.root} root`}>
-      <Grid container spacing={3}>
-        <Grid lg={12} md={12} sm={12} spacing={2} wrap='wrap' xl={12} xs={12}>
-          <Typography className={classes.titleSuggestion} component='h4' variant='h4'>
-            Đề xuất
-          </Typography>
-        </Grid>
+      <Grid lg={12} md={12} sm={12} wrap='wrap' xl={12} xs={12}>
+        <Typography className={classes.titleSuggestion} component='h4' variant='h4'>
+          Đề xuất
+        </Typography>
+      </Grid>
+      <Grid container spacing={4}>
         {renderPhoto()}
         <Grid className={classes.btn} lg={12} md={12} sm={12} spacing={2} xs={12}>
           <>
