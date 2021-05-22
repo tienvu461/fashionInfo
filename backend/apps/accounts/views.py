@@ -17,12 +17,15 @@ from django.conf import settings
 
 from rest_framework_simplejwt.views import TokenObtainPairView
 
+logger = logging.getLogger("photos")
+
 class RedirectSocial(View):
 
     def get(self, request, *args, **kwargs):
         code, state = str(request.GET['code']), str(request.GET['state'])
         json_obj = {'code': code, 'state': state}
         print(json_obj)
+        return render(request, 'social_redirect.html', {'code': code, 'state': state})
         return JsonResponse(json_obj)
 
 # used to test auth
@@ -55,12 +58,17 @@ class ActivateUser(APIView):
         payload = {'uid': uid, 'token': token}
         
         url = "http://{}/api/users/activation/".format(settings.HOSTNAME)
-        response = requests.post(url, data = payload)
 
-        if response.status_code == 204:
-            return Response({}, response.status_code)
-        else:
-            return Response(response.json())
+        logger.debug("activation url: {}".format(url))
+
+        return render(request, 'activation_page.html', {'url': url, 'uid': uid, 'token': token})
+        # response = requests.post(url, data = payload)
+
+
+        # if response.status_code == 204:
+        #     return Response({}, response.status_code)
+        # else:
+        #     return Response(response.json())
 
 class EmailTokenObtainPairView(TokenObtainPairView):
     serializer_class = CustomTokenObtainPairSerializer
