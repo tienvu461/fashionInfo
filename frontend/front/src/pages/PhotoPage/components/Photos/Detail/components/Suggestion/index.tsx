@@ -47,9 +47,7 @@ function SuggestionComponent(props: SuggestionProps): JSX.Element {
             lg={4}
             md={6}
             sm={6}
-            spacing={2}
             style={index >= 0 && index <= 2 ? { paddingTop: '0 !important' } : {}}
-            wrap='wrap'
             xl={4}
             xs={12}
           >
@@ -90,14 +88,14 @@ function SuggestionComponent(props: SuggestionProps): JSX.Element {
 
   return (
     <div className={`${classes.root} root`}>
-      <Grid lg={12} md={12} sm={12} wrap='wrap' xl={12} xs={12}>
+      <Grid container>
         <Typography className={classes.titleSuggestion} component='h4' variant='h4'>
           Đề xuất
         </Typography>
       </Grid>
       <Grid container spacing={4}>
         {renderPhoto()}
-        <Grid className={classes.btn} lg={12} md={12} sm={12} spacing={2} xs={12}>
+        <Grid className={classes.btn} item lg={12} md={12} sm={12} xs={12}>
           <>
             {dataPhoto.next ? (
               <Button

@@ -19,9 +19,7 @@ import MagazinePage from './pages/MagaginzePage';
 import NotFound from './pages/NotFound';
 import Detail from './pages/PhotoPage/components/Photos/Detail';
 
-toast.configure({
-  autoClose: 2000,
-});
+toast.configure({ autoClose: 2000, });
 
 function App(): JSX.Element {
   return (

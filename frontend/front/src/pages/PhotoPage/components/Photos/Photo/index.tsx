@@ -41,7 +41,9 @@ function Photo(props: PropsType): JSX.Element {
           <Card className='card'>
             <CardActionArea>
               <CardMedia
+                alt='Contemplative Reptile'
                 className={classes.picture}
+                component='img'
                 image={checkPathImg(pathImg) || BannerPic}
                 title='Contemplative Reptile'
               />
