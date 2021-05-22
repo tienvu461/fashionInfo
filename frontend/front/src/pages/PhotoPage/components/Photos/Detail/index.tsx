@@ -1,10 +1,11 @@
-/* eslint-disable object-curly-newline */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable camelcase */
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
-import { Grid, Paper, Card, CardActionArea, CardMedia, Typography, Divider, CircularProgress } from '@material-ui/core';
+import {
+ Grid, Paper, Card, CardActionArea, CardMedia, Typography, Divider, CircularProgress
+} from '@material-ui/core';
 import { getDetailAction, getPhotoSuggestAction } from '../../../../../features/Photo/photoAction';
 import HeartIcon from '../../../../../assets/images/heart.svg';
 import ShareIcon from '../../../../../assets/images/share.svg';
@@ -189,7 +190,12 @@ function Detail(props: DetailProps): JSX.Element {
     <div className={`${classes.root} root`}>
       <Grid container>{renderDetailPhoto()}</Grid>
       <Divider />
-      <div style={{ background: '#EEEEEF', height: '100vh' }}>
+      <div
+        style={{
+          background: '#EEEEEF',
+          height: '100vh',
+        }}
+      >
         <CommentComponent />
       </div>
       <SuggestionComponent dataPhoto={dataPhoto} paramsId={id} photoSuggestionList={photoSuggestionList} />
