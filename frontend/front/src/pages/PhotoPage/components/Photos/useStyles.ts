@@ -25,6 +25,7 @@ const useStyles: () => Record<
   | 'btn'
   | 'nextBtn'
   | 'textBtn'
+  | 'loadingPhoto'
   | 'skeleton',
   string
 > = makeStyles(() => ({
@@ -111,6 +112,7 @@ const useStyles: () => Record<
     padding: '100px 0',
     width: '100%',
   },
+  loadingPhoto: {},
 }));
 
 export { useStyles as default };
