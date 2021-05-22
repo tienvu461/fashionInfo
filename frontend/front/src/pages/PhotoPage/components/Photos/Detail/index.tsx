@@ -154,15 +154,13 @@ function Detail(props: DetailProps): JSX.Element {
                 <CardActionArea>
                   <CardMedia className={classes.picture} image={pathImg} title='Contemplative Reptile' />
                 </CardActionArea>
-                <div>
-                  <div className={classes.actions}>
-                    <div className={classes.left}>
-                      <img alt='heart-icon' src={HeartIcon} />
-                      <div className={classes.num}>{photoDetail.likes}</div>
-                    </div>
-                    <div className={classes.right}>
-                      <img alt='share-icon' src={ShareIcon} />
-                    </div>
+                <div className={classes.actions}>
+                  <div className={classes.left}>
+                    <img alt='heart-icon' src={HeartIcon} />
+                    <div className={classes.num}>{photoDetail.likes}</div>
+                  </div>
+                  <div className={classes.right}>
+                    <img alt='share-icon' src={ShareIcon} />
                   </div>
                 </div>
               </Card>

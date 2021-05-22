@@ -76,6 +76,7 @@ const useStyles: () => Record<
     justifyContent: 'space-between',
     alignItems: 'center',
     padding: '30px',
+    backgroundColor: gray2,
   },
   left: {
     display: 'flex',
