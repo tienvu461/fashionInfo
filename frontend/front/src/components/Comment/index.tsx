@@ -15,7 +15,7 @@ function Comment(): JSX.Element {
 
     return (
       <Grid className={classes.root} container>
-        <Grid item lg={12} md={12} sm={12} xl={12} xs={12} className={classes.container}>
+        <Grid className={classes.container} item lg={12} md={12} sm={12} xl={12} xs={12}>
           <Accordion className={classes.accordion}>
             <div className={classes.accordionHeader}>
               <AccordionSummary aria-controls='panel1a-content' id='panel1a-header' onClick={handleClick}>
