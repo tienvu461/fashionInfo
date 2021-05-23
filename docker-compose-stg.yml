@@ -1,0 +1,95 @@
+version: '2'
+
+networks:
+    fashion_info_nw:
+        driver: bridge
+        ipam:
+            driver: default
+            config:
+                - subnet: 172.32.1.0/16
+                
+services:
+    front: 
+        restart: unless-stopped
+        build:
+            args:
+              SRC_DIR: ./frontend/front
+            context: .
+            dockerfile: ./infrastructure/docker/front/Dockerfile.stg
+        # expose:
+        #     - 3000
+        ports:
+            - 80:80
+        volumes:
+            - media_volume:/app/backend/media
+            - static_volume:/app/backend/static
+            - ./infrastructure/docker/front/staging:/etc/nginx/conf.d
+            - ./frontend/front:/app/frontend
+            - /app/frontend/node_modules
+        depends_on: 
+            - backend
+        networks:
+            - fashion_info_nw
+
+    nginx:
+        build:
+            context: .
+            dockerfile: ./infrastructure/docker/nginx/staging/Dockerfile
+        ports:
+            - "0.0.0.0:80:80"
+        volumes:
+            - media_volume:/app/backend/media
+            - static_volume:/app/backend/static
+            - ./infrastructure/docker/nginx/staging:/etc/nginx/conf.d
+        depends_on: 
+            - backend
+        networks:
+            - fashion_info_nw
+
+    backend:
+        restart: unless-stopped
+        build:
+            args:
+              SRC_DIR: ./backend
+            context: .
+            dockerfile: ./infrastructure/docker/backend/Dockerfile
+        entrypoint: /app/docker/backend/wsgi-entrypoint.sh
+        env_file:
+            - ./infrastructure/docker/config/stg/.env.backend
+        volumes:
+            - static_volume:/app/backend/static
+            - ./backend:/app/backend
+            - media_volume:/app/backend/media
+        expose:
+            - 8000
+        ports:
+            - 8000:8000
+        depends_on: 
+            - postgresql
+        networks:
+            - fashion_info_nw
+
+    postgresql:
+        build:
+            args:
+              SRC_DIR: ./infrastructure/docker/postgresql
+            context: .
+            dockerfile: ./infrastructure/docker/postgresql/Dockerfile    
+        volumes:
+            - postgresql_volume:/var/lib/postgresql/data
+        ports:
+            - "5432:5432"
+        env_file:
+            - ./infrastructure/docker/config/stg/.env.psql
+        networks:
+            fashion_info_nw:
+                ipv4_address: 172.32.1.2
+        # environment:
+        #     - POSTGRES_DB=fashion_info_db
+        #     - POSTGRES_USER=fashion_info
+        #     - POSTGRES_PASSWORD=fashion_info
+
+volumes:
+    static_volume: {}
+    postgresql_volume: {}
+    media_volume: {}

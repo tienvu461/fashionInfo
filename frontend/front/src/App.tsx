@@ -1,52 +1,41 @@
 import React from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { Route, Switch } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
-import logo from './assets/images/brand.svg';
-import { decrement, increment } from './features/Demo/demoSlice';
 import './App.scss';
+import 'react-toastify/dist/ReactToastify.css';
+import HeaderMenu from './components/HeaderMenu';
+import {
+  ROUTE_FORUM,
+  ROUTE_HOME,
+  ROUTE_LOGIN,
+  ROUTE_PHOTO,
+  // ROUTE_MAGAZINE,
+} from './constants';
+import ForumPage from './pages/ForumPage';
+import PhotoPage from './pages/PhotoPage';
+import LoginPage from './pages/LoginPage';
+import MagazinePage from './pages/MagaginzePage';
+import NotFound from './pages/NotFound';
+import Detail from './pages/PhotoPage/components/Photos/Detail';
 
-interface RootState {
-  demo: {
-    value: string;
-  };
-}
+toast.configure({
+  autoClose: 2000,
+});
 
 function App(): JSX.Element {
-  const count = useSelector((state: RootState) => state.demo.value);
-  const dispatch = useDispatch();
   return (
     <div className='App'>
-      <header className='App-header'>
-        <img alt='logo' src={logo} />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className='App-link'
-          href='https://reactjs.org'
-          rel='noopener noreferrer'
-          target='_blank'
-        >
-          Learn React
-        </a>
-        <div>
-          <button
-            aria-label='Increment value'
-            onClick={() => dispatch(increment())}
-            type='button'
-          >
-            +
-          </button>
-          <span>{count}</span>
-          <button
-            aria-label='Decrement value'
-            onClick={() => dispatch(decrement())}
-            type='button'
-          >
-            -
-          </button>
-        </div>
-      </header>
+      <HeaderMenu>
+        <Switch>
+          <Route component={PhotoPage} exact path={ROUTE_PHOTO} />
+          <Route component={Detail} exact path={`${ROUTE_PHOTO}/:id`} />
+          <Route component={MagazinePage} exact path={ROUTE_HOME} />
+          <Route component={ForumPage} exact path={ROUTE_FORUM} />
+          <Route component={LoginPage} exact path={ROUTE_LOGIN} />
+          <Route component={NotFound} />
+        </Switch>
+      </HeaderMenu>
     </div>
   );
 }

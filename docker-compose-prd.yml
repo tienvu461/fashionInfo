@@ -1,20 +1,31 @@
 version: '2'
 
+networks:
+    fashion_info_nw:
+        driver: bridge
+        ipam:
+            driver: default
+            config:
+                - subnet: 172.32.1.0/16
+
 services:
-    front: 
-        restart: unless-stopped
-        build:
-            args:
-              SRC_DIR: ./frontend/front
-            context: .
-            dockerfile: ./infrastructure/docker/front/Dockerfile.dev
+    nginx:
+        container_name: nginx_server
+        build: ./docker_compose/nginx
+        depends_on:
+          - django
         ports:
-            - 80:80
+          - "0.0.0.0:80:80"
         volumes:
+            - media_volume:/app/backend/media
             - static_volume:/app/backend/server/django_static
             - ./infrastructure/docker/front/development:/etc/nginx/conf.d
+            - ./frontend/front:/app/frontend
+            - /app/frontend/node_modules
         depends_on: 
             - backend
+        networks:
+            - fashion_info_nw
 
     backend:
         restart: unless-stopped
@@ -29,12 +40,15 @@ services:
         volumes:
             - static_volume:/app/backend/server/django_static
             - ./backend:/app/backend
+            - media_volume:/app/backend/media
         expose:
             - 8000
         ports:
             - 8000:8000
         depends_on: 
             - postgresql
+        networks:
+            - fashion_info_nw
 
     postgresql:
         build:
@@ -48,6 +62,9 @@ services:
             - "5432:5432"
         env_file:
             - ./infrastructure/docker/config/dev/.env.psql
+        networks:
+            fashion_info_nw:
+                ipv4_address: 172.32.1.2
         # environment:
         #     - POSTGRES_DB=fashion_info_db
         #     - POSTGRES_USER=fashion_info
@@ -56,3 +73,4 @@ services:
 volumes:
     static_volume: {}
     postgresql_volume: {}
+    media_volume: {}

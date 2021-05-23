@@ -29,6 +29,8 @@ DEBUG = bool(os.environ.get("DEBUG", default=0))
 
 ALLOWED_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS").split(" ")
 
+HOSTNAME = os.environ.get("HOSTNAME", default="localhost:8000")
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -55,6 +57,9 @@ INSTALLED_APPS = [
     'djoser',
     # markdown for admin
     'markdownx',
+    # tags
+    'taggit',
+    'taggit_serializer',
     # dev apps
     'apps.accounts',
     'apps.photos',
@@ -74,6 +79,11 @@ REST_FRAMEWORK = {
         'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': 5,
     'MAX_PAGE_SIZE': 50,
+    
+    # Enable if run on prd
+    # 'DEFAULT_RENDERER_CLASSES': (
+    #     'rest_framework.renderers.JSONRenderer',
+    # )
 }
 
 SIMPLE_JWT = {
@@ -88,7 +98,10 @@ SIMPLE_JWT = {
     'REFRESH_TOKEN_LIFETIME': timedelta(days=7),
 }
 
-white_list = ['http://localhost:8000/accounts/profile/'] # URL you add to google developers console as allowed to make redirection
+SOCIAL_AUTH_WHITELIST = [
+    'http://localhost:8000/accounts/profile/',
+    'http://{0}/accounts/profile/'.format(HOSTNAME),
+] # URL you add to google developers console as allowed to make redirection
 
 # configure Djoser
 DJOSER = {
@@ -102,7 +115,7 @@ DJOSER = {
         "user": "apps.accounts.serializers.UserSerializer", # Custom Serializer to show more user data
         "current_user": "apps.accounts.serializers.UserSerializer", # Custom Serializer to show more user data
     },
-    "SOCIAL_AUTH_ALLOWED_REDIRECT_URIS": white_list, # Redirected URL we listen on google console
+    "SOCIAL_AUTH_ALLOWED_REDIRECT_URIS": SOCIAL_AUTH_WHITELIST, # Redirected URL we listen on google console
     'ACTIVATION_URL': 'api/user/activate/{uid}/{token}',
     'SEND_ACTIVATION_EMAIL': True, # user will be required to click activation link sent in email after creating an account, updating their email
     'SEND_CONFIRMATION_EMAIL': True, # register or activation endpoint will send confirmation email to user.
@@ -115,7 +128,11 @@ DJOSER = {
 # define which origins are allowed
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
-    "http://127.0.0.1:3000"
+    "http://127.0.0.1:3000",
+    "http://localhost:3001",
+    "http://127.0.0.1:3001",
+    "http://{}:3000".format(HOSTNAME),
+    "http://{}".format(HOSTNAME),
 ]
 
 MIDDLEWARE = [
@@ -134,10 +151,11 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'backend.urls'
 
+TEMPLATES_DIRS = os.path.join(BASE_DIR, 'templates')
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [TEMPLATES_DIRS],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -254,8 +272,14 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 MEDIA_URL = '/media/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
+if DEBUG:
+    STATICFILES_DIRS = [
+        os.path.join(BASE_DIR, 'static'),
+    ]
+    MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+else:
+    STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+    MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 MARKDOWNX_MEDIA_PATH = datetime.now().strftime('markdownx/%Y/%m/%d')
 
@@ -264,11 +288,11 @@ SITE_ID = 2
 LOGIN_REDIRECT_URL = '/'
 
 AUTHENTICATION_BACKENDS = (
-# We are going to implement Google, choose the one you need from docs
-'social_core.backends.google.GoogleOAuth2',
-# Crucial when logging into admin with username & password
-'django.contrib.auth.backends.ModelBackend',
-'allauth.account.auth_backends.AuthenticationBackend',
+    # We are going to implement Google, choose the one you need from docs
+    'social_core.backends.google.GoogleOAuth2',
+    # Crucial when logging into admin with username & password
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
 )
 
 # Client ID and Client Secret obtained from console.developers.google.com
@@ -291,5 +315,44 @@ EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
 DEFAULT_FROM_EMAIL = 'fashion_info'
 
-PROTOCOL = "http"
-DOMAIN = "localhost:8000"
+# Activation email url = PROTOCOL + DOMAIN + ACTIVATION_URL
+PROTOCOL = os.environ.get("ACTIVATION_PROTOCOL", "http")
+DOMAIN = HOSTNAME
+
+# debug_toolbar settings
+if DEBUG:
+    INTERNAL_IPS = ('127.0.0.1',)
+    MIDDLEWARE += (
+        'debug_toolbar.middleware.DebugToolbarMiddleware',
+    )
+
+    INSTALLED_APPS += (
+        'debug_toolbar',
+    )
+
+    DEBUG_TOOLBAR_PANELS = [
+        'debug_toolbar.panels.versions.VersionsPanel',
+        'debug_toolbar.panels.timer.TimerPanel',
+        'debug_toolbar.panels.settings.SettingsPanel',
+        'debug_toolbar.panels.headers.HeadersPanel',
+        'debug_toolbar.panels.request.RequestPanel',
+        'debug_toolbar.panels.sql.SQLPanel',
+        'debug_toolbar.panels.staticfiles.StaticFilesPanel',
+        'debug_toolbar.panels.templates.TemplatesPanel',
+        'debug_toolbar.panels.cache.CachePanel',
+        'debug_toolbar.panels.signals.SignalsPanel',
+        'debug_toolbar.panels.logging.LoggingPanel',
+        'debug_toolbar.panels.redirects.RedirectsPanel',
+    ]
+
+    DEBUG_TOOLBAR_CONFIG = {
+        'INTERCEPT_REDIRECTS': False,
+    }
+    
+    def show_toolbar(request):
+        return True
+
+    DEBUG_TOOLBAR_CONFIG = {
+    "SHOW_TOOLBAR_CALLBACK" : show_toolbar,
+    }
+    

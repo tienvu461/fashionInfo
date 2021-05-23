@@ -11,24 +11,25 @@ from rest_framework.response import Response
 from rest_framework import status
 from django.contrib.auth.models import User
 import json, requests
+import logging
+from django.shortcuts import render
+
+from django.conf import settings
+
 from rest_framework_simplejwt.views import TokenObtainPairView
 import urllib
+
+logger = logging.getLogger("photos")
 
 class RedirectSocial(View):
 
     def get(self, request, *args, **kwargs):
         code, state = str(request.GET['code']), str(request.GET['state'])
-        payload = {'code': code, 'state': state}
-        payload = urllib.parse.urlencode(payload)
-        print(payload)
-        headers = {
-            'Content-Type': 'application/x-www-form-urlencoded'
-        }
-        url = "http://localhost:8000/api/social/o/google-oauth2/"
-        response = requests.request("POST", url, headers=headers, data=payload)
-        return JsonResponse(response.json())
-        # return JsonResponse(payload) 
-        
+        json_obj = {'code': code, 'state': state}
+        print(json_obj)
+        return render(request, 'social_redirect.html', {'code': code, 'state': state})
+        return JsonResponse(json_obj)
+
 # used to test auth
 class UserListView(generics.ListCreateAPIView):
     permission_classes = (IsAuthenticated,)
@@ -57,14 +58,19 @@ class ActivateUser(APIView):
 
     def get(self, request, uid, token, format = None):
         payload = {'uid': uid, 'token': token}
+        
+        url = "http://{}/api/users/activation/".format(settings.HOSTNAME)
 
-        url = "http://localhost:8000/api/users/activation/"
-        response = requests.post(url, data = payload)
+        logger.debug("activation url: {}".format(url))
 
-        if response.status_code == 204:
-            return Response({}, response.status_code)
-        else:
-            return Response(response.json())
+        return render(request, 'activation_page.html', {'url': url, 'uid': uid, 'token': token})
+        # response = requests.post(url, data = payload)
+
+
+        # if response.status_code == 204:
+        #     return Response({}, response.status_code)
+        # else:
+        #     return Response(response.json())
 
 class EmailTokenObtainPairView(TokenObtainPairView):
     serializer_class = CustomTokenObtainPairSerializer

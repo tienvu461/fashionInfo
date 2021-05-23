@@ -1,0 +1,25 @@
+﻿Note for Fashion info project
+    • Local authentication API
+        ◦ user register: “api/users/”
+            ▪ post username and password to this url
+        ◦ user login: “api/jwt/create”
+            ▪ post username and password to this url
+        ◦ user logout: “api/user/logout”
+            ▪ post refresh token to this url
+        ◦ token verify: “api/jwt/verify”
+            ▪ post access/refresh token to this url
+      
+    • Social authentication flow
+        1. FE create a button send a GET request to url “http://localhost:8000/api/social/o/google-oauth2/” with params KEY=redirect_uri VALUE=http://localhost:8000/accounts/profile/ and get back a response with body of google authentication url
+        2. go to google authentication url and enter ID, Pass. After that user will be redirect to accounts/profile and receive reponse with body of code and state
+
+        3. FE create a button in accounts/profile make a post request with this format
+
+POST /api/social/o/google-oauth2/ HTTP/1.1
+Host: localhost:8000
+Content-Type: application/x-www-form-urlencoded
+Cookie: sessionid=j3m7a2x3iazopch7386kd5ys5sdx3isu
+Content-Length: 119
+code=<from code above>&state=<from state above>
+
+

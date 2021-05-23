@@ -1,0 +1,31 @@
+@import './_variables';
+
+@mixin MediaQuery($type) {
+  @if $type == $xs {
+    @media screen and (max-width: $xs) {
+      @content;
+    }
+  } @else if $type == $sm {
+    @media screen and (max-width: $sm) {
+      @content;
+    }
+  } @else if $type == $md {
+    @media screen and (max-width: $md) {
+      @content;
+    }
+  } @else {
+    @media screen and (max-width: $lg) {
+      @content;
+    }
+  }
+}
+
+// Appbar: hover menu and drawer menu
+// $bgColor: $purple;
+$color: $white;
+$bg: 'all .2s ease-in-out';
+@mixin hoverAppBar($bgColor, $color, $trans) {
+  background-color: $bg !important;
+  color: $color;
+  transition: $trans !important;
+}

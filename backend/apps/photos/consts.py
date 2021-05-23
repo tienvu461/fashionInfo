@@ -1,3 +1,5 @@
+from enum import Enum
+
 class adminConst:
     WIDTH_XL = 720
     WIDTH_LA = 540
@@ -15,4 +17,17 @@ class modelConst:
         (2, "News"),
         (3, "Comment")
     )
+    BINARY = (
+        (False, "No"),
+        (True, "Yes")
+    )
+
+class postTypeEnum(Enum):
+    NoType = 1
+    Photo = 2
+    News = 3
+    Comment = 4
     
+class photosConst:
+    TAGS_RATIO = 8
+    PHOTOGRAPHER_RATIO = 2

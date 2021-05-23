@@ -16,13 +16,15 @@ services:
               SRC_DIR: ./frontend/front
             context: .
             dockerfile: ./infrastructure/docker/front/Dockerfile.dev
+        env_file:
+            - ./infrastructure/docker/config/dev/.env.front
         expose:
             - 3000
         ports:
             - 3000:3000
         volumes:
             - media_volume:/app/backend/media
-            - static_volume:/app/backend/server/django_static
+            - static_volume:/app/backend/static
             - ./infrastructure/docker/front/development:/etc/nginx/conf.d
             - ./frontend/front:/app/frontend
             - /app/frontend/node_modules
@@ -42,7 +44,7 @@ services:
         env_file:
             - ./infrastructure/docker/config/dev/.env.backend
         volumes:
-            - static_volume:/app/backend/server/django_static
+            - static_volume:/app/backend/static
             - ./backend:/app/backend
             - media_volume:/app/backend/media
         expose:
@@ -55,6 +57,7 @@ services:
             - fashion_info_nw
 
     postgresql:
+        restart: unless-stopped
         build:
             args:
               SRC_DIR: ./infrastructure/docker/postgresql
