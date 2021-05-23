@@ -28,29 +28,7 @@ class RedirectSocial(View):
         response = requests.request("POST", url, headers=headers, data=payload)
         return JsonResponse(response.json())
         # return JsonResponse(payload) 
-
-# class RedirectSocial(APIView):
-
-#     def get(self, request):
-#         code, state = str(request.GET['code']), str(request.GET['state'])
-#         payload = {'code': code, 'state': state}
-#         print(payload)
-#         url = "http://localhost:8000/api/social/o/google-oauth2/"
-#         response = requests.post(url, data = payload)
-#         return Response(response.json())
-#         if response.status_code == 204:
-#             return Response({}, response.status_code)
-#         else:
-#             return Response(response.json())
-
-
-class TestView(APIView):
-
-    def post(self, request, *args, **kwargs):
         
-        return Response(request.json())
-        
-
 # used to test auth
 class UserListView(generics.ListCreateAPIView):
     permission_classes = (IsAuthenticated,)
@@ -91,10 +69,19 @@ class ActivateUser(APIView):
 class EmailTokenObtainPairView(TokenObtainPairView):
     serializer_class = CustomTokenObtainPairSerializer
 
-class ForgotPasswordView(View):
+class ForgotPasswordView(APIView):
 
-    def get(self, request, *args, **kwargs):
-        uid, token = str(request.GET['uid']), str(request.GET['token'])
-        json_obj = {'uid': uid, 'token': token}
-        print(json_obj)
-        return JsonResponse(json_obj)
+    def post(self, request, uid, token, *args, **kwargs):
+        new_password = request.data.get("new_password")
+        data = {
+            'uid': uid,
+            'token': token,
+            'new_password': new_password
+        }
+        print(data)
+        url = 'http://localhost:8000/api/users/reset_password_confirm/'
+        response = requests.post(url, data=data)
+        if response.status_code == 200:
+            return Response({"info": "Change password successfully"}, status=status.HTTP_200_OK)
+        else:
+            return Response(response.text, status=status.HTTP_400_BAD_REQUEST)
