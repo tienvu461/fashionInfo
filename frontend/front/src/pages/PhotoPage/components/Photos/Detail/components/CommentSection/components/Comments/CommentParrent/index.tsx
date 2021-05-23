@@ -51,7 +51,7 @@ function CommentParrent(props: CmtProps): JSX.Element {
           {cmtProps?.reply.length > 0 ? (
             <>
               {cmtProps.reply.map((item) => (
-                <TimelineItem className={classes.nestedTimeline}>
+                <TimelineItem key={item.cmt_child_id} className={classes.nestedTimeline}>
                   <TimelineSeparator>
                     <TimelineDot className={classes.dotAvatar}>
                       <Avatar alt='ava' className={classes.avatar} src={item.ava} />
@@ -88,9 +88,9 @@ function CommentParrent(props: CmtProps): JSX.Element {
                     </Paper>
                   </TimelineContent>
                 </TimelineItem>
-              ))}
+                ))}
             </>
-          ) : null}
+            ) : null}
         </TimelineContent>
       </TimelineItem>
     </>
