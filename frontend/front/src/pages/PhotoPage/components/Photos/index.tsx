@@ -1,7 +1,7 @@
-/* eslint-disable import/no-unresolved */
-/* eslint-disable object-curly-newline */
-/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable camelcase */
+/* eslint-disable import/no-unresolved */
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 import React, { useEffect, useState } from 'react';
 import { Button, Grid, Typography, Box } from '@material-ui/core';
 import CircularProgress from '@material-ui/core/CircularProgress';

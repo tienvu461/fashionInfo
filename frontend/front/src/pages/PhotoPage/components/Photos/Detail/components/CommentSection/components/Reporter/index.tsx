@@ -1,5 +1,4 @@
 /* eslint-disable import/no-unresolved */
-/* eslint-disable react/no-unescaped-entities */
 import React from 'react';
 import { Grid, Typography, Avatar } from '@material-ui/core';
 import ReporterAvatar from 'src/assets/images/photos/reporter1.jpg';
@@ -8,6 +7,7 @@ import useStyles from './useStyles';
 function Reporter(): JSX.Element {
     const classes = useStyles();
 
+    const paragraph = 'Hello. It\'s an understanding that you want to shoot different styles. Thank you very much.';
     return (
       <Grid className={classes.root} item lg={12} md={12} sm={12} xl={12} xs={12}>
         <Grid item lg={12} md={12} sm={12} xl={12} xs={12}>
@@ -25,7 +25,7 @@ function Reporter(): JSX.Element {
         </Grid>
         <Grid item lg={6} md={6} sm={6} xl={12} xs={12}>
           <Typography className={classes.paragraph} component='h6' variant='h6'>
-            Hello. It's an understanding that you want to shoot different styles. Thank you very much.
+            {paragraph}
           </Typography>
         </Grid>
         <Grid item lg={12} md={12} sm={12} xl={12} xs={12}>

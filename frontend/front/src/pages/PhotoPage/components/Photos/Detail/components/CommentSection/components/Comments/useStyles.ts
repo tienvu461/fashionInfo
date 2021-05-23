@@ -1,5 +1,4 @@
 /* eslint-disable import/no-unresolved */
-/* eslint-disable object-curly-newline */
 import { makeStyles } from '@material-ui/core/styles';
 import { theme } from 'src/styles/theme';
 

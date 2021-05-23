@@ -1,5 +1,4 @@
 /* eslint-disable import/no-unresolved */
-/* eslint-disable object-curly-newline */
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Paper, Card, CardActionArea, CardMedia } from '@material-ui/core';

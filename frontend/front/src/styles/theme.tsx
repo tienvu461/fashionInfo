@@ -1,7 +1,5 @@
 /* eslint-disable react/jsx-props-no-spreading */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable react/no-multi-comp */
-/* eslint-disable react/display-name */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /* eslint-disable react/react-in-jsx-scope */
 import { createMuiTheme, ThemeProvider, responsiveFontSizes } from '@material-ui/core/styles';
