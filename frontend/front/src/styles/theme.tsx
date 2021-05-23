@@ -127,7 +127,7 @@ export const theme = createMuiTheme({
       },
       root: { minHeight: 'fit-content !important' },
     },
-    MuiAccordionDetails: { root: { padding: '0px 16px 16px' } },
+    MuiAccordionDetails: { root: { padding: '0' } },
     // MuiCheckbox: {
     //   root: {
     //     marginRight: '5px',
