@@ -12,16 +12,16 @@ import {
 
 import useStyles from '../useStyles';
 
-interface CmtProps {
+interface CommentProps {
   cmtProps: any;
 }
 
-function CommentParrent(props: CmtProps): JSX.Element {
+function CommentParrent(props: CommentProps): JSX.Element {
   const classes = useStyles();
   const { cmtProps } = props;
 
   return (
-    <>
+    <Grid>
       <TimelineItem className={classes.timeline}>
         <TimelineSeparator>
           <TimelineDot className={classes.dotAvatar}>
@@ -88,12 +88,12 @@ function CommentParrent(props: CmtProps): JSX.Element {
                     </Paper>
                   </TimelineContent>
                 </TimelineItem>
-                ))}
+              ))}
             </>
-            ) : null}
+          ) : null}
         </TimelineContent>
       </TimelineItem>
-    </>
+    </Grid>
   );
 }
 

@@ -1,7 +1,7 @@
-/* eslint-disable camelcase */
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable import/no-unresolved */
-import React from 'react';
+import React, { useMemo } from 'react';
 import { Grid } from '@material-ui/core';
 import {
   Timeline,
@@ -20,7 +20,7 @@ function Comments(): JSX.Element {
   const commentsList = useSelector((state: RootState) => state.photo.photoDetail.comments);
   console.log(commentsList);
 
-  const fakeComments = [
+  const fakeData = [
     {
       cmt_id: 1,
       user_id: 'A',
@@ -40,7 +40,7 @@ function Comments(): JSX.Element {
           cmt_child_id: 1,
           user_id: 'A',
           user_name: 'A Nguyen',
-          nestedContent: `Ngày xưa mình dùng con Canon T60 để in ảnh cho khách, dùng mực ngoài Pigment khoảng 100k/100ml và 6 màu. 
+          nestedContent: `Ngày xưa mình dùng con Canon T60 để in ảnh cho khách, dùng mực ngoài Pigment khoảng 100k/100ml và 6 màu.
       In đẹp màu bền tuy nhiên phải dùng giấy loại xịn hoặc phải ép Plastic.`,
           ava: Ava1,
         },
@@ -55,15 +55,33 @@ function Comments(): JSX.Element {
       reply: [],
       ava: Ava3,
     },
+    {
+      cmt_id: 4,
+      user_id: 'A',
+      user_name: 'A Nguyen',
+      content: `Ngày xưa mình dùng con Canon T60 để in ảnh cho khách, dùng mực ngoài Pigment khoảng 100k/100ml và 6 màu. 
+      In đẹp màu bền tuy nhiên phải dùng giấy loại xịn hoặc phải ép Plastic.`,
+      reply: [],
+      ava: Ava1,
+    },
   ];
+
+  const listComments = useMemo(
+    () => (
+      <>
+        {fakeData.map((item: any) => {
+          const { cmt_id: cmtID = '' } = item;
+          return <CommentParrent key={cmtID} cmtProps={{ ...item }} />;
+        })}
+      </>
+    ),
+    []
+  );
 
   return (
     <Grid className={classes.root}>
       <Timeline className={classes.rootTimeline}>
-        {fakeComments.map((item: any) => {
-          const { cmt_id: cmtID = '' } = item;
-          return <CommentParrent key={cmtID} cmtProps={{ ...item }} />;
-        })}
+        {listComments}
       </Timeline>
     </Grid>
   );

@@ -111,7 +111,8 @@
       }
     ],
     "pathGroupsExcludedImportTypes": ["builtin"]
-  }]
+    }],
+    "camelcase": ["error", {"properties": "never"}]
     // "@typescript-eslint/indent": ["error"]
   },
   "settings": {
