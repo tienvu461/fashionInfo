@@ -40,10 +40,12 @@ const useStyles: () => Record<
   expandLess: {
     transform: 'rotate(0deg)',
     transition: 'transform 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms',
+    fontSize: '40px',
   },
   expandMore: {
     transform: 'rotate(180deg)',
     transition: 'transform 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms',
+    fontSize: '40px',
   },
 }));
 
