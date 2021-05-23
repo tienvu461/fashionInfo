@@ -11,6 +11,7 @@ import json
 
 from .models import Photo, News, PhotoFeature, PhotoLike, PhotoComment, GenericConfig
 from .consts import modelConst, postTypeEnum
+from .utils import calc_interactive_pt
 logger = logging.getLogger('photos')
 
 
@@ -141,6 +142,25 @@ class PhotoDetailSerializer(PhotoSerializer):
         # data = serializers.serialize('json', query)
         return CommentSerializer(comment_queryset, many=True).data
 
+
+class PhotoSuggestSerializer(PhotoSerializer):
+    interactive_pt = serializers.SerializerMethodField()
+    class Meta:
+        model = Photo
+        fields = ['id', 'title', 'author', 'image_path',
+                  'status', 'created_at', 'activities', 'tags', 'photographer', 'interactive_pt']
+    def get_interactive_pt(self, instance):
+        org_tag_list = self.context.get("org_tag_list")
+        org_photographer = self.context.get("org_photographer")
+        tags_list = list(getattr(instance, 'tags').names())
+        photographer = getattr(instance, 'photographer')
+
+        logger.debug((tags_list))
+        logger.debug(photographer)
+
+        interactive_pt = calc_interactive_pt(
+                    org_tag_list, tags_list, org_photographer, photographer)
+        return interactive_pt
 
 class PhotoFeatureSerializer(serializers.ModelSerializer):
     class Meta:

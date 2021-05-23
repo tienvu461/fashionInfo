@@ -11,6 +11,6 @@ def calc_interactive_pt(org_tags, suggested_tags, org_photographer, suggested_ph
         photographer_pt = photosConst.PHOTOGRAPHER_RATIO
     else:
         photographer_pt = 0
-    logger.debug("tag_pt = {} --- photographer_pt = {} ".format(tag_pt, photographer_pt))
+    # logger.debug("tag_pt = {} --- photographer_pt = {} ".format(tag_pt, photographer_pt))
     return tag_pt + photographer_pt
         
