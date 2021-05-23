@@ -8,7 +8,7 @@ from rest_framework import serializers, views, status, mixins, generics, paginat
 import logging
 
 from .models import Photo, News, PhotoLike, PhotoComment, PhotoLike, PhotoComment, GenericConfig
-from .serializers import PhotoSerializer, PhotoDetailSerializer, PhotoFeatureSerializer, CommentSerializer, NewsSerializer, LikeSerializer
+from .serializers import PhotoSerializer, PhotoDetailSerializer, PhotoFeatureSerializer, PhotoSuggestSerializer, CommentSerializer, NewsSerializer, LikeSerializer
 from .consts import photosConst
 from .utils import calc_interactive_pt
 
@@ -116,16 +116,12 @@ class PhotoSearch(views.APIView, pagination.PageNumberPagination):
 
 
 class PhotoSuggest(views.APIView, pagination.PageNumberPagination):
+    page_size = 6
+    max_page_size = 50
 
     def get(self, request):
         photo_id = request.GET.get('photo_id')
         logger.debug(photo_id)
-        test_param = {
-            'like': 8,
-            'dislike': 3,
-            'comment': 10,
-            'view': 10
-        }
 
         # getting interactive ratio from Generic Config tbl
         config_obj = GenericConfig.objects.filter(in_use=True)
@@ -158,23 +154,29 @@ class PhotoSuggest(views.APIView, pagination.PageNumberPagination):
 
             similar_photos_queryset = similar_photos_queryset.exclude(
                 id=photo_id)
-            similar_photos_serializer = PhotoSerializer(
-                similar_photos_queryset, many=True)
-            logger.debug(("similar_photos_serializer data = {}".format(
-                similar_photos_serializer.data)))
+            # similar_photos_serializer = PhotoSerializer(
+            #     similar_photos_queryset, many=True)
+            # logger.debug(("similar_photos_serializer data = {}".format(
+            #     similar_photos_serializer.data)))
 
-            for photo in similar_photos_serializer.data:
-                photo['interactive_pt'] = calc_interactive_pt(
-                    org_tag_list, photo['tags'], org_photographer, photo['photographer'])
+            # for photo in similar_photos_serializer.data:
+            #     photo['interactive_pt'] = calc_interactive_pt(
+            #         org_tag_list, photo['tags'], org_photographer, photo['photographer'])
 
-            sorted_suggestion_list = sorted(
-                similar_photos_serializer.data, key=lambda k: (-k['interactive_pt']))
-            logger.debug(type(similar_photos_serializer.data))
-            logger.debug(("ranking list = {}".format(sorted_suggestion_list)))
+            # sorted_suggestion_list = sorted(
+            #     similar_photos_serializer.data, key=lambda k: (-k['interactive_pt']))
+            # logger.debug(type(similar_photos_serializer.data))
+            # logger.debug(("ranking list = {}".format(sorted_suggestion_list)))
+            
             page = self.paginate_queryset(
                 similar_photos_queryset, request, view=self)
             if page is not None:
-                return self.get_paginated_response(sorted_suggestion_list)
+                logger.debug("page = {}".format(page))
+                similar_photos_serializer = PhotoSuggestSerializer(
+                page, many=True, context={'org_tag_list': org_tag_list, 'org_photographer': org_photographer})
+                # sorted_suggestion_list = sorted(
+                # similar_photos_serializer.data, key=lambda k: (-k['interactive_pt']))
+                return self.get_paginated_response(similar_photos_serializer.data)
 
             return Response(sorted_suggestion_list)
 
