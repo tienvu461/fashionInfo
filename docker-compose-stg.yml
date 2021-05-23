@@ -33,6 +33,8 @@ services:
 
     nginx:
         build:
+            args:
+              SRC_DIR: ./infrastructure/docker/nginx/staging
             context: .
             dockerfile: ./infrastructure/docker/nginx/staging/Dockerfile
         ports:
