@@ -35,6 +35,7 @@ function Search(): JSX.Element {
         placeholder='Search...'
         onChange={onChange}
         onKeyDown={handleKeyDown}
+        style={{ fontFamily: 'Roboto', fontSize: '24' }}
       />
     </Grid>
   );
