@@ -1,9 +1,10 @@
 /* eslint-disable import/no-unresolved */
 import React from 'react';
 import { Divider, Grid, useMediaQuery } from '@material-ui/core';
-import Comment from 'src/components/Comment';
+import CommentLayout from 'src/components/CommentLayout';
 import useStyles from './useStyles';
 import Reporter from './components/Reporter';
+import Comments from './components/Comments';
 
 function CommentComponent(): JSX.Element {
   const classes = useStyles();
@@ -18,7 +19,9 @@ function CommentComponent(): JSX.Element {
           </Grid>
         ) : null}
         <Grid item lg={8} md={8} sm={8} xl={12} xs={12}>
-          <Comment />
+          <CommentLayout>
+            <Comments />
+          </CommentLayout>
         </Grid>
         {!matches ? (
           <Grid item lg={4} md={4} sm={4} xl={12} xs={12}>

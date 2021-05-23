@@ -12,7 +12,7 @@ import { getDetailAction, getPhotoSuggestAction } from 'src/features/Photo/photo
 import ShareIcon from 'src/assets/images/share.svg';
 import { RootState } from 'src/store/store';
 import useStyles from './useStyles';
-import CommentComponent from './components/Comment';
+import CommentComponent from './components/CommentSection';
 import SuggestionComponent from './components/Suggestion';
 
 interface DetailProps {

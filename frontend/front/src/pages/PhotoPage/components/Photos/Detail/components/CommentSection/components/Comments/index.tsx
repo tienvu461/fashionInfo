@@ -7,7 +7,7 @@ import {
 import useStyles from './useStyles';
 import CommentParrent from './CommentParrent';
 
-function TreeView(): JSX.Element {
+function Comments(): JSX.Element {
   const classes = useStyles();
 
   return (
@@ -19,4 +19,4 @@ function TreeView(): JSX.Element {
   );
 }
 
-export default TreeView;
+export default Comments;

@@ -1,12 +1,16 @@
-import React, { useState } from 'react';
+import React, { ReactChildren, ReactChild, useState } from 'react';
 import {
  Accordion, AccordionDetails, AccordionSummary, Grid, Typography
 } from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import useStyles from './useStyles';
-import TreeView from './TreeView';
 
-function Comment(): JSX.Element {
+interface CommentProps {
+  children: ReactChild | ReactChildren;
+}
+
+function CommentLayout(props: CommentProps): JSX.Element {
+  const { children } = props;
   const classes = useStyles();
   const [isClick, setIsClick] = useState<boolean>(false);
 
@@ -34,7 +38,7 @@ function Comment(): JSX.Element {
               </div>
             </div>
             <AccordionDetails className={classes.accordionDetails}>
-              <TreeView />
+              {children}
             </AccordionDetails>
           </Accordion>
         </Grid>
@@ -42,4 +46,4 @@ function Comment(): JSX.Element {
     );
 }
 
-export default Comment;
+export default CommentLayout;
