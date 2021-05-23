@@ -64,7 +64,9 @@ const useStyles: () => Record<
     padding: 0,
     paddingLeft: '44px',
   },
-  timeline: {},
+  timeline: {
+    marginBottom: '15px'
+  },
   nestedTimeline: {
     paddingTop: '15px',
   },

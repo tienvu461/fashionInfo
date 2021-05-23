@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable import/no-unresolved */
 import React from 'react';
 import { Grid, Paper, Typography, Avatar } from '@material-ui/core';
@@ -8,19 +9,23 @@ import {
   TimelineItem,
   TimelineSeparator,
 } from '@material-ui/lab';
-import Ava1 from 'src/assets/images/menAva.jpg';
-import Ava2 from 'src/assets/images/womenAva.jpg';
+
 import useStyles from '../useStyles';
 
-function CommentParrent(): JSX.Element {
+interface CmtProps {
+  cmtProps: any;
+}
+
+function CommentParrent(props: CmtProps): JSX.Element {
   const classes = useStyles();
+  const { cmtProps } = props;
 
   return (
     <>
       <TimelineItem className={classes.timeline}>
         <TimelineSeparator>
           <TimelineDot className={classes.dotAvatar}>
-            <Avatar alt='ava' className={classes.avatar} src={Ava1} />
+            <Avatar alt='ava' className={classes.avatar} src={cmtProps.ava} />
           </TimelineDot>
           <TimelineConnector />
         </TimelineSeparator>
@@ -28,7 +33,7 @@ function CommentParrent(): JSX.Element {
           <Paper className={classes.paper} elevation={3}>
             <Grid className={classes.action}>
               <Typography className={`${classes.actionName} ${classes.textStyle}`} component='h6' variant='h6'>
-                Anh Quynh Dang Nguyen
+                {cmtProps.user_name}
               </Typography>
               <Typography className={`${classes.actionTime} ${classes.textStyle}`} component='h6' variant='h6'>
                 2 phút trước
@@ -38,38 +43,54 @@ function CommentParrent(): JSX.Element {
               </Typography>
             </Grid>
             <Typography className={`${classes.comment} ${classes.textStyle}`} component='h6' variant='h6'>
-              Ngày xưa mình dùng con Canon T60 để in ảnh cho khách, dùng mực ngoài Pigment khoảng 100k/100ml và 6 màu.
-              In đẹp màu bền tuy nhiên phải dùng giấy loại xịn hoặc phải ép Plastic.
+              {cmtProps.content}
             </Typography>
           </Paper>
 
           {/* ============ nested comment/reply ============ */}
-          <TimelineItem className={classes.nestedTimeline}>
-            <TimelineSeparator>
-              <TimelineDot className={classes.dotAvatar}>
-                <Avatar alt='ava' className={classes.avatar} src={Ava2} />
-              </TimelineDot>
-            </TimelineSeparator>
-            <TimelineContent className={classes.content}>
-              <Paper className={classes.paper} elevation={3}>
-                <Grid className={classes.action}>
-                  <Typography className={`${classes.actionName} ${classes.textStyle}`} component='h6' variant='h6'>
-                    Anh Quynh Dang Nguyen
-                  </Typography>
-                  <Typography className={`${classes.actionTime} ${classes.textStyle}`} component='h6' variant='h6'>
-                    2 phút trước
-                  </Typography>
-                  <Typography className={`${classes.actionReply} ${classes.textStyle}`} component='h6' variant='h6'>
-                    Trả lời
-                  </Typography>
-                </Grid>
-                <Typography className={`${classes.comment} ${classes.textStyle}`} component='h6' variant='h6'>
-                  Ngày xưa mình dùng con Canon T60 để in ảnh cho khách, dùng mực ngoài Pigment khoảng 100k/100ml và 6
-                  màu. In đẹp màu bền tuy nhiên phải dùng giấy loại xịn hoặc phải ép Plastic.
-                </Typography>
-              </Paper>
-            </TimelineContent>
-          </TimelineItem>
+          {cmtProps?.reply.length > 0 ? (
+            <>
+              {cmtProps.reply.map((item) => (
+                <TimelineItem className={classes.nestedTimeline}>
+                  <TimelineSeparator>
+                    <TimelineDot className={classes.dotAvatar}>
+                      <Avatar alt='ava' className={classes.avatar} src={item.ava} />
+                    </TimelineDot>
+                  </TimelineSeparator>
+                  <TimelineContent className={classes.content}>
+                    <Paper className={classes.paper} elevation={3}>
+                      <Grid className={classes.action}>
+                        <Typography
+                          className={`${classes.actionName} ${classes.textStyle}`}
+                          component='h6'
+                          variant='h6'
+                        >
+                          {item.user_name}
+                        </Typography>
+                        <Typography
+                          className={`${classes.actionTime} ${classes.textStyle}`}
+                          component='h6'
+                          variant='h6'
+                        >
+                          2 phút trước
+                        </Typography>
+                        <Typography
+                          className={`${classes.actionReply} ${classes.textStyle}`}
+                          component='h6'
+                          variant='h6'
+                        >
+                          Trả lời
+                        </Typography>
+                      </Grid>
+                      <Typography className={`${classes.comment} ${classes.textStyle}`} component='h6' variant='h6'>
+                        {item.nestedContent}
+                      </Typography>
+                    </Paper>
+                  </TimelineContent>
+                </TimelineItem>
+              ))}
+            </>
+          ) : null}
         </TimelineContent>
       </TimelineItem>
     </>
