@@ -119,8 +119,13 @@ export const theme = createMuiTheme({
     MuiCircularProgress: { colorPrimary: { color: grayPrimary } },
     MuiAccordion: { root: { backgroundColor: 'transparent' } },
     MuiAccordionSummary: {
-      content: { margin: '0 !important' },
-      root: { minHeight: 'fit-content !important' }
+      content: {
+        margin: '0 !important',
+        // display: 'flex',
+        // alignItems: 'center',
+        // justifyContent: 'space-between',
+      },
+      root: { minHeight: 'fit-content !important' },
     },
     MuiAccordionDetails: { root: { padding: '0px 16px 16px' } },
     // MuiCheckbox: {

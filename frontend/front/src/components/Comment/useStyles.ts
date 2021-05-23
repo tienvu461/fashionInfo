@@ -4,7 +4,17 @@ import { makeStyles } from '@material-ui/core/styles';
 import { pdXL, pdSM, pdLG, pdMD, theme, black } from 'src/styles/theme';
 
 const useStyles: () => Record<
-  'root' | 'header' | 'headerText' | 'accordion' | 'accordionDetails' | 'expandLess' | 'expandMore',
+  | 'root'
+  | 'container'
+  | 'header'
+  | 'headerText'
+  | 'accordion'
+  | 'accordionHeader'
+  | 'accordionDetails'
+  | 'expandLess'
+  | 'expandMore'
+  | 'subText'
+  | 'spanText',
   string
 > = makeStyles(() => ({
   root: {
@@ -15,6 +25,11 @@ const useStyles: () => Record<
     [theme.breakpoints.up('md')]: {},
     [theme.breakpoints.up('lg')]: {},
     [theme.breakpoints.up('xl')]: {},
+  },
+  container: {
+    [theme.breakpoints.up('lg')]: {
+      paddingRight: '130px',
+    },
   },
   header: {
     display: 'flex',
@@ -34,6 +49,11 @@ const useStyles: () => Record<
       boxShadow: 'none',
     },
   },
+  accordionHeader: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
   accordionDetails: {
     paddingTop: '62px',
   },
@@ -46,6 +66,18 @@ const useStyles: () => Record<
     transform: 'rotate(180deg)',
     transition: 'transform 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms',
     fontSize: '40px',
+  },
+  subText: {
+    fontFamily: 'Roboto',
+    fontStyle: 'italic',
+    fontWeight: 'normal',
+    fontSize: '16px',
+    lineHeight: '19px',
+    color: '#616161',
+  },
+  spanText: {
+    fontStyle: 'normal',
+    color: '#2E4A91',
   },
 }));
 
