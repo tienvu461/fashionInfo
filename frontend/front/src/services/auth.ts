@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { LOGIN_API, GET_AUTHEN_URL } from '../apis/index';
 import request from '../configs/index';
 
@@ -17,5 +19,5 @@ export async function getUrlSocialService() {
             GET_AUTHEN_URL,
             'GET',
         )
-    )
+    );
 }
