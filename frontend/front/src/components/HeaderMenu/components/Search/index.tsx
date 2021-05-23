@@ -18,7 +18,7 @@ function Search(): JSX.Element {
       if (event.key === 'Enter') {
       dispatch(searchAction(event.target.value))
       console.log('Enter', event.target.value)
-      history.push(`/searchTag/${event.target.value}`)
+      history.push(`/photo/search/${event.target.value}`)
     }
     }
   }

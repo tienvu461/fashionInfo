@@ -2,9 +2,7 @@ import React from 'react'
 
 function PhotoSearchPage() {
     return (
-        <div>
-            photo-search-page
-        </div>
+      <div>123</div>
     )
 }
-export default PhotoSearchPage 
+export default PhotoSearchPage
