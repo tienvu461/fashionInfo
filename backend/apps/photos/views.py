@@ -147,8 +147,8 @@ class PhotoSearch(views.APIView, pagination.PageNumberPagination):
         # page = pagination.PageNumberPagination.paginate_queryset(queryset=queryset, request=request)
         page = self.paginate_queryset(queryset, request, view=self)
         if page is not None:
-            serializer = PhotoSerializer(queryset, many=True)
-            return self.get_paginated_response(page)
+            serializer = PhotoSerializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
 
         logger.debug(queryset)
         serializer = PhotoSerializer(queryset, many=True)
