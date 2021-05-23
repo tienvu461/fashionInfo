@@ -108,7 +108,8 @@ DJOSER = {
     'SEND_CONFIRMATION_EMAIL': True, # register or activation endpoint will send confirmation email to user.
     'USER_CREATE_PASSWORD_RETYPE': True, # make user retype password when register
     'PASSWORD_RESET_CONFIRM_URL': 'api/users/reset_password_confirm/{uid}/{token}',
-    'SET_PASSWORD_RETYPE': True
+    'SET_PASSWORD_RETYPE': True,
+    'PASSWORD_RESET_CONFIRM_RETYPE': True
 }
 
 # define which origins are allowed
