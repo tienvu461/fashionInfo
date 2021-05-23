@@ -40,7 +40,7 @@ export const getPhotoSuggestAction = (num: number, id: string) => async (dispatc
     if (status === 200) {
       dispatch(getListPhotoSuggestion({ data }));
     }
-    return response;
+    return data;
   } catch (error) {
     toast.error(`${error}`);
   }

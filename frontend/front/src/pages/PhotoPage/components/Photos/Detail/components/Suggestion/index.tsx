@@ -64,26 +64,16 @@ function SuggestionComponent(props: SuggestionProps): JSX.Element {
     setLoading(true);
 
     if (key === 'next') {
-      const nextNum = nextPage.split('suggest?page=').pop();
-      const formatNum = nextNum?.replace(`&photo_id=${paramsId}`, '');
-
-      await dispatch(getPhotoSuggestAction(+`${formatNum}`, paramsId)).then((data) => {
+      await dispatch(getPhotoSuggestAction(+nextPage, paramsId)).then((data) => {
         const { results = [] } = data;
         results.forEach((item) => newListImg.push(item));
         setLoading(false);
       });
     } else {
-      const exist = previousPage.includes('suggest?page=');
-      let prevNum: any = '';
-
-      if (exist) {
-        prevNum = previousPage.split('suggest?page=').pop();
-        prevNum = prevNum?.replace(`&photo_id=${paramsId}`, '');
-      }
-      await dispatch(getPhotoSuggestAction(+`${prevNum}`, paramsId));
+      await dispatch(getPhotoSuggestAction(+previousPage, paramsId));
     }
 
-    // setListImg(newListImg);
+    setListImg(newListImg);
   };
 
   return (
