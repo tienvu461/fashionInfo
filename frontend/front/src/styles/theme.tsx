@@ -121,8 +121,6 @@ export const theme = createMuiTheme({
     MuiAccordionSummary: {
       content: { margin: '0 !important' },
       root: { minHeight: 'fit-content !important' }
-    //     transform: rotate(0deg);
-    // transition: transform 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
     },
     MuiAccordionDetails: { root: { padding: '0px 16px 16px' } },
     // MuiCheckbox: {
