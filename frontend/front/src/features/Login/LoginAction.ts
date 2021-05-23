@@ -1,7 +1,8 @@
+/* eslint-disable object-curly-newline */
 import { Dispatch } from '@reduxjs/toolkit';
-import { loginSucess, loginFail } from './LoginSlice';
 import { loginService, getUrlSocialService } from '../../services/auth';
 import { setDataFromLocalStorage, setTokenToLocalStorage } from '../../utils/localStorage';
+import { loginSucess, loginFail } from './LoginSlice';
 
 export const loginAction = (payload: unknown) => async (dispatch: Dispatch) => {
         try {

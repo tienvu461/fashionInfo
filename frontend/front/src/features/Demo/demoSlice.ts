@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-
+/* eslint-disable object-curly-newline */
 // (1) Define a type for the slice state
 interface CounterState {
   value: number;

@@ -7,10 +7,10 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import Skeleton from '@material-ui/lab/Skeleton';
 import { useDispatch, useSelector } from 'react-redux';
 
-import useStyles from './useStyles';
-import Photo from './Photo';
 import { listPhotoAction } from '../../../../features/Photo/photoAction';
 import { RootState } from '../../../../store/store';
+import Photo from './Photo';
+import useStyles from './useStyles';
 
 function Photos(): JSX.Element {
   const classes = useStyles();

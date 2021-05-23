@@ -1,8 +1,9 @@
+/* eslint-disable object-curly-newline */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import { Dispatch } from '@reduxjs/toolkit';
 import { toast } from 'react-toastify';
-import { getListPhoto, getPhotoDetail, getListPhotoSuggestion } from './photoSlice';
 import { getListPhoto as listPhotoService, getPhotoById, getListSuggestionPhoto } from '../../services/photo';
+import { getListPhoto, getPhotoDetail, getListPhotoSuggestion } from './photoSlice';
 
 export const listPhotoAction = (page: number) => async (dispatch: Dispatch) => {
   try {

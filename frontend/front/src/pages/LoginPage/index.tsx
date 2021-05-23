@@ -18,7 +18,6 @@ import {
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import clsx from 'clsx';
-import useStyles from './useStyles';
 import './_loginpage.scss';
 import {
   loginAction,
@@ -26,6 +25,7 @@ import {
 } from '../../features/Login/LoginAction';
 import iconGg from '../../assets/images/iconfinder_Google_Loginin.png';
 import iconFb from '../../assets/images/iconFb_Login.png';
+import useStyles from './useStyles';
 
 type FieldStates = {
   username: string;

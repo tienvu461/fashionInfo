@@ -1,3 +1,4 @@
+/* eslint-disable object-curly-newline */
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 import { toast } from 'react-toastify';

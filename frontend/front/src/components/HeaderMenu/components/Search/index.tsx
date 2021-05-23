@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import { Grid, InputBase } from '@material-ui/core';
 import searchIcon from '../../../../assets/images/searchIcon.svg';
 import { searchAction } from '../../../../features/Search/searchAction';
@@ -7,6 +8,7 @@ import useStyles from './useStyles';
 
 function Search(): JSX.Element {
   const classes = useStyles();
+  const history = useHistory();
   const [value, setValue] = useState();
   const dispatch = useDispatch();
   const onChange = (event) => { setValue(event.target.value) };
@@ -16,6 +18,7 @@ function Search(): JSX.Element {
       if (event.key === 'Enter') {
       dispatch(searchAction(event.target.value))
       console.log('Enter', event.target.value)
+      history.push(`/searchTag/${event.target.value}`)
     }
     }
   }

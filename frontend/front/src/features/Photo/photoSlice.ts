@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable object-curly-newline */
 import { createSlice } from '@reduxjs/toolkit';
 
 interface InitialState {
