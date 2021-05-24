@@ -31,3 +31,5 @@ class postTypeEnum(Enum):
 class photosConst:
     TAGS_RATIO = 8
     PHOTOGRAPHER_RATIO = 2
+    PAGE_SIZE = 6
+    MAX_PAGE_SIZE = 50
