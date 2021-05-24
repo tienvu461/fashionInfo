@@ -10,7 +10,6 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 
-from backend.apps.photos.consts import photosConst
 from pathlib import Path
 import os
 from datetime import datetime, timedelta
@@ -78,8 +77,8 @@ REST_FRAMEWORK = {
 
     'DEFAULT_PAGINATION_CLASS':   
         'rest_framework.pagination.PageNumberPagination',
-    'PAGE_SIZE': photosConst.PAGE_SIZE,
-    'MAX_PAGE_SIZE': photosConst.MAX_PAGE_SIZE,
+    'PAGE_SIZE': 6,
+    'MAX_PAGE_SIZE': 50,
     
     # Enable if run on prd
     # 'DEFAULT_RENDERER_CLASSES': (
@@ -269,7 +268,8 @@ if DEBUG:
     ]
     MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 else:
-    STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+    STATIC_URL = '/admin_static/'
+    STATIC_ROOT = os.path.join(BASE_DIR, 'admin_static')
     MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 MARKDOWNX_MEDIA_PATH = datetime.now().strftime('markdownx/%Y/%m/%d')
