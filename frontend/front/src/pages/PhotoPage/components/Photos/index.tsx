@@ -82,6 +82,13 @@ function Photos(): JSX.Element {
         const { results = [] } = data;
         results.forEach((item) => newListImg.push(item));
         setLoading(false);
+
+        setTimeout(() => {
+          window.scrollBy({
+            behavior: 'smooth',
+            top: document.body.scrollHeight - 2700,
+          });
+        }, 200);
       });
     } else {
       const exist = previousPage.includes('?page=');
