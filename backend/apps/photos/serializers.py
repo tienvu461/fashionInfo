@@ -120,6 +120,7 @@ class PhotoDetailSerializer(PhotoSerializer):
         brand = getattr(instance, 'brand')
         style = getattr(instance, 'style')
         photographer = getattr(instance, 'photographer')
+        social_url = getattr(instance, 'social_url')
         post_date = int(getattr(instance, 'post_date').timestamp())
 
         return {
@@ -130,6 +131,7 @@ class PhotoDetailSerializer(PhotoSerializer):
             'brand': brand,
             'style': style,
             'photographer': photographer,
+            'social_url': social_url,
             'post_date': post_date,
         }
 
