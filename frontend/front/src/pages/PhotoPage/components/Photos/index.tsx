@@ -86,7 +86,7 @@ function Photos(): JSX.Element {
         setTimeout(() => {
           window.scrollBy({
             behavior: 'smooth',
-            top: document.body.scrollHeight - 2700,
+            top: document.body.scrollHeight - 2720,
           });
         }, 200);
       });
