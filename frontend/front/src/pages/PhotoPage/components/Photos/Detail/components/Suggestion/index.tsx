@@ -6,7 +6,7 @@ import { useDispatch } from 'react-redux';
 import { Grid, Button, Typography } from '@material-ui/core';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { getPhotoSuggestAction } from 'src/features/Photo/photoAction';
-import Photo from '../../../Photo';
+import Photo from 'src/components/Photo';
 import useStyles from './useStyles';
 
 interface SuggestionProps {
@@ -68,6 +68,11 @@ function SuggestionComponent(props: SuggestionProps): JSX.Element {
         const { results = [] } = data;
         results.forEach((item) => newListImg.push(item));
         setLoading(false);
+        window.scrollBy({
+          behavior: 'smooth',
+          // top: document.body.scrollHeight - 2700,
+          top: 500
+        });
       });
     } else {
       await dispatch(getPhotoSuggestAction(+previousPage, paramsId));

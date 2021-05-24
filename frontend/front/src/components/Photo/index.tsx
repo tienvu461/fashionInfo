@@ -9,7 +9,7 @@ import HeartIcon from 'src/assets/images/heart.svg';
 import CommentIcon from 'src/assets/images/comment.svg';
 import ShareIcon from 'src/assets/images/share.svg';
 
-import useStyles from '../useStyles';
+import useStyles from './useStyles';
 import './_photo.scss';
 
 interface PropsType {

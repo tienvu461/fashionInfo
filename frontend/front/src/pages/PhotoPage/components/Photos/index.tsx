@@ -9,9 +9,9 @@ import Skeleton from '@material-ui/lab/Skeleton';
 import { useDispatch, useSelector } from 'react-redux';
 import { listPhotoAction } from 'src/features/Photo/photoAction';
 import { RootState } from 'src/store/store';
+import Photo from 'src/components/Photo';
 
 import useStyles from './useStyles';
-import Photo from './Photo';
 
 function Photos(): JSX.Element {
   const classes = useStyles();
