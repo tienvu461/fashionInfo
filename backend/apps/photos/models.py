@@ -69,6 +69,7 @@ class Photo(models.Model):
     brand = models.CharField(max_length=255, null=True, blank=True)
     style = models.CharField(max_length=255, null=True, blank=True)
     photographer =  models.CharField(max_length=255, null=True, blank=True)
+    social_url = models.CharField(max_length=255, null=True, blank=True)
     post_date = models.DateTimeField(auto_now=True)
     tags = TaggableManager()
     author = models.ForeignKey(
