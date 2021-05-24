@@ -47,9 +47,7 @@ function SuggestionComponent(props: SuggestionProps): JSX.Element {
             lg={4}
             md={6}
             sm={6}
-            spacing={2}
             style={index >= 0 && index <= 2 ? { paddingTop: '0 !important' } : {}}
-            wrap='wrap'
             xl={4}
             xs={12}
           >
@@ -66,38 +64,28 @@ function SuggestionComponent(props: SuggestionProps): JSX.Element {
     setLoading(true);
 
     if (key === 'next') {
-      const nextNum = nextPage.split('suggest?page=').pop();
-      const formatNum = nextNum?.replace(`&photo_id=${paramsId}`, '');
-
-      await dispatch(getPhotoSuggestAction(+`${formatNum}`, paramsId)).then((data) => {
+      await dispatch(getPhotoSuggestAction(+nextPage, paramsId)).then((data) => {
         const { results = [] } = data;
         results.forEach((item) => newListImg.push(item));
         setLoading(false);
       });
     } else {
-      const exist = previousPage.includes('suggest?page=');
-      let prevNum: any = '';
-
-      if (exist) {
-        prevNum = previousPage.split('suggest?page=').pop();
-        prevNum = prevNum?.replace(`&photo_id=${paramsId}`, '');
-      }
-      await dispatch(getPhotoSuggestAction(+`${prevNum}`, paramsId));
+      await dispatch(getPhotoSuggestAction(+previousPage, paramsId));
     }
 
-    // setListImg(newListImg);
+    setListImg(newListImg);
   };
 
   return (
     <div className={`${classes.root} root`}>
-      <Grid lg={12} md={12} sm={12} wrap='wrap' xl={12} xs={12}>
+      <Grid container>
         <Typography className={classes.titleSuggestion} component='h4' variant='h4'>
           Đề xuất
         </Typography>
       </Grid>
       <Grid container spacing={4}>
         {renderPhoto()}
-        <Grid className={classes.btn} lg={12} md={12} sm={12} spacing={2} xs={12}>
+        <Grid className={classes.btn} item lg={12} md={12} sm={12} xs={12}>
           <>
             {dataPhoto.next ? (
               <Button

@@ -1,6 +1,6 @@
-/* eslint-disable object-curly-newline */
+/* eslint-disable import/no-unresolved */
 import { makeStyles } from '@material-ui/core/styles';
-import { pdXL, pdSM, pdLG, pdMD, theme, black, gray1, gray2, blackBlue, blackThin } from '../../../../../styles/theme';
+import { pdXL, pdSM, pdLG, pdMD, theme, black, gray1, gray2, blackBlue, blackThin } from 'src/styles/theme';
 
 const useStyles: () => Record<
   | 'root'
@@ -76,6 +76,7 @@ const useStyles: () => Record<
     justifyContent: 'space-between',
     alignItems: 'center',
     padding: '30px',
+    backgroundColor: gray2,
   },
   left: {
     display: 'flex',

@@ -1,4 +1,3 @@
-/* eslint-disable object-curly-newline */
 /* =============* LOCALSTORAGE KEY CONSTANTS *============= */
 const LOCAL_STORAGE_TOKEN_KEY = '@token';
 const LOCAL_STORAGE_CREDENTIALS_KEY = '@credentials';
