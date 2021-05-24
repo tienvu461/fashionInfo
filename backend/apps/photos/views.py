@@ -94,11 +94,10 @@ class PhotoDetail(generics.RetrieveUpdateDestroyAPIView):
         return Response(serializer.data)
 
 class PhotoCustomPaginate(views.APIView):
-    page_size = 6
-    max_page_size = 50
-
+    page_size = photosConst.PAGE_SIZE
+    max_page_size = photosConst.MAX_PAGE_SIZE
     min_limit = 1
-    max_limit = 50
+    max_limit = max_page_size
 
     def paginate(self, object_list, page=1, limit=10, **kwargs):
         
@@ -256,9 +255,8 @@ class PhotoFeatureDetail(views.APIView):
         serializer = PhotoFeatureSerializer(queryset, many=True)
         return Response(serializer.data)
 
+
 # Create comment on photo
-
-
 class PhotoCommentCreate(generics.CreateAPIView):
     permission_classes = (IsAuthenticated,)
     serializer_class = CommentSerializer
