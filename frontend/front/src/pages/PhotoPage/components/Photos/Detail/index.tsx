@@ -61,7 +61,7 @@ function Detail(props: DetailProps): JSX.Element {
     },
     {
       name: 'Ngày chụp',
-      value: moment(detailInfo?.shoot_date).format('DD-MM-YYYY') || 'N/A',
+      value: moment(detailInfo?.shoot_date * 1000).format('DD-MM-YYYY') || 'N/A',
     },
     {
       name: 'Địa điểm',
@@ -73,7 +73,7 @@ function Detail(props: DetailProps): JSX.Element {
     },
     {
       name: 'Phong cách',
-      value: 'Vintage, Casual' || 'N/A',
+      value: detailInfo?.style || 'N/A',
     },
     {
       name: 'Thương hiệu',
@@ -81,7 +81,7 @@ function Detail(props: DetailProps): JSX.Element {
     },
     {
       name: 'Instagram',
-      value: detailInfo?.brand || 'N/A',
+      value: detailInfo?.social_url || 'N/A',
     },
     {
       name: 'Photographer',
