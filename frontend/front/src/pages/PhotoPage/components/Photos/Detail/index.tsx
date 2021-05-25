@@ -138,7 +138,7 @@ function Detail(props: DetailProps): JSX.Element {
 
     return (
       <>
-        <Grid className={classes.gridPhoto} item lg={6} md={6} sm={8} xl={12} xs={12}>
+        <Grid className={classes.gridPhoto} item lg={6} md={6} sm={8} xl={8} xs={12}>
           <Paper className={loading ? classes.paperLoading : classes.paper}>
             {loading ? (
               <div className={classes.loading}>
@@ -168,7 +168,7 @@ function Detail(props: DetailProps): JSX.Element {
             )}
           </Paper>
         </Grid>
-        <Grid item lg={6} md={6} sm={4} xl={12} xs={12}>
+        <Grid item lg={6} md={6} sm={4} xl={4} xs={12}>
           <div className={classes.information}>
             <Grid container>
               <Grid item lg={12} md={12} sm={12} xl={12} xs={12}>
