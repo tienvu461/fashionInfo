@@ -12,7 +12,7 @@ interface CommentProps {
 function CommentLayout(props: CommentProps): JSX.Element {
   const { children } = props;
   const classes = useStyles();
-  const [isClick, setIsClick] = useState<boolean>(false);
+  const [isClick, setIsClick] = useState<boolean>(true);
 
   const handleClick = () => {
     setIsClick(!isClick);
@@ -21,7 +21,7 @@ function CommentLayout(props: CommentProps): JSX.Element {
     return (
       <Grid className={classes.root} container>
         <Grid className={classes.container} item lg={12} md={12} sm={12} xl={12} xs={12}>
-          <Accordion className={classes.accordion}>
+          <Accordion className={classes.accordion} expanded={isClick}>
             <div className={classes.accordionHeader}>
               <AccordionSummary aria-controls='panel1a-content' id='panel1a-header' onClick={handleClick}>
                 <div className={classes.header}>

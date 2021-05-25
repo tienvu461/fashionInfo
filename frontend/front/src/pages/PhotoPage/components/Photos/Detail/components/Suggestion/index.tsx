@@ -2,25 +2,27 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable camelcase */
 import React, { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Grid, Button, Typography } from '@material-ui/core';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { getPhotoSuggestAction } from 'src/features/Photo/photoAction';
-import Photo from '../../../Photo';
+import Photo from 'src/components/Photo';
+import { RootState } from 'src/store/store';
+
 import useStyles from './useStyles';
 
 interface SuggestionProps {
-  photoSuggestionList: Array<any>;
-  dataPhoto: Record<string, string>;
   paramsId: string;
 }
 
 function SuggestionComponent(props: SuggestionProps): JSX.Element {
-  const { photoSuggestionList, dataPhoto, paramsId } = props;
+  const { paramsId } = props;
   const classes = useStyles();
   const dispatch = useDispatch<any>();
   const [listImg, setListImg] = useState<Array<any>>([]);
   const [loading, setLoading] = useState<boolean>(false);
+
+  const dataPhoto = useSelector((state: RootState) => state.photo.photoSuggestionList.dataOrigin);
 
   interface GalleryKeys {
     image_path: string;
@@ -31,8 +33,12 @@ function SuggestionComponent(props: SuggestionProps): JSX.Element {
     };
   }
   useEffect(() => {
-    setListImg(photoSuggestionList);
-  }, [photoSuggestionList]);
+    // fetch data suggestion photo list
+    dispatch(getPhotoSuggestAction(1, paramsId)).then((data) => {
+      const { results = [] } = data;
+      setListImg(results);
+    });
+  }, [dispatch, paramsId]);
 
   const renderPhoto = () => (
     <>
@@ -68,6 +74,12 @@ function SuggestionComponent(props: SuggestionProps): JSX.Element {
         const { results = [] } = data;
         results.forEach((item) => newListImg.push(item));
         setLoading(false);
+        setTimeout(() => {
+          window.scrollBy({
+            behavior: 'smooth',
+            top: 720,
+          });
+        }, 200);
       });
     } else {
       await dispatch(getPhotoSuggestAction(+previousPage, paramsId));

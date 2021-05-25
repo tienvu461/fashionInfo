@@ -11,8 +11,8 @@ export const listPhotoAction = (page: number) => async (dispatch: Dispatch) => {
     const { data = {}, status = '' } = response;
     if (status === 200) {
       dispatch(getListPhoto({ data }));
+      return data;
     }
-    return data;
   } catch (error) {
     toast.error(`${error}`);
   }
@@ -39,8 +39,8 @@ export const getPhotoSuggestAction = (num: number, id: string) => async (dispatc
     const { data = {}, status = '' } = response;
     if (status === 200) {
       dispatch(getListPhotoSuggestion({ data }));
+      return data;
     }
-    return data;
   } catch (error) {
     toast.error(`${error}`);
   }

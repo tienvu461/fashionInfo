@@ -8,7 +8,7 @@ import {
  Grid, Paper, Card, CardActionArea, CardMedia, Typography, Divider, CircularProgress
 } from '@material-ui/core';
 import HeartIcon from 'src/assets/images/heart.svg';
-import { getDetailAction, getPhotoSuggestAction } from 'src/features/Photo/photoAction';
+import { getDetailAction } from 'src/features/Photo/photoAction';
 import ShareIcon from 'src/assets/images/share.svg';
 import { RootState } from 'src/store/store';
 import useStyles from './useStyles';
@@ -45,16 +45,11 @@ function Detail(props: DetailProps): JSX.Element {
         setLoading(false);
       }
     });
-
-    // fetch data suggestion photo list
-    dispatch(getPhotoSuggestAction(1, id));
   }, [dispatch, id]);
 
   const photoDetail = useSelector((state: RootState) => state.photo.photoDetail);
-  const photoSuggestionList = useSelector((state: RootState) => state.photo.photoSuggestionList.listPhoto);
 
   const detailInfo = useSelector((state: RootState) => state.photo.photoDetail.detail_info);
-  const dataPhoto = useSelector((state: RootState) => state.photo.photoSuggestionList.dataOrigin);
 
   const arrInfo: Array<{
     name: string;
@@ -196,7 +191,7 @@ function Detail(props: DetailProps): JSX.Element {
       <Grid container>{renderDetailPhoto()}</Grid>
       <Divider />
       <CommentComponent />
-      <SuggestionComponent dataPhoto={dataPhoto} paramsId={id} photoSuggestionList={photoSuggestionList} />
+      <SuggestionComponent paramsId={id} />
     </div>
   );
 }

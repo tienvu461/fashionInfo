@@ -35,13 +35,13 @@ string> = makeStyles(() => ({
       },
     },
     titleSuggestion: {
-      height: 'auto',
       color: black,
       textAlign: 'left',
       fontStyle: 'normal',
       fontWeight: 'bold',
-      fontSize: '30px',
       lineHeight: '36px',
+      letterSpacing: '1px',
+      fontFamily: 'Roboto',
 
       // // responsive
       [theme.breakpoints.up('sm')]: {
