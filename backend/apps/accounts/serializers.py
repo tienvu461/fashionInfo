@@ -25,12 +25,12 @@ class CustomTokenObtainPairSerializer(EmailTokenObtainSerializer):
 
 	def validate(self, attrs):
 		# validate user from POST request
-		try:
-			user = User.objects.get(
-				Q(username=attrs['email']) | Q(email=attrs['email'])
-			)
-			user.check_password(attrs['password'])
-		except:
+		
+		user = User.objects.get(
+			Q(username=attrs['email']) | Q(email=attrs['email'])
+		)
+		is_password_valid = user.check_password(attrs['password'])
+		if not user or not is_password_valid:
 			# in case fail to authenticate, manipulate validate method from TokenObtainSerializer to create auth fail response
 			return super().validate(attrs)
 		# generate JWT
