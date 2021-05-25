@@ -21,10 +21,11 @@ const useStyles: () => Record<
     // responsive
     [theme.breakpoints.up('sm')]: {
       paddingRight: '50px',
+      paddingTop: '0 !important',
     },
     [theme.breakpoints.down('sm')]: {
       padding: pdSM,
-      paddingTop: '40px'
+      paddingTop: '40px',
     },
     [theme.breakpoints.up('md')]: {
       paddingRight: '130px',
