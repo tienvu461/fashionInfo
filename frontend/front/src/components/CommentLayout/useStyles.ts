@@ -1,6 +1,6 @@
 /* eslint-disable import/no-unresolved */
 import { makeStyles } from '@material-ui/core/styles';
-import { theme, black, pdLeftSM } from 'src/styles/theme';
+import { theme, black, pdSM } from 'src/styles/theme';
 
 const useStyles: () => Record<
   | 'root'
@@ -23,7 +23,7 @@ const useStyles: () => Record<
       paddingRight: '50px',
     },
     [theme.breakpoints.down('sm')]: {
-      padding: pdLeftSM,
+      padding: pdSM,
       paddingTop: '40px'
     },
     [theme.breakpoints.up('md')]: {
