@@ -41,7 +41,7 @@ services:
             - "0.0.0.0:80:80"
         volumes:
             - media_volume:/app/backend/media
-            - static_volume:/app/backend/static
+            - static_volume:/app/backend/admin_static
             - ./infrastructure/docker/nginx/staging:/etc/nginx/conf.d
         depends_on: 
             - backend
