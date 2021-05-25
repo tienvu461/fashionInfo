@@ -19,9 +19,9 @@ function CommentComponent(): JSX.Element {
           </Grid>
         ) : null}
         <Grid item lg={8} md={8} sm={8} xl={12} xs={12}>
-          {/* <CommentLayout>
+          <CommentLayout>
             <Comments />
-          </CommentLayout> */}
+          </CommentLayout>
         </Grid>
         {!matches ? (
           <Grid item lg={4} md={4} sm={4} xl={12} xs={12}>

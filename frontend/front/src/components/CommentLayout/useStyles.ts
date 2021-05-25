@@ -26,7 +26,16 @@ const useStyles: () => Record<
     [theme.breakpoints.up('xl')]: {},
   },
   container: {
+    [theme.breakpoints.up('sm')]: {
+      paddingRight: '130px',
+    },
+    [theme.breakpoints.up('md')]: {
+      paddingRight: '130px',
+    },
     [theme.breakpoints.up('lg')]: {
+      paddingRight: '130px',
+    },
+    [theme.breakpoints.up('xl')]: {
       paddingRight: '130px',
     },
   },
