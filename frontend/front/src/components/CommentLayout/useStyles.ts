@@ -1,6 +1,6 @@
 /* eslint-disable import/no-unresolved */
 import { makeStyles } from '@material-ui/core/styles';
-import { theme, black } from 'src/styles/theme';
+import { theme, black, pdLeftSM } from 'src/styles/theme';
 
 const useStyles: () => Record<
   | 'root'
@@ -21,6 +21,10 @@ const useStyles: () => Record<
     // responsive
     [theme.breakpoints.up('sm')]: {
       paddingRight: '50px',
+    },
+    [theme.breakpoints.down('sm')]: {
+      padding: pdLeftSM,
+      paddingTop: '40px'
     },
     [theme.breakpoints.up('md')]: {
       paddingRight: '130px',
@@ -84,7 +88,7 @@ const useStyles: () => Record<
 
     // responsive
     [theme.breakpoints.down('sm')]: {
-      paddingTop: '20px'
+      paddingTop: '20px',
     },
   },
   spanText: {
