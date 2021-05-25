@@ -21,6 +21,7 @@ import LoginPage from './pages/LoginPage';
 import MagazinePage from './pages/MagaginzePage';
 import NotFound from './pages/NotFound';
 import Detail from './pages/PhotoPage/components/Photos/Detail';
+import Footer from './components/Footer';
 
 toast.configure({
   autoClose: 2000,
@@ -40,6 +41,7 @@ function App(): JSX.Element {
           <Route component={NotFound} />
         </Switch>
       </HeaderMenu>
+      <Footer />
     </div>
   );
 }
