@@ -1,16 +1,17 @@
-/* eslint-disable object-curly-newline */
-/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable camelcase */
+/* eslint-disable import/no-unresolved */
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 import React, { useEffect, useState } from 'react';
 import { Button, Grid, Typography, Box } from '@material-ui/core';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Skeleton from '@material-ui/lab/Skeleton';
 import { useDispatch, useSelector } from 'react-redux';
+import { listPhotoAction } from 'src/features/Photo/photoAction';
+import { RootState } from 'src/store/store';
+import Photo from 'src/components/Photo';
 
 import useStyles from './useStyles';
-import Photo from './Photo';
-import { listPhotoAction } from '../../../../features/Photo/photoAction';
-import { RootState } from '../../../../store/store';
 
 function Photos(): JSX.Element {
   const classes = useStyles();
@@ -57,11 +58,9 @@ function Photos(): JSX.Element {
             lg={4}
             md={6}
             sm={6}
-            spacing={2}
             style={
               index >= 0 && index <= 2 ? { paddingTop: '0 !important' } : {}
             }
-            wrap='wrap'
             xl={4}
             xs={12}
           >
@@ -83,6 +82,13 @@ function Photos(): JSX.Element {
         const { results = [] } = data;
         results.forEach((item) => newListImg.push(item));
         setLoading(false);
+
+        setTimeout(() => {
+          window.scrollBy({
+            behavior: 'smooth',
+            top: document.body.scrollHeight - 2720,
+          });
+        }, 200);
       });
     } else {
       const exist = previousPage.includes('?page=');
@@ -107,8 +113,6 @@ function Photos(): JSX.Element {
           lg={4}
           md={6}
           sm={6}
-          spacing={2}
-          wrap='wrap'
           xl={4}
           xs={12}
         >
@@ -141,10 +145,10 @@ function Photos(): JSX.Element {
             {renderPhoto()}
             <Grid
               className={classes.btn}
+              item
               lg={12}
               md={12}
               sm={12}
-              spacing={2}
               xs={12}
             >
               <>

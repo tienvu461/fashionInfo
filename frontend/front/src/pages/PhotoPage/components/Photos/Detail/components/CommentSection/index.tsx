@@ -1,8 +1,10 @@
+/* eslint-disable import/no-unresolved */
 import React from 'react';
 import { Divider, Grid, useMediaQuery } from '@material-ui/core';
-import Comment from './components/Comment';
+import CommentLayout from 'src/components/CommentLayout';
 import useStyles from './useStyles';
 import Reporter from './components/Reporter';
+import Comments from './components/Comments';
 
 function CommentComponent(): JSX.Element {
   const classes = useStyles();
@@ -12,15 +14,17 @@ function CommentComponent(): JSX.Element {
     <div className={classes.root}>
       <Grid className={classes.container} container>
         {matches ? (
-          <Grid lg={4} md={4} sm={4} spacing={2} wrap='wrap' xl={12} xs={12}>
+          <Grid item lg={4} md={4} sm={4} xl={12} xs={12}>
             <Reporter />
           </Grid>
         ) : null}
-        <Grid lg={8} md={8} sm={8} spacing={2} wrap='wrap' xl={12} xs={12}>
-          <Comment />
+        <Grid item lg={8} md={8} sm={8} xl={12} xs={12}>
+          <CommentLayout>
+            <Comments />
+          </CommentLayout>
         </Grid>
         {!matches ? (
-          <Grid lg={4} md={4} sm={4} spacing={2} wrap='wrap' xl={12} xs={12}>
+          <Grid item lg={4} md={4} sm={4} xl={12} xs={12}>
             <Reporter />
           </Grid>
         ) : null}

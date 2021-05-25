@@ -11,7 +11,7 @@ import json
 
 from .models import Photo, News, PhotoFeature, PhotoLike, PhotoComment, GenericConfig
 from .consts import modelConst, postTypeEnum
-from .utils import calc_interactive_pt
+from .utils import calc_interactive_pt, nested_comment
 logger = logging.getLogger('photos')
 
 
@@ -120,6 +120,7 @@ class PhotoDetailSerializer(PhotoSerializer):
         brand = getattr(instance, 'brand')
         style = getattr(instance, 'style')
         photographer = getattr(instance, 'photographer')
+        social_url = getattr(instance, 'social_url')
         post_date = int(getattr(instance, 'post_date').timestamp())
 
         return {
@@ -130,6 +131,7 @@ class PhotoDetailSerializer(PhotoSerializer):
             'brand': brand,
             'style': style,
             'photographer': photographer,
+            'social_url': social_url,
             'post_date': post_date,
         }
 
@@ -137,10 +139,14 @@ class PhotoDetailSerializer(PhotoSerializer):
         return PhotoLike.objects.filter(photo_id=instance.id).count()
 
     def get_comments(self, instance):
-        comment_queryset = PhotoComment.objects.filter(photo_id=instance.id)
+        comment_queryset = PhotoComment.objects.filter(photo_id=instance.id, parent__isnull=True)
+        reply_queryset = PhotoComment.objects.filter(photo_id=instance.id, parent__isnull=False)
 
         # data = serializers.serialize('json', query)
-        return CommentSerializer(comment_queryset, many=True).data
+        comment_data =  CommentSerializer(comment_queryset, many=True).data
+        reply_data =  CommentSerializer(reply_queryset, many=True).data
+        nested_comment(comment_data, reply_data)
+        return comment_data
 
 
 class PhotoSuggestSerializer(PhotoSerializer):

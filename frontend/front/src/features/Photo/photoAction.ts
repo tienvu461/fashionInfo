@@ -1,8 +1,9 @@
+/* eslint-disable import/no-unresolved */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import { Dispatch } from '@reduxjs/toolkit';
 import { toast } from 'react-toastify';
+import { getListPhoto as listPhotoService, getPhotoById, getListSuggestionPhoto } from 'src/services/photo';
 import { getListPhoto, getPhotoDetail, getListPhotoSuggestion } from './photoSlice';
-import { getListPhoto as listPhotoService, getPhotoById, getListSuggestionPhoto } from '../../services/photo';
 
 export const listPhotoAction = (page: number) => async (dispatch: Dispatch) => {
   try {
@@ -10,8 +11,8 @@ export const listPhotoAction = (page: number) => async (dispatch: Dispatch) => {
     const { data = {}, status = '' } = response;
     if (status === 200) {
       dispatch(getListPhoto({ data }));
+      return data;
     }
-    return data;
   } catch (error) {
     toast.error(`${error}`);
   }
@@ -38,8 +39,8 @@ export const getPhotoSuggestAction = (num: number, id: string) => async (dispatc
     const { data = {}, status = '' } = response;
     if (status === 200) {
       dispatch(getListPhotoSuggestion({ data }));
+      return data;
     }
-    return response;
   } catch (error) {
     toast.error(`${error}`);
   }

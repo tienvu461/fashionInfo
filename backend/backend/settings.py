@@ -119,6 +119,10 @@ DJOSER = {
     'ACTIVATION_URL': 'api/user/activate/{uid}/{token}',
     'SEND_ACTIVATION_EMAIL': True, # user will be required to click activation link sent in email after creating an account, updating their email
     'SEND_CONFIRMATION_EMAIL': True, # register or activation endpoint will send confirmation email to user.
+    'USER_CREATE_PASSWORD_RETYPE': True, # make user retype password when register
+    'PASSWORD_RESET_CONFIRM_URL': 'api/users/reset_password_confirm/{uid}/{token}',
+    'SET_PASSWORD_RETYPE': True,
+    'PASSWORD_RESET_CONFIRM_RETYPE': True
 }
 
 # define which origins are allowed
@@ -240,6 +244,12 @@ AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
+    {
+        'NAME': 'apps.accounts.password_validations.NumberSpecialCharValidator',
+    },
+    {
+        'NAME': 'apps.accounts.password_validations.UpperCaseValidator',
+    },
 ]
 
 
@@ -268,7 +278,8 @@ if DEBUG:
     ]
     MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 else:
-    STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+    STATIC_URL = '/admin_static/'
+    STATIC_ROOT = os.path.join(BASE_DIR, 'admin_static')
     MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 MARKDOWNX_MEDIA_PATH = datetime.now().strftime('markdownx/%Y/%m/%d')
@@ -346,3 +357,4 @@ if DEBUG:
     "SHOW_TOOLBAR_CALLBACK" : show_toolbar,
     }
     
+SITE_NAME = ('lucete.com') 
