@@ -1,0 +1,30 @@
+{% load i18n %}
+
+{% block subject %}
+{% blocktrans %}Kích hoạt tài khoản trên trang {{ site_name }}{% endblocktrans %}
+{% endblock subject %}
+
+{% block text_body %}
+{% blocktrans %}Bạn nhận được email này vì bạn cần hoàn thành kích hoạt tài khoản trên trang {{ site_name }}.{% endblocktrans %}
+
+{% trans "Click vào đường dẫn dưới đây để có thể kích hoạt tài khoản:" %}
+{{ protocol }}://{{ domain }}/{{ url|safe }}
+
+{% trans "Cảm ơn bạn vì đã sử dụng dịch vụ của chúng tôi!!" %}
+
+<p>{% blocktrans %}Trân trọng{% endblocktrans %}</p>
+<p>{% blocktrans %}Nhóm {{ site_name }}{% endblocktrans %}</p>
+{% endblock text_body %}
+
+{% block html_body %}
+<p>{% blocktrans %}Bạn nhận được email này vì bạn cần hoàn thành kích hoạt tài khoản trên trang {{ site_name }}.{% endblocktrans %}</p>
+
+<p>{% trans "Click vào đường dẫn dưới đây để có thể kích hoạt tài khoản:" %}</p>
+<p><a href="{{ protocol }}://{{ domain }}/{{ url|safe }}">{{ protocol }}://{{ domain }}/{{ url|safe }}</a></p>
+
+<p>{% trans "Cảm ơn bạn vì đã sử dụng dịch vụ của chúng tôi!" %}</p>
+
+<p>{% blocktrans %}Trân trọng{% endblocktrans %}</p>
+<p>{% blocktrans %}Nhóm {{ site_name }}{% endblocktrans %}</p>
+
+{% endblock html_body %}

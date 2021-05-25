@@ -245,7 +245,7 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
     {
-        'NAME': 'apps.accounts.password_validations.NumberSpecialCharrValidator',
+        'NAME': 'apps.accounts.password_validations.NumberSpecialCharValidator',
     },
     {
         'NAME': 'apps.accounts.password_validations.UpperCaseValidator',
@@ -356,3 +356,4 @@ if DEBUG:
     "SHOW_TOOLBAR_CALLBACK" : show_toolbar,
     }
     
+SITE_NAME = ('lucete.com') 

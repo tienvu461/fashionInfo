@@ -79,15 +79,17 @@ class ForgotPasswordView(APIView):
 
     def post(self, request, uid, token, *args, **kwargs):
         new_password = request.data.get("new_password")
+        re_new_password = request.data.get("re_new_password")
         data = {
             'uid': uid,
             'token': token,
-            'new_password': new_password
+            'new_password': new_password,
+            're_new_password': re_new_password
         }
-        print(data)
-        url = 'http://localhost:8000/api/users/reset_password_confirm/'
+
+        url = 'http://{}/api/users/reset_password_confirm/'.format(settings.HOSTNAME)
         response = requests.post(url, data=data)
-        if response.status_code == 200:
+        if response.status_code == 204:
             return Response({"info": "Change password successfully"}, status=status.HTTP_200_OK)
         else:
             return Response(response.text, status=status.HTTP_400_BAD_REQUEST)
