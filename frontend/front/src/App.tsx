@@ -11,7 +11,6 @@ import {
   ROUTE_HOME,
   ROUTE_LOGIN,
   ROUTE_PHOTO,
-  // ROUTE_MAGAZINE,
 } from './constants';
 import ForumPage from './pages/ForumPage';
 import PhotoPage from './pages/PhotoPage';

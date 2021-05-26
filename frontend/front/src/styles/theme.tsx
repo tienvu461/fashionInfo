@@ -1,9 +1,6 @@
 /* eslint-disable react/jsx-props-no-spreading */
-/* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
-/* eslint-disable react/react-in-jsx-scope */
 import { createMuiTheme, ThemeProvider, responsiveFontSizes } from '@material-ui/core/styles';
-import { useState } from 'react';
+import React, { useState } from 'react';
 
 export const white = '#fff';
 export const black = '#000000';
@@ -277,6 +274,7 @@ export const darkTheme = createMuiTheme({
   },
 });
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const Theme = (props: any) => {
   const { children, darkMode } = props;
   let defaultTheme = darkMode ? darkTheme : theme;
@@ -285,7 +283,8 @@ const Theme = (props: any) => {
   return <ThemeProvider theme={defaultTheme}>{children}</ThemeProvider>;
 };
 
-export const withTheme = (Component: any) => (props: any) => {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const withTheme = (Component: React.FunctionComponent): React.FC => (props: any) => {
   const [darkMode, setDarkMode] = useState(false);
 
   return (
