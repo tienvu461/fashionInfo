@@ -34,12 +34,14 @@ function SuggestionComponent(props: SuggestionProps): JSX.Element {
   }
   useEffect(() => {
     // fetch data suggestion photo list
-    let arr = [];
-    dispatch(getPhotoSuggestAction(1, paramsId)).then((data) => {
-      const { results = [] } = data;
-      arr = results;
-    });
-    setListImg(arr);
+    (async () => {
+      let arr = [];
+      await dispatch(getPhotoSuggestAction(1, paramsId)).then((data) => {
+        const { results = [] } = data;
+        arr = results;
+      });
+      return () => setListImg(arr);
+    })();
   }, [dispatch, paramsId]);
 
   const renderPhoto = () => (
