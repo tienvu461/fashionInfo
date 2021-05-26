@@ -6,82 +6,38 @@ import { Grid } from '@material-ui/core';
 import {
   Timeline,
 } from '@material-ui/lab';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import { isEmpty } from 'lodash';
 import { useSelector } from 'react-redux';
 import { RootState } from 'src/store/store';
 import Ava1 from 'src/assets/images/menAva.jpg';
-import Ava2 from 'src/assets/images/womenAva.jpg';
-import Ava3 from 'src/assets/images/beck.jpeg';
 
 import useStyles from './useStyles';
 import CommentParrent from './CommentParrent';
 
 function Comments(): JSX.Element {
   const classes = useStyles();
-  const commentsList = useSelector((state: RootState) => state.photo.photoDetail.comments);
-  console.log(commentsList);
+  const comments = useSelector((state: RootState) => state.photo.photoDetail.comments);
 
-  const fakeData = [
-    {
-      cmt_id: 1,
-      user_id: 'A',
-      user_name: 'A Nguyen',
-      content: `Ngày xưa mình dùng con Canon T60 để in ảnh cho khách, dùng mực ngoài Pigment khoảng 100k/100ml và 6 màu. 
-      In đẹp màu bền tuy nhiên phải dùng giấy loại xịn hoặc phải ép Plastic.`,
-      reply: [],
-      ava: Ava1,
-    },
-    {
-      cmt_id: 2,
-      user_id: 'B',
-      user_name: 'B Nguyen',
-      content: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
-      reply: [
-        {
-          cmt_child_id: 1,
-          user_id: 'A',
-          user_name: 'A Nguyen',
-          nestedContent: `Ngày xưa mình dùng con Canon T60 để in ảnh cho khách, dùng mực ngoài Pigment khoảng 100k/100ml và 6 màu.
-      In đẹp màu bền tuy nhiên phải dùng giấy loại xịn hoặc phải ép Plastic.`,
-          ava: Ava1,
-        },
-      ],
-      ava: Ava2,
-    },
-    {
-      cmt_id: 3,
-      user_id: 'C',
-      user_name: 'C Nguyen',
-      content: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
-      reply: [],
-      ava: Ava3,
-    },
-    {
-      cmt_id: 4,
-      user_id: 'A',
-      user_name: 'A Nguyen',
-      content: `Ngày xưa mình dùng con Canon T60 để in ảnh cho khách, dùng mực ngoài Pigment khoảng 100k/100ml và 6 màu. 
-      In đẹp màu bền tuy nhiên phải dùng giấy loại xịn hoặc phải ép Plastic.`,
-      reply: [],
-      ava: Ava1,
-    },
-  ];
-
-  const listComments = useMemo(
-    () => (
-      <>
-        {fakeData.map((item: any) => {
-          const { cmt_id: cmtID = '' } = item;
-          return <CommentParrent key={cmtID} cmtProps={{ ...item }} />;
-        })}
-      </>
-    ),
-    []
-  );
+  const listComments = () => (
+    <>
+      {isEmpty(comments) ? (
+        <CircularProgress color='primary' />
+          ) : (
+            <>
+              {comments.map((item: any) => {
+                const { cmt_id: cmtID = '' } = item;
+                return <CommentParrent key={cmtID} cmtProps={{ ...item, avatar: Ava1 }} />;
+              })}
+            </>
+          )}
+    </>
+      );
 
   return (
     <Grid className={classes.root}>
       <Timeline className={classes.rootTimeline}>
-        {listComments}
+        { listComments() }
       </Timeline>
     </Grid>
   );
