@@ -34,9 +34,11 @@ function SuggestionComponent(props: SuggestionProps): JSX.Element {
   }
   useEffect(() => {
     // fetch data suggestion photo list
+    let arr = [];
     dispatch(getPhotoSuggestAction(1, paramsId)).then((data) => {
       const { results = [] } = data;
-      setListImg(results);
+      arr = results;
+      setListImg(arr);
     });
   }, [dispatch, paramsId]);
 
