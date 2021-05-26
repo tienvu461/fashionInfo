@@ -38,8 +38,8 @@ function SuggestionComponent(props: SuggestionProps): JSX.Element {
     dispatch(getPhotoSuggestAction(1, paramsId)).then((data) => {
       const { results = [] } = data;
       arr = results;
-      setListImg(arr);
     });
+    setListImg(arr);
   }, [dispatch, paramsId]);
 
   const renderPhoto = () => (
