@@ -58,12 +58,12 @@ COPY --from=base /app/backend/requirements.txt .
 RUN pip install --no-cache /wheels/*
 
 ADD ./infrastructure/docker /app/docker
-# ADD ${SRC_DIR}/ /app/backend/
 
-RUN chown -R www-data:www-data $APP_HOME
+COPY ${SRC_DIR}/ ${APP_HOME}
+RUN chown -R www-data:www-data ${APP_HOME}
 
 # log path
-RUN mkdir -p $LOG_PATH
-RUN chown -R www-data:www-data $LOG_PATH
+RUN mkdir -p ${LOG_PATH}
+RUN chown -R www-data:www-data ${LOG_PATH}
 
 USER www-data
