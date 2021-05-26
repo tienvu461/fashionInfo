@@ -350,5 +350,6 @@ class PhotoLikeCreate(generics.CreateAPIView):
         
         else:
             # if there is photolike object with above condition => delete it
+            # TODO: add disable field instead of delete
             photo_like.delete()
             return Response({'info': 'you have unlike this photo!'}, status=status.HTTP_200_OK)
