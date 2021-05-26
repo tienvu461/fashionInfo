@@ -172,7 +172,7 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 
 LOGGING = {
     'version': 1,
-    'disable_existing_loggers': False,
+    'disable_existing_loggers': True,
     'formatters': {
         'verbose': {
             'format': '{asctime} {filename}({lineno}) [{levelname}]: {message}',
@@ -191,8 +191,9 @@ LOGGING = {
         },
         'file': {
             'level': 'INFO',
-            'class': 'logging.FileHandler',
-            'filename': 'logs/info.log',
+            'class':'logging.handlers.RotatingFileHandler',
+            'filename': 'backend.log',
+            'maxBytes': 1024*1024*5, # 5 MB
             'formatter': 'verbose'
         },
     },
@@ -202,7 +203,7 @@ LOGGING = {
             'propagate': True,
         },
         'photos': {
-            'handlers': [os.environ.get("LOGGING_HANDLER")],
+            'handlers': ["file"],
             'propagate': True,
             'level': os.environ.get("LOGGING_LEVEL")
         }
