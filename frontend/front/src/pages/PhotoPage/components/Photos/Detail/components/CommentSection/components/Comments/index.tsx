@@ -3,9 +3,7 @@
 /* eslint-disable import/no-unresolved */
 import React, { useMemo } from 'react';
 import { Grid } from '@material-ui/core';
-import {
-  Timeline,
-} from '@material-ui/lab';
+import { Timeline } from '@material-ui/lab';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { isEmpty } from 'lodash';
 import { useSelector } from 'react-redux';
@@ -19,26 +17,26 @@ function Comments(): JSX.Element {
   const classes = useStyles();
   const comments = useSelector((state: RootState) => state.photo.photoDetail.comments);
 
-  const listComments = () => (
-    <>
-      {isEmpty(comments) ? (
-        <CircularProgress color='primary' />
-          ) : (
-            <>
-              {comments.map((item: any) => {
-                const { cmt_id: cmtID = '' } = item;
-                return <CommentParrent key={cmtID} cmtProps={{ ...item, avatar: Ava1 }} />;
-              })}
-            </>
-          )}
-    </>
-      );
+  const listComments = useMemo(
+    () => (
+      <>
+        {isEmpty(comments) ? (
+          null
+      ) : (
+        <>
+          {comments.map((item: any) => {
+            const { cmt_id: cmtID = '' } = item;
+            return <CommentParrent key={cmtID} cmtProps={{ ...item, avatar: Ava1 }} />;
+          })}
+        </>
+      )}
+      </>
+    ), [comments]
+  );
 
   return (
     <Grid className={classes.root}>
-      <Timeline className={classes.rootTimeline}>
-        { listComments() }
-      </Timeline>
+      <Timeline className={classes.rootTimeline}>{listComments}</Timeline>
     </Grid>
   );
 }
