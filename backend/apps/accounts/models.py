@@ -5,13 +5,13 @@ from django.db.models.signals import post_save
 # from social_auth.backends.facebook import FacebookBackend
 # from social_auth.backends import google
 # from social_auth.signals import socialauth_registered
-# class UserProfile(models.Model):
+class UserProfile(models.Model):
     
-#     user = models.OneToOneField(User)
-#     profile_photo = models.ImageField(upload_to='profiles')
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    profile_photo = models.ImageField(upload_to='profiles')
     
-#     def __str__(self):  
-#         return "%s's profile" % self.user  
+    def __str__(self):  
+        return "%s's profile" % self.user  
 
 # def new_users_handler(sender, user, response, details, **kwargs):
 #     user.is_new = True

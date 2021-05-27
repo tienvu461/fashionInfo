@@ -55,21 +55,23 @@ class BlackListTokenView(APIView):
 class ActivateUser(APIView):
 
     def get(self, request, uid, token, format = None):
-        payload = {'uid': uid, 'token': token}
+        payload = {'uid': "MTE", 'token': "an9yao-8fd339aad6882cd7bea53471df2faabd"}
         
         protocol = 'https://' if request.is_secure() else 'http://'
         url = "{0}{1}/api/users/activation/".format(protocol, settings.HOSTNAME)
 
         logger.debug("activation url: {}".format(url))
 
-        # return render(request, 'activation_page.html', {'url': url, 'uid': uid, 'token': token})
-        response = requests.post(url, data = payload)
+        # have to use template because post cannot be done on backend to itself
+        return render(request, 'activation_page.html', {'url': url, 'uid': uid, 'token': token})
+
+        # response = requests.post(url, data = payload)
 
 
-        if response.status_code == 204:
-            return Response({}, response.status_code)
-        else:
-            return Response(response.json())
+        # if response.status_code == 204:
+        #     return Response({}, response.status_code)
+        # else:
+        #     return Response(response.json())
 
 class EmailTokenObtainPairView(TokenObtainPairView):
     serializer_class = CustomTokenObtainPairSerializer
