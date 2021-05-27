@@ -1,5 +1,3 @@
-/* eslint-disable operator-linebreak */
-
 // HOST
 export const HOST = 'http://api.tienvv.com';
 

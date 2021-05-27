@@ -4,15 +4,13 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
-import {
- Grid, Paper, Card, CardActionArea, CardMedia, Typography, Divider, CircularProgress
-} from '@material-ui/core';
+import { Grid, Paper, Card, CardActionArea, CardMedia, Typography, Divider, CircularProgress } from '@material-ui/core';
 import HeartIcon from 'src/assets/images/heart.svg';
-import { getDetailAction, getPhotoSuggestAction } from 'src/features/Photo/photoAction';
+import { getDetailAction } from 'src/features/Photo/photoAction';
 import ShareIcon from 'src/assets/images/share.svg';
 import { RootState } from 'src/store/store';
 import useStyles from './useStyles';
-import CommentComponent from './components/Comment';
+import CommentComponent from './components/CommentSection';
 import SuggestionComponent from './components/Suggestion';
 
 interface DetailProps {
@@ -21,6 +19,17 @@ interface DetailProps {
       id: string;
     };
   };
+}
+
+interface DetailInfoType {
+  model_name: string;
+  shoot_date: number;
+  location: string;
+  model_job: string;
+  style: string;
+  brand: string;
+  social_url: string;
+  photographer: string;
 }
 
 function Detail(props: DetailProps): JSX.Element {
@@ -45,16 +54,11 @@ function Detail(props: DetailProps): JSX.Element {
         setLoading(false);
       }
     });
-
-    // fetch data suggestion photo list
-    dispatch(getPhotoSuggestAction(1, id));
   }, [dispatch, id]);
 
   const photoDetail = useSelector((state: RootState) => state.photo.photoDetail);
-  const photoSuggestionList = useSelector((state: RootState) => state.photo.photoSuggestionList.listPhoto);
 
-  const detailInfo = useSelector((state: RootState) => state.photo.photoDetail.detail_info);
-  const dataPhoto = useSelector((state: RootState) => state.photo.photoSuggestionList.dataOrigin);
+  const detailInfo: DetailInfoType = useSelector((state: RootState) => state.photo.photoDetail.detail_info);
 
   const arrInfo: Array<{
     name: string;
@@ -66,7 +70,7 @@ function Detail(props: DetailProps): JSX.Element {
     },
     {
       name: 'Ngày chụp',
-      value: moment(detailInfo?.shoot_date).format('DD-MM-YYYY') || 'N/A',
+      value: moment(detailInfo?.shoot_date * 1000).format('DD-MM-YYYY') || 'N/A',
     },
     {
       name: 'Địa điểm',
@@ -78,7 +82,7 @@ function Detail(props: DetailProps): JSX.Element {
     },
     {
       name: 'Phong cách',
-      value: 'Vintage, Casual' || 'N/A',
+      value: detailInfo?.style || 'N/A',
     },
     {
       name: 'Thương hiệu',
@@ -86,7 +90,7 @@ function Detail(props: DetailProps): JSX.Element {
     },
     {
       name: 'Instagram',
-      value: detailInfo?.brand || 'N/A',
+      value: detailInfo?.social_url || 'N/A',
     },
     {
       name: 'Photographer',
@@ -100,12 +104,12 @@ function Detail(props: DetailProps): JSX.Element {
         const { name = '', value = '' } = item;
         return (
           <React.Fragment key={`${index + 1}`}>
-            <Grid item lg={4} md={6} sm={12} wrap='wrap' xl={12} xs={6}>
+            <Grid item lg={4} md={6} sm={12} xl={12} xs={6}>
               <Typography className={classes.name} component='h6' variant='h6'>
                 {name}
               </Typography>
             </Grid>
-            <Grid item lg={8} md={6} sm={12} wrap='wrap' xl={12} xs={6}>
+            <Grid item lg={8} md={6} sm={12} xl={12} xs={6}>
               <div className={classes.valueName}>
                 <Typography
                   className={name === 'Instagram' || name === 'Photographer' ? classes.value2 : classes.value}
@@ -126,7 +130,7 @@ function Detail(props: DetailProps): JSX.Element {
     const { tags: listTags = [] } = photoDetail;
 
     return (
-      <Grid item lg={6} md={12} sm={12} wrap='wrap' xl={12} xs={12}>
+      <Grid item lg={6} md={12} sm={12} xl={12} xs={12}>
         <div className={classes.tags}>
           {listTags.map((item: string, index: number) => (
             <Grid key={`${index + 1}`} className={classes.tag}>
@@ -143,36 +147,35 @@ function Detail(props: DetailProps): JSX.Element {
 
     return (
       <>
-        <Grid className={classes.gridPhoto} item lg={6} md={6} sm={8} spacing={2} wrap='wrap' xl={12} xs={12}>
+
+        <Grid className={classes.gridPhoto} item lg={6} md={6} sm={8} xl={8} xs={12}>
           <Paper className={loading ? classes.paperLoading : classes.paper}>
-            {loading ? (
-              <div className={classes.loading}>
-                <CircularProgress color='primary' />
-              </div>
-            ) : (
-              <Card className={classes.card}>
-                <CardActionArea>
-                  <CardMedia className={classes.picture} image={pathImg} title='Contemplative Reptile' />
-                </CardActionArea>
-                <div>
-                  <div className={classes.actions}>
-                    <div className={classes.left}>
-                      <img alt='heart-icon' src={HeartIcon} />
-                      <div className={classes.num}>{photoDetail.likes}</div>
-                    </div>
-                    <div className={classes.right}>
-                      <img alt='share-icon' src={ShareIcon} />
-                    </div>
-                  </div>
+            <Card className={classes.card}>
+              <CardActionArea>
+                <CardMedia
+                  alt='Contemplative Reptile'
+                  className={classes.picture}
+                  component='img'
+                  image={pathImg}
+                  title='Contemplative Reptile'
+                />
+              </CardActionArea>
+              <div className={classes.actions}>
+                <div className={classes.left}>
+                  <img alt='heart-icon' src={HeartIcon} />
+                  <div className={classes.num}>{photoDetail.likes}</div>
                 </div>
-              </Card>
-            )}
+                <div className={classes.right}>
+                  <img alt='share-icon' src={ShareIcon} />
+                </div>
+              </div>
+            </Card>
           </Paper>
         </Grid>
-        <Grid item lg={6} md={6} sm={4} spacing={2} wrap='wrap' xl={12} xs={12}>
+        <Grid item lg={6} md={6} sm={4} xl={4} xs={12}>
           <div className={classes.information}>
-            <Grid container lg={12} md={12} sm={12} wrap='wrap' xl={12} xs={12}>
-              <Grid item lg={12} md={12} sm={12} spacing={2} wrap='wrap' xl={12} xs={12}>
+            <Grid container>
+              <Grid item lg={12} md={12} sm={12} xl={12} xs={12}>
                 <Typography className={classes.title} component='h4' variant='h4'>
                   Thông tin
                 </Typography>
@@ -189,10 +192,18 @@ function Detail(props: DetailProps): JSX.Element {
 
   return (
     <div className={`${classes.root} root`}>
-      <Grid container>{renderDetailPhoto()}</Grid>
-      <Divider />
-      <CommentComponent />
-      <SuggestionComponent dataPhoto={dataPhoto} paramsId={id} photoSuggestionList={photoSuggestionList} />
+      {loading ? (
+        <div className={classes.loading}>
+          <CircularProgress color='primary' />
+        </div>
+        ) : (
+          <>
+            <Grid container>{renderDetailPhoto()}</Grid>
+            <Divider />
+            <CommentComponent />
+            <SuggestionComponent paramsId={id} />
+          </>
+        )}
     </div>
   );
 }

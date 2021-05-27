@@ -92,7 +92,7 @@ function LoginPage(): JSX.Element {
       container
       item
     >
-      <Grid item md={6} sm={12} xs={12} className='imageBannerLogin'></Grid>
+      <Grid className='imageBannerLogin' item md={6} sm={12} xs={12} />
       <Grid item md={6} sm={12} xs={12}>
         <div className={classes.paper}>
           <Box textAlign='left'>
@@ -106,45 +106,45 @@ function LoginPage(): JSX.Element {
             </Typography>
             <div className={classes.savepassword}>
               <Button
-                startIcon={
-                  <Avatar
-                    alt='goole-icon'
-                    src={iconGg}
-                    className={classes.small}
-                  />
-                }
                 className={classes.button}
                 onClick={() => {
                   dispatch(getUrlSocialAction());
                 }}
+                startIcon={
+                  <Avatar
+                    alt='goole-icon'
+                    className={classes.small}
+                    src={iconGg}
+                  />
+                }
               >
                 <Typography component='span'>
                   <Box
-                    fontWeight='fontWeightBold'
-                    fontSize={16}
-                    color='#000000'
                     className={classes.socialButton}
+                    color='#000000'
+                    fontSize={16}
+                    fontWeight='fontWeightBold'
                   >
                     Qua Google
                   </Box>
                 </Typography>
               </Button>
               <Button
+                className={classes.button}
                 startIcon={
                   <Avatar
                     alt='goole-icon'
-                    src={iconFb}
                     className={classes.small}
+                    src={iconFb}
                   />
                 }
-                className={classes.button}
               >
                 <Typography component='span'>
                   <Box
-                    fontWeight='fontWeightBold'
-                    fontSize={16}
-                    color='#000000'
                     className={classes.socialButton}
+                    color='#000000'
+                    fontSize={16}
+                    fontWeight='fontWeightBold'
                   >
                     Qua Facebook
                   </Box>
@@ -160,9 +160,9 @@ function LoginPage(): JSX.Element {
                 padding: '4px 0 4px 0',
               }}
             >
-              <hr className='line'></hr>
+              <hr className='line' />
               <span className={classes.title}>hoặc</span>
-              <hr className='line'></hr>
+              <hr className='line' />
             </div>
             <form className={classes.form} noValidate onSubmit={handleSubmit}>
               <div className={classes.fontManual}>Email</div>
@@ -179,8 +179,8 @@ function LoginPage(): JSX.Element {
                 variant='outlined'
               />
               <div
-                style={{ paddingTop: '16px' }}
                 className={classes.fontManual}
+                style={{ paddingTop: '16px' }}
               >
                 Mật khẩu
               </div>
@@ -216,7 +216,7 @@ function LoginPage(): JSX.Element {
               <div className={classes.savepassword}>
                 <div>
                   <FormControlLabel
-                    control={<Checkbox value='remember' color='secondary' />}
+                    control={<Checkbox color='secondary' value='remember' />}
                     label={
                       <span style={{ fontFamily: 'Roboto', fontSize: '14' }}>
                         Ghi nhớ mật khẩu
@@ -233,10 +233,10 @@ function LoginPage(): JSX.Element {
               <Button className={classes.submit} fullWidth type='submit'>
                 <Typography component='span'>
                   <Box
-                    fontWeight='fontWeightBold'
-                    fontSize={16}
-                    color='#ffffff'
                     className={classes.socialButton}
+                    color='#ffffff'
+                    fontSize={16}
+                    fontWeight='fontWeightBold'
                   >
                     Đăng nhập
                   </Box>

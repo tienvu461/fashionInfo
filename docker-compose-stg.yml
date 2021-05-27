@@ -22,7 +22,7 @@ services:
             - 80:80
         volumes:
             - media_volume:/app/backend/media
-            - static_volume:/app/backend/static
+            - static_volume:/app/backend/admin_static
             - ./infrastructure/docker/front/staging:/etc/nginx/conf.d
             - ./frontend/front:/app/frontend
             - /app/frontend/node_modules
@@ -33,13 +33,15 @@ services:
 
     nginx:
         build:
+            args:
+              SRC_DIR: ./infrastructure/docker/nginx/staging
             context: .
             dockerfile: ./infrastructure/docker/nginx/staging/Dockerfile
         ports:
             - "0.0.0.0:80:80"
         volumes:
             - media_volume:/app/backend/media
-            - static_volume:/app/backend/static
+            - static_volume:/app/backend/admin_static
             - ./infrastructure/docker/nginx/staging:/etc/nginx/conf.d
         depends_on: 
             - backend
@@ -57,7 +59,7 @@ services:
         env_file:
             - ./infrastructure/docker/config/stg/.env.backend
         volumes:
-            - static_volume:/app/backend/static
+            - static_volume:/app/backend/admin_static
             - ./backend:/app/backend
             - media_volume:/app/backend/media
         expose:

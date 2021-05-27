@@ -4,11 +4,9 @@ import { configureStore } from '@reduxjs/toolkit';
 import { combineReducers } from 'redux';
 import loginReducer from '../features/Login/LoginSlice';
 import photoReducer from '../features/Photo/photoSlice';
-import demoReducer from '../features/Demo/demoSlice';
 import searchTagReducer from '../features/Search/searchSlide';
 
 const appReducer = combineReducers({
-  demo: demoReducer,
   login: loginReducer,
   photo: photoReducer,
   searchTag: searchTagReducer,

@@ -71,8 +71,7 @@ function Footer(): JSX.Element {
                 />
               }
               className={classes.button}
-            >
-            </Button>
+            />
           </div>
         </Grid>
         <Grid item xs={6} md={6} sm={6} style={{ textAlign: 'right' }} className={classes.flexSocial}>
@@ -86,8 +85,7 @@ function Footer(): JSX.Element {
                 />
               }
               className={classes.buttonSocial}
-              >
-            </Button>
+            />
           </div>
         </Grid>
       </Grid>

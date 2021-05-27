@@ -1,11 +1,6 @@
 /* eslint-disable react/jsx-props-no-spreading */
-/* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable react/no-multi-comp */
-/* eslint-disable react/display-name */
-/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
-/* eslint-disable react/react-in-jsx-scope */
 import { createMuiTheme, ThemeProvider, responsiveFontSizes } from '@material-ui/core/styles';
-import { useState } from 'react';
+import React, { useState } from 'react';
 
 export const white = '#fff';
 export const black = '#000000';
@@ -58,23 +53,25 @@ export const theme = createMuiTheme({
     fontFamily: ['Darker Grotesque', 'sans-serif'].join(','),
     h6: {
       fontSize: '18px',
-      '@media (max-width:1302px)': { fontSize: '16px', },
-      '@media (max-width:960px)': { fontSize: '14px', },
+      '@media (max-width:1302px)': { fontSize: '16px' },
+      '@media (max-width:960px)': { fontSize: '14px' },
     },
     h5: {
       fontSize: '1.2rem',
-      '@media (min-width:1302px)': { fontSize: '2rem', },
+      '@media (min-width:1302px)': { fontSize: '2rem' },
     },
     h4: {
       fontSize: '1.4rem',
-      '@media (min-width:1302px)': { fontSize: '30px', },
+      '@media (min-width:1302px)': { fontSize: '30px' },
+      '@media (min-width:600px)': { fontSize: '24px' },
+      '@media (max-width:600px)': { fontSize: '20px' },
     },
     h1: {
       fontSize: '120px',
-      '@media (max-width:1302px)': { fontSize: '100px', },
-      '@media (max-width:960px)': { fontSize: '2.8rem', },
-      '@media (max-width:720px)': { fontSize: '2.4rem', },
-      '&::before': { padding: 0, },
+      '@media (max-width:1302px)': { fontSize: '100px' },
+      '@media (max-width:960px)': { fontSize: '2.8rem' },
+      '@media (max-width:720px)': { fontSize: '2.4rem' },
+      '&::before': { padding: 0 },
     },
   },
   breakpoints: {
@@ -88,28 +85,13 @@ export const theme = createMuiTheme({
   },
   overrides: {
     MuiAppBar: {
-      root: { boxShadow: 'none', },
-      colorPrimary: { backgroundColor: white, },
+      root: { boxShadow: 'none' },
+      colorPrimary: { backgroundColor: white },
     },
-    // MuiToolbar: {
-    //   gutters: {
-    //     pdLeftXL: '12px',
-    //     paddingRight: '0',
-    //     '@media (min-width: 960px)': {
-    //       pdLeftXL: '200px',
-    //       paddingRight: '200px',
-    //     },
-    //   },
-    //   regular: {
-    //     '@media (min-width: 960px)': {
-    //       height: '80px',
-    //     },
-    //   },
-    // },
     MuiButton: {
       root: {
         backgroundColor: black,
-        '&:hover': { backgroundColor: grayPrimary, },
+        '&:hover': { backgroundColor: grayPrimary },
       },
       // outlined: {
       //   color: white,
@@ -131,7 +113,18 @@ export const theme = createMuiTheme({
         boxShadow: 'none',
       },
     },
-    MuiCircularProgress: { colorPrimary: { color: grayPrimary }, },
+    MuiCircularProgress: { colorPrimary: { color: grayPrimary } },
+    MuiAccordion: { root: { backgroundColor: 'transparent' } },
+    MuiAccordionSummary: {
+      content: {
+        margin: '0 !important',
+        // display: 'flex',
+        // alignItems: 'center',
+        // justifyContent: 'space-between',
+      },
+      root: { minHeight: 'fit-content !important', padding: 0 },
+    },
+    MuiAccordionDetails: { root: { padding: '0' } },
     // MuiCheckbox: {
     //   root: {
     //     marginRight: '5px',
@@ -281,6 +274,7 @@ export const darkTheme = createMuiTheme({
   },
 });
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const Theme = (props: any) => {
   const { children, darkMode } = props;
   let defaultTheme = darkMode ? darkTheme : theme;
@@ -289,7 +283,8 @@ const Theme = (props: any) => {
   return <ThemeProvider theme={defaultTheme}>{children}</ThemeProvider>;
 };
 
-export const withTheme = (Component: any) => (props: any) => {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const withTheme = (Component: React.FunctionComponent): React.FC => (props: any) => {
   const [darkMode, setDarkMode] = useState(false);
 
   return (
