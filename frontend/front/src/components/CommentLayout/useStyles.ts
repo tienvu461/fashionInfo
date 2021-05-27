@@ -95,6 +95,8 @@ const useStyles: () => Record<
   spanText: {
     fontStyle: 'normal',
     color: '#2E4A91',
+    textDecoration: 'none',
+    paddingRight: '4px'
   },
 }));
 
