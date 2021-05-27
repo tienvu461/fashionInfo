@@ -1,3 +1,4 @@
+/* eslint-disable object-curly-newline */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Dispatch } from '@reduxjs/toolkit';
 import { loginService, getUrlSocialService } from '../../services/auth';
