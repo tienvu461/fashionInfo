@@ -64,7 +64,7 @@ class ActivateUser(APIView):
 
         logger.debug("activation url: {}".format(url))
 
-        # return render(request, 'activation_page.html', {'url': url, 'uid': uid, 'token': token})
+        return render(request, 'activation_page.html', {'url': url, 'uid': uid, 'token': token})
         response = requests.post(url, data = payload)
 
 
