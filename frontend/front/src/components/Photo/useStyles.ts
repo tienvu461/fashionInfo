@@ -11,22 +11,16 @@ import {
 } from 'src/styles/theme';
 
 const useStyles: () => Record<
-  | 'root'
-  | 'backDrop'
+  // | 'root'
+  // | 'backDrop'
   | 'paper'
   | 'picture'
-  | 'gridItem'
   | 'actions'
   | 'left'
   | 'leftActions'
   | 'right'
   | 'num'
-  | 'icon'
-  | 'btn'
-  | 'nextBtn'
-  | 'textBtn'
-  | 'loadingPhoto'
-  | 'skeleton',
+  | 'icon',
   string
 > = makeStyles(() => ({
   root: {

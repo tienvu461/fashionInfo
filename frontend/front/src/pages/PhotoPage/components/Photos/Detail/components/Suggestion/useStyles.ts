@@ -1,10 +1,14 @@
-/* eslint-disable object-curly-newline */
+/* eslint-disable import/no-unresolved */
 import { makeStyles } from '@material-ui/core/styles';
-import { theme, black, pdSM } from '../../../../../../../styles/theme';
+import { theme, black, pdSM } from 'src/styles/theme';
 
-// eslint-disable-next-line operator-linebreak
-const useStyles: () => Record<'root' | 'titleSuggestion' | 'btn' | 'nextBtn' | 'textBtn' | 'gridItem', string> =
-  makeStyles(() => ({
+const useStyles: () => Record<
+'root'
+| 'titleSuggestion'
+| 'btn' | 'nextBtn'
+| 'textBtn'
+| 'gridItem',
+string> = makeStyles(() => ({
     root: {
       height: 'auto',
       // responsive
@@ -31,13 +35,13 @@ const useStyles: () => Record<'root' | 'titleSuggestion' | 'btn' | 'nextBtn' | '
       },
     },
     titleSuggestion: {
-      height: 'auto',
       color: black,
       textAlign: 'left',
       fontStyle: 'normal',
       fontWeight: 'bold',
-      fontSize: '30px',
       lineHeight: '36px',
+      letterSpacing: '1px',
+      fontFamily: 'Roboto',
 
       // // responsive
       [theme.breakpoints.up('sm')]: {

@@ -1,4 +1,3 @@
-/* eslint-disable object-curly-newline */
 import React, { useState } from 'react';
 import { Drawer, IconButton, List, ListItem, ListItemText } from '@material-ui/core';
 import { Menu } from '@material-ui/icons';

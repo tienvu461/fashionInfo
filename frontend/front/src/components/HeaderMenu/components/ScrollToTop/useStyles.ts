@@ -1,6 +1,6 @@
-/* eslint-disable object-curly-newline */
+/* eslint-disable import/no-unresolved */
 import { makeStyles } from '@material-ui/core/styles';
-import { theme } from '../../../../styles/theme';
+import { theme } from 'src/styles/theme';
 
 const useStyles: () => Record<'root' | 'scrollIcon', string> = makeStyles(
   () => ({
