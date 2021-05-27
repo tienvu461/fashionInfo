@@ -21,6 +21,17 @@ interface DetailProps {
   };
 }
 
+interface DetailInfoType {
+  model_name: string;
+  shoot_date: number;
+  location: string;
+  model_job: string;
+  style: string;
+  brand: string;
+  social_url: string;
+  photographer: string;
+}
+
 function Detail(props: DetailProps): JSX.Element {
   const { match: { params: { id = '' } = {} } = {} } = props;
   const classes = useStyles();
@@ -47,7 +58,7 @@ function Detail(props: DetailProps): JSX.Element {
 
   const photoDetail = useSelector((state: RootState) => state.photo.photoDetail);
 
-  const detailInfo = useSelector((state: RootState) => state.photo.photoDetail.detail_info);
+  const detailInfo: DetailInfoType = useSelector((state: RootState) => state.photo.photoDetail.detail_info);
 
   const arrInfo: Array<{
     name: string;

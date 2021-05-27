@@ -17,7 +17,9 @@ const useStyles: () => Record<
   | 'actionName'
   | 'actionTime'
   | 'actionReply'
-  | 'comment',
+  | 'comment'
+  | 'textArea'
+  | 'inputTextArea',
   string
 > = makeStyles(() => ({
   root: {
@@ -110,7 +112,7 @@ const useStyles: () => Record<
     [theme.breakpoints.down('sm')]: {
       justifyContent: 'space-between',
       flexDirection: 'row-reverse',
-      paddingBottom: '20px'
+      paddingBottom: '20px',
     },
   },
   textStyle: {
@@ -123,7 +125,7 @@ const useStyles: () => Record<
     paddingRight: '17px',
     fontWeight: 'bold',
     color: '#2E4A91',
-    textAlign: 'left'
+    textAlign: 'left',
   },
   actionTime: {
     paddingRight: '53px',
@@ -140,6 +142,21 @@ const useStyles: () => Record<
     letterSpacing: '1px',
     lineHeight: '25px',
     textAlign: 'left',
+  },
+  textArea: {
+    width: '100%',
+    border: 'none',
+    paddingBottom: '24px',
+    fontSize: '18px',
+    '& .MuiInput-underline:before': {
+      display: 'none'
+    }
+  },
+  inputTextArea: {
+    '&::placeholder': {
+      fontStyle: 'italic',
+      fontSize: '18px',
+    },
   },
 }));
 

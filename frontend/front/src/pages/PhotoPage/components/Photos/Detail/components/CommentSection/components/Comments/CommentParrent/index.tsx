@@ -24,6 +24,16 @@ function CommentParrent(props: CommentProps): JSX.Element {
 
   const formatDate = (time: number) => moment(time * 1000).fromNow();
 
+  const renderTimelineConnector = (cmts: number, lastCmt: number) => {
+    if (cmts > 0) {
+      if (lastCmt === cmts - 1) {
+        return null;
+      }
+      return <TimelineConnector />;
+    }
+    return null;
+  };
+
   return (
     // <Grid>
     <TimelineItem className={classes.timeline}>
@@ -31,7 +41,7 @@ function CommentParrent(props: CommentProps): JSX.Element {
         <TimelineDot className={classes.dotAvatar}>
           <Avatar alt='ava' className={classes.avatar} src={cmtProps.avatar || Ava2} />
         </TimelineDot>
-        <TimelineConnector />
+        {renderTimelineConnector(cmtProps.cmtLength, cmtProps.lastCmt)}
       </TimelineSeparator>
       <TimelineContent className={classes.content}>
         <Paper className={classes.paper} elevation={3}>
@@ -56,12 +66,13 @@ function CommentParrent(props: CommentProps): JSX.Element {
         {/* ============ nested comment/reply ============ */}
         {cmtProps?.reply ? (
           <>
-            {cmtProps.reply.map((item) => (
+            {cmtProps.reply.map((item, index) => (
               <TimelineItem key={item.cmt_id} className={classes.nestedTimeline}>
                 <TimelineSeparator>
                   <TimelineDot className={classes.dotAvatar}>
                     <Avatar alt='ava' className={classes.avatar} src={Ava2} />
                   </TimelineDot>
+                  {renderTimelineConnector(cmtProps.reply.length, index)}
                 </TimelineSeparator>
                 <TimelineContent className={classes.content}>
                   <Paper className={classes.paper} elevation={3}>
