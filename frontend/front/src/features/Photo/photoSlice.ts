@@ -1,14 +1,15 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable object-curly-newline */
 import { createSlice } from '@reduxjs/toolkit';
 
 interface InitialState {
   photoList: {
-    listPhoto: Array<any>;
+    listPhoto: Array<Record<string, string>>;
     dataOrigin: Record<string, string>;
   };
-  photoDetail: Record<any, any>;
+  photoDetail: Record<string, any>;
   photoSuggestionList: {
-    listPhoto: Array<any>;
+    listPhoto: Array<Record<string, string>>;
     dataOrigin: Record<string, string>;
   };
 }

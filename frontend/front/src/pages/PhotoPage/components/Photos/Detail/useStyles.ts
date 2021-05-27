@@ -70,6 +70,12 @@ const useStyles: () => Record<
   picture: {
     height: '975px',
     zIndex: 4,
+
+    // responsive
+    [theme.breakpoints.down('xs')]: {
+      height: '700px',
+      zIndex: 4,
+    },
   },
   actions: {
     display: 'flex',

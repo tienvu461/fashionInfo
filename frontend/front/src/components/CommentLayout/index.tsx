@@ -1,8 +1,11 @@
+/* eslint-disable import/no-unresolved */
 import React, { ReactChildren, ReactChild, useState } from 'react';
 import {
  Accordion, AccordionDetails, AccordionSummary, Grid, Typography
 } from '@material-ui/core';
+import { Link } from 'react-router-dom';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import { ROUTE_LOGIN } from 'src/constants';
 import useStyles from './useStyles';
 
 interface CommentProps {
@@ -20,7 +23,7 @@ function CommentLayout(props: CommentProps): JSX.Element {
 
     return (
       <Grid className={classes.root} container>
-        <Grid className={classes.container} item lg={12} md={12} sm={12} xl={12} xs={12}>
+        <Grid item lg={12} md={12} sm={12} xl={12} xs={12}>
           <Accordion className={classes.accordion} expanded={isClick}>
             <div className={classes.accordionHeader}>
               <AccordionSummary aria-controls='panel1a-content' id='panel1a-header' onClick={handleClick}>
@@ -33,13 +36,14 @@ function CommentLayout(props: CommentProps): JSX.Element {
               </AccordionSummary>
               <div>
                 <Typography className={classes.subText}>
-                  <span className={classes.spanText}>Đăng nhập</span> để bình luận
+                  <Link to={ROUTE_LOGIN} className={classes.spanText}>
+                    Đăng nhập
+                  </Link>
+                  để bình luận
                 </Typography>
               </div>
             </div>
-            <AccordionDetails className={classes.accordionDetails}>
-              {children}
-            </AccordionDetails>
+            <AccordionDetails className={classes.accordionDetails}>{children}</AccordionDetails>
           </Accordion>
         </Grid>
       </Grid>

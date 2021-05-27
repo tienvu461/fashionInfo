@@ -98,7 +98,7 @@ class PhotoLikeAdmin(admin.ModelAdmin):
 
 @admin.register(PhotoComment)
 class PhotoCommentAdmin(admin.ModelAdmin):
-    list_display = ('photo_id', 'user_id', 'content',
+    list_display = ('cmt_id', 'photo_id', 'user_id', 'content',
                     'active', 'parent', 'created_at',)
     list_filter = ('created_at', 'active',)
     search_fields = ('content',)

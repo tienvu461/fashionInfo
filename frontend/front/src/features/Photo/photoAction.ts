@@ -1,3 +1,5 @@
+/* eslint-disable object-curly-newline */
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /* eslint-disable import/no-unresolved */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import { Dispatch } from '@reduxjs/toolkit';

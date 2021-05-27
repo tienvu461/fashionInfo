@@ -12,11 +12,14 @@ const useStyles: () => Record<
   | 'timeline'
   | 'nestedTimeline'
   | 'action'
+  | 'flex'
   | 'textStyle'
   | 'actionName'
   | 'actionTime'
   | 'actionReply'
-  | 'comment',
+  | 'comment'
+  | 'textArea'
+  | 'inputTextArea',
   string
 > = makeStyles(() => ({
   root: {
@@ -40,7 +43,12 @@ const useStyles: () => Record<
     [theme.breakpoints.up('lg')]: {},
     padding: '16px 40px',
     boxShadow: 'none',
-    borderRadius: 0
+    borderRadius: 0,
+
+    // responsive
+    [theme.breakpoints.down('sm')]: {
+      padding: '8px 20px',
+    },
   },
   rootTimeline: {
     padding: 0,
@@ -53,7 +61,21 @@ const useStyles: () => Record<
     padding: 0,
     color: 'transparent',
     backgroundColor: 'transparent',
-    boxShadow: 'none'
+    boxShadow: 'none',
+
+    // responsive
+    [theme.breakpoints.down('sm')]: {
+      width: '46px',
+      height: '46px',
+    },
+    [theme.breakpoints.up('sm')]: {
+      width: '46px',
+      height: '46px',
+    },
+    [theme.breakpoints.up('md')]: {
+      width: '60px',
+      height: '60px',
+    },
   },
   avatar: {
     width: '100%',
@@ -62,16 +84,36 @@ const useStyles: () => Record<
   content: {
     padding: 0,
     paddingLeft: '44px',
+    // responsive
+    [theme.breakpoints.down('sm')]: {
+      paddingLeft: '24px',
+    },
   },
   timeline: {
-    marginBottom: '15px'
+    marginBottom: '15px',
   },
   nestedTimeline: {
     paddingTop: '15px',
   },
   action: {
     display: 'flex',
+    // alignItems: 'center',
+
+    // responsive
+    [theme.breakpoints.down('sm')]: {
+      flexDirection: 'column',
+      alignItems: 'left',
+    },
+  },
+  flex: {
+    display: 'flex',
     alignItems: 'center',
+
+    [theme.breakpoints.down('sm')]: {
+      justifyContent: 'space-between',
+      flexDirection: 'row-reverse',
+      paddingBottom: '20px',
+    },
   },
   textStyle: {
     fontFamily: 'Roboto',
@@ -83,6 +125,7 @@ const useStyles: () => Record<
     paddingRight: '17px',
     fontWeight: 'bold',
     color: '#2E4A91',
+    textAlign: 'left',
   },
   actionTime: {
     paddingRight: '53px',
@@ -99,6 +142,21 @@ const useStyles: () => Record<
     letterSpacing: '1px',
     lineHeight: '25px',
     textAlign: 'left',
+  },
+  textArea: {
+    width: '100%',
+    border: 'none',
+    paddingBottom: '24px',
+    fontSize: '18px',
+    '& .MuiInput-underline:before': {
+      display: 'none'
+    }
+  },
+  inputTextArea: {
+    '&::placeholder': {
+      fontStyle: 'italic',
+      fontSize: '18px',
+    },
   },
 }));
 

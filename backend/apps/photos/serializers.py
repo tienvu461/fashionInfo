@@ -80,6 +80,7 @@ class CommentSerializer(serializers.ModelSerializer):
         data_fields = super(CommentSerializer,
                             self).to_representation(instance)
         data_fields['created_at'] = int(instance.created_at.timestamp())
+        data_fields['user_id'] = instance.user_id.username
 
         return data_fields
 

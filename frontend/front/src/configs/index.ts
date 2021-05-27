@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable object-curly-newline */
 import axios from 'axios';
 import { getDataFromLocalStorage } from '../utils/localStorage';
 

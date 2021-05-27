@@ -1,5 +1,6 @@
 /* eslint-disable import/no-unresolved */
 /* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable object-curly-newline */
 /* eslint-disable no-unused-vars */
 import { makeStyles, Theme } from '@material-ui/core/styles';
 import { black } from 'src/styles/theme';
