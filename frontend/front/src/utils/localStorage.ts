@@ -11,3 +11,5 @@ export const getDataFromLocalStorage = (): string | null => {
     const token = localStorage.getItem(LOCAL_STORAGE_TOKEN_KEY);
     return token;
 };
+// clear localstorage
+export const clearStoreFromlocalStorage = () => localStorage.clear();
