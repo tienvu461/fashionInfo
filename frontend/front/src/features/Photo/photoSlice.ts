@@ -6,7 +6,7 @@ interface InitialState {
     listPhoto: Array<Record<string, string>>;
     dataOrigin: Record<string, string>;
   };
-  photoDetail: Record<string, string>;
+  photoDetail: Record<string, any>;
   photoSuggestionList: {
     listPhoto: Array<Record<string, string>>;
     dataOrigin: Record<string, string>;
