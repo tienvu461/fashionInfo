@@ -193,12 +193,12 @@ LOGGING = {
             'class': 'logging.StreamHandler',
             'formatter': 'verbose'
         },
-        'file': {
-            'level': 'INFO',
-            'class': 'logging.FileHandler',
-            'filename': 'logs/info.log',
-            'formatter': 'verbose'
-        },
+        # 'file': {
+        #     'level': 'INFO',
+        #     'class': 'logging.FileHandler',
+        #     'filename': '/var/log/django/backend.log',
+        #     'formatter': 'verbose'
+        # },
     },
     'loggers': {
         'django': {
@@ -206,7 +206,7 @@ LOGGING = {
             'propagate': True,
         },
         'photos': {
-            'handlers': [os.environ.get("LOGGING_HANDLER")],
+            'handlers': ["console"],
             'propagate': True,
             'level': os.environ.get("LOGGING_LEVEL")
         }
