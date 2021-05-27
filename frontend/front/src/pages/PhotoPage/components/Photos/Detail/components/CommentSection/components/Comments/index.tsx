@@ -4,7 +4,6 @@
 import React, { useMemo } from 'react';
 import { Grid } from '@material-ui/core';
 import { Timeline } from '@material-ui/lab';
-import CircularProgress from '@material-ui/core/CircularProgress';
 import { isEmpty } from 'lodash';
 import { useSelector } from 'react-redux';
 import { RootState } from 'src/store/store';
