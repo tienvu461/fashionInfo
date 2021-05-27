@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable import/no-unresolved */
 import React from 'react';
 import { Link } from 'react-router-dom';
@@ -14,11 +15,8 @@ import './_photo.scss';
 
 interface PropsType {
   pathImg: string;
-  id: number;
-  activities: {
-    likes: number;
-    comments: number;
-  };
+  id: number | string;
+  activities: any
 }
 
 function Photo(props: PropsType): JSX.Element {

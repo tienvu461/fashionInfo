@@ -23,16 +23,8 @@ function SuggestionComponent(props: SuggestionProps): JSX.Element {
 
   const dataPhoto = useSelector((state: RootState) => state.photo.photoSuggestionList.dataOrigin);
   const listPhoto = useSelector((state: RootState) => state.photo.photoSuggestionList.listPhoto);
-  const [listImg, setListImg] = useState<Array<any>>(listPhoto);
+  const [listImg, setListImg] = useState<Array<Record<string, string>>>(listPhoto);
 
-  interface GalleryKeys {
-    image_path: string;
-    id: number;
-    activities: {
-      likes: number;
-      comments: number;
-    };
-  }
   useEffect(() => {
     // fetch data suggestion photo list
       dispatch(getPhotoSuggestAction(1, paramsId));
@@ -40,7 +32,7 @@ function SuggestionComponent(props: SuggestionProps): JSX.Element {
 
   const renderPhoto = () => (
     <>
-      {listImg.map((item: GalleryKeys, index: number) => {
+      {listImg.map((item, index: number) => {
         const { id = 0, image_path: pathImgs = '', activities } = item;
 
         return (
