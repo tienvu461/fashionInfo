@@ -43,12 +43,18 @@ function Comments(): JSX.Element {
   );
 
   const onTextFieldChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setTextArea(e.target.value);
+    const text = e.target.value;
+    let newText = '';
+    if (text.length <= 255) {
+      newText = text;
+    } else {
+      newText = text.substring(0, 255);
+    }
+    setTextArea(newText);
   };
 
   const onKeyPress = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter') {
-      console.log(textArea);
       valueRef.current?.blur();
     }
   };
@@ -81,6 +87,7 @@ function Comments(): JSX.Element {
                 onChange={onTextFieldChange}
                 onKeyPress={onKeyPress}
                 inputRef={valueRef}
+                value={textArea}
               />
             </Paper>
           </TimelineContent>
