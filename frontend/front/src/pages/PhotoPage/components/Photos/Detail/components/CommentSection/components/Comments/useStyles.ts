@@ -135,6 +135,7 @@ const useStyles: () => Record<
   actionReply: {
     fontWeight: 'normal',
     color: '#616161',
+    cursor: 'pointer'
   },
   comment: {
     color: '#000000',

@@ -3,13 +3,7 @@
 /* eslint-disable import/no-unresolved */
 import React, { useMemo, useState, useRef } from 'react';
 import { Grid, Avatar, Paper, Typography, TextField } from '@material-ui/core';
-import {
-  Timeline,
-  TimelineContent,
-  TimelineDot,
-  TimelineItem,
-  TimelineSeparator,
-} from '@material-ui/lab';
+import { Timeline, TimelineContent, TimelineDot, TimelineItem, TimelineSeparator } from '@material-ui/lab';
 import { isEmpty } from 'lodash';
 import { useSelector } from 'react-redux';
 import { RootState } from 'src/store/store';
@@ -25,21 +19,31 @@ function Comments(): JSX.Element {
   const valueRef = useRef<HTMLInputElement>();
   const comments = useSelector((state: RootState) => state.photo.photoDetail.comments);
 
+  const onAnswer = () => {
+    // handle click Answer to focus into the TextField
+    valueRef.current?.focus();
+  };
+
   const listComments = useMemo(
     () => (
       <>
-        {isEmpty(comments) ? (
-          null
-      ) : (
-        <>
-          {comments.map((item: any, index: number) => {
-            const { cmt_id: cmtID = '' } = item;
-            return <CommentParrent key={cmtID} cmtProps={{ ...item, avatar: Ava1, cmtLength: comments.length, lastCmt: index }} />;
-          })}
-        </>
-      )}
+        {isEmpty(comments) ? null : (
+          <>
+            {comments.map((item: any, index: number) => {
+              const { cmt_id: cmtID = '' } = item;
+              return (
+                <CommentParrent
+                  onAnswer={onAnswer}
+                  key={cmtID}
+                  cmtProps={{ ...item, avatar: Ava1, cmtLength: comments.length, lastCmt: index }}
+                />
+              );
+            })}
+          </>
+        )}
       </>
-    ), [comments]
+    ),
+    [comments]
   );
 
   const onTextFieldChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -56,6 +60,7 @@ function Comments(): JSX.Element {
   const onKeyPress = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter') {
       valueRef.current?.blur();
+      setTextArea('');
     }
   };
 
