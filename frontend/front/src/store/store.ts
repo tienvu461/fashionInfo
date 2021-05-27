@@ -4,6 +4,7 @@ import { configureStore } from '@reduxjs/toolkit';
 import { combineReducers } from 'redux';
 import loginReducer from '../features/Login/LoginSlice';
 import photoReducer from '../features/Photo/photoSlice';
+import { clearStoreFromlocalStorage } from '../utils/localStorage';
 import searchTagReducer from '../features/Search/searchSlide';
 
 const appReducer = combineReducers({
@@ -14,7 +15,7 @@ const appReducer = combineReducers({
 
 const rootReducer = (state: any, action: any) => {
   if (action.type === 'CLEAR_STORE') {
-    //   clearStoreFromlocalStorage();
+    clearStoreFromlocalStorage();
     state = undefined;
   }
 

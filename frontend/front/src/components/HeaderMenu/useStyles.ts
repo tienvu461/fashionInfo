@@ -13,6 +13,7 @@ const useStyles: () => Record<
   | 'linkText'
   | 'textNonActive'
   | 'textActive'
+  | 'sectionDesktop'
   | 'navLinks',
   string
 > = makeStyles(() => ({
@@ -20,6 +21,14 @@ const useStyles: () => Record<
     display: 'flex',
     flexDirection: 'column',
   },
+  sectionDesktop: {
+      display: 'none',
+      [theme.breakpoints.up('md')]: {
+        display: 'flex',
+      },
+      marginLeft: '38px',
+      cursor: 'pointer',
+    },
   navbar: {
     height: '80px',
   },
