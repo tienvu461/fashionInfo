@@ -1,9 +1,9 @@
 /* eslint-disable camelcase */
 import { Dispatch } from '@reduxjs/toolkit';
 import jwtDecode, { JwtPayload } from "jwt-decode";
-import { loginSucess, loginFail } from './LoginSlice';
+import { loginSucess, loginFail, logoutSuccess } from './LoginSlice';
 import { loginService, getUrlSocialService } from '../../services/auth';
-import { setDataFromLocalStorage, setTokenToLocalStorage } from '../../utils/localStorage';
+import { clearStoreFromlocalStorage, setDataFromLocalStorage, setTokenToLocalStorage } from '../../utils/localStorage';
 
 export const loginAction = (payload: unknown) => async (dispatch: Dispatch) => {
         try {
@@ -13,10 +13,10 @@ export const loginAction = (payload: unknown) => async (dispatch: Dispatch) => {
              * TO DO ENOCODE JWT
              */
             const dataEncodeJwt = jwtDecode<any>(response.data.access);
-            const { user_id } = dataEncodeJwt;
+            const { user_id: userID } = dataEncodeJwt;
             const { data = {}, status = '' } = response;
             if (status === 200) {
-                dispatch(loginSucess({ data, status, user_id }));
+                dispatch(loginSucess({ data, status, userID }));
                 setDataFromLocalStorage(JSON.stringify(response));
                 setTokenToLocalStorage(data.access);
             }
@@ -25,6 +25,17 @@ export const loginAction = (payload: unknown) => async (dispatch: Dispatch) => {
             dispatch(loginFail({ data, status }));
         }
     };
+
+// clear localstorage
+export const logoutAction = () => async (dispatch: Dispatch) => {
+   try {
+    clearStoreFromlocalStorage();
+    dispatch(logoutSuccess);
+    // toast.success('Đăng xuất thành công');
+   } catch (e) {
+    //    console.log(e);
+   }
+}
 
 export const getUrlSocialAction = () => async (dispatch: Dispatch) => {
     try {

@@ -10,15 +10,17 @@ import {
   ListItemText,
   Hidden,
   CssBaseline,
+  IconButton,
   Toolbar,
 } from '@material-ui/core';
-
+import AccountCircle from '@material-ui/icons/AccountCircle';
 import useStyles from './useStyles';
 import logo from '../../assets/images/logoLucete.svg';
 import icon from '../../assets/images/user.svg';
 import Search from './components/Search';
 import SideDrawer from './components/Drawer';
 import ScrollToTop from './components/ScrollToTop';
+import MenuDesktop from './components/MenuDesktop';
 import { ROUTE_FORUM, ROUTE_HOME, ROUTE_PHOTO } from '../../constants';
 
 interface AuxProps {
@@ -36,7 +38,22 @@ function HeaderMenu(props: AuxProps): JSX.Element {
   const classes = useStyles();
   const history = useHistory();
   const location = useLocation();
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
   const [active, setActive] = useState(location.pathname);
+
+  const menuId = 'search-menu';
+  const handleProfileMenuOpen = (event: any) => {
+  setAnchorEl(event.currentTarget);
+};
+  const handleMobileMenuClose = () => {
+    setMobileMoreAnchorEl(null);
+  };
+
+  const handleMenuClose = () => {
+    setAnchorEl(null);
+    handleMobileMenuClose();
+  };
 
   const navLinks: Array<NavLinksType> = [
     { title: 'Magazine', path: ROUTE_HOME },
@@ -110,15 +127,34 @@ function HeaderMenu(props: AuxProps): JSX.Element {
                 </Grid>
                 <Grid className={classes.actions}>
                   <Search />
-                  <Grid className={classes.icon}>
+                  {/* <Grid className={classes.icon}>
                     <img
                       alt='Lucete'
                       onClick={() => history.push('/login')}
                       src={icon}
                     />
-                  </Grid>
+                  </Grid> */}
+                  <div className={classes.sectionDesktop}>
+                    <IconButton
+                      edge='end'
+                      aria-label='account of current user'
+                      aria-controls={menuId}
+                      aria-haspopup='true'
+                      onClick={handleProfileMenuOpen}
+                      color='inherit'>
+                      <img
+                        alt='Lucete'
+                        src={icon}
+                      />
+                    </IconButton>
+                  </div>
                 </Grid>
               </Hidden>
+              <MenuDesktop
+                menuId={menuId}
+                anchorEl={anchorEl}
+                handleMenuClose={handleMenuClose}
+              />
               <Hidden mdUp>
                 <Grid className={classes.actions}>
                   <Grid className={classes.icon}>
