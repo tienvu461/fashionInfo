@@ -1,10 +1,9 @@
 /* eslint-disable import/no-unresolved */
 import { makeStyles } from '@material-ui/core/styles';
-import { theme, black } from 'src/styles/theme';
+import { theme, black, pdSM } from 'src/styles/theme';
 
 const useStyles: () => Record<
   | 'root'
-  | 'container'
   | 'header'
   | 'headerText'
   | 'accordion'
@@ -20,13 +19,21 @@ const useStyles: () => Record<
     height: 'auto',
 
     // responsive
-    [theme.breakpoints.up('sm')]: {},
-    [theme.breakpoints.up('md')]: {},
-    [theme.breakpoints.up('lg')]: {},
-    [theme.breakpoints.up('xl')]: {},
-  },
-  container: {
+    [theme.breakpoints.up('sm')]: {
+      paddingRight: '50px',
+      paddingTop: '0 !important',
+    },
+    [theme.breakpoints.down('sm')]: {
+      padding: pdSM,
+      paddingTop: '40px',
+    },
+    [theme.breakpoints.up('md')]: {
+      paddingRight: '130px',
+    },
     [theme.breakpoints.up('lg')]: {
+      paddingRight: '130px',
+    },
+    [theme.breakpoints.up('xl')]: {
       paddingRight: '130px',
     },
   },
@@ -52,6 +59,12 @@ const useStyles: () => Record<
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'space-between',
+
+    // responsive
+    [theme.breakpoints.down('sm')]: {
+      flexDirection: 'column',
+      alignItems: 'flex-start',
+    },
   },
   accordionDetails: {
     paddingTop: '62px',
@@ -73,6 +86,11 @@ const useStyles: () => Record<
     fontSize: '16px',
     lineHeight: '19px',
     color: '#616161',
+
+    // responsive
+    [theme.breakpoints.down('sm')]: {
+      paddingTop: '20px',
+    },
   },
   spanText: {
     fontStyle: 'normal',

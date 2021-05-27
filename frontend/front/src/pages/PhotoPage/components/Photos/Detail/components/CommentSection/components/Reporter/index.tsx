@@ -23,7 +23,7 @@ function Reporter(): JSX.Element {
             </Typography>
           </div>
         </Grid>
-        <Grid item lg={6} md={6} sm={6} xl={12} xs={12}>
+        <Grid item lg={6} md={6} sm={12} xl={12} xs={12}>
           <Typography className={classes.paragraph} component='h6' variant='h6'>
             {paragraph}
           </Typography>

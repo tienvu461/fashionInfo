@@ -20,7 +20,7 @@ function CommentLayout(props: CommentProps): JSX.Element {
 
     return (
       <Grid className={classes.root} container>
-        <Grid className={classes.container} item lg={12} md={12} sm={12} xl={12} xs={12}>
+        <Grid item lg={12} md={12} sm={12} xl={12} xs={12}>
           <Accordion className={classes.accordion} expanded={isClick}>
             <div className={classes.accordionHeader}>
               <AccordionSummary aria-controls='panel1a-content' id='panel1a-header' onClick={handleClick}>
@@ -37,9 +37,7 @@ function CommentLayout(props: CommentProps): JSX.Element {
                 </Typography>
               </div>
             </div>
-            <AccordionDetails className={classes.accordionDetails}>
-              {children}
-            </AccordionDetails>
+            <AccordionDetails className={classes.accordionDetails}>{children}</AccordionDetails>
           </Accordion>
         </Grid>
       </Grid>
