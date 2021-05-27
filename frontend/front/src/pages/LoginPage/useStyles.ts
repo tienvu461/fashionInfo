@@ -2,7 +2,7 @@ import {
   makeStyles,
   Theme,
 } from '@material-ui/core/styles';
-
+/* eslint-disable object-curly-newline */
 const useStyles: () => Record<
 'root'
 | 'paper'

@@ -1,4 +1,6 @@
 /* eslint-disable camelcase */
+/* eslint-disable object-curly-newline */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Dispatch } from '@reduxjs/toolkit';
 import jwtDecode, { JwtPayload } from "jwt-decode";
 import { loginSucess, loginFail, logoutSuccess } from './LoginSlice';

@@ -43,8 +43,8 @@ RUN addgroup -S www-data && adduser -S www-data -G www-data
 ENV HOME=/app
 ENV APP_HOME=/app/backend
 ENV LOG_PATH=/var/log/django
-RUN mkdir $APP_HOME
-WORKDIR $APP_HOME
+RUN mkdir ${APP_HOME}
+WORKDIR ${APP_HOME}
 
 RUN apk update
 
@@ -65,5 +65,3 @@ RUN chown -R www-data:www-data ${APP_HOME}
 # log path
 RUN mkdir -p ${LOG_PATH}
 RUN chown -R www-data:www-data ${LOG_PATH}
-
-USER www-data
