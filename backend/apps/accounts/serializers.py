@@ -1,10 +1,14 @@
-from rest_framework import serializers
+from django.db.models import Q
+from django.db import models
 from django.contrib.auth.models import User
 # import for email login
 from rest_framework_simplejwt.serializers import TokenObtainSerializer
+from rest_framework import serializers
 from rest_framework_simplejwt.tokens import RefreshToken
+
 import logging
-from django.db.models import Q
+
+from .models import UserProfile
 
 logger = logging.getLogger('photos')
 
@@ -14,6 +18,10 @@ class UserSerializer(serializers.ModelSerializer):
 		model = User
 		fields = ('username', 'email', 'password')
 
+class UserProfileSerializer(serializers.ModelSerializer):
+    class Meta:
+        models = UserProfile
+        fields = ('user', 'profile_photo')
 class EmailTokenObtainSerializer(TokenObtainSerializer):
 	username_field = User.EMAIL_FIELD
 
