@@ -23,9 +23,9 @@ function Comments(): JSX.Element {
           null
       ) : (
         <>
-          {comments.map((item: any) => {
+          {comments.map((item: any, index: number) => {
             const { cmt_id: cmtID = '' } = item;
-            return <CommentParrent key={cmtID} cmtProps={{ ...item, avatar: Ava1 }} />;
+            return <CommentParrent key={cmtID} cmtProps={{ ...item, avatar: Ava1, cmtLength: comments.length, lastCmt: index }} />;
           })}
         </>
       )}
