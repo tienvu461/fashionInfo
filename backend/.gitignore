@@ -1,5 +1,6 @@
 *.pyc
 backend_env/*
-media/*
-static/*
+backend_media/*
+backend_static/*
 apps/photos/migrations/*
+apps/accounts/migrations/*

@@ -65,7 +65,11 @@ function LoginPage(): JSX.Element {
   const loginStatus = useSelector(
     (state: any) => state.login.loginResponse.status
   );
-  // console.log('STATUS', loginStatus);
+  useEffect(() => {
+    if (loginStatus === 200) {
+      history.push('/')
+    }
+  })
 
   function handleError() {
     if (loginStatus === 400) {
