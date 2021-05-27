@@ -1,30 +1,33 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable camelcase */
+/* eslint-disable import/no-unresolved */
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 import React, { useEffect, useState } from 'react';
-// eslint-disable-next-line object-curly-newline
-import { Button, Grid, Typography, Backdrop } from '@material-ui/core';
+import { Button, Grid, Typography, Box } from '@material-ui/core';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Skeleton from '@material-ui/lab/Skeleton';
 import { useDispatch, useSelector } from 'react-redux';
+import { listPhotoAction } from 'src/features/Photo/photoAction';
+import { RootState } from 'src/store/store';
+import Photo from 'src/components/Photo';
 
 import useStyles from './useStyles';
-import Photo from './Photo';
-import { listPhotoAction } from '../../../../features/Photo/photoAction';
-import { RootState } from '../../../../store/store';
 
 function Photos(): JSX.Element {
   const classes = useStyles();
   const dispatch = useDispatch<any>();
   const [listImg, setListImg] = useState<Array<any>>([]);
+  const [initialLoading, setInitialLoading] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
-  const [open, setOpen] = useState<boolean>(false);
 
   // initial fetch data and set gallery to state once time
   useEffect(() => {
     setLoading(true);
+    setInitialLoading(true);
     dispatch(listPhotoAction(1)).then((data) => {
       const { results = [] } = data;
       setListImg(results);
+      setInitialLoading(false);
       setLoading(false);
     });
   }, [dispatch]);
@@ -36,12 +39,16 @@ function Photos(): JSX.Element {
   interface GalleryKeys {
     image_path: string;
     id: number;
+    activities: {
+      likes: number;
+      comments: number;
+    };
   }
 
   const renderPhoto = () => (
     <>
       {listImg.map((item: GalleryKeys, index: number) => {
-        const { id = 0, image_path: pathImgs = '' } = item;
+        const { id = 0, image_path: pathImgs = '', activities } = item;
 
         return (
           <Grid
@@ -51,15 +58,13 @@ function Photos(): JSX.Element {
             lg={4}
             md={6}
             sm={6}
-            spacing={2}
             style={
               index >= 0 && index <= 2 ? { paddingTop: '0 !important' } : {}
             }
-            wrap='wrap'
             xl={4}
             xs={12}
           >
-            <Photo pathImg={pathImgs} />
+            <Photo activities={activities} id={id} pathImg={pathImgs} />
           </Grid>
         );
       })}
@@ -70,7 +75,6 @@ function Photos(): JSX.Element {
     const { next: nextPage = '', previous: previousPage = '' } = dataPhoto;
     const newListImg = [...listImg];
     setLoading(true);
-    setOpen(true);
 
     if (key === 'next') {
       const nextNum = nextPage.split('?page=').pop();
@@ -78,7 +82,13 @@ function Photos(): JSX.Element {
         const { results = [] } = data;
         results.forEach((item) => newListImg.push(item));
         setLoading(false);
-        setOpen(false);
+
+        setTimeout(() => {
+          window.scrollBy({
+            behavior: 'smooth',
+            top: document.body.scrollHeight - 2720,
+          });
+        }, 200);
       });
     } else {
       const exist = previousPage.includes('?page=');
@@ -93,33 +103,52 @@ function Photos(): JSX.Element {
     setListImg(newListImg);
   };
 
+  const loadingPhoto = () => (
+    <>
+      {[1, 2, 3].map((id) => (
+        <Grid
+          key={id}
+          className={classes.loadingPhoto}
+          item
+          lg={4}
+          md={6}
+          sm={6}
+          xl={4}
+          xs={12}
+        >
+          <Box marginRight={2} my={5} width='100%'>
+            <Skeleton
+              animation='wave'
+              height={250}
+              variant='rect'
+              width='100%'
+            />
+            <Box pt={0.5}>
+              <Skeleton variant='rect' />
+            </Box>
+            <Box pt={0.5}>
+              <Skeleton variant='rect' width='60%' />
+            </Box>
+          </Box>
+        </Grid>
+      ))}
+    </>
+  );
+
   return (
     <div className={`${classes.root} root`}>
-      <Backdrop className={classes.backDrop} open={open}>
-        <CircularProgress color='inherit' />
-      </Backdrop>
       <Grid container spacing={3}>
-        {loading ? (
-          <div className={classes.skeleton}>
-            {[100, 90, 80, 70, 60].map((width) => (
-              <Skeleton
-                animation='wave'
-                height={10}
-                style={{ marginBottom: '20px' }}
-                variant='rect'
-                width={`${width}%`}
-              />
-            ))}
-          </div>
+        {initialLoading ? (
+          <>{loadingPhoto()}</>
         ) : (
           <>
             {renderPhoto()}
             <Grid
               className={classes.btn}
+              item
               lg={12}
               md={12}
               sm={12}
-              spacing={2}
               xs={12}
             >
               <>

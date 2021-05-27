@@ -3,13 +3,23 @@ import { createSlice } from '@reduxjs/toolkit';
 
 interface InitialState {
   photoList: {
-    listPhoto: Array<any>;
+    listPhoto: Array<Record<string, string>>;
+    dataOrigin: Record<string, string>;
+  };
+  photoDetail: Record<string, any>;
+  photoSuggestionList: {
+    listPhoto: Array<Record<string, string>>;
     dataOrigin: Record<string, string>;
   };
 }
 
 const initialState: InitialState = {
   photoList: {
+    listPhoto: [],
+    dataOrigin: {},
+  },
+  photoDetail: {},
+  photoSuggestionList: {
     listPhoto: [],
     dataOrigin: {},
   },
@@ -25,11 +35,24 @@ const photoSlice = createSlice({
         dataOrigin: { ...payload.data },
       };
     },
+
+    getPhotoDetail: (state, { payload }) => {
+      state.photoDetail = {
+        ...payload.data,
+      };
+    },
+
+    getListPhotoSuggestion: (state, { payload }) => {
+      state.photoSuggestionList = {
+        listPhoto: payload.data.results,
+        dataOrigin: { ...payload.data },
+      };
+    },
   },
 });
 
 const { actions, reducer } = photoSlice;
-const { getListPhoto } = actions;
-export { getListPhoto };
+const { getListPhoto, getPhotoDetail, getListPhotoSuggestion } = actions;
+export { getListPhoto, getPhotoDetail, getListPhotoSuggestion };
 
 export default reducer;

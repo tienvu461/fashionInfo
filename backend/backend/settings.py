@@ -29,6 +29,8 @@ DEBUG = bool(os.environ.get("DEBUG", default=0))
 
 ALLOWED_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS").split(" ")
 
+HOSTNAME = os.environ.get("HOSTNAME", default="localhost:8000")
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -75,7 +77,7 @@ REST_FRAMEWORK = {
 
     'DEFAULT_PAGINATION_CLASS':   
         'rest_framework.pagination.PageNumberPagination',
-    'PAGE_SIZE': 5,
+    'PAGE_SIZE': 6,
     'MAX_PAGE_SIZE': 50,
     
     # Enable if run on prd
@@ -96,7 +98,10 @@ SIMPLE_JWT = {
     'REFRESH_TOKEN_LIFETIME': timedelta(days=7),
 }
 
-white_list = ['http://localhost:8000/accounts/profile/'] # URL you add to google developers console as allowed to make redirection
+SOCIAL_AUTH_WHITELIST = [
+    'http://localhost:8000/accounts/profile/',
+    'http://{0}/accounts/profile/'.format(HOSTNAME),
+] # URL you add to google developers console as allowed to make redirection
 
 # configure Djoser
 DJOSER = {
@@ -110,10 +115,14 @@ DJOSER = {
         "user": "apps.accounts.serializers.UserSerializer", # Custom Serializer to show more user data
         "current_user": "apps.accounts.serializers.UserSerializer", # Custom Serializer to show more user data
     },
-    "SOCIAL_AUTH_ALLOWED_REDIRECT_URIS": white_list, # Redirected URL we listen on google console
+    "SOCIAL_AUTH_ALLOWED_REDIRECT_URIS": SOCIAL_AUTH_WHITELIST, # Redirected URL we listen on google console
     'ACTIVATION_URL': 'api/user/activate/{uid}/{token}',
     'SEND_ACTIVATION_EMAIL': True, # user will be required to click activation link sent in email after creating an account, updating their email
     'SEND_CONFIRMATION_EMAIL': True, # register or activation endpoint will send confirmation email to user.
+    'USER_CREATE_PASSWORD_RETYPE': True, # make user retype password when register
+    'PASSWORD_RESET_CONFIRM_URL': 'api/users/reset_password_confirm/{uid}/{token}',
+    'SET_PASSWORD_RETYPE': True,
+    'PASSWORD_RESET_CONFIRM_RETYPE': True
 }
 
 # define which origins are allowed
@@ -122,6 +131,8 @@ CORS_ALLOWED_ORIGINS = [
     "http://127.0.0.1:3000",
     "http://localhost:3001",
     "http://127.0.0.1:3001",
+    "http://{}:3000".format(HOSTNAME),
+    "http://{}".format(HOSTNAME),
 ]
 
 MIDDLEWARE = [
@@ -140,10 +151,11 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'backend.urls'
 
+TEMPLATES_DIRS = os.path.join(BASE_DIR, 'templates')
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [TEMPLATES_DIRS],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -181,12 +193,12 @@ LOGGING = {
             'class': 'logging.StreamHandler',
             'formatter': 'verbose'
         },
-        'file': {
-            'level': 'INFO',
-            'class': 'logging.FileHandler',
-            'filename': 'logs/info.log',
-            'formatter': 'verbose'
-        },
+        # 'file': {
+        #     'level': 'INFO',
+        #     'class': 'logging.FileHandler',
+        #     'filename': '/var/log/django/backend.log',
+        #     'formatter': 'verbose'
+        # },
     },
     'loggers': {
         'django': {
@@ -194,7 +206,7 @@ LOGGING = {
             'propagate': True,
         },
         'photos': {
-            'handlers': [os.environ.get("LOGGING_HANDLER")],
+            'handlers': ["console"],
             'propagate': True,
             'level': os.environ.get("LOGGING_LEVEL")
         }
@@ -232,6 +244,12 @@ AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
+    {
+        'NAME': 'apps.accounts.password_validations.NumberSpecialCharValidator',
+    },
+    {
+        'NAME': 'apps.accounts.password_validations.UpperCaseValidator',
+    },
 ]
 
 
@@ -260,7 +278,8 @@ if DEBUG:
     ]
     MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 else:
-    STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+    STATIC_URL = '/admin_static/'
+    STATIC_ROOT = os.path.join(BASE_DIR, 'admin_static')
     MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 MARKDOWNX_MEDIA_PATH = datetime.now().strftime('markdownx/%Y/%m/%d')
@@ -270,11 +289,11 @@ SITE_ID = 2
 LOGIN_REDIRECT_URL = '/'
 
 AUTHENTICATION_BACKENDS = (
-# We are going to implement Google, choose the one you need from docs
-'social_core.backends.google.GoogleOAuth2',
-# Crucial when logging into admin with username & password
-'django.contrib.auth.backends.ModelBackend',
-'allauth.account.auth_backends.AuthenticationBackend',
+    # We are going to implement Google, choose the one you need from docs
+    'social_core.backends.google.GoogleOAuth2',
+    # Crucial when logging into admin with username & password
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
 )
 
 # Client ID and Client Secret obtained from console.developers.google.com
@@ -297,10 +316,11 @@ EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
 DEFAULT_FROM_EMAIL = 'fashion_info'
 
-PROTOCOL = "http"
-DOMAIN = "localhost:8000"
+# Activation email url = PROTOCOL + DOMAIN + ACTIVATION_URL
+PROTOCOL = os.environ.get("ACTIVATION_PROTOCOL", "http")
+DOMAIN = HOSTNAME
 
-#debug_toolbar settings
+# debug_toolbar settings
 if DEBUG:
     INTERNAL_IPS = ('127.0.0.1',)
     MIDDLEWARE += (
@@ -337,3 +357,4 @@ if DEBUG:
     "SHOW_TOOLBAR_CALLBACK" : show_toolbar,
     }
     
+SITE_NAME = ('lucete.com') 

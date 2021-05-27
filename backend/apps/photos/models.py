@@ -66,8 +66,10 @@ class Photo(models.Model):
     model_job =  models.CharField(max_length=255, null=True, blank=True)
     shoot_date = models.DateTimeField(null=True, blank=True)
     location = models.CharField(max_length=255, null=True, blank=True)
-    brand =  models.CharField(max_length=255, null=True, blank=True)
+    brand = models.CharField(max_length=255, null=True, blank=True)
+    style = models.CharField(max_length=255, null=True, blank=True)
     photographer =  models.CharField(max_length=255, null=True, blank=True)
+    social_url = models.CharField(max_length=255, null=True, blank=True)
     post_date = models.DateTimeField(auto_now=True)
     tags = TaggableManager()
     author = models.ForeignKey(

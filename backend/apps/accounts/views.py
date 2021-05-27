@@ -1,6 +1,7 @@
 from django.contrib.auth.models import User
 from django.views import View
 from django.http import JsonResponse
+from requests import api
 from .serializers import UserSerializer, CustomTokenObtainPairSerializer
 from rest_framework import generics
 from rest_framework.views import APIView
@@ -10,7 +11,15 @@ from rest_framework.response import Response
 from rest_framework import status
 from django.contrib.auth.models import User
 import json, requests
+import logging
+from django.shortcuts import render
+
+from django.conf import settings
+
 from rest_framework_simplejwt.views import TokenObtainPairView
+import urllib
+
+logger = logging.getLogger("photos")
 
 class RedirectSocial(View):
 
@@ -18,6 +27,7 @@ class RedirectSocial(View):
         code, state = str(request.GET['code']), str(request.GET['state'])
         json_obj = {'code': code, 'state': state}
         print(json_obj)
+        return render(request, 'social_redirect.html', {'code': code, 'state': state})
         return JsonResponse(json_obj)
 
 # used to test auth
@@ -48,9 +58,15 @@ class ActivateUser(APIView):
 
     def get(self, request, uid, token, format = None):
         payload = {'uid': uid, 'token': token}
+        
+        protocol = 'https://' if request.is_secure() else 'http://'
+        url = "{0}{1}/api/users/activation/".format(protocol, settings.HOSTNAME)
 
-        url = "http://localhost:8000/api/users/activation/"
+        logger.debug("activation url: {}".format(url))
+
+        # return render(request, 'activation_page.html', {'url': url, 'uid': uid, 'token': token})
         response = requests.post(url, data = payload)
+
 
         if response.status_code == 204:
             return Response({}, response.status_code)
@@ -59,3 +75,22 @@ class ActivateUser(APIView):
 
 class EmailTokenObtainPairView(TokenObtainPairView):
     serializer_class = CustomTokenObtainPairSerializer
+
+class ForgotPasswordView(APIView):
+
+    def post(self, request, uid, token, *args, **kwargs):
+        new_password = request.data.get("new_password")
+        re_new_password = request.data.get("re_new_password")
+        data = {
+            'uid': uid,
+            'token': token,
+            'new_password': new_password,
+            're_new_password': re_new_password
+        }
+
+        url = 'http://{}/api/users/reset_password_confirm/'.format(settings.HOSTNAME)
+        response = requests.post(url, data=data)
+        if response.status_code == 204:
+            return Response({"info": "Change password successfully"}, status=status.HTTP_200_OK)
+        else:
+            return Response(response.text, status=status.HTTP_400_BAD_REQUEST)

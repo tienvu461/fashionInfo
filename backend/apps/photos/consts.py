@@ -1,4 +1,5 @@
 from enum import Enum
+from django.conf import settings
 
 class adminConst:
     WIDTH_XL = 720
@@ -31,3 +32,5 @@ class postTypeEnum(Enum):
 class photosConst:
     TAGS_RATIO = 8
     PHOTOGRAPHER_RATIO = 2
+    PAGE_SIZE = settings.REST_FRAMEWORK["PAGE_SIZE"]
+    MAX_PAGE_SIZE = settings.REST_FRAMEWORK["MAX_PAGE_SIZE"]

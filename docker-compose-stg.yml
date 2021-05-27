@@ -22,10 +22,27 @@ services:
             - 80:80
         volumes:
             - media_volume:/app/backend/media
-            - static_volume:/app/backend/static
+            - static_volume:/app/backend/admin_static
             - ./infrastructure/docker/front/staging:/etc/nginx/conf.d
             - ./frontend/front:/app/frontend
             - /app/frontend/node_modules
+        depends_on: 
+            - backend
+        networks:
+            - fashion_info_nw
+
+    nginx:
+        build:
+            args:
+              SRC_DIR: ./infrastructure/docker/nginx/staging
+            context: .
+            dockerfile: ./infrastructure/docker/nginx/staging/Dockerfile
+        ports:
+            - "0.0.0.0:80:80"
+        volumes:
+            - media_volume:/app/backend/media
+            - static_volume:/app/backend/admin_static
+            - ./infrastructure/docker/nginx/staging:/etc/nginx/conf.d
         depends_on: 
             - backend
         networks:
@@ -37,12 +54,12 @@ services:
             args:
               SRC_DIR: ./backend
             context: .
-            dockerfile: ./infrastructure/docker/backend/Dockerfile            
+            dockerfile: ./infrastructure/docker/backend/Dockerfile
         entrypoint: /app/docker/backend/wsgi-entrypoint.sh
         env_file:
             - ./infrastructure/docker/config/stg/.env.backend
         volumes:
-            - static_volume:/app/backend/server/django_static
+            - static_volume:/app/backend/admin_static
             - ./backend:/app/backend
             - media_volume:/app/backend/media
         expose:

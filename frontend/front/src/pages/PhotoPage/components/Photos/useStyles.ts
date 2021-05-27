@@ -1,4 +1,4 @@
-/* eslint-disable object-curly-newline */
+/* eslint-disable import/no-unresolved */
 import { makeStyles } from '@material-ui/core/styles';
 import {
   white,
@@ -8,7 +8,7 @@ import {
   pdMD,
   theme,
   black,
-} from '../../../../styles/theme';
+} from 'src/styles/theme';
 
 const useStyles: () => Record<
   | 'root'
@@ -25,6 +25,7 @@ const useStyles: () => Record<
   | 'btn'
   | 'nextBtn'
   | 'textBtn'
+  | 'loadingPhoto'
   | 'skeleton',
   string
 > = makeStyles(() => ({
@@ -111,6 +112,7 @@ const useStyles: () => Record<
     padding: '100px 0',
     width: '100%',
   },
+  loadingPhoto: {},
 }));
 
 export { useStyles as default };
