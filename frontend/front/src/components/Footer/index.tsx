@@ -1,14 +1,11 @@
 import React from 'react';
 import {
   Typography,
-  Box,
   Grid,
   TextField,
   Avatar,
   Button,
-  CardMedia
 } from '@material-ui/core';
-import clsx from 'clsx';
 import './_footer.scss';
 import iconFT from '../../assets/images/Logo_footer1.png';
 import iconSocial from '../../assets/images/social_logo.png';
@@ -49,13 +46,13 @@ function Footer(): JSX.Element {
             <Typography className={classes.header}>Truy cập </Typography>
             <Typography className={classes.header}>Helps</Typography>
           </div>
-          <div className={classes.flexLink} style={{ paddingTop: "16px", marginTop: "16px" }}>
-            <Typography className={classes.header} style={{ fontSize: "20px" }}>Tin tức mới </Typography>
-            <Typography className={classes.header} style={{ fontSize: "20px" }}>FAQs</Typography>
+          <div className={classes.flexLink} style={{ paddingTop: '16px', marginTop: '16px' }}>
+            <Typography className={classes.header} style={{ fontSize: '20px' }}>Tin tức mới </Typography>
+            <Typography className={classes.header} style={{ fontSize: '20px' }}>FAQs</Typography>
           </div>
           <div className={classes.flexLink}>
-            <Typography className={classes.header} style={{ fontSize: "20px" }}>Diễn đàn</Typography>
-            <Typography className={classes.header} style={{ fontSize: "20px" }}>Liên hệ</Typography>
+            <Typography className={classes.header} style={{ fontSize: '20px' }}>Diễn đàn</Typography>
+            <Typography className={classes.header} style={{ fontSize: '20px' }}>Liên hệ</Typography>
           </div>
         </div>
       </Grid>

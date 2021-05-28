@@ -14,7 +14,6 @@ import {
   IconButton,
   Toolbar,
 } from '@material-ui/core';
-import AccountCircle from '@material-ui/icons/AccountCircle';
 import logo from 'src/assets/images/logoLucete.svg';
 import icon from 'src/assets/images/user.svg';
 import Search from './components/Search';

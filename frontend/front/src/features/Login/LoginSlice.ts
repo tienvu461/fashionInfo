@@ -14,7 +14,7 @@ const loginSlice = createSlice({
         loginFail: (state, action) => {
             state.loginResponse = action.payload;
         },
-        logoutSuccess: (state, { payload }) => {
+        logoutSuccess: (state) => {
             state.loginResponse = {
                 status: 0,
                 response: {}

@@ -39,7 +39,7 @@ const MenuDesktop: FunctionComponent<MenuProps> = ({
   function logOut() {
     return {
       type: 'CLEAR_STORE'
-    }
+    };
   }
 
   const onClickLogout = (e: any) => {

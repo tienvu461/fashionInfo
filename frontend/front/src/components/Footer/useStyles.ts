@@ -2,7 +2,6 @@ import {
   makeStyles,
   Theme,
 } from '@material-ui/core/styles';
-import logoFooter from '../../assets/images/Logo_footer.svg';
 /* eslint-disable object-curly-newline */
 const useStyles: () => Record<
 'root'

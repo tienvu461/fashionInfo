@@ -12,7 +12,7 @@ const initialState: InitialSate = {
         listPhoto: [],
         dataOrigin: {},
     }
-}
+};
 
 // function removeKeyinObject(object, value) {
 //     delete object[value]
@@ -31,7 +31,7 @@ const searchTagSlice = createSlice({
         };
     }
 }
-})
+});
 
 const { actions, reducer } = searchTagSlice;
 const { getDataSearch } = actions;

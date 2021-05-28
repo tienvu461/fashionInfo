@@ -1,8 +1,8 @@
-import React from 'react'
+import React from 'react';
 
-function PhotoSearchPage() {
+function PhotoSearchPage(): JSX.Element {
     return (
       <div>123</div>
-    )
+    );
 }
-export default PhotoSearchPage
+export default PhotoSearchPage;

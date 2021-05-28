@@ -10,7 +10,7 @@ const useStyles: () => Record<
 | 'menuItem'
 | 'iconItem'
 | 'linkItem',
-string> = makeStyles((theme: Theme) =>
+string> = makeStyles(() =>
   createStyles({
     menu: {
       top: '40px !important',
