@@ -13,7 +13,6 @@ import {
   Link,
   InputAdornment,
   IconButton,
-  Divider,
 } from '@material-ui/core';
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
@@ -67,9 +66,9 @@ function LoginPage(): JSX.Element {
   );
   useEffect(() => {
     if (loginStatus === 200) {
-      history.push('/')
+      history.push('/');
     }
-  })
+  });
 
   function handleError() {
     if (loginStatus === 400) {
