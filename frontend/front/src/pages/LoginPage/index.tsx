@@ -1,3 +1,4 @@
+/* eslint-disable import/no-unresolved */
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
@@ -13,12 +14,12 @@ import {
   Link,
   InputAdornment,
   IconButton,
-  Divider,
 } from '@material-ui/core';
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import clsx from 'clsx';
 import './_loginpage.scss';
+import { RootState } from 'src/store/store';
 import {
   loginAction,
   getUrlSocialAction,
@@ -65,11 +66,19 @@ function LoginPage(): JSX.Element {
   const loginStatus = useSelector(
     (state: any) => state.login.loginResponse.status
   );
+  const cmtPhotoId = useSelector((state: RootState) => state.photo.photoComment.photoId);
+
   useEffect(() => {
     if (loginStatus === 200) {
-      history.push('/')
+      history.push('/');
     }
-  })
+  });
+
+  useEffect(() => {
+    if (loginStatus === 200 && cmtPhotoId) {
+      history.replace(`/photo/${cmtPhotoId}`);
+    }
+  }, [cmtPhotoId, loginStatus, history]);
 
   function handleError() {
     if (loginStatus === 400) {

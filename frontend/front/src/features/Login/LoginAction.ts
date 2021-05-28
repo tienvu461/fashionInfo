@@ -2,7 +2,7 @@
 /* eslint-disable object-curly-newline */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Dispatch } from '@reduxjs/toolkit';
-import jwtDecode, { JwtPayload } from "jwt-decode";
+import jwtDecode, { JwtPayload } from 'jwt-decode';
 import { loginSucess, loginFail, logoutSuccess } from './LoginSlice';
 import { loginService, getUrlSocialService } from '../../services/auth';
 import { clearStoreFromlocalStorage, setDataFromLocalStorage, setTokenToLocalStorage } from '../../utils/localStorage';
@@ -12,16 +12,16 @@ export const loginAction = (payload: {
 }) => async (dispatch: Dispatch): Promise<any> => {
         try {
             const response = await loginService(payload);
-            console.log('Data login success', response);
             /**
              * TO DO ENOCODE JWT
              */
-            const dataEncodeJwt = jwtDecode<any>(response.data.access);
+            type CustomJwtPayload = JwtPayload & { user_id: string };
+            const dataEncodeJwt = jwtDecode<CustomJwtPayload>(response.data.access);
             const { user_id: userID } = dataEncodeJwt;
             const { data = {}, status = '' } = response;
             if (status === 200) {
                 dispatch(loginSucess({ data, status, userID }));
-                setDataFromLocalStorage(JSON.stringify(response));
+                setDataFromLocalStorage(JSON.stringify({ data, status, userID }));
                 setTokenToLocalStorage(data.access);
             }
         } catch (error) {
@@ -31,7 +31,7 @@ export const loginAction = (payload: {
     };
 
 // clear localstorage
-export const logoutAction = () => async (dispatch: Dispatch) => {
+export const logoutAction = () => async (dispatch: Dispatch): Promise<any> => {
    try {
     clearStoreFromlocalStorage();
     dispatch(logoutSuccess);
@@ -39,7 +39,7 @@ export const logoutAction = () => async (dispatch: Dispatch) => {
    } catch (e) {
     //    console.log(e);
    }
-}
+};
 
 // export const getUrlSocialAction = () => async (dispatch: Dispatch) => {
 //     try {

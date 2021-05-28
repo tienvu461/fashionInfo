@@ -196,14 +196,14 @@ function Detail(props: DetailProps): JSX.Element {
         <div className={classes.loading}>
           <CircularProgress color='primary' />
         </div>
-        ) : (
-          <>
-            <Grid container>{renderDetailPhoto()}</Grid>
-            <Divider />
-            <CommentComponent />
-            <SuggestionComponent paramsId={id} />
-          </>
-        )}
+      ) : (
+        <>
+          <Grid container>{renderDetailPhoto()}</Grid>
+          <Divider />
+          <CommentComponent paramsId={id} />
+          <SuggestionComponent paramsId={id} />
+        </>
+      )}
     </div>
   );
 }

@@ -16,12 +16,12 @@ import useStyles from '../useStyles';
 
 interface CommentProps {
   cmtProps: any;
+  onAnswer: any;
 }
 
 function CommentParrent(props: CommentProps): JSX.Element {
   const classes = useStyles();
-  const { cmtProps } = props;
-
+  const { cmtProps, onAnswer } = props;
   const formatDate = (time: number) => moment(time * 1000).fromNow();
 
   const renderTimelineConnector = (cmts: number, lastCmt: number) => {
@@ -33,6 +33,8 @@ function CommentParrent(props: CommentProps): JSX.Element {
     }
     return null;
   };
+
+  // const onClickAnswer = ;
 
   return (
     // <Grid>
@@ -53,7 +55,12 @@ function CommentParrent(props: CommentProps): JSX.Element {
               <Typography className={`${classes.actionTime} ${classes.textStyle}`} component='h6' variant='h6'>
                 {formatDate(cmtProps?.created_at)}
               </Typography>
-              <Typography className={`${classes.actionReply} ${classes.textStyle}`} component='h6' variant='h6'>
+              <Typography
+                onClick={() => onAnswer()}
+                className={`${classes.actionReply} ${classes.textStyle}`}
+                component='h6'
+                variant='h6'
+              >
                 Trả lời
               </Typography>
             </div>
