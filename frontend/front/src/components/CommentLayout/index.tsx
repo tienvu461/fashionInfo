@@ -1,27 +1,40 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable import/no-unresolved */
 import React, { ReactChildren, ReactChild, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import {
  Accordion, AccordionDetails, AccordionSummary, Grid, Typography
 } from '@material-ui/core';
 import { Link } from 'react-router-dom';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { ROUTE_LOGIN } from 'src/constants';
+import { photoComment } from 'src/features/Photo/photoSlice';
 import useStyles from './useStyles';
 
 interface CommentProps {
   children: ReactChild | ReactChildren;
+  paramsId: string;
 }
 
 function CommentLayout(props: CommentProps): JSX.Element {
-  const { children } = props;
+  const { children, paramsId } = props;
   const classes = useStyles();
+  const dispatch = useDispatch<any>();
   const [isClick, setIsClick] = useState<boolean>(true);
 
   const loginStatus = useSelector((state: any) => state.login.loginResponse.status);
 
   const handleClick = () => {
     setIsClick(!isClick);
+  };
+
+  const redirectLogin = () => {
+    dispatch(
+      photoComment({
+        isComment: true,
+        photoId: paramsId,
+      })
+    );
   };
 
     return (
@@ -38,16 +51,14 @@ function CommentLayout(props: CommentProps): JSX.Element {
                 </div>
               </AccordionSummary>
               <div>
-                {
-                  loginStatus ? null : (
-                    <Typography className={classes.subText}>
-                      <Link to={ROUTE_LOGIN} className={classes.spanText}>
-                        Đăng nhập
-                      </Link>
-                      để bình luận
-                    </Typography>
-                  )
-                }
+                {loginStatus ? null : (
+                  <Typography className={classes.subText}>
+                    <Link to={ROUTE_LOGIN} onClick={redirectLogin} className={classes.spanText}>
+                      Đăng nhập
+                    </Link>
+                    để bình luận
+                  </Typography>
+                )}
               </div>
             </div>
             <AccordionDetails className={classes.accordionDetails}>{children}</AccordionDetails>

@@ -26,6 +26,7 @@ import MagazinePage from './pages/MagaginzePage';
 import NotFound from './pages/NotFound';
 import Detail from './pages/PhotoPage/components/Photos/Detail';
 import Footer from './components/Footer';
+
 import { getCredentialsFromLocalStorage } from './utils/localStorage';
 import { loginSucess } from './features/Login/LoginSlice';
 
