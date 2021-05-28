@@ -15,7 +15,8 @@ export const loginAction = (payload: {
             /**
              * TO DO ENOCODE JWT
              */
-            const dataEncodeJwt = jwtDecode<any>(response.data.access);
+            type CustomJwtPayload = JwtPayload & { user_id: string };
+            const dataEncodeJwt = jwtDecode<CustomJwtPayload>(response.data.access);
             const { user_id: userID } = dataEncodeJwt;
             const { data = {}, status = '' } = response;
             if (status === 200) {
