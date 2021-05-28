@@ -2,7 +2,7 @@
 /* eslint-disable object-curly-newline */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Dispatch } from '@reduxjs/toolkit';
-import jwtDecode, { JwtPayload } from "jwt-decode";
+import jwtDecode, { JwtPayload } from 'jwt-decode';
 import { loginSucess, loginFail, logoutSuccess } from './LoginSlice';
 import { loginService, getUrlSocialService } from '../../services/auth';
 import { clearStoreFromlocalStorage, setDataFromLocalStorage, setTokenToLocalStorage } from '../../utils/localStorage';
@@ -31,7 +31,7 @@ export const loginAction = (payload: {
     };
 
 // clear localstorage
-export const logoutAction = () => async (dispatch: Dispatch) => {
+export const logoutAction = () => async (dispatch: Dispatch): Promise<any> => {
    try {
     clearStoreFromlocalStorage();
     dispatch(logoutSuccess);
@@ -39,7 +39,7 @@ export const logoutAction = () => async (dispatch: Dispatch) => {
    } catch (e) {
     //    console.log(e);
    }
-}
+};
 
 // export const getUrlSocialAction = () => async (dispatch: Dispatch) => {
 //     try {
