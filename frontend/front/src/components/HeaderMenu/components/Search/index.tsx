@@ -11,17 +11,17 @@ function Search(): JSX.Element {
   const history = useHistory();
   const [value, setValue] = useState();
   const dispatch = useDispatch();
-  const onChange = (event) => { setValue(event.target.value) };
+  const onChange = (event) => { setValue(event.target.value); };
 
   const handleKeyDown = (event) => {
     if (event.target.value !== '') {
       if (event.key === 'Enter') {
-      dispatch(searchAction(event.target.value))
-      console.log('Enter', event.target.value)
-      history.push(`/photo/search/${event.target.value}`)
+      dispatch(searchAction(event.target.value));
+      console.log('Enter', event.target.value);
+      history.push(`/photo/search/${event.target.value}`);
     }
     }
-  }
+  };
 
   return (
     <Grid className={classes.search}>

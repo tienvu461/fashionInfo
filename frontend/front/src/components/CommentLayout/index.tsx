@@ -1,5 +1,6 @@
 /* eslint-disable import/no-unresolved */
 import React, { ReactChildren, ReactChild, useState } from 'react';
+import { useSelector } from 'react-redux';
 import {
  Accordion, AccordionDetails, AccordionSummary, Grid, Typography
 } from '@material-ui/core';
@@ -16,6 +17,8 @@ function CommentLayout(props: CommentProps): JSX.Element {
   const { children } = props;
   const classes = useStyles();
   const [isClick, setIsClick] = useState<boolean>(true);
+
+  const loginStatus = useSelector((state: any) => state.login.loginResponse.status);
 
   const handleClick = () => {
     setIsClick(!isClick);
@@ -35,12 +38,16 @@ function CommentLayout(props: CommentProps): JSX.Element {
                 </div>
               </AccordionSummary>
               <div>
-                <Typography className={classes.subText}>
-                  <Link to={ROUTE_LOGIN} className={classes.spanText}>
-                    Đăng nhập
-                  </Link>
-                  để bình luận
-                </Typography>
+                {
+                  loginStatus ? null : (
+                    <Typography className={classes.subText}>
+                      <Link to={ROUTE_LOGIN} className={classes.spanText}>
+                        Đăng nhập
+                      </Link>
+                      để bình luận
+                    </Typography>
+                  )
+                }
               </div>
             </div>
             <AccordionDetails className={classes.accordionDetails}>{children}</AccordionDetails>
