@@ -18,6 +18,7 @@ function Comments(): JSX.Element {
   const [textArea, setTextArea] = useState<string>('');
   const valueRef = useRef<HTMLInputElement>();
   const comments = useSelector((state: RootState) => state.photo.photoDetail.comments);
+  const loginStatus = useSelector((state: any) => state.login.loginResponse.status);
 
   const onAnswer = () => {
     // handle click Answer to focus into the TextField
@@ -67,37 +68,40 @@ function Comments(): JSX.Element {
   return (
     <Grid className={classes.root}>
       <Timeline className={classes.rootTimeline}>{listComments}</Timeline>
-      <Timeline className={classes.rootTimeline}>
-        <TimelineItem className={classes.timeline}>
-          <TimelineSeparator>
-            <TimelineDot className={classes.dotAvatar}>
-              <Avatar alt='ava' className={classes.avatar} src={Ava3} />
-            </TimelineDot>
-          </TimelineSeparator>
-          <TimelineContent className={classes.content}>
-            <Paper className={classes.paper} elevation={3}>
-              <Typography className={`${classes.actionName} ${classes.textStyle}`} component='h6' variant='h6'>
-                Anh Ngoc Dang Nguyen
-              </Typography>
-              <TextField
-                className={classes.textArea}
-                multiline
-                rows={1}
-                rowsMax={4}
-                aria-label='maximum height'
-                placeholder='Viết bình luận...'
-                InputProps={{
-                  classes: { input: classes.inputTextArea },
-                }}
-                onChange={onTextFieldChange}
-                onKeyPress={onKeyPress}
-                inputRef={valueRef}
-                value={textArea}
-              />
-            </Paper>
-          </TimelineContent>
-        </TimelineItem>
-      </Timeline>
+      {loginStatus ? (
+        <Timeline className={classes.rootTimeline}>
+          <TimelineItem className={classes.timeline}>
+            <TimelineSeparator>
+              <TimelineDot className={classes.dotAvatar}>
+                <Avatar alt='ava' className={classes.avatar} src={Ava3} />
+              </TimelineDot>
+            </TimelineSeparator>
+
+            <TimelineContent className={classes.content}>
+              <Paper className={classes.paper} elevation={3}>
+                <Typography className={`${classes.actionName} ${classes.textStyle}`} component='h6' variant='h6'>
+                  Anh Ngoc Dang Nguyen
+                </Typography>
+                <TextField
+                  className={classes.textArea}
+                  multiline
+                  rows={1}
+                  rowsMax={4}
+                  aria-label='maximum height'
+                  placeholder='Viết bình luận...'
+                  InputProps={{
+                    classes: { input: classes.inputTextArea },
+                  }}
+                  onChange={onTextFieldChange}
+                  onKeyPress={onKeyPress}
+                  inputRef={valueRef}
+                  value={textArea}
+                />
+              </Paper>
+            </TimelineContent>
+          </TimelineItem>
+        </Timeline>
+      ) : null}
     </Grid>
   );
 }
