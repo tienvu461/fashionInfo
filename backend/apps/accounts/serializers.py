@@ -12,39 +12,56 @@ from .models import UserProfile
 
 logger = logging.getLogger('photos')
 
+
 class UserSerializer(serializers.ModelSerializer):
 
-	class Meta:
-		model = User
-		fields = ('username', 'email', 'password')
+    class Meta:
+        model = User
+        fields = ('username', 'email', 'password')
+
 
 class UserProfileSerializer(serializers.ModelSerializer):
+    full_name = serializers.SerializerMethodField()
+    email = serializers.SerializerMethodField()
+
     class Meta:
-        models = UserProfile
-        fields = ('user', 'profile_photo')
+        model = UserProfile
+        fields = ('user', 'full_name', 'email', 'social_url',  'profile_photo')
+
+    def get_full_name(self, instance):
+        first_name = instance.user.first_name
+        last_name = instance.user.last_name
+        return first_name + " " + last_name
+
+    def get_email(self, instance):
+        return instance.user.email
+
+
 class EmailTokenObtainSerializer(TokenObtainSerializer):
-	username_field = User.EMAIL_FIELD
+    username_field = User.EMAIL_FIELD
 
 # overide the JWT generation class, make it be able to generate JWT by email
+
+
 class CustomTokenObtainPairSerializer(EmailTokenObtainSerializer):
-	@classmethod
-	def get_token(cls, user):
-		return RefreshToken.for_user(user)
+    @classmethod
+    def get_token(cls, user):
+        return RefreshToken.for_user(user)
 
-	def validate(self, attrs):
-		# validate user from POST request
-		
-		user = User.objects.get(
-			Q(username=attrs['email']) | Q(email=attrs['email'])
-		)
-		is_password_valid = user.check_password(attrs['password'])
-		if not user or not is_password_valid:
-			# in case fail to authenticate, manipulate validate method from TokenObtainSerializer to create auth fail response
-			return super().validate(attrs)
-		# generate JWT
-		refresh = self.get_token(user)
+    def validate(self, attrs):
+        # validate user from POST request
 
-		return {
-			'refresh': str(refresh),
-			'access': str(refresh.access_token)
-		}
+        user = User.objects.get(
+            Q(username=attrs['email']) | Q(email=attrs['email'])
+        )
+        is_password_valid = user.check_password(attrs['password'])
+        if not user or not is_password_valid:
+            # in case fail to authenticate, manipulate validate method from TokenObtainSerializer to create auth fail response
+            return super().validate(attrs)
+        # generate JWT
+        refresh = self.get_token(user)
+
+        return {
+            'refresh': str(refresh),
+            'access': str(refresh.access_token)
+        }

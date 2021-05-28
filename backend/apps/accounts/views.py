@@ -95,28 +95,18 @@ class ForgotPasswordView(APIView):
         else:
             return Response(response.text, status=status.HTTP_400_BAD_REQUEST)
 
-class UserProfileViews(generics.RetrieveAPIView):
+
+# Allow get user profile and update
+class UserProfileViews(generics.RetrieveUpdateAPIView):
     queryset = UserProfile.objects.all()
     serializer_class = UserProfileSerializer
 
-    def get(self, request, *args, **kwargs):
-        # view increment
-        instance = self.get_object()
-        instance.view_count = instance.view_count + 1
-        instance.save(update_fields=("view_count", ))
+    # def get(self, request, *args, **kwargs):
+    #     # view increment
+    #     instance = self.get_object()
+    #     serializer = self.get_serializer(instance)
+    #     return Response(serializer.data)
 
-        # getting show/hide setting from Generic Config tbl
-        config_obj = GenericConfig.objects.filter(in_use=True)
-        try:
-            show_activities = config_obj.values().first()["show_activities"]
-            logger.debug("show_activities = {}".format(show_activities))
-        except Exception as e:
-            logger.error("Cannot get config\nException: {}".format(e))
-            show_activities = True
-        if show_activities:
-            serializer = self.get_serializer(instance)
-        else:
-            serializer = self.get_serializer(
-                instance, removed_fields=('likes', 'comments',))
-
-        return Response(serializer.data)
+    # def put(self, request, *args, **kwargs):
+    #     serializer = self.get_serializer(data=request.data)
+    #     return Response(UserSerializer)
