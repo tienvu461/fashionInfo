@@ -9,8 +9,9 @@ import {
   getPhotoById,
   getListSuggestionPhoto,
   likePhotoService,
+  commentPhotoService,
 } from 'src/services/photo';
-import { getListPhoto, getPhotoDetail, getListPhotoSuggestion, photoLikes } from './photoSlice';
+import { getListPhoto, getPhotoDetail, getListPhotoSuggestion, photoLikes, photoComment } from './photoSlice';
 
 export const listPhotoAction = (page: number) => async (dispatch: Dispatch): Promise<any> => {
   try {
@@ -67,3 +68,21 @@ export const likePhotoAction = (payload: { user_id: string; photo_id: string | n
   }
   return 0;
 };
+
+export const commentPhotoAction = (payload: {
+  user_id: string;
+  photo_id: string | number;
+  content: string;
+  parent: null }) => async (dispatch: Dispatch): Promise<any> => {
+    try {
+      const response = await commentPhotoService(payload);
+      const { data = {}, status = '' } = response;
+      if (status === 200) {
+        dispatch(photoComment({ data }));
+        return data;
+      }
+    } catch (error) {
+      toast.error(`${error}`);
+    }
+    return 0;
+  };

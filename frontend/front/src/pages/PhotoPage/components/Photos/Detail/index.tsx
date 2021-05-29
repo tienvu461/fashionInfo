@@ -59,6 +59,17 @@ function Detail(props: DetailProps): JSX.Element {
   const photoDetail = useSelector((state: RootState) => state.photo.photoDetail);
 
   const detailInfo: DetailInfoType = useSelector((state: RootState) => state.photo.photoDetail.detail_info);
+  const photoComment = useSelector((state: RootState) => state.photo.photoComment);
+  useEffect(() => {
+    if (photoComment.cmt_id) {
+      dispatch(getDetailAction(photoComment.photo_id)).then((res) => {
+        const { status = '' } = res;
+        if (status === 200) {
+          setLoading(false);
+        }
+      });
+    }
+  }, [dispatch, photoComment, photoComment.cmt_id]);
 
   const arrInfo: Array<{
     name: string;
