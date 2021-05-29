@@ -5,49 +5,52 @@ import {
 /* eslint-disable object-curly-newline */
 const useStyles: () => Record<
 'root'
-| 'box'
 | 'field'
-| 'lucete'
+| 'flexLeft'
+| 'flexRight'
+| 'boxFlex'
 | 'small'
-| 'socialButton'
 | 'button'
-| 'headerline'
-| 'boxLeft'
-| 'flex'
-| 'buttonSocial'
-| 'smallSocial'
 | 'flexSocial'
 | 'flexLink'
+| 'headerLink'
+| 'iconButton'
 |'header', string> = makeStyles((theme: Theme) => ({
   root: {
-    // width: '100%',
-    // height: '550px',
-    // display: 'flex',
-    // flexDirection: 'row',
+    width: '100%',
+    padding: '0px 100px 0px 100px',
+    backgroundColor: '#0D0D0D',
+    height: '550px',
+  },
+  flexLeft: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: '500px',
+    textAlign: 'left',
+  },
+  flexRight: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: '500px',
+    textAlign: 'right',
+  },
+  boxFlex: {
+    width: '380px',
+    height: '194px',
   },
   header: {
     fontSize: '30px',
     color: '#FFFFFF',
     fontFamily: 'Roboto',
   },
-  headerline: {
+  headerLink: {
     fontSize: '20px',
     color: '#FFFFFF',
     fontFamily: 'Roboto',
   },
-  box: {
-    height: '347px',
-    width: '380.65px',
-    marginTop: '151px',
-    marginLeft: '150px',
-  },
-  boxLeft: {
-    height: '313px',
-    width: '350px',
-    marginTop: '151px',
-    marginLeft: '150px',
-  },
-    field: {
+  field: {
     '& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline': {
       borderColor: '#E8E8E8',
     },
@@ -77,10 +80,7 @@ const useStyles: () => Record<
     color: '#FFFFFF',
     paddingTop: '16px'
   },
-  lucete: {
-    paddingTop: '16px'
-  },
-    button: {
+  button: {
     width: '106px',
     height: '18px',
   },
@@ -93,28 +93,6 @@ const useStyles: () => Record<
       height: '50%'
     },
   },
-  buttonSocial: {
-    width: '177px',
-    height: '33px',
-  },
-  smallSocial: {
-    width: '177px',
-    height: '33px',
-    backgroundRepeat: 'no-repeat',
-    '& .MuiAvatar-img': {
-      width: '50%',
-      height: '50%'
-    },
-  },
-  socialButton: {
-  textTransform: 'none',
-  fontFamily: 'Roboto',
-  },
-  flex: {
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
   flexSocial: {
     display: 'flex',
     justifyContent: 'center',
@@ -124,6 +102,9 @@ const useStyles: () => Record<
     display: 'flex',
     justifyContent: 'space-around',
     alignItems: 'center',
+  },
+  iconButton: {
+    padding: '0px 20px 0px 0px',
   }
 }));
 
