@@ -137,7 +137,7 @@ class PhotoDetailSerializer(PhotoSerializer):
         }
 
     def get_likes(self, instance):
-        return PhotoLike.objects.filter(photo_id=instance.id).count()
+        return PhotoLike.objects.filter(photo_id=instance.id, is_enabled=True).count()
 
     def get_comments(self, instance):
         comment_queryset = PhotoComment.objects.filter(photo_id=instance.id, parent__isnull=True)
