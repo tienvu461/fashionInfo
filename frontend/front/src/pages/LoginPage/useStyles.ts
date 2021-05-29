@@ -47,7 +47,7 @@ const useStyles: () => Record<
     color: 'white',
     '&:hover': {
       backgroundColor: 'gray',
-    }
+    },
   },
   field: {
     '& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline': {

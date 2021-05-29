@@ -3,6 +3,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Dispatch } from '@reduxjs/toolkit';
 import jwtDecode, { JwtPayload } from 'jwt-decode';
+import { toast } from 'react-toastify';
 import { loginSucess, loginFail, logoutSuccess } from './LoginSlice';
 import { loginService, getUrlSocialService } from '../../services/auth';
 import { clearStoreFromlocalStorage, setDataFromLocalStorage, setTokenToLocalStorage } from '../../utils/localStorage';
@@ -21,6 +22,7 @@ export const loginAction = (payload: {
             const { data = {}, status = '' } = response;
             if (status === 200) {
                 dispatch(loginSucess({ data, status, userID }));
+                toast.success('Đăng nhập thành công');
                 setDataFromLocalStorage(JSON.stringify({ data, status, userID }));
                 setTokenToLocalStorage(data.access);
             }

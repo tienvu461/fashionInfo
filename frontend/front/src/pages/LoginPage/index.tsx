@@ -248,7 +248,7 @@ function LoginPage(): JSX.Element {
                   <Box
                     className={classes.socialButton}
                     color='#ffffff'
-                    fontSize={16}
+                    fontSize={18}
                     fontWeight='fontWeightBold'
                   >
                     Đăng nhập

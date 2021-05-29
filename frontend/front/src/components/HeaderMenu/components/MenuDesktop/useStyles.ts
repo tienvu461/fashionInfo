@@ -25,6 +25,8 @@ string> = makeStyles(() =>
       paddingLeft: '60px'
     },
     linkItem: {
+      fontFamily: 'Roboto',
+      fontSize: '14px',
       paddingTop: '5px !important',
       paddingLeft: '5px !important',
     },
