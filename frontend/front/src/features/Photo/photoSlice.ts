@@ -16,6 +16,7 @@ interface InitialState {
     isComment: boolean;
     photoId: string | null;
   }
+  photoLikes: Record<string, string>
 }
 
 const initialState: InitialState = {
@@ -31,7 +32,8 @@ const initialState: InitialState = {
   photoComment: {
     isComment: false,
     photoId: null
-  }
+  },
+  photoLikes: {}
 };
 
 const photoSlice = createSlice({
@@ -62,12 +64,17 @@ const photoSlice = createSlice({
         isComment: payload.isComment,
         photoId: payload.photoId
       };
+    },
+    photoLikes: (state, { payload }) => {
+      state.photoLikes = {
+        ...payload.data
+      };
     }
   },
 });
 
 const { actions, reducer } = photoSlice;
-const { getListPhoto, getPhotoDetail, getListPhotoSuggestion, photoComment } = actions;
-export { getListPhoto, getPhotoDetail, getListPhotoSuggestion, photoComment };
+const { getListPhoto, getPhotoDetail, getListPhotoSuggestion, photoComment, photoLikes } = actions;
+export { getListPhoto, getPhotoDetail, getListPhotoSuggestion, photoComment, photoLikes };
 
 export default reducer;

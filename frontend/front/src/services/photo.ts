@@ -9,4 +9,4 @@ export const getPhotoById = (id: string): any => request(`${PHOTO_GET_BY_ID_API}
 
 export const getListSuggestionPhoto = (num: number, id: string): any => request(`${PHOTO_LIST_SUGGEST_API}${num}&photo_id=${id}`, 'GET');
 
-export const likePhotoService = (payload: { user_id: string; photo_id: string }): Promise<any> => request(PHOTO_LIKE_API, 'POST', payload);
+export const likePhotoService = (payload: { user_id: string; photo_id: string | number}): Promise<any> => request(PHOTO_LIKE_API, 'POST', payload);
