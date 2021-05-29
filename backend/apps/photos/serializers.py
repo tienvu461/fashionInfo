@@ -21,7 +21,7 @@ class PhotoSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = Photo
-        fields = ['id', 'title', 'image_path',
+        fields = ['id', 'title', 'image_path', 'user_likes',
                   'status', 'created_at', 'activities', 'tags', 'photographer']
         removed_fields = []
 
@@ -50,12 +50,10 @@ class PhotoSerializer(serializers.ModelSerializer):
         like_num = PhotoLike.objects.filter(photo_id=instance.id).count()
         comment_num = PhotoComment.objects.filter(photo_id=instance.id).count()
         view_count = getattr(instance, 'view_count')
-        user_likes = getattr(instance, 'user_likes')
         return {
             'likes': like_num,
             'comments': comment_num,
             'views': view_count,
-            'user_likes': user_likes
         }
 
     # def get_likes(self, instance):
