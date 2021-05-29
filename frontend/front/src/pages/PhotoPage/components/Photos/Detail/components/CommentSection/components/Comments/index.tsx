@@ -19,6 +19,7 @@ function Comments(): JSX.Element {
   const valueRef = useRef<HTMLInputElement>();
   const comments = useSelector((state: RootState) => state.photo.photoDetail.comments);
   const loginStatus = useSelector((state: any) => state.login.loginResponse.status);
+  const user = useSelector((state: any) => state.login.loginResponse.userID);
 
   const onAnswer = () => {
     // handle click Answer to focus into the TextField
@@ -80,7 +81,7 @@ function Comments(): JSX.Element {
             <TimelineContent className={classes.content}>
               <Paper className={classes.paper} elevation={3}>
                 <Typography className={`${classes.actionName} ${classes.textStyle}`} component='h6' variant='h6'>
-                  Anh Ngoc Dang Nguyen
+                  {`User ${user}`}
                 </Typography>
                 <TextField
                   className={classes.textArea}

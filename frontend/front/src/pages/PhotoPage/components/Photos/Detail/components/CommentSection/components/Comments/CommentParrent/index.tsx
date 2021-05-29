@@ -49,7 +49,7 @@ function CommentParrent(props: CommentProps): JSX.Element {
         <Paper className={classes.paper} elevation={3}>
           <Grid className={classes.action}>
             <Typography className={`${classes.actionName} ${classes.textStyle}`} component='h6' variant='h6'>
-              {`User ${cmtProps?.user_id}`}
+              {cmtProps?.user_id}
             </Typography>
             <div className={classes.flex}>
               <Typography className={`${classes.actionTime} ${classes.textStyle}`} component='h6' variant='h6'>
@@ -85,7 +85,7 @@ function CommentParrent(props: CommentProps): JSX.Element {
                   <Paper className={classes.paper} elevation={3}>
                     <Grid className={classes.action}>
                       <Typography className={`${classes.actionName} ${classes.textStyle}`} component='h6' variant='h6'>
-                        {`User ${item?.user_id}`}
+                        {item?.user_id}
                       </Typography>
 
                       <div className={classes.flex}>
