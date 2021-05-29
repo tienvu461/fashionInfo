@@ -1,10 +1,11 @@
 /* eslint-disable camelcase */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable import/no-unresolved */
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { Paper, Card, CardActionArea, CardMedia } from '@material-ui/core';
+import FavoriteIcon from '@material-ui/icons/Favorite';
 import { toast } from 'react-toastify';
 import { HOST } from 'src/apis';
 import { ROUTE_PHOTO } from 'src/constants';
@@ -28,6 +29,7 @@ function Photo(props: PropsType): JSX.Element {
   const classes = useStyles();
   const { pathImg, id, activities: { likes = 0, comments } = {} } = props;
   const dispatch = useDispatch<any>();
+  const [likeAction, setLikeAction] = useState<boolean>(false);
 
   const checkPathImg = (path) => {
     if (path.includes(HOST)) {
@@ -41,10 +43,19 @@ function Photo(props: PropsType): JSX.Element {
   const likePhoto = (photo_id: string | number) => {
     if (loginStatus === 200) {
       const credentials = JSON.parse(getCredentialsFromLocalStorage());
-      dispatch(likePhotoAction({ user_id: credentials.userID, photo_id }));
+      dispatch(likePhotoAction({ user_id: credentials.userID, photo_id })).then(() => {
+      setLikeAction(!likeAction);
+      });
     } else {
       toast.warn('Please login your account');
     }
+  };
+
+  const updateLike = () => {
+    if (likeAction) {
+      return likes + 1;
+    }
+    return likes;
   };
 
   return (
@@ -66,8 +77,12 @@ function Photo(props: PropsType): JSX.Element {
             <div className={classes.actions}>
               <div className={classes.left}>
                 <div className={classes.leftActions}>
-                  <img alt='heart-icon' onClick={() => likePhoto(id)} className={classes.icon} src={HeartIcon} />
-                  <div className={classes.num}>{likes}</div>
+                  {likeAction ? (
+                    <FavoriteIcon style={{ color: 'red' }} onClick={() => likePhoto(id)} />
+                  ) : (
+                    <img alt='heart-icon' onClick={() => likePhoto(id)} className={classes.icon} src={HeartIcon} />
+                  )}
+                  <div className={classes.num}>{updateLike()}</div>
                 </div>
                 <div className={classes.leftActions}>
                   <img alt='comment-icon' className={classes.icon} src={CommentIcon} />
