@@ -17,6 +17,7 @@ import useStyles from '../useStyles';
 interface CmtChild {
   renderTimelineConnector: any;
   cmtChildProps: any;
+  // isReplies: any;
 }
 
 function CommentChild(props: CmtChild): JSX.Element {
@@ -32,6 +33,7 @@ function CommentChild(props: CmtChild): JSX.Element {
     const onAnswer = (cmtID) => {
       setParent(cmtID);
       setisReply(!isReply);
+      // isReplies();
     };
 
     const onTextFieldChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -66,11 +68,13 @@ function CommentChild(props: CmtChild): JSX.Element {
         setisReply(false);
       }
     };
-
+// style={index === cmtProps.reply.length - 1 ? { marginBottom: '100px' } : null}
     const renderCmtInput = () => (
       <>
         {isReply ? (
-          <TimelineItem className={classes.timeline}>
+          <TimelineItem
+            className={classes.timelineTwo}
+          >
             <TimelineSeparator>
               <TimelineDot className={classes.dotAvatar}>
                 <Avatar alt='ava' className={classes.avatar} src={Ava2} />

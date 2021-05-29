@@ -160,6 +160,7 @@ function CommentParrent(props: CommentProps): JSX.Element {
                 <CommentChild
                   key={item.cmt_id}
                   renderTimelineConnector={renderTimelineConnector}
+                  // isReplies={isReplies}
                   cmtChildProps={{ item, index, cmtProps, currentUser }}
                 />
               </>
