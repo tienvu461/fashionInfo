@@ -73,7 +73,7 @@ export const commentPhotoAction = (payload: {
   user_id: string;
   photo_id: string | number;
   content: string;
-  parent: null }) => async (dispatch: Dispatch): Promise<any> => {
+  parent: null | number }) => async (dispatch: Dispatch): Promise<any> => {
     try {
       const response = await commentPhotoService(payload);
       const { data = {}, status = '' } = response;

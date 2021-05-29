@@ -21,5 +21,5 @@ export const commentPhotoService = (payload: {
   user_id: string;
   photo_id: string | number;
   content: string;
-  parent: null;
+  parent: null | number;
 }): Promise<any> => request(PHOTO_COMMENT_API, 'POST', payload);

@@ -25,11 +25,6 @@ function Comments(): JSX.Element {
   const loginStatus = useSelector((state: any) => state.login.loginResponse.status);
   const user = useSelector((state: any) => state.login.loginResponse.userID);
 
-  const onAnswer = () => {
-    // handle click Answer to focus into the TextField
-    valueRef.current?.focus();
-  };
-
   const listComments = useMemo(
     () => (
       <>
@@ -39,9 +34,9 @@ function Comments(): JSX.Element {
               const { cmt_id: cmtID = '' } = item;
               return (
                 <CommentParrent
-                  onAnswer={onAnswer}
                   key={cmtID}
                   cmtProps={{ ...item, avatar: Ava1, cmtLength: comments.length, lastCmt: index }}
+                  currentUser={user}
                 />
               );
             })}
