@@ -9,19 +9,21 @@ import {
   TimelineItem,
   TimelineSeparator,
 } from '@material-ui/lab';
+import { useDispatch } from 'react-redux';
 import moment from 'moment';
 import Ava2 from 'src/assets/images/beck.jpeg';
 
+import { commentPhotoAction } from 'src/features/Photo/photoAction';
 import useStyles from '../useStyles';
 
 interface CmtChild {
   renderTimelineConnector: any;
   cmtChildProps: any;
-  // isReplies: any;
 }
 
 function CommentChild(props: CmtChild): JSX.Element {
     const classes = useStyles();
+    const dispatch = useDispatch<any>();
     const [isReply, setisReply] = useState<boolean>(false);
     const [textArea, setTextArea] = useState<string>('');
     const [parent, setParent] = useState<number>(0);
@@ -33,7 +35,6 @@ function CommentChild(props: CmtChild): JSX.Element {
     const onAnswer = (cmtID) => {
       setParent(cmtID);
       setisReply(!isReply);
-      // isReplies();
     };
 
     const onTextFieldChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -61,14 +62,12 @@ function CommentChild(props: CmtChild): JSX.Element {
           content: textArea,
           parent,
         };
-
-        console.log('Child: ', payload);
-        // dispatch(commentPhotoAction(payload));
+        dispatch(commentPhotoAction(payload));
         setTextArea('');
         setisReply(false);
       }
     };
-// style={index === cmtProps.reply.length - 1 ? { marginBottom: '100px' } : null}
+
     const renderCmtInput = () => (
       <>
         {isReply ? (

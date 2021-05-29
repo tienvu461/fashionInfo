@@ -10,10 +10,11 @@ import {
   TimelineItem,
   TimelineSeparator,
 } from '@material-ui/lab';
+import moment from 'moment';
 import { useDispatch } from 'react-redux';
+
 import { commentPhotoAction } from 'src/features/Photo/photoAction';
 import Ava2 from 'src/assets/images/beck.jpeg';
-import moment from 'moment';
 import CommentChild from '../CommentChild';
 
 import useStyles from '../useStyles';
@@ -26,11 +27,13 @@ interface CommentProps {
 function CommentParrent(props: CommentProps): JSX.Element {
   const classes = useStyles();
   const { cmtProps, currentUser } = props;
+
   const dispatch = useDispatch<any>();
+  const valueRef = useRef<HTMLInputElement>();
+  const [parent, setParent] = useState<number>(0);
   const [textArea, setTextArea] = useState<string>('');
   const [isReply, setisReply] = useState<boolean>(false);
-  const [parent, setParent] = useState<number>(0);
-  const valueRef = useRef<HTMLInputElement>();
+
   const formatDate = (time: number) => moment(time * 1000).fromNow();
 
   const renderTimelineConnector = (cmts: number, lastCmt: number) => {
@@ -44,7 +47,6 @@ function CommentParrent(props: CommentProps): JSX.Element {
   };
 
   const onAnswer = (cmtID) => {
-    console.log(cmtID)
     setParent(cmtID);
     setisReply(!isReply);
   };
@@ -63,8 +65,7 @@ function CommentParrent(props: CommentProps): JSX.Element {
         content: textArea,
         parent,
       };
-      // dispatch(commentPhotoAction(payload));
-      console.log('Parent: ', payload);
+      dispatch(commentPhotoAction(payload));
       setTextArea('');
       setisReply(false);
     }
