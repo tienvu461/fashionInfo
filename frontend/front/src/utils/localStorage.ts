@@ -14,7 +14,7 @@ export const getCredentialsFromLocalStorage = (): any => {
 export const setTokenToLocalStorage = (token: string): void => localStorage.setItem(LOCAL_STORAGE_TOKEN_KEY, token);
 
 // get token
-export const getTokenFromLocalStorage = (): string | null => {
+export const getTokenFromLocalStorage = (): any => {
     const token = localStorage.getItem(LOCAL_STORAGE_TOKEN_KEY);
     return token;
 };

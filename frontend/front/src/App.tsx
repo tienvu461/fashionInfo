@@ -6,6 +6,7 @@ import React, { useEffect } from 'react';
 import { Route, Switch } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { useDispatch } from 'react-redux';
+import jwtDecode, { JwtPayload } from 'jwt-decode';
 
 import './App.scss';
 import 'react-toastify/dist/ReactToastify.css';
@@ -27,7 +28,7 @@ import NotFound from './pages/NotFound';
 import Detail from './pages/PhotoPage/components/Photos/Detail';
 import Footer from './components/Footer';
 
-import { getCredentialsFromLocalStorage } from './utils/localStorage';
+import { getCredentialsFromLocalStorage, getTokenFromLocalStorage } from './utils/localStorage';
 import { loginSucess } from './features/Login/LoginSlice';
 
 toast.configure({
@@ -35,13 +36,46 @@ toast.configure({
 });
 
 function App(): JSX.Element {
-  const getCredentials = getCredentialsFromLocalStorage();
-  const credentials = JSON.parse(getCredentials);
   const dispatch = useDispatch<any>();
+
+  const getCredentials = getCredentialsFromLocalStorage();
+  const getToken = getTokenFromLocalStorage();
+
+  const credentials = JSON.parse(getCredentials);
+  const getRefreshToken = credentials.data.refresh;
 
   useEffect(() => {
     if (credentials) dispatch(loginSucess(credentials));
   }, []);
+
+  const checkExpired = (value) => {
+    let isExpired = false;
+    const now = new Date();
+    if (value.exp < now.getTime() / 1000) isExpired = true; // expired
+
+    return isExpired;
+  };
+
+  const handleAuth = () => {
+    type CustomJwtPayload = JwtPayload & { exp: number };
+    const token = jwtDecode<CustomJwtPayload>(getToken);
+    const refreshToken = jwtDecode<CustomJwtPayload>(getRefreshToken);
+
+    const expToken = checkExpired(token);
+    const expRefreshToken = checkExpired(refreshToken);
+
+    if (!expRefreshToken) { // refresh token < 30
+      if (expToken) { // token > 7
+        console.log('access token is INVALID. Need call api to get a new accesstoken');
+      } else { // token < 7
+        console.log('access token is VALID');
+      }
+    } else { // refresh token > 30
+      console.log('LOGOUT');
+    }
+  };
+
+  handleAuth();
 
   return (
     <div className='App'>
