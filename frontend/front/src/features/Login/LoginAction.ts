@@ -1,17 +1,17 @@
-/* eslint-disable no-console */
+/* eslint-disable import/no-unresolved */
 /* eslint-disable camelcase */
-/* eslint-disable object-curly-newline */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Dispatch } from '@reduxjs/toolkit';
 import jwtDecode, { JwtPayload } from 'jwt-decode';
-import { loginSucess, loginFail, logoutSuccess } from './LoginSlice';
-import { loginService, getUrlSocialService, refreshTokenService } from '../../services/auth';
 import {
   clearStoreFromlocalStorage,
   setDataFromLocalStorage,
   setTokenToLocalStorage,
   setRefreshTokenToLocalStorage,
-} from '../../utils/localStorage';
+} from 'src/utils/localStorage';
+
+import { loginService, getUrlSocialService, refreshTokenService } from 'src/services/auth';
+import { loginSucess, loginFail, logoutSuccess } from './LoginSlice';
 
 export const loginAction = (payload: {
   username: string; password: string, showPassword: boolean
@@ -79,9 +79,7 @@ export const getUrlSocialAction = () => async (dispatch: Dispatch): Promise<any>
   }
 };
 
-export const refreshTokenAction = (payload: {
-  refresh: string
-}) => async (dispatch: Dispatch): Promise<any> => {
+export const refreshTokenAction = (payload: { refresh: string}) => async (dispatch: Dispatch): Promise<any> => {
   try {
     const response = await refreshTokenService(payload);
     type CustomJwtPayload = JwtPayload & { user_id: string };
