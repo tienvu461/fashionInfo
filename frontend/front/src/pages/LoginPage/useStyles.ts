@@ -48,6 +48,9 @@ const useStyles: () => Record<
     '&:hover': {
       backgroundColor: 'gray',
     },
+    '&.MuiButton-root': {
+      padding: '15px 0px',
+    }
   },
   field: {
     '& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline': {
@@ -87,6 +90,7 @@ const useStyles: () => Record<
   socialButton: {
     textTransform: 'none',
     fontFamily: 'Roboto',
+    fontSize: '18px',
   },
   button: {
     width: '175px',

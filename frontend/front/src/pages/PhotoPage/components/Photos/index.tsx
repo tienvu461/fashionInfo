@@ -35,7 +35,6 @@ function Photos(): JSX.Element {
   const dataPhoto = useSelector(
     (state: RootState) => state.photo.photoList.dataOrigin
   );
-
   interface GalleryKeys {
     image_path: string;
     id: number;

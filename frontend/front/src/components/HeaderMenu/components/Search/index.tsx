@@ -17,7 +17,7 @@ function Search(): JSX.Element {
   const handleKeyDown = (event: any) => {
     if (event.target.value !== '') {
       if (event.key === 'Enter') {
-      dispatch(searchAction(event.target.value));
+      dispatch(searchAction(1, event.target.value));
       console.log('Enter', event.target.value);
       history.push(`/photo/search/${event.target.value}`);
       event.target.value = '';
