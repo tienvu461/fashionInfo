@@ -1,6 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable object-curly-newline */
 /* eslint-disable import/no-unresolved */
 import React, { useEffect } from 'react';
 import { Route, Switch } from 'react-router-dom';
@@ -17,7 +16,6 @@ import {
   ROUTE_LOGIN,
   ROUTE_PHOTO,
   ROUTE_PHOTO_SEARCH,
-  // ROUTE_MAGAZINE,
 } from './constants';
 import ForumPage from './pages/ForumPage';
 import PhotoPage from './pages/PhotoPage';
@@ -44,8 +42,7 @@ const checkExpired = (value) => {
   let isExpired = false;
   const now = new Date();
 
-  if (value.exp < now.getTime() / 1000) {
-    // expired {
+  if (value.exp < now.getTime() / 1000) { // is expired
     isExpired = true;
   }
   return isExpired;
