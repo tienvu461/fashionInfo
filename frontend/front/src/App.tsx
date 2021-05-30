@@ -28,11 +28,31 @@ import NotFound from './pages/NotFound';
 import Detail from './pages/PhotoPage/components/Photos/Detail';
 import Footer from './components/Footer';
 
-import { getCredentialsFromLocalStorage, getTokenFromLocalStorage } from './utils/localStorage';
+import {
+  clearStoreFromlocalStorage,
+  getCredentialsFromLocalStorage,
+  getRefreshTokenFromLocalStorage,
+  getTokenFromLocalStorage } from './utils/localStorage';
 import { loginSucess } from './features/Login/LoginSlice';
+import { refreshTokenAction } from './features/Login/LoginAction';
 
 toast.configure({
   autoClose: 2000
+});
+
+const checkExpired = (value) => {
+  let isExpired = false;
+  const now = new Date();
+
+  if (value.exp < now.getTime() / 1000) {
+    // expired {
+    isExpired = true;
+  }
+  return isExpired;
+};
+
+const logOut = () => ({
+  type: 'CLEAR_STORE',
 });
 
 function App(): JSX.Element {
@@ -40,17 +60,9 @@ function App(): JSX.Element {
 
   const getCredentials = getCredentialsFromLocalStorage();
   const getToken = getTokenFromLocalStorage();
+  const getRefreshToken = getRefreshTokenFromLocalStorage();
 
   const credentials = JSON.parse(getCredentials);
-  const getRefreshToken = credentials?.data?.refresh;
-
-  const checkExpired = (value) => {
-    let isExpired = false;
-    const now = new Date();
-    if (value.exp < now.getTime() / 1000) isExpired = true; // expired
-
-    return isExpired;
-  };
 
   const handleAuth = () => {
     type CustomJwtPayload = JwtPayload & { exp: number };
@@ -59,19 +71,18 @@ function App(): JSX.Element {
 
     const expToken = checkExpired(token);
     const expRefreshToken = checkExpired(refreshToken);
+    const payload = {
+      refresh: getRefreshToken,
+    };
 
-    if (!expRefreshToken) {
-      // refresh token < 30
-      if (expToken) {
-        // token > 7
-        console.log('access token is INVALID. Need call api to get a new accesstoken');
-      } else {
-        // token < 7
-        console.log('access token is VALID');
+    if (!expRefreshToken) { // refresh token < 30 days
+      if (expToken) { // token > 7 days
+        dispatch(refreshTokenAction(payload));
       }
-    } else {
-      // refresh token > 30
-      console.log('LOGOUT');
+    } else { // refresh token > 30 days
+      dispatch(logOut());
+      clearStoreFromlocalStorage();
+      toast.error('Phiên đăng nhập đã hết hạn. Vui lòng đăng nhập lại !');
     }
   };
 
