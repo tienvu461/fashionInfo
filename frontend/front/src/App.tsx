@@ -42,11 +42,7 @@ function App(): JSX.Element {
   const getToken = getTokenFromLocalStorage();
 
   const credentials = JSON.parse(getCredentials);
-  const getRefreshToken = credentials.data.refresh;
-
-  useEffect(() => {
-    if (credentials) dispatch(loginSucess(credentials));
-  }, []);
+  const getRefreshToken = credentials?.data?.refresh;
 
   const checkExpired = (value) => {
     let isExpired = false;
@@ -64,18 +60,27 @@ function App(): JSX.Element {
     const expToken = checkExpired(token);
     const expRefreshToken = checkExpired(refreshToken);
 
-    if (!expRefreshToken) { // refresh token < 30
-      if (expToken) { // token > 7
+    if (!expRefreshToken) {
+      // refresh token < 30
+      if (expToken) {
+        // token > 7
         console.log('access token is INVALID. Need call api to get a new accesstoken');
-      } else { // token < 7
+      } else {
+        // token < 7
         console.log('access token is VALID');
       }
-    } else { // refresh token > 30
+    } else {
+      // refresh token > 30
       console.log('LOGOUT');
     }
   };
 
-  handleAuth();
+  useEffect(() => {
+    if (credentials) {
+      dispatch(loginSucess(credentials));
+      handleAuth();
+    }
+  }, []);
 
   return (
     <div className='App'>
