@@ -278,9 +278,9 @@ if DEBUG:
     ]
     MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 else:
-    STATIC_URL = '/admin_static/'
-    STATIC_ROOT = os.path.join(BASE_DIR, 'admin_static')
-    MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+    STATIC_URL = '/backend_static/'
+    STATIC_ROOT = os.path.join(BASE_DIR, 'backend_static')
+    MEDIA_ROOT = os.path.join(BASE_DIR, 'backend_media')
 
 MARKDOWNX_MEDIA_PATH = datetime.now().strftime('markdownx/%Y/%m/%d')
 
