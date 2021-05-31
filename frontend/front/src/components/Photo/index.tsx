@@ -60,7 +60,7 @@ function Photo(props: PropsType): JSX.Element {
 
   return (
     <>
-      <Card className='card'>
+      <Card className={`${classes.card} card`}>
         <Link to={`${ROUTE_PHOTO}/${id}`}>
           <CardActionArea>
             <CardMedia

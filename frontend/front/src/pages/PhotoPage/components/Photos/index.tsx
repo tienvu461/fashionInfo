@@ -133,7 +133,7 @@ function Photos(): JSX.Element {
 
   return (
     <div className={`${classes.root} root`}>
-      <Grid container spacing={3}>
+      <Grid container>
         {initialLoading ? (
           <>{loadingPhoto()}</>
         ) : (
