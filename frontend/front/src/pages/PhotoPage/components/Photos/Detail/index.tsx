@@ -21,22 +21,15 @@ interface DetailProps {
   };
 }
 
-interface DetailInfoType {
-  model_name: string;
-  shoot_date: number;
-  location: string;
-  model_job: string;
-  style: string;
-  brand: string;
-  social_url: string;
-  photographer: string;
-}
-
 function Detail(props: DetailProps): JSX.Element {
   const { match: { params: { id = '' } = {} } = {} } = props;
   const classes = useStyles();
   const [loading, setLoading] = useState<boolean>(false);
   const dispatch = useDispatch<any>();
+
+  const photoDetail = useSelector((state: RootState) => state.photo.photoDetail);
+  const detailInfo = useSelector((state: RootState) => state.photo.photoDetail.detail_info);
+  const photoComment = useSelector((state: RootState) => state.photo.photoComment);
 
   useEffect(() => {
     setLoading(true);
@@ -56,9 +49,17 @@ function Detail(props: DetailProps): JSX.Element {
     });
   }, [dispatch, id]);
 
-  const photoDetail = useSelector((state: RootState) => state.photo.photoDetail);
-
-  const detailInfo: DetailInfoType = useSelector((state: RootState) => state.photo.photoDetail.detail_info);
+  // Fecch detail page again after comment to get the newest comment list
+  useEffect(() => {
+    if (photoComment.cmt_id) {
+      dispatch(getDetailAction(photoComment.photo_id)).then((res) => {
+        const { status = '' } = res;
+        if (status === 200) {
+          setLoading(false);
+        }
+      });
+    }
+  }, [dispatch, photoComment, photoComment.cmt_id]);
 
   const arrInfo: Array<{
     name: string;
@@ -196,14 +197,14 @@ function Detail(props: DetailProps): JSX.Element {
         <div className={classes.loading}>
           <CircularProgress color='primary' />
         </div>
-        ) : (
-          <>
-            <Grid container>{renderDetailPhoto()}</Grid>
-            <Divider />
-            <CommentComponent />
-            <SuggestionComponent paramsId={id} />
-          </>
-        )}
+      ) : (
+        <>
+          <Grid container>{renderDetailPhoto()}</Grid>
+          <Divider />
+          <CommentComponent paramsId={id} />
+          <SuggestionComponent paramsId={id} />
+        </>
+      )}
     </div>
   );
 }

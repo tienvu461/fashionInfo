@@ -6,7 +6,12 @@ import useStyles from './useStyles';
 import Reporter from './components/Reporter';
 import Comments from './components/Comments';
 
-function CommentComponent(): JSX.Element {
+interface CommentComponentProps {
+  paramsId: string;
+}
+
+function CommentComponent(props: CommentComponentProps): JSX.Element {
+  const { paramsId } = props;
   const classes = useStyles();
   const matches = useMediaQuery('(max-width:600px)');
 
@@ -19,7 +24,7 @@ function CommentComponent(): JSX.Element {
           </Grid>
         ) : null}
         <Grid item lg={8} md={8} sm={8} xl={12} xs={12}>
-          <CommentLayout>
+          <CommentLayout paramsId={paramsId}>
             <Comments />
           </CommentLayout>
         </Grid>
