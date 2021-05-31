@@ -8,7 +8,6 @@ import {
   Button,
   CardMedia
 } from '@material-ui/core';
-import clsx from 'clsx';
 import './_footer.scss';
 import iconFT from '../../assets/images/Logo_footer1.png';
 import iconSocial from '../../assets/images/social_logo.png';
@@ -17,14 +16,46 @@ import useStyles from './useStyles';
 function Footer(): JSX.Element {
   const classes = useStyles();
   return (
-    <Grid
-      // className={clsx(classes.root && 'footer')}
-      component='main'
-      container
-      style={{ backgroundColor: '#0D0D0D', height: '550px' }}
-      item
-    >
-      <Grid item xs={6} md={6} sm={6} style={{ height: '500px', textAlign: 'left' }} className={classes.flex}>
+    <Grid className={classes.root} component='main' container>
+      {/* <Grid lg={12} md={12} sm={12} xs={12}> */}
+      <Grid style={{ backgroundColor: '#ccc' }} item lg={6} md={6} sm={6} xs={6}>
+        <Typography variant='h4' component='h4' className={classes.header}>
+          Theo dõi tin tức{' '}
+        </Typography>
+        <Typography variant='h4' component='h4' className={classes.header}>
+          mới nhất từ chúng tôi{' '}
+        </Typography>
+        <TextField
+          autoComplete='email'
+          autoFocus
+          className={classes.field}
+          fullWidth
+          id='email'
+          margin='normal'
+          name='email'
+          required
+          placeholder='Địa chỉ email'
+          variant='outlined'
+        />
+      </Grid>
+      <Grid item lg={6} md={6} sm={6} xs={6}>
+        <Typography className={classes.header}>Theo dõi tin tức </Typography>
+        <Typography className={classes.header}>mới nhất từ chúng tôi</Typography>
+        <TextField
+          autoComplete='email'
+          autoFocus
+          className={classes.field}
+          fullWidth
+          id='email'
+          margin='normal'
+          name='email'
+          required
+          placeholder='Địa chỉ email'
+          variant='outlined'
+        />
+      </Grid>
+      {/* </Grid> */}
+      {/* <Grid item xs={6} md={6} sm={6} style={{ height: '500px', textAlign: 'left' }} className={classes.flex}>
         <div style={{ width: '380px', height: '194px' }}>
           <Typography className={classes.header}>Theo dõi tin tức </Typography>
           <Typography className={classes.header}>mới nhất từ chúng tôi</Typography>
@@ -88,7 +119,7 @@ function Footer(): JSX.Element {
             />
           </div>
         </Grid>
-      </Grid>
+      </Grid> */}
     </Grid>
   );
 }

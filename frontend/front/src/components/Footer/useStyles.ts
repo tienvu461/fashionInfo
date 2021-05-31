@@ -1,35 +1,51 @@
-import {
-  makeStyles,
-  Theme,
-} from '@material-ui/core/styles';
-import logoFooter from '../../assets/images/Logo_footer.svg';
-/* eslint-disable object-curly-newline */
+/* eslint-disable import/no-unresolved */
+import { makeStyles } from '@material-ui/core/styles';
+import { white, pdXL, pdSM, pdLG, pdMD, theme, black } from 'src/styles/theme';
+
 const useStyles: () => Record<
-'root'
-| 'box'
-| 'field'
-| 'lucete'
-| 'small'
-| 'socialButton'
-| 'button'
-| 'headerline'
-| 'boxLeft'
-| 'flex'
-| 'buttonSocial'
-| 'smallSocial'
-| 'flexSocial'
-| 'flexLink'
-|'header', string> = makeStyles((theme: Theme) => ({
+  | 'root'
+  | 'box'
+  | 'field'
+  | 'lucete'
+  | 'small'
+  | 'socialButton'
+  | 'button'
+  | 'headerline'
+  | 'boxLeft'
+  | 'flex'
+  | 'buttonSocial'
+  | 'smallSocial'
+  | 'flexSocial'
+  | 'flexLink'
+  | 'header',
+  string
+> = makeStyles(() => ({
   root: {
-    // width: '100%',
-    // height: '550px',
-    // display: 'flex',
-    // flexDirection: 'row',
+    width: '100%',
+    height: 'auto',
+    backgroundColor: '#0D0D0D',
+
+    // responsive
+    [theme.breakpoints.up('sm')]: {
+      padding: pdSM,
+    },
+    [theme.breakpoints.up('md')]: {
+      padding: pdMD,
+    },
+    [theme.breakpoints.up('lg')]: {
+      padding: pdLG,
+    },
+    [theme.breakpoints.up('xl')]: {
+      padding: pdXL,
+    },
   },
   header: {
-    fontSize: '30px',
     color: '#FFFFFF',
     fontFamily: 'Roboto',
+    fontWeight: 'normal',
+    lineHeight: '35px',
+    letterSpacing: '1.2px',
+    textAlign: 'left'
   },
   headerline: {
     fontSize: '20px',
@@ -48,7 +64,7 @@ const useStyles: () => Record<
     marginTop: '151px',
     marginLeft: '150px',
   },
-    field: {
+  field: {
     '& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline': {
       borderColor: '#E8E8E8',
     },
@@ -71,27 +87,27 @@ const useStyles: () => Record<
 
     // TextField select
     '& .MuiTextField-root': {
-      margin: theme.spacing(1),
+      // margin: theme.spacing(1),
     },
     width: '380.65px',
     height: '67.17px',
     color: '#FFFFFF',
-    paddingTop: '16px'
+    paddingTop: '56.91px',
   },
   lucete: {
-    paddingTop: '16px'
+    paddingTop: '16px',
   },
-    button: {
+  button: {
     width: '106px',
     height: '18px',
   },
-    small: {
+  small: {
     width: '106px',
     height: '18px',
     backgroundRepeat: 'no-repeat',
     '& .MuiAvatar-img': {
       width: '50%',
-      height: '50%'
+      height: '50%',
     },
   },
   buttonSocial: {
@@ -104,12 +120,12 @@ const useStyles: () => Record<
     backgroundRepeat: 'no-repeat',
     '& .MuiAvatar-img': {
       width: '50%',
-      height: '50%'
+      height: '50%',
     },
   },
   socialButton: {
-  textTransform: 'none',
-  fontFamily: 'Roboto',
+    textTransform: 'none',
+    fontFamily: 'Roboto',
   },
   flex: {
     display: 'flex',
@@ -125,7 +141,7 @@ const useStyles: () => Record<
     display: 'flex',
     justifyContent: 'space-around',
     alignItems: 'center',
-  }
+  },
 }));
 
 export { useStyles as default };
