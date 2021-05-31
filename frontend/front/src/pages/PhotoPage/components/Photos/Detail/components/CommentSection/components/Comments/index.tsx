@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable import/no-unresolved */
@@ -5,25 +6,24 @@ import React, { useMemo, useState, useRef } from 'react';
 import { Grid, Avatar, Paper, Typography, TextField } from '@material-ui/core';
 import { Timeline, TimelineContent, TimelineDot, TimelineItem, TimelineSeparator } from '@material-ui/lab';
 import { isEmpty } from 'lodash';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'src/store/store';
 import Ava1 from 'src/assets/images/menAva.jpg';
 import Ava3 from 'src/assets/images/ava3.svg';
+import { commentPhotoAction } from 'src/features/Photo/photoAction';
 
 import useStyles from './useStyles';
 import CommentParrent from './CommentParrent';
 
 function Comments(): JSX.Element {
   const classes = useStyles();
+  const dispatch = useDispatch<any>();
   const [textArea, setTextArea] = useState<string>('');
   const valueRef = useRef<HTMLInputElement>();
   const comments = useSelector((state: RootState) => state.photo.photoDetail.comments);
+  const photoId = useSelector((state: RootState) => state.photo.photoDetail.id);
   const loginStatus = useSelector((state: any) => state.login.loginResponse.status);
-
-  const onAnswer = () => {
-    // handle click Answer to focus into the TextField
-    valueRef.current?.focus();
-  };
+  const user = useSelector((state: any) => state.login.loginResponse.userID);
 
   const listComments = useMemo(
     () => (
@@ -34,9 +34,9 @@ function Comments(): JSX.Element {
               const { cmt_id: cmtID = '' } = item;
               return (
                 <CommentParrent
-                  onAnswer={onAnswer}
                   key={cmtID}
                   cmtProps={{ ...item, avatar: Ava1, cmtLength: comments.length, lastCmt: index }}
+                  currentUser={user}
                 />
               );
             })}
@@ -61,6 +61,18 @@ function Comments(): JSX.Element {
   const onKeyPress = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter') {
       valueRef.current?.blur();
+      const payload: {
+        user_id: string;
+        photo_id: string | number;
+        content: string;
+        parent: null;
+      } = {
+        user_id: user,
+        photo_id: photoId,
+        content: textArea,
+        parent: null,
+      };
+      dispatch(commentPhotoAction(payload));
       setTextArea('');
     }
   };
@@ -80,7 +92,7 @@ function Comments(): JSX.Element {
             <TimelineContent className={classes.content}>
               <Paper className={classes.paper} elevation={3}>
                 <Typography className={`${classes.actionName} ${classes.textStyle}`} component='h6' variant='h6'>
-                  Anh Ngoc Dang Nguyen
+                  {`User ${user}`}
                 </Typography>
                 <TextField
                   className={classes.textArea}

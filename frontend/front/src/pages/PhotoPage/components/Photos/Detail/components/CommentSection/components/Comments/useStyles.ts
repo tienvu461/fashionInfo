@@ -11,6 +11,7 @@ const useStyles: () => Record<
   | 'content'
   | 'timeline'
   | 'nestedTimeline'
+  | 'timelineTwo'
   | 'action'
   | 'flex'
   | 'textStyle'
@@ -91,9 +92,14 @@ const useStyles: () => Record<
   },
   timeline: {
     marginBottom: '15px',
+    paddingTop: '15px',
   },
   nestedTimeline: {
     paddingTop: '15px',
+  },
+  timelineTwo: {
+    paddingTop: '15px',
+    paddingLeft: '15px',
   },
   action: {
     display: 'flex',
@@ -135,7 +141,7 @@ const useStyles: () => Record<
   actionReply: {
     fontWeight: 'normal',
     color: '#616161',
-    cursor: 'pointer'
+    cursor: 'pointer',
   },
   comment: {
     color: '#000000',
@@ -150,8 +156,8 @@ const useStyles: () => Record<
     paddingBottom: '24px',
     fontSize: '18px',
     '& .MuiInput-underline:before': {
-      display: 'none'
-    }
+      display: 'none',
+    },
   },
   inputTextArea: {
     '&::placeholder': {

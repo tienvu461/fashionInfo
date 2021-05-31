@@ -2,8 +2,8 @@
 /* eslint-disable import/no-unresolved */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-import React, { useEffect, useState } from 'react';
-import { Button, Grid, Typography, Box } from '@material-ui/core';
+import React, { useEffect, useState, useRef } from 'react';
+import { Button, Grid, Typography, Box, RootRef } from '@material-ui/core';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Skeleton from '@material-ui/lab/Skeleton';
 import { useDispatch, useSelector } from 'react-redux';
@@ -16,9 +16,11 @@ import useStyles from './useStyles';
 function Photos(): JSX.Element {
   const classes = useStyles();
   const dispatch = useDispatch<any>();
+  const valueRef = useRef<HTMLInputElement>(null);
+
   const [listImg, setListImg] = useState<Array<any>>([]);
-  const [initialLoading, setInitialLoading] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
+  const [initialLoading, setInitialLoading] = useState<boolean>(false);
 
   // initial fetch data and set gallery to state once time
   useEffect(() => {
@@ -51,21 +53,20 @@ function Photos(): JSX.Element {
         const { id = 0, image_path: pathImgs = '', activities } = item;
 
         return (
-          <Grid
-            key={`${id}`}
-            className={classes.gridItem}
-            item
-            lg={4}
-            md={6}
-            sm={6}
-            style={
-              index >= 0 && index <= 2 ? { paddingTop: '0 !important' } : {}
-            }
-            xl={4}
-            xs={12}
-          >
-            <Photo activities={activities} id={id} pathImg={pathImgs} />
-          </Grid>
+          <RootRef rootRef={valueRef} key={`${id}`}>
+            <Grid
+              className={classes.gridItem}
+              item
+              lg={4}
+              md={6}
+              sm={6}
+              style={index >= 0 && index <= 2 ? { paddingTop: '0 !important' } : {}}
+              xl={4}
+              xs={12}
+            >
+              <Photo activities={activities} id={id} pathImg={pathImgs} />
+            </Grid>
+          </RootRef>
         );
       })}
     </>
@@ -83,12 +84,7 @@ function Photos(): JSX.Element {
         results.forEach((item) => newListImg.push(item));
         setLoading(false);
 
-        setTimeout(() => {
-          window.scrollBy({
-            behavior: 'smooth',
-            top: document.body.scrollHeight - 2720,
-          });
-        }, 200);
+        valueRef?.current?.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'center' });
       });
     } else {
       const exist = previousPage.includes('?page=');

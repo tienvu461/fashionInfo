@@ -1,11 +1,11 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable object-curly-newline */
 /* eslint-disable import/no-unresolved */
 import React, { useEffect } from 'react';
 import { Route, Switch } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { useDispatch } from 'react-redux';
+import jwtDecode, { JwtPayload } from 'jwt-decode';
 
 import './App.scss';
 import 'react-toastify/dist/ReactToastify.css';
@@ -16,7 +16,6 @@ import {
   ROUTE_LOGIN,
   ROUTE_PHOTO,
   ROUTE_PHOTO_SEARCH,
-  // ROUTE_MAGAZINE,
 } from './constants';
 import ForumPage from './pages/ForumPage';
 import PhotoPage from './pages/PhotoPage';
@@ -27,20 +26,68 @@ import NotFound from './pages/NotFound';
 import Detail from './pages/PhotoPage/components/Photos/Detail';
 import Footer from './components/Footer';
 
-import { getCredentialsFromLocalStorage } from './utils/localStorage';
+import {
+  clearStoreFromlocalStorage,
+  getCredentialsFromLocalStorage,
+  getRefreshTokenFromLocalStorage,
+  getTokenFromLocalStorage } from './utils/localStorage';
 import { loginSucess } from './features/Login/LoginSlice';
+import { refreshTokenAction } from './features/Login/LoginAction';
 
 toast.configure({
   autoClose: 2000
 });
 
+const checkExpired = (value) => {
+  let isExpired = false;
+  const now = new Date();
+
+  if (value.exp < now.getTime() / 1000) { // is expired
+    isExpired = true;
+  }
+  return isExpired;
+};
+
+const logOut = () => ({
+  type: 'CLEAR_STORE',
+});
+
 function App(): JSX.Element {
-  const getCredentials = getCredentialsFromLocalStorage();
-  const credentials = JSON.parse(getCredentials);
   const dispatch = useDispatch<any>();
 
+  const getCredentials = getCredentialsFromLocalStorage();
+  const getToken = getTokenFromLocalStorage();
+  const getRefreshToken = getRefreshTokenFromLocalStorage();
+
+  const credentials = JSON.parse(getCredentials);
+
+  const handleAuth = () => {
+    type CustomJwtPayload = JwtPayload & { exp: number };
+    const token = jwtDecode<CustomJwtPayload>(getToken);
+    const refreshToken = jwtDecode<CustomJwtPayload>(getRefreshToken);
+
+    const expToken = checkExpired(token);
+    const expRefreshToken = checkExpired(refreshToken);
+    const payload = {
+      refresh: getRefreshToken,
+    };
+
+    if (!expRefreshToken) { // refresh token < 30 days
+      if (expToken) { // token > 7 days
+        dispatch(refreshTokenAction(payload));
+      }
+    } else { // refresh token > 30 days
+      dispatch(logOut());
+      clearStoreFromlocalStorage();
+      toast.error('Phiên đăng nhập đã hết hạn. Vui lòng đăng nhập lại !');
+    }
+  };
+
   useEffect(() => {
-    if (credentials) dispatch(loginSucess(credentials));
+    if (credentials) {
+      dispatch(loginSucess(credentials));
+      handleAuth();
+    }
   }, []);
 
   return (
