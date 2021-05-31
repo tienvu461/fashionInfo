@@ -4,7 +4,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { Paper, Card, CardActionArea, CardMedia } from '@material-ui/core';
+import { Card, CardActionArea, CardMedia } from '@material-ui/core';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import { toast } from 'react-toastify';
 import { HOST } from 'src/apis';
@@ -60,42 +60,40 @@ function Photo(props: PropsType): JSX.Element {
 
   return (
     <>
-      <Paper className={classes.paper}>
-        <Card className='card'>
-          <Link to={`${ROUTE_PHOTO}/${id}`}>
-            <CardActionArea>
-              <CardMedia
-                alt='Contemplative Reptile'
-                className={classes.picture}
-                component='img'
-                image={checkPathImg(pathImg) || BannerPic}
-                title='Contemplative Reptile'
-              />
-            </CardActionArea>
-          </Link>
-          <div className='cardActions'>
-            <div className={classes.actions}>
-              <div className={classes.left}>
-                <div className={classes.leftActions}>
-                  {likeAction ? (
-                    <FavoriteIcon style={{ color: 'red' }} onClick={() => likePhoto(id)} />
+      <Card className='card'>
+        <Link to={`${ROUTE_PHOTO}/${id}`}>
+          <CardActionArea>
+            <CardMedia
+              alt='Contemplative Reptile'
+              className={classes.picture}
+              component='img'
+              image={checkPathImg(pathImg) || BannerPic}
+              title='Contemplative Reptile'
+            />
+          </CardActionArea>
+        </Link>
+        <div className='cardActions'>
+          <div className={classes.actions}>
+            <div className={classes.left}>
+              <div className={classes.leftActions}>
+                {likeAction ? (
+                  <FavoriteIcon style={{ color: 'red' }} onClick={() => likePhoto(id)} />
                   ) : (
                     <img alt='heart-icon' onClick={() => likePhoto(id)} className={classes.icon} src={HeartIcon} />
                   )}
-                  <div className={classes.num}>{updateLike()}</div>
-                </div>
-                <div className={classes.leftActions}>
-                  <img alt='comment-icon' className={classes.icon} src={CommentIcon} />
-                  <div className={classes.num}>{comments}</div>
-                </div>
+                <div className={classes.num}>{updateLike()}</div>
               </div>
-              <div className={classes.right}>
-                <img alt='share-icon' src={ShareIcon} />
+              <div className={classes.leftActions}>
+                <img alt='comment-icon' className={classes.icon} src={CommentIcon} />
+                <div className={classes.num}>{comments}</div>
               </div>
             </div>
+            <div className={classes.right}>
+              <img alt='share-icon' src={ShareIcon} />
+            </div>
           </div>
-        </Card>
-      </Paper>
+        </div>
+      </Card>
     </>
   );
 }

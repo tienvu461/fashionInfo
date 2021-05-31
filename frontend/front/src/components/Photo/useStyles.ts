@@ -13,7 +13,6 @@ import {
 const useStyles: () => Record<
   // | 'root'
   // | 'backDrop'
-  | 'paper'
   | 'picture'
   | 'actions'
   | 'left'
@@ -45,7 +44,6 @@ const useStyles: () => Record<
       paddingTop: '77px',
     },
   },
-  paper: {},
   picture: {
     height: '600px',
     zIndex: 4,
