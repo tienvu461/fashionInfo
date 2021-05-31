@@ -19,6 +19,12 @@ admin.site.register(token_blacklist.models.OutstandingToken, OutstandingTokenAdm
 
 @admin.register(UserProfile)
 class UserProfile(admin.ModelAdmin):
-    list_display = ('user', 'profile_photo',)
+    list_display = ('user', 'full_name', 'email', 'social_url', 'profile_photo',)
     list_filter = ('created_at',)
-    search_fields = ('user',)
+    search_fields = ('full_name',)
+    def full_name(self, obj):
+        first_name = obj.user.first_name
+        last_name = obj.user.last_name
+        return first_name + " " + last_name
+    def email(self, obj):
+        return obj.user.email
