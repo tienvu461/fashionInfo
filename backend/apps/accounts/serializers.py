@@ -17,24 +17,33 @@ class UserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ('username', 'email', 'password')
+        fields = ('username', 'email', 'first_name', 'last_name')
+        read_only_fields = ('email', )
 
 
 class UserProfileSerializer(serializers.ModelSerializer):
-    full_name = serializers.SerializerMethodField()
-    email = serializers.SerializerMethodField()
+    user = UserSerializer(required=True, many=False)
 
     class Meta:
         model = UserProfile
-        fields = ('user', 'full_name', 'email', 'social_url',  'profile_photo')
+        fields = ('user', 'social_url', 'dob', 'gender', 'profile_photo')
 
-    def get_full_name(self, instance):
-        first_name = instance.user.first_name
-        last_name = instance.user.last_name
-        return first_name + " " + last_name
+    # def get_email(self, instance):
+    #     return instance.user.email
 
-    def get_email(self, instance):
-        return instance.user.email
+    # def update(self, instance, validated_data):
+    #     logger.debug(self.data)
+    #     user_data = validated_data.pop('user')
+    #     username = self.data['user']['username']
+    #     user = User.objects.get(username=username)
+    #     logger.debug(user)
+    #     user_serializer = UserProfileSerializer(data=user_data)
+    #     if user_serializer.is_valid(raise_exception=True):
+    #         user_serializer.update(user, user_data)
+    #     else:
+    #         logger.debug("invalid")
+    #     instance.save()
+    #     return instance
 
 
 class EmailTokenObtainSerializer(TokenObtainSerializer):

@@ -23,5 +23,5 @@ accounts_urlpatterns = [
     path('api/user/logout/', BlackListTokenView.as_view(), name='logout-view'),
     path('api/user/activate/<str:uid>/<str:token>/', ActivateUser.as_view(), name='activate-view'),
     path('api/users/reset_password_confirm/<str:uid>/<str:token>/', ForgotPasswordView.as_view()),
-    url(r'api/userprofile/(?P<pk>\d+)/', UserProfileViews.as_view()),
+    path('api/user/profile/', UserProfileViews.as_view()),
 ]

@@ -1,3 +1,4 @@
+from django.http.response import HttpResponse
 from django.contrib.auth.models import User
 from django.views import View
 from django.shortcuts import render
@@ -98,8 +99,12 @@ class ForgotPasswordView(APIView):
 
 # Allow get user profile and update
 class UserProfileViews(generics.RetrieveUpdateAPIView):
-    queryset = UserProfile.objects.all()
+    permission_classes = (IsAuthenticated,)
+    # queryset = UserProfile.objects.all()
     serializer_class = UserProfileSerializer
+    
+    def get_object(self):
+        return UserProfile.objects.get(user=self.request.user)
 
     # def get(self, request, *args, **kwargs):
     #     # view increment
@@ -107,6 +112,31 @@ class UserProfileViews(generics.RetrieveUpdateAPIView):
     #     serializer = self.get_serializer(instance)
     #     return Response(serializer.data)
 
-    # def put(self, request, *args, **kwargs):
-    #     serializer = self.get_serializer(data=request.data)
-    #     return Response(UserSerializer)
+   
+    def update(self, request, *args, **kwargs):
+        try:
+            # update User model
+            username = request.data['user']['username']
+            email = request.data['user'].get('email')
+            first_name = request.data['user'].get('first_name')
+            last_name = request.data['user'].get('last_name')
+            user = User.objects.get(username=username)
+            user.email = email
+            user.first_name = first_name
+            user.last_name = last_name
+            user.save()
+
+            # update UserProfile model
+            social_url = request.data.get('social_url')
+            dob = request.data.get('dob')
+            gender = request.data.get('gender', 0)
+            user_profile = self.get_object()
+            user_profile.social_url = social_url
+            user_profile.dob = dob
+            user_profile.gender = gender
+            user_profile.save()
+            # TODO: update profile picture
+            return Response({"info": "Profile updated"}, status=status.HTTP_200_OK)
+        except Exception as e:
+            logger.error("Cannot update profile")
+            logger.error(e)
