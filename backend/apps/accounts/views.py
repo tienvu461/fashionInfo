@@ -62,10 +62,11 @@ class ActivateUser(APIView):
         
         protocol = 'https://' if request.is_secure() else 'http://'
         url = "{0}{1}/api/users/activation/".format(protocol, settings.HOSTNAME)
-
+        host = "{0}{1}".format(protocol, settings.HOSTNAME)
+        host = "http://api.tienvv.com"
         logger.debug("activation url: {}".format(url))
 
-        return render(request, 'activation_page.html', {'url': url, 'uid': uid, 'token': token})
+        return render(request, 'activation_page.html', {'host': host, 'url': url, 'uid': uid, 'token': token})
         response = requests.post(url, data = payload)
 
 
