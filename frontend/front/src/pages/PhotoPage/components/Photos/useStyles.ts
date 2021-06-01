@@ -2,19 +2,13 @@
 import { makeStyles } from '@material-ui/core/styles';
 import {
   white,
-  pdXL,
-  pdSM,
-  pdLG,
-  pdMD,
-  theme,
   black,
 } from 'src/styles/theme';
 
 const useStyles: () => Record<
   | 'root'
+  | 'container'
   | 'backDrop'
-  | 'paper'
-  | 'picture'
   | 'gridItem'
   | 'actions'
   | 'left'
@@ -32,35 +26,10 @@ const useStyles: () => Record<
   root: {
     height: 'auto',
     backgroundColor: white,
-
-    // responsive
-    [theme.breakpoints.up('sm')]: {
-      padding: pdSM,
-      paddingTop: '77px',
-    },
-    [theme.breakpoints.up('md')]: {
-      padding: pdMD,
-      paddingTop: '77px',
-    },
-    [theme.breakpoints.up('lg')]: {
-      padding: pdLG,
-      paddingTop: '77px',
-    },
-    [theme.breakpoints.up('xl')]: {
-      padding: pdXL,
-      paddingTop: '77px',
-    },
   },
-  paper: {},
-  picture: {
-    height: '600px',
-    zIndex: 4,
+  container: {
   },
   gridItem: {
-    padding: '0 20px 40px 20px !important',
-    [theme.breakpoints.up('sm')]: {
-      width: '480px',
-    },
   },
   actions: {
     display: 'flex',
@@ -97,7 +66,7 @@ const useStyles: () => Record<
   nextBtn: {
     height: '60px',
     width: '220px',
-    marginRight: '20px',
+    // marginRight: '20px',
   },
   textBtn: {
     textTransform: 'initial',
