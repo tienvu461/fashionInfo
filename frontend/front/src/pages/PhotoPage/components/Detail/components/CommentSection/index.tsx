@@ -19,17 +19,17 @@ function CommentComponent(props: CommentComponentProps): JSX.Element {
     <div className={classes.root}>
       <Grid className={classes.container} container>
         {matches ? (
-          <Grid item lg={4} md={4} sm={4} xl={12} xs={12}>
+          <Grid item lg={4} md={4} sm={4} xl={6} xs={12}>
             <Reporter />
           </Grid>
         ) : null}
-        <Grid item lg={8} md={8} sm={8} xl={12} xs={12}>
+        <Grid item lg={8} md={8} sm={8} xl={6} xs={12}>
           <CommentLayout paramsId={paramsId}>
             <Comments />
           </CommentLayout>
         </Grid>
         {!matches ? (
-          <Grid item lg={4} md={4} sm={4} xl={12} xs={12}>
+          <Grid item lg={4} md={4} sm={4} xl={6} xs={12}>
             <Reporter />
           </Grid>
         ) : null}

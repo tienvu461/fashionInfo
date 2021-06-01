@@ -28,6 +28,8 @@ const useStyles: () => Record<
   root: {
     height: 'auto',
     backgroundColor: gray2,
+    display: 'flex',
+    flexDirection: 'column',
 
     // responsive
     [theme.breakpoints.up('sm')]: {
@@ -47,7 +49,8 @@ const useStyles: () => Record<
       paddingTop: '77px',
     },
   },
-  gridPhoto: {},
+  gridPhoto: {
+  },
   loading: {
     height: '975px',
     width: '100%',
