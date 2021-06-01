@@ -53,7 +53,7 @@ const useStyles: () => Record<
   },
   rootTimeline: {
     padding: 0,
-    marginTop: 0,
+    marginTop: '-15px',
   },
   dotAvatar: {
     width: '86px',
