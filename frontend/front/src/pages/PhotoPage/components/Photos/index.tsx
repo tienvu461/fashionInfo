@@ -54,18 +54,12 @@ function Photos(): JSX.Element {
 
         return (
           <RootRef rootRef={valueRef} key={`${id}`}>
-            <Grid
+            <div
               className={classes.gridItem}
-              item
-              lg={4}
-              md={6}
-              sm={6}
-              style={index >= 0 && index <= 2 ? { paddingTop: '0 !important' } : {}}
-              xl={4}
-              xs={12}
+              style={index % 2 === 0 ? {} : {}}
             >
               <Photo activities={activities} id={id} pathImg={pathImgs} />
-            </Grid>
+            </div>
           </RootRef>
         );
       })}
@@ -133,7 +127,7 @@ function Photos(): JSX.Element {
 
   return (
     <div className={`${classes.root} root`}>
-      <Grid container>
+      <Grid className={classes.container} container justify='space-between'>
         {initialLoading ? (
           <>{loadingPhoto()}</>
         ) : (
