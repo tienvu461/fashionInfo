@@ -11,16 +11,17 @@ import json
 
 from .models import Photo, News, PhotoFeature, PhotoLike, PhotoComment, GenericConfig
 from .consts import modelConst, postTypeEnum
+from .utils import calc_interactive_pt, nested_comment
 logger = logging.getLogger('photos')
 
 
 class PhotoSerializer(serializers.ModelSerializer):
     activities = serializers.SerializerMethodField()
     tags = TagListSerializerField()
-
+    
     class Meta:
         model = Photo
-        fields = ['id', 'title', 'author', 'image_path',
+        fields = ['id', 'title', 'image_path', 'user_likes',
                   'status', 'created_at', 'activities', 'tags', 'photographer']
         removed_fields = []
 
@@ -49,7 +50,6 @@ class PhotoSerializer(serializers.ModelSerializer):
         like_num = PhotoLike.objects.filter(photo_id=instance.id).count()
         comment_num = PhotoComment.objects.filter(photo_id=instance.id).count()
         view_count = getattr(instance, 'view_count')
-
         return {
             'likes': like_num,
             'comments': comment_num,
@@ -79,6 +79,7 @@ class CommentSerializer(serializers.ModelSerializer):
         data_fields = super(CommentSerializer,
                             self).to_representation(instance)
         data_fields['created_at'] = int(instance.created_at.timestamp())
+        data_fields['user_id'] = instance.user_id.first_name + ' ' + instance.user_id.last_name
 
         return data_fields
 
@@ -90,8 +91,8 @@ class PhotoDetailSerializer(PhotoSerializer):
 
     class Meta:
         model = Photo
-        fields = ['id', 'title', 'author', 'image_path', 'status', 'detail_info',
-                  'created_at', 'likes', 'comments', 'tags', 'view_count']
+        fields = ['id', 'title', 'image_path', 'status', 'detail_info',
+                  'created_at', 'likes', 'comments', 'user_likes', 'tags', 'view_count']
         removed_fields = []
 
     def __init__(self, *args, **kwargs):
@@ -117,7 +118,9 @@ class PhotoDetailSerializer(PhotoSerializer):
             shoot_date = "N/A"
         location = getattr(instance, 'location')
         brand = getattr(instance, 'brand')
+        style = getattr(instance, 'style')
         photographer = getattr(instance, 'photographer')
+        social_url = getattr(instance, 'social_url')
         post_date = int(getattr(instance, 'post_date').timestamp())
 
         return {
@@ -126,19 +129,44 @@ class PhotoDetailSerializer(PhotoSerializer):
             'shoot_date': shoot_date,
             'location': location,
             'brand': brand,
+            'style': style,
             'photographer': photographer,
+            'social_url': social_url,
             'post_date': post_date,
         }
 
     def get_likes(self, instance):
-        return PhotoLike.objects.filter(photo_id=instance.id).count()
+        return PhotoLike.objects.filter(photo_id=instance.id, is_enabled=True).count()
 
     def get_comments(self, instance):
-        comment_queryset = PhotoComment.objects.filter(photo_id=instance.id)
+        comment_queryset = PhotoComment.objects.filter(photo_id=instance.id, parent__isnull=True)
+        reply_queryset = PhotoComment.objects.filter(photo_id=instance.id, parent__isnull=False)
 
         # data = serializers.serialize('json', query)
-        return CommentSerializer(comment_queryset, many=True).data
+        comment_data =  CommentSerializer(comment_queryset, many=True).data
+        reply_data =  CommentSerializer(reply_queryset, many=True).data
+        nested_comment(comment_data, reply_data)
+        return comment_data
 
+
+class PhotoSuggestSerializer(PhotoSerializer):
+    interactive_pt = serializers.SerializerMethodField()
+    class Meta:
+        model = Photo
+        fields = ['id', 'title', 'author', 'image_path',
+                  'status', 'created_at', 'activities', 'tags', 'photographer', 'interactive_pt']
+    def get_interactive_pt(self, instance):
+        org_tag_list = self.context.get("org_tag_list")
+        org_photographer = self.context.get("org_photographer")
+        tags_list = list(getattr(instance, 'tags').names())
+        photographer = getattr(instance, 'photographer')
+
+        logger.debug((tags_list))
+        logger.debug(photographer)
+
+        interactive_pt = calc_interactive_pt(
+                    org_tag_list, tags_list, org_photographer, photographer)
+        return interactive_pt
 
 class PhotoFeatureSerializer(serializers.ModelSerializer):
     class Meta:

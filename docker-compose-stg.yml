@@ -33,6 +33,8 @@ services:
 
     nginx:
         build:
+            args:
+              SRC_DIR: ./infrastructure/docker/nginx/staging
             context: .
             dockerfile: ./infrastructure/docker/nginx/staging/Dockerfile
         ports:
@@ -88,6 +90,6 @@ services:
         #     - POSTGRES_PASSWORD=fashion_info
 
 volumes:
-    static_volume: {}
+    # static_volume: {}
     postgresql_volume: {}
-    media_volume: {}
+    # media_volume: {}

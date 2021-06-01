@@ -94,7 +94,7 @@ function docker_restart() {
 function docker_logs() {
     local _component=$1
     docker-compose  -f docker-compose-${ENVIRONMENT}.yml \
-                    -p ${PROJECT} logs -f $_component
+                    -p ${PROJECT} logs -f --tail 10 $_component
 }
 
 function docker_tag() {

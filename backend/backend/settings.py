@@ -77,7 +77,7 @@ REST_FRAMEWORK = {
 
     'DEFAULT_PAGINATION_CLASS':   
         'rest_framework.pagination.PageNumberPagination',
-    'PAGE_SIZE': 5,
+    'PAGE_SIZE': 6,
     'MAX_PAGE_SIZE': 50,
     
     # Enable if run on prd
@@ -193,12 +193,12 @@ LOGGING = {
             'class': 'logging.StreamHandler',
             'formatter': 'verbose'
         },
-        'file': {
-            'level': 'INFO',
-            'class': 'logging.FileHandler',
-            'filename': 'logs/info.log',
-            'formatter': 'verbose'
-        },
+        # 'file': {
+        #     'level': 'INFO',
+        #     'class': 'logging.FileHandler',
+        #     'filename': '/var/log/django/backend.log',
+        #     'formatter': 'verbose'
+        # },
     },
     'loggers': {
         'django': {
@@ -206,7 +206,7 @@ LOGGING = {
             'propagate': True,
         },
         'photos': {
-            'handlers': [os.environ.get("LOGGING_HANDLER")],
+            'handlers': ["console"],
             'propagate': True,
             'level': os.environ.get("LOGGING_LEVEL")
         }
@@ -270,13 +270,13 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
-STATIC_URL = '/static/'
-MEDIA_URL = '/media/'
+STATIC_URL = '/backend_static/'
+MEDIA_URL = '/backend_media/'
 if DEBUG:
     STATICFILES_DIRS = [
-        os.path.join(BASE_DIR, 'static'),
+        os.path.join(BASE_DIR, 'backend_static'),
     ]
-    MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+    MEDIA_ROOT = os.path.join(BASE_DIR, 'backend_media')
 else:
     STATIC_URL = '/backend_static/'
     STATIC_ROOT = os.path.join(BASE_DIR, 'backend_static')

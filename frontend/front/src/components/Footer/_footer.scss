@@ -1,0 +1,8 @@
+@import '../../styles/styles.scss';
+
+@include MediaQuery($sm) {
+  .footer {
+    // flex-direction: column;
+    // align-items: center;
+  }
+}

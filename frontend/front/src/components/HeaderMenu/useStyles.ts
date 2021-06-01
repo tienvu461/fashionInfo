@@ -1,6 +1,6 @@
-/* eslint-disable object-curly-newline */
+/* eslint-disable import/no-unresolved */
 import { makeStyles } from '@material-ui/core/styles';
-import { textColor, pdSM, pdMD, pdLG, pdXL, theme } from '../../styles/theme';
+import { textColor, pdSM, pdMD, pdLG, pdXL, theme } from 'src/styles/theme';
 
 const useStyles: () => Record<
   | 'root'
@@ -13,6 +13,7 @@ const useStyles: () => Record<
   | 'linkText'
   | 'textNonActive'
   | 'textActive'
+  | 'sectionDesktop'
   | 'navLinks',
   string
 > = makeStyles(() => ({
@@ -20,6 +21,14 @@ const useStyles: () => Record<
     display: 'flex',
     flexDirection: 'column',
   },
+  sectionDesktop: {
+      display: 'none',
+      [theme.breakpoints.up('md')]: {
+        display: 'flex',
+      },
+      marginLeft: '38px',
+      cursor: 'pointer',
+    },
   navbar: {
     height: '80px',
   },

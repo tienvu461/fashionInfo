@@ -1,36 +1,88 @@
-/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable camelcase */
+/* eslint-disable import/no-unresolved */
+
 import { Dispatch } from '@reduxjs/toolkit';
 import { toast } from 'react-toastify';
-import { getListPhoto, getPhotoDetail } from './photoSlice';
 import {
   getListPhoto as listPhotoService,
   getPhotoById,
-} from '../../services/photo';
+  getListSuggestionPhoto,
+  likePhotoService,
+  commentPhotoService,
+} from 'src/services/photo';
+import { getListPhoto, getPhotoDetail, getListPhotoSuggestion, photoLikes, photoComment } from './photoSlice';
 
-export const listPhotoAction = (page: number) => async (dispatch: Dispatch) => {
+export const listPhotoAction = (page: number) => async (dispatch: Dispatch): Promise<any> => {
   try {
     const response = await listPhotoService(page);
     const { data = {}, status = '' } = response;
     if (status === 200) {
       dispatch(getListPhoto({ data }));
+      return data;
     }
-    return data;
   } catch (error) {
     toast.error(`${error}`);
   }
   return 0;
 };
 
-export const getDetailAction = (id: string) => async (dispatch: Dispatch) => {
+export const getDetailAction = (id: string) => async (dispatch: Dispatch): Promise<any> => {
   try {
     const response = await getPhotoById(id);
     const { data = {}, status = '' } = response;
     if (status === 200) {
       dispatch(getPhotoDetail({ data }));
     }
-    return data;
+    return response;
   } catch (error) {
     toast.error(`${error}`);
   }
   return 0;
 };
+
+export const getPhotoSuggestAction = (num: number, id: string) => async (dispatch: Dispatch): Promise<any> => {
+  try {
+    const response = await getListSuggestionPhoto(num, id);
+    const { data = {}, status = '' } = response;
+    if (status === 200) {
+      dispatch(getListPhotoSuggestion({ data }));
+      return data;
+    }
+  } catch (error) {
+    toast.error(`${error}`);
+  }
+  return 0;
+};
+
+export const likePhotoAction = (payload: { user_id: string; photo_id: string | number}) => async (dispatch: Dispatch): Promise<any> => {
+  try {
+    const response = await likePhotoService(payload);
+    const { data = {}, status = '' } = response;
+    if (status === 200) {
+      dispatch(photoLikes({ data }));
+      return data;
+    }
+  } catch (error) {
+    toast.error(`${error}`);
+  }
+  return 0;
+};
+
+export const commentPhotoAction = (payload: {
+  user_id: string;
+  photo_id: string | number;
+  content: string;
+  parent: null | number }) => async (dispatch: Dispatch): Promise<any> => {
+    try {
+      const response = await commentPhotoService(payload);
+      const { data = {}, status = '' } = response;
+      if (status === 200) {
+        dispatch(photoComment({ data }));
+        return data;
+      }
+    } catch (error) {
+      toast.error(`${error}`);
+    }
+    return 0;
+  };

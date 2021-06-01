@@ -1,6 +1,12 @@
 from django.contrib import admin
 from rest_framework_simplejwt import token_blacklist
 
+import logging
+
+from .models import UserProfile
+
+from django import forms
+logger = logging.getLogger('photos')
 # in order to make admin can delete outstanding token
 class OutstandingTokenAdmin(token_blacklist.admin.OutstandingTokenAdmin):
 
@@ -9,3 +15,16 @@ class OutstandingTokenAdmin(token_blacklist.admin.OutstandingTokenAdmin):
 
 admin.site.unregister(token_blacklist.models.OutstandingToken)
 admin.site.register(token_blacklist.models.OutstandingToken, OutstandingTokenAdmin)
+
+
+@admin.register(UserProfile)
+class UserProfile(admin.ModelAdmin):
+    list_display = ('user', 'full_name', 'email', 'social_url', 'profile_photo',)
+    list_filter = ('created_at',)
+    search_fields = ('full_name',)
+    def full_name(self, obj):
+        first_name = obj.user.first_name
+        last_name = obj.user.last_name
+        return first_name + " " + last_name
+    def email(self, obj):
+        return obj.user.email

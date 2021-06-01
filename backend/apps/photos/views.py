@@ -8,7 +8,7 @@ from rest_framework import serializers, views, status, mixins, generics, paginat
 import logging
 
 from .models import Photo, News, PhotoLike, PhotoComment, PhotoLike, PhotoComment, GenericConfig
-from .serializers import PhotoSerializer, PhotoDetailSerializer, PhotoFeatureSerializer, CommentSerializer, NewsSerializer, LikeSerializer
+from .serializers import PhotoSerializer, PhotoDetailSerializer, PhotoFeatureSerializer, PhotoSuggestSerializer, CommentSerializer, NewsSerializer, LikeSerializer
 from .consts import photosConst
 from .utils import calc_interactive_pt
 
@@ -93,6 +93,45 @@ class PhotoDetail(generics.RetrieveUpdateDestroyAPIView):
 
         return Response(serializer.data)
 
+class PhotoCustomPaginate(views.APIView):
+    page_size = photosConst.PAGE_SIZE
+    max_page_size = photosConst.MAX_PAGE_SIZE
+    min_limit = 1
+    max_limit = max_page_size
+
+    def paginate(self, object_list, page=1, limit=10, **kwargs):
+        
+        from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
+        try:
+            page = int(page)
+            if page < 1:
+                page = 1
+        except (TypeError, ValueError):
+            page = 1
+
+        try:
+            limit = int(limit)
+            if limit < self.min_limit:
+                limit = self.min_limit
+            if limit > self.max_limit:
+                limit = self.max_limit
+        except (ValueError, TypeError):
+            limit = self.max_limit
+
+        paginator = Paginator(object_list, limit)
+        try:
+            objects = paginator.page(page)
+        except PageNotAnInteger:
+            objects = paginator.page(1)
+        except EmptyPage:
+            objects = paginator.page(paginator.num_pages)
+        data = {
+            'previous': objects.has_previous() and objects.previous_page_number() or None,
+            'next': objects.has_next() and objects.next_page_number() or None,
+            'results': list(objects)
+        }
+        return data
+
 
 class PhotoSearch(views.APIView, pagination.PageNumberPagination):
 
@@ -107,7 +146,7 @@ class PhotoSearch(views.APIView, pagination.PageNumberPagination):
         # page = pagination.PageNumberPagination.paginate_queryset(queryset=queryset, request=request)
         page = self.paginate_queryset(queryset, request, view=self)
         if page is not None:
-            serializer = PhotoSerializer(queryset, many=True)
+            serializer = PhotoSerializer(page, many=True)
             return self.get_paginated_response(serializer.data)
 
         logger.debug(queryset)
@@ -115,25 +154,19 @@ class PhotoSearch(views.APIView, pagination.PageNumberPagination):
         return Response(serializer.data)
 
 
-class PhotoSuggest(views.APIView, pagination.PageNumberPagination):
-
+class PhotoSuggest(PhotoCustomPaginate):
     def get(self, request):
+        page = request.GET.get("page")
         photo_id = request.GET.get('photo_id')
         logger.debug(photo_id)
-        test_param = {
-            'like': 8,
-            'dislike': 3,
-            'comment': 10,
-            'view': 10
-        }
 
-        # getting interactive ratio from Generic Config tbl
-        config_obj = GenericConfig.objects.filter(in_use=True)
-        interactive_ratio = config_obj.values().first()
-        logger.debug("interactive_ratio = {}".format(interactive_ratio))
-        if not interactive_ratio:
-            logger.error("Config not found")
-            return Response(status=status.HTTP_400_BAD_REQUEST,)
+        # # getting interactive ratio from Generic Config tbl
+        # config_obj = GenericConfig.objects.filter(in_use=True)
+        # interactive_ratio = config_obj.values().first()
+        # logger.debug("interactive_ratio = {}".format(interactive_ratio))
+        # if not interactive_ratio:
+        #     logger.error("Config not found")
+        #     return Response(status=status.HTTP_400_BAD_REQUEST,)
 
         try:
             org_queryset = Photo.objects.filter(id=photo_id).distinct()
@@ -160,8 +193,8 @@ class PhotoSuggest(views.APIView, pagination.PageNumberPagination):
                 id=photo_id)
             similar_photos_serializer = PhotoSerializer(
                 similar_photos_queryset, many=True)
-            logger.debug(("similar_photos_serializer data = {}".format(
-                similar_photos_serializer.data)))
+            # logger.debug(("similar_photos_serializer data = {}".format(
+                # similar_photos_serializer.data)))
 
             for photo in similar_photos_serializer.data:
                 photo['interactive_pt'] = calc_interactive_pt(
@@ -169,14 +202,24 @@ class PhotoSuggest(views.APIView, pagination.PageNumberPagination):
 
             sorted_suggestion_list = sorted(
                 similar_photos_serializer.data, key=lambda k: (-k['interactive_pt']))
-            logger.debug(type(similar_photos_serializer.data))
-            logger.debug(("ranking list = {}".format(sorted_suggestion_list)))
-            page = self.paginate_queryset(
-                similar_photos_queryset, request, view=self)
-            if page is not None:
-                return self.get_paginated_response(sorted_suggestion_list)
+            # logger.debug(("ranking list = {}".format(sorted_suggestion_list)))
+            
+            similar_photos_serializer = PhotoSuggestSerializer(
+                similar_photos_queryset, many=True, context={'org_tag_list': org_tag_list, 'org_photographer': org_photographer})
+            
+            return Response(self.paginate(sorted_suggestion_list, page, 6))
 
-            return Response(sorted_suggestion_list)
+            # page = self.paginate_queryset(
+            #     similar_photos_queryset, request, view=self)
+            # if page is not None:
+            #     logger.debug("page = {}".format(page))
+            #     similar_photos_serializer = PhotoSuggestSerializer(
+            #     page, many=True, context={'org_tag_list': org_tag_list, 'org_photographer': org_photographer})
+            #     # sorted_suggestion_list = sorted(
+            #     # similar_photos_serializer.data, key=lambda k: (-k['interactive_pt']))
+            #     return self.get_paginated_response(similar_photos_serializer.data)
+
+            # return Response(sorted_suggestion_list)
 
         except IndexError as e:
             logger.error("Cannot get suggestion")
@@ -195,7 +238,7 @@ class PhotoSuggest(views.APIView, pagination.PageNumberPagination):
 
         # logger.debug(queryset)
         # serializer = PhotoSerializer(queryset, many=True)
-        return Response(status=status.HTTP_200_OK,)
+        # return Response(status=status.HTTP_200_OK,)
 
 # Get the most trending photo
 
@@ -212,9 +255,8 @@ class PhotoFeatureDetail(views.APIView):
         serializer = PhotoFeatureSerializer(queryset, many=True)
         return Response(serializer.data)
 
+
 # Create comment on photo
-
-
 class PhotoCommentCreate(generics.CreateAPIView):
     permission_classes = (IsAuthenticated,)
     serializer_class = CommentSerializer
@@ -293,9 +335,10 @@ class PhotoLikeCreate(generics.CreateAPIView):
     
     def post(self, request, *args, **kwargs):
         # query photolike object from DB
-        photo_like = PhotoLike.objects.filter(user_id=self.request.data['user_id'],
+        photo_like = PhotoLike.objects.get(user_id=self.request.data['user_id'],
                                                 photo_id=self.request.data['photo_id'])
-        
+        photo = Photo.objects.get(id=self.request.data['photo_id'])
+
         if not photo_like:
             # if there is no photolike object with above condition => create one
             serializer = self.get_serializer(data=request.data)
@@ -303,10 +346,27 @@ class PhotoLikeCreate(generics.CreateAPIView):
             serializer.is_valid(raise_exception=True)
             self.perform_create(serializer)
             headers = self.get_success_headers(serializer.data)
+            # add user to likes list
+            photo.user_likes.add(self.request.data['user_id'])
+            photo.save()
 
             return Response(serializer.data, status=status.HTTP_200_OK, headers=headers)
         
-        else:
-            # if there is photolike object with above condition => delete it
-            photo_like.delete()
+        elif True == photo_like.is_enabled:
+            # if there is photolike object with above condition => disable it
+            photo_like.is_enabled = False
+            photo_like.save()
+            # remove user to likes list
+            photo.user_likes.remove(self.request.data['user_id'])
+            photo.save()
+
             return Response({'info': 'you have unlike this photo!'}, status=status.HTTP_200_OK)
+        else:
+            # if there is photolike object with above condition => re-enable it
+            photo_like.is_enabled = True
+            photo_like.save()
+            # add user to likes list
+            photo.user_likes.add(self.request.data['user_id'])
+            photo.save()
+            return Response({'info': 'you have like this photo!'}, status=status.HTTP_200_OK)
+            

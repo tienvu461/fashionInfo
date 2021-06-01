@@ -1,12 +1,23 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable object-curly-newline */
 import { createSlice } from '@reduxjs/toolkit';
 
 interface InitialState {
   photoList: {
-    listPhoto: Array<any>;
+    listPhoto: Array<Record<string, string>>;
     dataOrigin: Record<string, string>;
   };
-  photoDetail: Record<any, any>;
+  photoDetail: Record<string, any>;
+  photoSuggestionList: {
+    listPhoto: Array<Record<string, string>>;
+    dataOrigin: Record<string, string>;
+  };
+  isLoginToComment: {
+    isComment: boolean;
+    photoId: string | null;
+  }
+  photoLikes: Record<string, string>
+  photoComment: Record<string, string>
 }
 
 const initialState: InitialState = {
@@ -15,6 +26,16 @@ const initialState: InitialState = {
     dataOrigin: {},
   },
   photoDetail: {},
+  photoSuggestionList: {
+    listPhoto: [],
+    dataOrigin: {},
+  },
+  isLoginToComment: {
+    isComment: false,
+    photoId: null
+  },
+  photoLikes: {},
+  photoComment: {}
 };
 
 const photoSlice = createSlice({
@@ -33,11 +54,34 @@ const photoSlice = createSlice({
         ...payload.data,
       };
     },
+
+    getListPhotoSuggestion: (state, { payload }) => {
+      state.photoSuggestionList = {
+        listPhoto: payload.data.results,
+        dataOrigin: { ...payload.data },
+      };
+    },
+    isLoginToComment: (state, { payload }) => {
+      state.isLoginToComment = {
+        isComment: payload.isComment,
+        photoId: payload.photoId
+      };
+    },
+    photoLikes: (state, { payload }) => {
+      state.photoLikes = {
+        ...payload.data
+      };
+    },
+    photoComment: (state, { payload }) => {
+      state.photoComment = {
+        ...payload.data
+      };
+    }
   },
 });
 
 const { actions, reducer } = photoSlice;
-const { getListPhoto, getPhotoDetail } = actions;
-export { getListPhoto, getPhotoDetail };
+const { getListPhoto, getPhotoDetail, getListPhotoSuggestion, isLoginToComment, photoLikes, photoComment } = actions;
+export { getListPhoto, getPhotoDetail, getListPhotoSuggestion, isLoginToComment, photoLikes, photoComment };
 
 export default reducer;
