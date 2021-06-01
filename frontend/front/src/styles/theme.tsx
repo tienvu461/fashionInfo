@@ -57,8 +57,8 @@ export const theme = createMuiTheme({
       '@media (max-width:960px)': { fontSize: '14px' },
     },
     h5: {
-      fontSize: '1.2rem',
-      '@media (min-width:1302px)': { fontSize: '2rem' },
+      fontSize: '20px',
+      '@media (min-width:1302px)': { fontSize: '18px' },
     },
     h4: {
       fontSize: '1.4rem',

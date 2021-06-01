@@ -4,25 +4,23 @@ import { white, pdXL, pdSM, pdLG, pdMD, theme, black } from 'src/styles/theme';
 
 const useStyles: () => Record<
   | 'root'
-  | 'box'
+  | 'leftFooter'
+  | 'rightFooter'
   | 'field'
-  | 'lucete'
-  | 'small'
-  | 'socialButton'
-  | 'button'
-  | 'headerline'
-  | 'boxLeft'
-  | 'flex'
-  | 'buttonSocial'
-  | 'smallSocial'
-  | 'flexSocial'
-  | 'flexLink'
-  | 'header',
+  | 'emailInput'
+  | 'header'
+  | 'links'
+  | 'link'
+  | 'headerRight'
+  | 'listIcons'
+  | 'icon'
+  | 'logoFooter',
   string
 > = makeStyles(() => ({
   root: {
     width: '100%',
     height: 'auto',
+    marginTop: '12px',
     backgroundColor: '#0D0D0D',
 
     // responsive
@@ -39,109 +37,67 @@ const useStyles: () => Record<
       padding: pdXL,
     },
   },
+  leftFooter: {
+    padding: '151px 0 52px 0',
+  },
+  rightFooter: {
+    padding: '176px 0 52px 0',
+    display: 'flex',
+    justifyContent: 'flex-end',
+  },
   header: {
     color: '#FFFFFF',
     fontFamily: 'Roboto',
     fontWeight: 'normal',
     lineHeight: '35px',
     letterSpacing: '1.2px',
-    textAlign: 'left'
+    textAlign: 'left',
   },
-  headerline: {
-    fontSize: '20px',
-    color: '#FFFFFF',
-    fontFamily: 'Roboto',
-  },
-  box: {
-    height: '347px',
-    width: '380.65px',
-    marginTop: '151px',
-    marginLeft: '150px',
-  },
-  boxLeft: {
-    height: '313px',
-    width: '350px',
-    marginTop: '151px',
-    marginLeft: '150px',
+  headerRight: {
+    paddingBottom: '60px',
   },
   field: {
-    '& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline': {
-      borderColor: '#E8E8E8',
-    },
-    // '&:hover .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline': {
-    //   borderColor: '#000000',
-    // },
-    '& .MuiOutlinedInput-input': {
-      color: '#FFFFFF',
-      // fontFamily: 'Roboto',
-    },
-    // '&:hover .MuiOutlinedInput-input': {
-    //   color: '#000000',
-    // },
-    // '& .MuiInputLabel-outlined': {
-    //   color: '#FFFFFF',
-    // },
-    // '&:hover .MuiInputLabel-outlined': {
-    //   color: '#000000',
-    // },
-
-    // TextField select
-    '& .MuiTextField-root': {
-      // margin: theme.spacing(1),
-    },
-    width: '380.65px',
+    borderBottom: '1px solid #5c5c5c',
     height: '67.17px',
-    color: '#FFFFFF',
+    width: '300px',
+
+    '& .MuiInputBase-input': {
+      color: '#FFFFFF',
+      paddingBottom: '16px',
+      paddingTop: '6px',
+      fontSize: '24px',
+    },
+
+    '& .MuiInputLabel-formControl': {
+      color: '#FFFFFF',
+      opacity: 0.5,
+      fontStyle: 'normal',
+      fontWeight: 'normal',
+      fontSize: '15px',
+      lineHeight: '20px',
+    },
+  },
+  emailInput: {
     paddingTop: '56.91px',
   },
-  lucete: {
-    paddingTop: '16px',
+  logoFooter: {
+    textAlign: 'left',
+    paddingTop: '134.92px',
   },
-  button: {
-    width: '106px',
-    height: '18px',
+  links: {
+    paddingLeft: '84px',
   },
-  small: {
-    width: '106px',
-    height: '18px',
-    backgroundRepeat: 'no-repeat',
-    '& .MuiAvatar-img': {
-      width: '50%',
-      height: '50%',
-    },
-  },
-  buttonSocial: {
-    width: '177px',
-    height: '33px',
-  },
-  smallSocial: {
-    width: '177px',
-    height: '33px',
-    backgroundRepeat: 'no-repeat',
-    '& .MuiAvatar-img': {
-      width: '50%',
-      height: '50%',
-    },
-  },
-  socialButton: {
-    textTransform: 'none',
+  link: {
+    color: '#FFFFFF',
     fontFamily: 'Roboto',
+    fontWeight: 'normal',
+    lineHeight: '23px',
+    letterSpacing: '-0.281584pxx',
+    textAlign: 'left',
+    paddingBottom: '21.22px',
   },
-  flex: {
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  flexSocial: {
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'start',
-  },
-  flexLink: {
-    display: 'flex',
-    justifyContent: 'space-around',
-    alignItems: 'center',
-  },
+  listIcons: {},
+  icon: {},
 }));
 
 export { useStyles as default };
