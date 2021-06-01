@@ -115,7 +115,7 @@ function Photos(): JSX.Element {
   );
 
   return (
-    <div className={`${classes.root} root`}>
+    <div className={`${classes.root} photoRoot`}>
       <Grid className='container' container>
         {initialLoading ? (
           <>{loadingPhoto()}</>

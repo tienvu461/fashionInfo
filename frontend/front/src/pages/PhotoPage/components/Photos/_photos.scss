@@ -1,6 +1,6 @@
 @import '../../../../styles/styles.scss';
 
-.root{
+.photoRoot{
     display: flex;
     padding-top: 77px;
 
@@ -24,7 +24,7 @@
     // screen >= 960
     @media screen and (min-width: 960px) {
         width: 100%;
-        padding: 77px 40px;
+        padding: 77px;
         justify-content: center;
     }
 
