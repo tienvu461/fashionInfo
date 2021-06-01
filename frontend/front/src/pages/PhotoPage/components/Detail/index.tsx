@@ -1,3 +1,4 @@
+/* eslint-disable import/extensions */
 /* eslint-disable import/no-unresolved */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable camelcase */
@@ -11,7 +12,7 @@ import ShareIcon from 'src/assets/images/share.svg';
 import { RootState } from 'src/store/store';
 import useStyles from './useStyles';
 import CommentComponent from './components/CommentSection';
-import SuggestionComponent from './components/Suggestion';
+// import SuggestionComponent from './components/Suggestion';
 
 interface DetailProps {
   match: {
@@ -21,8 +22,9 @@ interface DetailProps {
   };
 }
 
-function Detail(props: DetailProps): JSX.Element {
+function DetaiPhoto(props: DetailProps): JSX.Element {
   const { match: { params: { id = '' } = {} } = {} } = props;
+
   const classes = useStyles();
   const [loading, setLoading] = useState<boolean>(false);
   const dispatch = useDispatch<any>();
@@ -201,11 +203,11 @@ function Detail(props: DetailProps): JSX.Element {
           <Grid container>{renderDetailPhoto()}</Grid>
           <Divider />
           <CommentComponent paramsId={id} />
-          <SuggestionComponent paramsId={id} />
+          {/* <SuggestionComponent paramsId={id} /> */}
         </>
       )}
     </div>
   );
 }
 
-export default Detail;
+export default DetaiPhoto;
