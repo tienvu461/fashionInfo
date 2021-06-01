@@ -13,12 +13,12 @@ interface CommentComponentProps {
 function CommentComponent(props: CommentComponentProps): JSX.Element {
   const { paramsId } = props;
   const classes = useStyles();
-  const matches = useMediaQuery('(max-width:600px)');
+  const matches = useMediaQuery('(min-width:600px)');
 
   return (
     <div className={classes.root}>
       <Grid className={classes.container} container>
-        {matches ? (
+        {!matches ? (
           <Grid item lg={4} md={4} sm={4} xl={6} xs={12}>
             <Reporter />
           </Grid>
@@ -28,7 +28,7 @@ function CommentComponent(props: CommentComponentProps): JSX.Element {
             <Comments />
           </CommentLayout>
         </Grid>
-        {!matches ? (
+        {matches ? (
           <Grid item lg={4} md={4} sm={4} xl={6} xs={12}>
             <Reporter />
           </Grid>
