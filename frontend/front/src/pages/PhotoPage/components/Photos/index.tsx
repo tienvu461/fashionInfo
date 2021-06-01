@@ -12,6 +12,7 @@ import { RootState } from 'src/store/store';
 import Photo from 'src/components/Photo';
 
 import useStyles from './useStyles';
+import './_photos.scss';
 
 function Photos(): JSX.Element {
   const classes = useStyles();
@@ -55,7 +56,7 @@ function Photos(): JSX.Element {
         return (
           <RootRef rootRef={valueRef} key={`${id}`}>
             <div
-              className={classes.gridItem}
+              className={`${classes.gridItem} gridItem`}
               style={index % 2 === 0 ? {} : {}}
             >
               <Photo activities={activities} id={id} pathImg={pathImgs} />
@@ -127,7 +128,7 @@ function Photos(): JSX.Element {
 
   return (
     <div className={`${classes.root} root`}>
-      <Grid className={classes.container} container justify='space-between'>
+      <Grid className={`${classes.container} container`} container>
         {initialLoading ? (
           <>{loadingPhoto()}</>
         ) : (

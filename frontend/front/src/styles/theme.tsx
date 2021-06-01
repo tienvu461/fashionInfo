@@ -15,12 +15,12 @@ export const textColor = '#373F41';
 // padding (view + responsive)
 export const pdXL = '0 200px';
 export const pdLG = '0 100px';
-export const pdMD = '0 50px';
+export const pdMD = '0 40px';
 export const pdSM = '0 20px';
 
 export const pdLeftXL = '200px'; // view
 export const pdLeftLG = '100px'; // view
-export const pdLeftMD = '50px'; // view
+export const pdLeftMD = '40px'; // view
 export const pdLeftSM = '20px'; // view
 
 export const defaultFont = {
