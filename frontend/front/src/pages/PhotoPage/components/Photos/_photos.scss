@@ -55,6 +55,9 @@
         }
     
         .gridItem{
+
+            padding-bottom: 40px;
+
             // screen >= 600, img (480 x fit-content)
             @media screen and (min-width: 600px) {
             width: 480px;
