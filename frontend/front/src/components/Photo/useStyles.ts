@@ -5,18 +5,13 @@ import {
 } from 'src/styles/theme';
 
 const useStyles: () => Record<
-  'card'
-  | 'picture'
-  | 'actions'
-  | 'left'
-  | 'leftActions'
-  | 'right'
-  | 'num'
-  | 'icon',
+  'card' | 'picture' | 'actions' | 'left' | 'leftActions' | 'right' | 'num' | 'icon',
   string
 > = makeStyles(() => ({
   card: {
-    width: '100%'
+    width: '100%',
+    boxShadow: 'none !important',
+    borderRadius: '0 !important'
   },
   picture: {
     height: '100%',
@@ -50,7 +45,7 @@ const useStyles: () => Record<
     fontSize: '18px',
     lineHeight: '24px',
     color: black,
-  }
+  },
 }));
 
 export { useStyles as default };
