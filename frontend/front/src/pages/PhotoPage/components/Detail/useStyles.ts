@@ -3,6 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { pdXL, pdSM, pdLG, pdMD, theme, black, gray1, gray2, blackBlue, blackThin } from 'src/styles/theme';
 
 const useStyles: () => Record<
+  | 'detailRoot'
   | 'root'
   | 'gridPhoto'
   | 'loading'
@@ -25,32 +26,14 @@ const useStyles: () => Record<
   | 'tagText',
   string
 > = makeStyles(() => ({
+  detailRoot: {
+    backgroundColor: gray2,
+  },
   root: {
     height: 'auto',
-    backgroundColor: gray2,
-    display: 'flex',
-    flexDirection: 'column',
-
-    // responsive
-    [theme.breakpoints.up('sm')]: {
-      padding: pdSM,
-      paddingTop: '77px',
-    },
-    [theme.breakpoints.up('md')]: {
-      padding: pdMD,
-      paddingTop: '77px',
-    },
-    [theme.breakpoints.up('lg')]: {
-      padding: pdLG,
-      paddingTop: '77px',
-    },
-    [theme.breakpoints.up('xl')]: {
-      padding: pdXL,
-      paddingTop: '77px',
-    },
+    margin: 'auto',
   },
-  gridPhoto: {
-  },
+  gridPhoto: {},
   loading: {
     height: '975px',
     width: '100%',

@@ -1,6 +1,6 @@
-@import '../../styles/styles.scss';
+@import '../../../../styles/styles.scss';
 
-.header{
+.detailRoot {
     // screen >= 600
     @media screen and (min-width: 600px) {
         width: 100%;

@@ -13,6 +13,7 @@ import { RootState } from 'src/store/store';
 import useStyles from './useStyles';
 import CommentComponent from './components/CommentSection';
 import SuggestionComponent from './components/Suggestion';
+import './_detail.scss';
 
 interface DetailProps {
   match: {
@@ -193,8 +194,8 @@ function DetaiPhoto(props: DetailProps): JSX.Element {
   };
 
   return (
-    <>
-      <div className={`${classes.root} root`}>
+    <div className={classes.detailRoot}>
+      <div className={`${classes.root} detailRoot`}>
         {loading ? (
           <div className={classes.loading}>
             <CircularProgress color='primary' />
@@ -208,7 +209,7 @@ function DetaiPhoto(props: DetailProps): JSX.Element {
         )}
       </div>
       <SuggestionComponent paramsId={id} />
-    </>
+    </div>
   );
 }
 
