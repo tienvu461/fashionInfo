@@ -102,11 +102,11 @@ function SuggestionComponent(props: SuggestionProps): JSX.Element {
 
   return (
     <>
-      <Grid className={classes.root} container>
+      <div className='titleSuggestion'>
         <Typography className={classes.titleSuggestion} component='h4' variant='h4'>
           Đề xuất
         </Typography>
-      </Grid>
+      </div>
       <div className='root'>
         <Grid container className='container'>
           {initialLoading ? (

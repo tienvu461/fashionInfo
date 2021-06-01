@@ -1,29 +1,11 @@
 /* eslint-disable import/no-unresolved */
 import { makeStyles } from '@material-ui/core/styles';
-import { theme, black, pdSM, pdMD, pdLG, pdXL } from 'src/styles/theme';
+import { theme, black } from 'src/styles/theme';
 
 const useStyles: () => Record<'root' | 'titleSuggestion' | 'btn' | 'nextBtn' | 'textBtn', string> = makeStyles(() => ({
   root: {
     height: 'auto',
     backgroundColor: '#E5E5E5',
-
-    // responsive
-    [theme.breakpoints.up('sm')]: {
-      padding: pdSM,
-      paddingTop: '97px'
-    },
-    [theme.breakpoints.up('md')]: {
-      padding: pdMD,
-      paddingTop: '97px'
-    },
-    [theme.breakpoints.up('lg')]: {
-      padding: pdLG,
-      paddingTop: '97px'
-    },
-    [theme.breakpoints.up('xl')]: {
-      padding: pdXL,
-      paddingTop: '97px'
-    },
   },
   titleSuggestion: {
     color: black,

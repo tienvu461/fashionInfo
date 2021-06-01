@@ -1,5 +1,36 @@
 @import '../../../../../../styles/styles.scss';
 
+.titleSuggestion{
+    margin: auto;
+    padding-top: 97px;
+    // screen < 960
+    @media screen and (max-width: 960px) {
+        width: 100%;
+        margin: auto;
+        display: flex;
+        justify-content: center;
+    }
+    // screen >= 600
+    @media screen and (min-width: 600px) {
+        width: 100%;
+    }
+
+    // screen >= 960
+    @media screen and (min-width: 960px) {
+        width: 760px;
+    }
+
+    // screen >= 1280
+    @media screen and (min-width: 1280px) {
+        width: 1160px;
+    }
+
+    // screen >= 1600
+    @media screen and (min-width: 1600px) {
+        width: 1520px;
+    }
+}
+
 .root{
     display: flex;
     background-color: #E5E5E5;
