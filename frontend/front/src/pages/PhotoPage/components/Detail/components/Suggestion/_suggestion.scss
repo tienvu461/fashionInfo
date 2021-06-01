@@ -1,0 +1,86 @@
+@import '../../../../../../styles/styles.scss';
+
+.root{
+    display: flex;
+    padding-top: 77px;
+
+    // screen < 600
+    @media screen and (max-width: 600px) {
+        width: 100%;
+        justify-content: center;
+
+        .container{
+            width: 100%;
+            justify-content: center;
+        }
+
+        .gridItem{
+            // screen < 600, img (100% x fit-content)
+            width: 100%;
+            height: fit-content;
+        }
+    }
+
+    // screen >= 960
+    @media screen and (min-width: 960px) {
+        width: 100%;
+        padding: 77px 40px;
+        justify-content: center;
+    }
+
+    .container{
+    
+        // screen >= 600
+        @media screen and (min-width: 600px) {
+            width: 100%;
+            justify-content: center;
+        }
+
+        // screen >= 960
+        @media screen and (min-width: 960px) {
+            width: 760px;
+            justify-content: space-between;
+        }
+
+        // screen >= 1280
+        @media screen and (min-width: 1280px) {
+            width: 1160px;
+            justify-content: space-between;
+        }
+
+        // screen >= 1600
+        @media screen and (min-width: 1600px) {
+            width: 1520px;
+            justify-content: space-between;
+        }
+    
+        .gridItem{
+
+            padding-bottom: 40px;
+
+            // screen >= 600, img (480 x fit-content)
+            @media screen and (min-width: 600px) {
+            width: 480px;
+            height: fit-content;
+            }
+
+            // screen >= 600, img (480 x fit-content)
+            @media screen and (max-width: 960px) {
+            width: 480px;
+            height: fit-content;
+            }
+
+            // screen >= 960, img (360 x fit-content)
+            @media screen and (min-width: 960px) {
+            width: 360px;
+            height: fit-content;
+            }
+
+            // screen >= 1600
+            @media screen and (min-width: 1600px) {
+                width: 480px;
+                justify-content: space-between;
+            }
+        }
+    }
+}

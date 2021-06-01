@@ -12,7 +12,7 @@ import ShareIcon from 'src/assets/images/share.svg';
 import { RootState } from 'src/store/store';
 import useStyles from './useStyles';
 import CommentComponent from './components/CommentSection';
-// import SuggestionComponent from './components/Suggestion';
+import SuggestionComponent from './components/Suggestion';
 
 interface DetailProps {
   match: {
@@ -193,20 +193,22 @@ function DetaiPhoto(props: DetailProps): JSX.Element {
   };
 
   return (
-    <div className={`${classes.root} root`}>
-      {loading ? (
-        <div className={classes.loading}>
-          <CircularProgress color='primary' />
-        </div>
-      ) : (
-        <>
-          <Grid container>{renderDetailPhoto()}</Grid>
-          <Divider />
-          <CommentComponent paramsId={id} />
-          {/* <SuggestionComponent paramsId={id} /> */}
-        </>
-      )}
-    </div>
+    <>
+      <div className={`${classes.root} root`}>
+        {loading ? (
+          <div className={classes.loading}>
+            <CircularProgress color='primary' />
+          </div>
+        ) : (
+          <>
+            <Grid container>{renderDetailPhoto()}</Grid>
+            <Divider />
+            <CommentComponent paramsId={id} />
+          </>
+        )}
+      </div>
+      <SuggestionComponent paramsId={id} />
+    </>
   );
 }
 

@@ -6,33 +6,10 @@ const useStyles: () => Record<
 'root'
 | 'titleSuggestion'
 | 'btn' | 'nextBtn'
-| 'textBtn'
-| 'gridItem',
+| 'textBtn',
 string> = makeStyles(() => ({
     root: {
       height: 'auto',
-      // responsive
-      [theme.breakpoints.up('sm')]: {
-        paddingTop: '97px',
-        paddingBottom: '40px',
-      },
-      [theme.breakpoints.down('sm')]: {
-        paddingTop: '97px',
-        padding: pdSM,
-        paddingBottom: '40px',
-      },
-      [theme.breakpoints.up('md')]: {
-        paddingTop: '97px',
-        paddingBottom: '40px',
-      },
-      [theme.breakpoints.up('lg')]: {
-        paddingTop: '97px',
-        paddingBottom: '40px',
-      },
-      [theme.breakpoints.up('xl')]: {
-        paddingTop: '97px',
-        paddingBottom: '40px',
-      },
     },
     titleSuggestion: {
       color: black,
@@ -57,17 +34,10 @@ string> = makeStyles(() => ({
     nextBtn: {
       height: '60px',
       width: '220px',
-      marginRight: '20px',
     },
     textBtn: {
       textTransform: 'initial',
       paddingBottom: '6px',
-    },
-    gridItem: {
-      padding: '0 20px 40px 20px !important',
-      [theme.breakpoints.up('sm')]: {
-        width: '480px',
-      },
     },
   }));
 
