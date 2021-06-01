@@ -101,33 +101,40 @@ function SuggestionComponent(props: SuggestionProps): JSX.Element {
   );
 
   return (
-    <div className={`${classes.root} root`}>
-      <Grid container className='container'>
-        {initialLoading ? (
-          <>{loadingPhoto()}</>
-        ) : (
-          <>
-            {renderPhoto()}
-            <Grid className={classes.btn} item lg={12} md={12} sm={12} xs={12}>
-              <>
-                {dataPhoto.next ? (
-                  <Button
-                    className={classes.nextBtn}
-                    endIcon={loading ? <CircularProgress /> : null}
-                    onClick={() => handleClick('next')}
-                    variant='contained'
-                  >
-                    <Typography className={classes.textBtn} component='h5' variant='h5'>
-                      Xem thêm
-                    </Typography>
-                  </Button>
-                ) : null}
-              </>
-            </Grid>
-          </>
-        )}
+    <>
+      <Grid className={classes.root} container>
+        <Typography className={classes.titleSuggestion} component='h4' variant='h4'>
+          Đề xuất
+        </Typography>
       </Grid>
-    </div>
+      <div className='root'>
+        <Grid container className='container'>
+          {initialLoading ? (
+            <>{loadingPhoto()}</>
+          ) : (
+            <>
+              {renderPhoto()}
+              <Grid className={classes.btn} item lg={12} md={12} sm={12} xs={12}>
+                <>
+                  {dataPhoto.next ? (
+                    <Button
+                      className={classes.nextBtn}
+                      endIcon={loading ? <CircularProgress /> : null}
+                      onClick={() => handleClick('next')}
+                      variant='contained'
+                    >
+                      <Typography className={classes.textBtn} component='h5' variant='h5'>
+                        Xem thêm
+                      </Typography>
+                    </Button>
+                  ) : null}
+                </>
+              </Grid>
+            </>
+          )}
+        </Grid>
+      </div>
+    </>
   );
 }
 

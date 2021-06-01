@@ -2,7 +2,7 @@
 
 .root{
     display: flex;
-    padding-top: 77px;
+    background-color: #E5E5E5;
 
     // screen < 600
     @media screen and (max-width: 600px) {
@@ -24,8 +24,8 @@
     // screen >= 960
     @media screen and (min-width: 960px) {
         width: 100%;
-        padding: 77px 40px;
         justify-content: center;
+        padding: 0
     }
 
     .container{
