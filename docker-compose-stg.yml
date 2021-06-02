@@ -90,6 +90,6 @@ services:
         #     - POSTGRES_PASSWORD=fashion_info
 
 volumes:
-    # static_volume: {}
+    static_volume: {}
     postgresql_volume: {}
-    # media_volume: {}
+    media_volume: {}
