@@ -1,6 +1,6 @@
 /* eslint-disable import/no-unresolved */
 import { makeStyles } from '@material-ui/core/styles';
-import { white, pdXL, pdSM, pdLG, pdMD, theme, black } from 'src/styles/theme';
+import { pdXL, pdSM, pdLG, pdMD, theme } from 'src/styles/theme';
 
 const useStyles: () => Record<
   | 'root'
@@ -9,9 +9,7 @@ const useStyles: () => Record<
   | 'field'
   | 'emailInput'
   | 'header'
-  | 'links'
-  | 'link'
-  | 'headerRight'
+  | 'buttonSocial'
   | 'listIcons'
   | 'icon'
   | 'logoFooter',
@@ -53,8 +51,8 @@ const useStyles: () => Record<
     letterSpacing: '1.2px',
     textAlign: 'left',
   },
-  headerRight: {
-    paddingBottom: '60px',
+  buttonSocial: {
+
   },
   field: {
     borderBottom: '1px solid #5c5c5c',
@@ -83,18 +81,6 @@ const useStyles: () => Record<
   logoFooter: {
     textAlign: 'left',
     paddingTop: '134.92px',
-  },
-  links: {
-    paddingLeft: '84px',
-  },
-  link: {
-    color: '#FFFFFF',
-    fontFamily: 'Roboto',
-    fontWeight: 'normal',
-    lineHeight: '23px',
-    letterSpacing: '-0.281584pxx',
-    textAlign: 'left',
-    paddingBottom: '21.22px',
   },
   listIcons: {},
   icon: {},
