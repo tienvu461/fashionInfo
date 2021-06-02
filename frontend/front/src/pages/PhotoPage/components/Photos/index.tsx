@@ -140,8 +140,8 @@ function Photos(): JSX.Element {
                   >
                     <Typography
                       className={classes.textBtn}
-                      component='h5'
-                      variant='h5'
+                      component='h4'
+                      variant='h4'
                     >
                       Xem thêm
                     </Typography>

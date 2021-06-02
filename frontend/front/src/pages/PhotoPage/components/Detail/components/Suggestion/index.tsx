@@ -123,7 +123,7 @@ function SuggestionComponent(props: SuggestionProps): JSX.Element {
                       onClick={() => handleClick('next')}
                       variant='contained'
                     >
-                      <Typography className={classes.textBtn} component='h5' variant='h5'>
+                      <Typography className={classes.textBtn} component='h4' variant='h4'>
                         Xem thêm
                       </Typography>
                     </Button>
