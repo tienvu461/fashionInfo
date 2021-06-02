@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
-import { LOCAL_STORAGE_TOKEN_KEY, LOCAL_STORAGE_CREDENTIALS_KEY } from '../constants';
+import { LOCAL_STORAGE_TOKEN_KEY, LOCAL_STORAGE_CREDENTIALS_KEY, REFRESH_TOKEN_KEY } from '../constants';
 
 // set credentials
 export const setDataFromLocalStorage = (data: string): void => localStorage.setItem(LOCAL_STORAGE_CREDENTIALS_KEY, data);
@@ -13,10 +12,16 @@ export const getCredentialsFromLocalStorage = (): any => {
 
 // set token
 export const setTokenToLocalStorage = (token: string): void => localStorage.setItem(LOCAL_STORAGE_TOKEN_KEY, token);
+export const setRefreshTokenToLocalStorage = (token: string): void => localStorage.setItem(REFRESH_TOKEN_KEY, token);
 
 // get token
-export const getTokenFromLocalStorage = (): string | null => {
+export const getTokenFromLocalStorage = (): any => {
     const token = localStorage.getItem(LOCAL_STORAGE_TOKEN_KEY);
+    return token;
+};
+// get token
+export const getRefreshTokenFromLocalStorage = (): any => {
+    const token = localStorage.getItem(REFRESH_TOKEN_KEY);
     return token;
 };
 

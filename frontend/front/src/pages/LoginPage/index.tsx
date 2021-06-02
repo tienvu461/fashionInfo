@@ -66,7 +66,7 @@ function LoginPage(): JSX.Element {
   const loginStatus = useSelector(
     (state: any) => state.login.loginResponse.status
   );
-  const cmtPhotoId = useSelector((state: RootState) => state.photo.photoComment.photoId);
+  const cmtPhotoId = useSelector((state: RootState) => state.photo.isLoginToComment.photoId);
 
   useEffect(() => {
     if (loginStatus === 200) {

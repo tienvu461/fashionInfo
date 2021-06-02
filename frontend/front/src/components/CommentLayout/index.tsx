@@ -8,7 +8,7 @@ import {
 import { Link } from 'react-router-dom';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { ROUTE_LOGIN } from 'src/constants';
-import { photoComment } from 'src/features/Photo/photoSlice';
+import { isLoginToComment } from 'src/features/Photo/photoSlice';
 import useStyles from './useStyles';
 
 interface CommentProps {
@@ -30,7 +30,7 @@ function CommentLayout(props: CommentProps): JSX.Element {
 
   const redirectLogin = () => {
     dispatch(
-      photoComment({
+      isLoginToComment({
         isComment: true,
         photoId: paramsId,
       })

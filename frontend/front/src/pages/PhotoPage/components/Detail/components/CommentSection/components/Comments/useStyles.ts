@@ -11,6 +11,7 @@ const useStyles: () => Record<
   | 'content'
   | 'timeline'
   | 'nestedTimeline'
+  | 'timelineTwo'
   | 'action'
   | 'flex'
   | 'textStyle'
@@ -52,7 +53,7 @@ const useStyles: () => Record<
   },
   rootTimeline: {
     padding: 0,
-    marginTop: 0,
+    marginTop: '-15px',
   },
   dotAvatar: {
     width: '86px',
@@ -85,15 +86,20 @@ const useStyles: () => Record<
     padding: 0,
     paddingLeft: '44px',
     // responsive
-    [theme.breakpoints.down('sm')]: {
-      paddingLeft: '24px',
+    [theme.breakpoints.down('md')]: {
+      paddingLeft: '20px',
     },
   },
   timeline: {
     marginBottom: '15px',
+    paddingTop: '15px',
   },
   nestedTimeline: {
     paddingTop: '15px',
+  },
+  timelineTwo: {
+    paddingTop: '15px',
+    paddingLeft: '15px',
   },
   action: {
     display: 'flex',
@@ -135,7 +141,7 @@ const useStyles: () => Record<
   actionReply: {
     fontWeight: 'normal',
     color: '#616161',
-    cursor: 'pointer'
+    cursor: 'pointer',
   },
   comment: {
     color: '#000000',
@@ -150,8 +156,8 @@ const useStyles: () => Record<
     paddingBottom: '24px',
     fontSize: '18px',
     '& .MuiInput-underline:before': {
-      display: 'none'
-    }
+      display: 'none',
+    },
   },
   inputTextArea: {
     '&::placeholder': {

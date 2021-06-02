@@ -1,12 +1,17 @@
+/* eslint-disable import/no-unresolved */
 /* eslint-disable camelcase */
-/* eslint-disable object-curly-newline */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Dispatch } from '@reduxjs/toolkit';
 import jwtDecode, { JwtPayload } from 'jwt-decode';
-import { toast } from 'react-toastify';
+import {
+  clearStoreFromlocalStorage,
+  setDataFromLocalStorage,
+  setTokenToLocalStorage,
+  setRefreshTokenToLocalStorage,
+} from 'src/utils/localStorage';
+
+import { loginService, getUrlSocialService, refreshTokenService } from 'src/services/auth';
 import { loginSucess, loginFail, logoutSuccess } from './LoginSlice';
-import { loginService, getUrlSocialService } from '../../services/auth';
-import { clearStoreFromlocalStorage, setDataFromLocalStorage, setTokenToLocalStorage } from '../../utils/localStorage';
 
 export const loginAction = (payload: {
   username: string; password: string, showPassword: boolean
@@ -22,9 +27,9 @@ export const loginAction = (payload: {
             const { data = {}, status = '' } = response;
             if (status === 200) {
                 dispatch(loginSucess({ data, status, userID }));
-                toast.success('Đăng nhập thành công');
-                setDataFromLocalStorage(JSON.stringify({ data, status, userID }));
+                setDataFromLocalStorage(JSON.stringify({ status, userID }));
                 setTokenToLocalStorage(data.access);
+                setRefreshTokenToLocalStorage(data.refresh);
             }
         } catch (error) {
             const { response: { data = {}, status = '' } = {}, } = error;
@@ -71,5 +76,22 @@ export const getUrlSocialAction = () => async (): Promise<any> => {
     }
   } catch (error) {
     // console.log(error);
+  }
+};
+
+export const refreshTokenAction = (payload: { refresh: string}) => async (dispatch: Dispatch): Promise<any> => {
+  try {
+    const response = await refreshTokenService(payload);
+    type CustomJwtPayload = JwtPayload & { user_id: string };
+    const dataEncodeJwt = jwtDecode<CustomJwtPayload>(response.data.access);
+    const { user_id: userID } = dataEncodeJwt;
+    const { data = {}, status = '' } = response;
+    if (status === 200) {
+      dispatch(loginSucess({ data, status, userID }));
+      setDataFromLocalStorage(JSON.stringify({ data, status, userID }));
+      setTokenToLocalStorage(data.access);
+    }
+  } catch (error) {
+    console.log(error);
   }
 };

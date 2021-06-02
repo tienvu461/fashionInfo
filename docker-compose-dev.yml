@@ -23,8 +23,8 @@ services:
         ports:
             - 3000:3000
         volumes:
-            - media_volume:/app/backend/backend_media
-            - static_volume:/app/backend/backend_static
+            - ./backend/backend_media:/app/backend/backend_media
+            - ./backend/backend_static:/app/backend/backend_static
             - ./infrastructure/docker/front/development:/etc/nginx/conf.d
             - ./frontend/front:/app/frontend
             - /app/frontend/node_modules
@@ -44,9 +44,9 @@ services:
         env_file:
             - ./infrastructure/docker/config/dev/.env.backend
         volumes:
-            - static_volume:/app/backend/backend_static
+            # - static_volume:/app/backend/backend_static
             - ./backend:/app/backend
-            - media_volume:/app/backend/backend_media
+            # - media_volume:/app/backend/backend_media
         expose:
             - 8000
         ports:
@@ -78,6 +78,6 @@ services:
         #     - POSTGRES_PASSWORD=fashion_info
 
 volumes:
-    static_volume: {}
+    # static_volume: {}
     postgresql_volume: {}
-    media_volume: {}
+    # media_volume: {}

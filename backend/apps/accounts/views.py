@@ -1,3 +1,4 @@
+from django.http.response import HttpResponse
 from django.contrib.auth.models import User
 from django.views import View
 from django.shortcuts import render
@@ -26,8 +27,12 @@ class RedirectSocial(View):
     def get(self, request, *args, **kwargs):
         code, state = str(request.GET['code']), str(request.GET['state'])
         json_obj = {'code': code, 'state': state}
-        print(json_obj)
-        return render(request, 'social_redirect.html', {'code': code, 'state': state})
+        logger.debug(json_obj)
+         
+        protocol = 'https://' if request.is_secure() else 'http://'
+        host = "{0}{1}".format(protocol, settings.HOSTNAME)
+        host = "http://api.tienvv.com"
+        return render(request, 'social_redirect.html', {'host': host, 'code': code, 'state': state})
         return JsonResponse(json_obj)
 
 # used to test auth
@@ -61,10 +66,11 @@ class ActivateUser(APIView):
         
         protocol = 'https://' if request.is_secure() else 'http://'
         url = "{0}{1}/api/users/activation/".format(protocol, settings.HOSTNAME)
-
+        host = "{0}{1}".format(protocol, settings.HOSTNAME)
+        host = "http://api.tienvv.com"
         logger.debug("activation url: {}".format(url))
 
-        return render(request, 'activation_page.html', {'url': url, 'uid': uid, 'token': token})
+        return render(request, 'activation_page.html', {'host': host, 'url': url, 'uid': uid, 'token': token})
         response = requests.post(url, data = payload)
 
 
@@ -95,28 +101,47 @@ class ForgotPasswordView(APIView):
         else:
             return Response(response.text, status=status.HTTP_400_BAD_REQUEST)
 
-class UserProfileViews(generics.RetrieveAPIView):
-    queryset = UserProfile.objects.all()
+
+# Allow get user profile and update
+class UserProfileViews(generics.RetrieveUpdateAPIView):
+    permission_classes = (IsAuthenticated,)
+    # queryset = UserProfile.objects.all()
     serializer_class = UserProfileSerializer
+    
+    def get_object(self):
+        return UserProfile.objects.get(user=self.request.user)
 
-    def get(self, request, *args, **kwargs):
-        # view increment
-        instance = self.get_object()
-        instance.view_count = instance.view_count + 1
-        instance.save(update_fields=("view_count", ))
+    # def get(self, request, *args, **kwargs):
+    #     # view increment
+    #     instance = self.get_object()
+    #     serializer = self.get_serializer(instance)
+    #     return Response(serializer.data)
 
-        # getting show/hide setting from Generic Config tbl
-        config_obj = GenericConfig.objects.filter(in_use=True)
+   
+    def update(self, request, *args, **kwargs):
         try:
-            show_activities = config_obj.values().first()["show_activities"]
-            logger.debug("show_activities = {}".format(show_activities))
-        except Exception as e:
-            logger.error("Cannot get config\nException: {}".format(e))
-            show_activities = True
-        if show_activities:
-            serializer = self.get_serializer(instance)
-        else:
-            serializer = self.get_serializer(
-                instance, removed_fields=('likes', 'comments',))
+            # update User model
+            username = request.data['user']['username']
+            email = request.data['user'].get('email')
+            first_name = request.data['user'].get('first_name')
+            last_name = request.data['user'].get('last_name')
+            user = User.objects.get(username=username)
+            user.email = email
+            user.first_name = first_name
+            user.last_name = last_name
+            user.save()
 
-        return Response(serializer.data)
+            # update UserProfile model
+            social_url = request.data.get('social_url')
+            dob = request.data.get('dob')
+            gender = request.data.get('gender', 0)
+            user_profile = self.get_object()
+            user_profile.social_url = social_url
+            user_profile.dob = dob
+            user_profile.gender = gender
+            user_profile.save()
+            # TODO: update profile picture
+            return Response({"info": "Profile updated"}, status=status.HTTP_200_OK)
+        except Exception as e:
+            logger.error("Cannot update profile")
+            logger.error(e)

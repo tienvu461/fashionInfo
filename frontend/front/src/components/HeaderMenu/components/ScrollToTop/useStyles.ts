@@ -7,7 +7,7 @@ const useStyles: () => Record<'root' | 'scrollIcon', string> = makeStyles(
     root: {
       cursor: 'pointer',
       position: 'absolute',
-      bottom: '26px',
+      bottom: '80px',
 
       // the size of the scrollIcon image is 80px 80px
       // responsive

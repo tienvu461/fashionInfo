@@ -23,6 +23,8 @@ import MenuDesktop from './components/MenuDesktop';
 import useStyles from './useStyles';
 import { ROUTE_FORUM, ROUTE_HOME, ROUTE_PHOTO } from '../../constants';
 
+import './_headerMenu.scss';
+
 interface AuxProps {
   window?: () => Window;
   children: ReactChild | ReactChildren;
@@ -74,14 +76,7 @@ function HeaderMenu(props: AuxProps): JSX.Element {
           justify='center'
         >
           <AppBar>
-            <Grid
-              className={classes.header}
-              item
-              lg={12}
-              md={12}
-              sm={12}
-              xs={12}
-            >
+            <div className={`${classes.header} header`}>
               <Grid className={classes.logo}>
                 <img
                   alt='Lucete'
@@ -171,7 +166,7 @@ function HeaderMenu(props: AuxProps): JSX.Element {
                 </Grid>
                 <SideDrawer navLinks={navLinks} />
               </Hidden>
-            </Grid>
+            </div>
           </AppBar>
           <Toolbar id='back-to-top-anchor' />
         </Grid>

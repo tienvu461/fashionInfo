@@ -1,6 +1,7 @@
+/* eslint-disable import/no-unresolved */
 import { createSlice } from '@reduxjs/toolkit';
-import { AUTH_REDUCER } from '../../constants';
-/* eslint-disable object-curly-newline */
+import { AUTH_REDUCER } from 'src/constants';
+
 const loginSlice = createSlice({
     name: AUTH_REDUCER.LOGIN,
     initialState: {
