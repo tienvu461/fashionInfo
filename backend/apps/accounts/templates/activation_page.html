@@ -1,57 +1,76 @@
-<!DOCTYPE html>
-<html>
+{% extends 'accounts_base.html' %} {% load static %} {% block content %}
+{%csrf_token %}
 
-<head>
-    <title>tienvv's blogs</title>
-    <link href="https://fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet" />
-    <meta name="google" content="notranslate" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
-        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous" />
-</head>
+<div>
+  <div>
+    <h4 class="py-3 d-flex justify-content-center">
+      Vui lòng nhấp vào nút bên dưới để kích hoạt tài khoản
+    </h4>
+  </div>
+  <div>
+    <div class="row justify-content-center" style="">
+      <!-- <form target="_blank" action="/api/users/activation/" method="post"> -->
+      <form id="activation_form" method="POST" action="/api/users/activation/">
+        {% csrf_token %} {{ form }}
+        <input type="hidden" name="uid" value="{{uid}}" />
+        <input type="hidden" name="token" value="{{token}}" />
+        <!-- <input onclick="" type="submit" class="btn btn-outline-dark btn-lg" value="" /> -->
 
-<body>
-    <style>
-        body {
-            font-family: "Roboto", sans-serif;
-            font-size: 17px;
-            background-color: #fdfdfd;
-        }
+        <input
+          type="submit"
+          class="btn btn-outline-dark btn-lg"
+          value="Kích hoạt"
+        />
+      </form>
+    </div>
+  </div>
 
-        .shadow {
-            box-shadow: 0 4px 2px -2px rgba(0, 0, 0, 0.1);
-        }
+  <div class="container">
+    <div class="row justify-content-center">
+      <div id="loading"  class="col-3 text-center">
+        <img
+          id="loading-image"
+          src="/backend_media/logos/loading.gif"
+          alt="Loading..."
+        />
+      </div>
+    </div>
+  </div>
+</div>
 
-        .btn-danger {
-            color: #fff;
-            background-color: #f00000;
-            border-color: #dc281e;
-        }
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script type="text/javascript">
+  var $loading = $("#loading").hide();
 
-        .masthead {
-            background: #3398e1;
-            height: auto;
-            padding-bottom: 15px;
-            box-shadow: 0 16px 48px #e3e7eb;
-            padding-top: 10px;
-        }
-    </style>
-
-    
-    {% block content %}
-    <form action="/api/users/activation/" method="post">
-        {% csrf_token %}
-        {{ form }}
-        <input type="hidden" name="uid" value="{{uid}}">
-        <input type="hidden" name="token" value="{{token}}">
-        <input type="submit" class="submit_btn btn label-success" value="Activate" />
-    </form>
-    {% endblock content %}
-
-    <!-- Footer -->
-    <footer class="py-3 bg-grey">
-        <p class="m-0 text-dark text-center">tienvv Humble Corner &copy; 2021</p>
-    </footer>
-</body>
-
-</html>
+  $(document).ready(function () {
+    $("#loading").hide();
+    $("#activation_form").submit(function (event) {
+      //   $("#loading").show();
+      event.preventDefault();
+      var uid = $('input[name="uid"]').val();
+      var token = $('input[name="token"]').val();
+      console.log("uid =" + uid);
+      console.log("token =" + token);
+      $.ajax({
+        type: "POST",
+        url: "/api/users/activation/",
+        data: {
+          csrfmiddlewaretoken: "{{ csrf_token }}",
+          uid: uid,
+          token: token,
+        },
+        beforeSend: function () {
+          $("#loading").show();
+        },
+        success: function () {
+          location.href = "{{host}}";
+        },
+        complete: function () {
+          $("#loading").hide();
+        },
+      });
+      return false;
+    });
+  });
+</script>
+{% endblock %}

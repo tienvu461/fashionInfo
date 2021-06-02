@@ -11,7 +11,7 @@ from .consts import modelConst
 
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    gender = models.IntegerField(choices=modelConst.GENDER)
+    gender = models.IntegerField(choices=modelConst.GENDER, default=0)
     dob = models.DateField(blank=True, null=True)
     social_url = models.CharField(
         max_length=255, blank=True, null=True, default='')
