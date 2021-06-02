@@ -80,7 +80,7 @@ function Comments(): JSX.Element {
   return (
     <Grid className={classes.root}>
       <Timeline className={classes.rootTimeline}>{listComments}</Timeline>
-      {loginStatus ? (
+      {loginStatus === 200 ? (
         <Timeline className={classes.rootTimeline}>
           <TimelineItem className={classes.timeline}>
             <TimelineSeparator>

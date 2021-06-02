@@ -25,7 +25,7 @@ const useStyles: () => Record<'root' | 'titleSuggestion' | 'btn' | 'nextBtn' | '
     },
   },
   btn: {
-    padding: '40px 0',
+    padding: '40px 0 80px',
   },
   nextBtn: {
     height: '60px',

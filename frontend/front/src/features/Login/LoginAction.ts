@@ -27,7 +27,7 @@ export const loginAction = (payload: {
             const { data = {}, status = '' } = response;
             if (status === 200) {
                 dispatch(loginSucess({ data, status, userID }));
-                setDataFromLocalStorage(JSON.stringify({ data, status, userID }));
+                setDataFromLocalStorage(JSON.stringify({ status, userID }));
                 setTokenToLocalStorage(data.access);
                 setRefreshTokenToLocalStorage(data.refresh);
             }
