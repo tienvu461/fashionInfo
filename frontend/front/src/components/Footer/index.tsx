@@ -1,19 +1,58 @@
 /* eslint-disable import/no-unresolved */
 import React from 'react';
 import { Typography, Grid, TextField, IconButton, MenuList, MenuItem } from '@material-ui/core';
-import './_footer.scss';
 import submitBtn from 'src/assets/images/submit_email_footer.svg';
 import logoFooter from 'src/assets/images/Logo_footer1.png';
 import youtube from 'src/assets/images/youtube.svg';
 import instagram from 'src/assets/images/instagram.svg';
 import facebook from 'src/assets/images/facebook.svg';
 import useStyles from './useStyles';
+import './_footer.scss';
 
 function Footer(): JSX.Element {
   const classes = useStyles();
+
+  const menu: Array<{
+    id: string;
+    title: string;
+    firstSubTitle: string;
+    secondSubTitle: string;
+  }> = [
+    {
+      id: 'leftMenu',
+      title: 'Truy cập',
+      firstSubTitle: 'Tin tức mới',
+      secondSubTitle: 'FAQ',
+    },
+    {
+      id: 'rightMenu',
+      title: 'Helps',
+      firstSubTitle: 'Diễn đàn',
+      secondSubTitle: 'Liên hệ',
+    },
+  ];
+
+  const iconList: Array<{
+    name: string;
+    src: string;
+  }> = [
+    {
+      name: 'facebook',
+      src: facebook
+    },
+    {
+      name: 'youtube',
+      src: youtube
+    },
+    {
+      name: 'instagram',
+      src: instagram
+    },
+  ];
+
   return (
     <div className={classes.root}>
-      <Grid container>
+      <div className='footerRoot'>
         <Grid className={classes.leftFooter} item lg={6} md={6} sm={6} xs={6}>
           <Typography variant='h4' component='h4' className={classes.header}>
             Theo dõi tin tức{' '}
@@ -25,12 +64,10 @@ function Footer(): JSX.Element {
             <Grid item>
               <TextField
                 autoComplete='email'
-                autoFocus
                 className={classes.field}
                 fullWidth
-                id='email'
                 name='email'
-                required
+                type='email'
                 label='Địa chỉ email'
               />
             </Grid>
@@ -41,53 +78,43 @@ function Footer(): JSX.Element {
           </Grid>
         </Grid>
         <Grid item lg={6} md={6} sm={6} xs={6} className={classes.rightFooter}>
-          <Grid>
-            <MenuList>
-              <MenuItem>
-                <Typography variant='h4' component='h4' className={classes.header}>
-                  Truy cập
-                </Typography>
-                <Typography variant='h4' component='h4' className={classes.header}>
-                  Helps
-                </Typography>
-              </MenuItem>
-              <MenuItem>
-                <Typography variant='h4' component='h4' className={classes.header}>
-                  Tin tức mới
-                </Typography>
-                <Typography variant='h4' component='h4' className={classes.header}>
-                  FAQ
-                </Typography>
-              </MenuItem>
-              <MenuItem>
-                <Typography variant='h4' component='h4' className={classes.header} noWrap>
-                  Diễn đàn
-                </Typography>
-                <Typography variant='h4' component='h4' className={classes.header} noWrap>
-                  Liên hệ
-                </Typography>
-              </MenuItem>
+          <Grid className={classes.links}>
+            <MenuList className={classes.menuList}>
+              {menu.map((item) => {
+                const { id = '', title = '', firstSubTitle = '', secondSubTitle = '' } = item;
+
+                return (
+                  <MenuItem key={id} className={classes.menu}>
+                    <Typography variant='h4' component='h4' className={`${classes.header} ${classes.titleHeader} `}>
+                      {title}
+                    </Typography>
+                    <Typography variant='h5' component='h5' className={`${classes.header} ${classes.subTitle}`}>
+                      {firstSubTitle}
+                    </Typography>
+                    <Typography variant='h5' component='h5' className={`${classes.header} ${classes.subTitle}`}>
+                      {secondSubTitle}
+                    </Typography>
+                  </MenuItem>
+                );
+              })}
             </MenuList>
-          </Grid>
-          <Grid className={classes.listIcons}>
-            <div className={classes.icon}>
-              <IconButton className={classes.buttonSocial}>
-                <img alt='facebook' src={facebook} />
-              </IconButton>
-            </div>
-            <div className={classes.icon}>
-              <IconButton className={classes.buttonSocial}>
-                <img alt='youtube' src={youtube} />
-              </IconButton>
-            </div>
-            <div className={classes.icon}>
-              <IconButton className={classes.buttonSocial}>
-                <img alt='instagram' src={instagram} />
-              </IconButton>
-            </div>
+            <Grid className={classes.listIcons}>
+              {
+              iconList.map((item) => {
+                const { name = '', src = '' } = item;
+                return (
+                  <div key={name} className={classes.icon}>
+                    <IconButton className={classes.buttonSocial}>
+                      <img alt={name} src={src} />
+                    </IconButton>
+                  </div>
+                );
+              })
+            }
+            </Grid>
           </Grid>
         </Grid>
-      </Grid>
+      </div>
     </div>
   );
 }

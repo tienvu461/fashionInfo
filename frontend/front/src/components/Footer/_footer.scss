@@ -1,8 +1,31 @@
 @import '../../styles/styles.scss';
 
-@include MediaQuery($sm) {
-  .footer {
-    // flex-direction: column;
-    // align-items: center;
-  }
+
+.footerRoot{
+    margin: auto;
+    display: flex;
+  // screen < 960
+    @media screen and (max-width: 960px) {
+      width: 100%;
+      padding: 0 20px;
+    }
+    // screen >= 600
+    @media screen and (min-width: 600px) {
+      width: 100%;
+    }
+
+    // screen >= 960
+    @media screen and (min-width: 960px) {
+      width: 760px;
+    }
+
+    // screen >= 1280
+    @media screen and (min-width: 1280px) {
+      width: 1160px;
+    }
+
+    // screen >= 1600
+    @media screen and (min-width: 1600px) {
+      width: 1520px;
+    }
 }

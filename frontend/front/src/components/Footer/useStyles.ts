@@ -1,6 +1,5 @@
 /* eslint-disable import/no-unresolved */
 import { makeStyles } from '@material-ui/core/styles';
-import { pdXL, pdSM, pdLG, pdMD, theme } from 'src/styles/theme';
 
 const useStyles: () => Record<
   | 'root'
@@ -12,36 +11,24 @@ const useStyles: () => Record<
   | 'buttonSocial'
   | 'listIcons'
   | 'icon'
+  | 'links'
+  | 'menu'
+  | 'menuList'
+  | 'titleHeader'
+  | 'subTitle'
   | 'logoFooter',
   string
 > = makeStyles(() => ({
   root: {
     width: '100%',
     height: 'auto',
-    marginTop: '12px',
     backgroundColor: '#0D0D0D',
-
-    // responsive
-    [theme.breakpoints.up('sm')]: {
-      padding: pdSM,
-    },
-    [theme.breakpoints.up('md')]: {
-      padding: pdMD,
-    },
-    [theme.breakpoints.up('lg')]: {
-      padding: pdLG,
-    },
-    [theme.breakpoints.up('xl')]: {
-      padding: pdXL,
-    },
   },
   leftFooter: {
     padding: '151px 0 52px 0',
   },
   rightFooter: {
     padding: '176px 0 52px 0',
-    display: 'flex',
-    justifyContent: 'flex-end',
   },
   header: {
     color: '#FFFFFF',
@@ -52,7 +39,7 @@ const useStyles: () => Record<
     textAlign: 'left',
   },
   buttonSocial: {
-
+    padding: 0,
   },
   field: {
     borderBottom: '1px solid #5c5c5c',
@@ -82,8 +69,38 @@ const useStyles: () => Record<
     textAlign: 'left',
     paddingTop: '134.92px',
   },
-  listIcons: {},
+  listIcons: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    width: '176.44px',
+  },
   icon: {},
+  menu: {
+    paddingRight: 0,
+    paddingLeft: 0,
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'flex-start',
+  },
+  menuList: {
+    width: '340px',
+    display: 'flex',
+    justifyContent: 'space-between',
+  },
+  titleHeader: {
+    paddingBottom: '60px',
+  },
+  subTitle: {
+    paddingBottom: '21.22px',
+  },
+  links: {
+    display: 'flex',
+    alignItems: 'flex-end',
+    justifyContent: 'space-between',
+    flexDirection: 'column',
+    height: '100%',
+  },
 }));
 
 export { useStyles as default };
