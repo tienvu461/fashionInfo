@@ -9,17 +9,12 @@ const useStyles: () => Record<
 > = makeStyles(() => ({
   root: {
     height: 'auto',
-
     // responsive
     [theme.breakpoints.down('sm')]: {
       padding: pdSM,
-      paddingTop: '40px'
+      paddingTop: '40px',
     },
-    [theme.breakpoints.up('sm')]: {
-      padding: 0,
-    },
-    [theme.breakpoints.up('md')]: {
-    },
+    [theme.breakpoints.up('md')]: {},
     [theme.breakpoints.up('lg')]: {},
     [theme.breakpoints.up('xl')]: {},
   },
