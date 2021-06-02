@@ -1,3 +1,4 @@
+/* eslint-disable import/extensions */
 /* eslint-disable import/no-unresolved */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable camelcase */
@@ -12,6 +13,7 @@ import { RootState } from 'src/store/store';
 import useStyles from './useStyles';
 import CommentComponent from './components/CommentSection';
 import SuggestionComponent from './components/Suggestion';
+import './_detail.scss';
 
 interface DetailProps {
   match: {
@@ -21,8 +23,9 @@ interface DetailProps {
   };
 }
 
-function Detail(props: DetailProps): JSX.Element {
+function DetaiPhoto(props: DetailProps): JSX.Element {
   const { match: { params: { id = '' } = {} } = {} } = props;
+
   const classes = useStyles();
   const [loading, setLoading] = useState<boolean>(false);
   const dispatch = useDispatch<any>();
@@ -148,7 +151,6 @@ function Detail(props: DetailProps): JSX.Element {
 
     return (
       <>
-
         <Grid className={classes.gridPhoto} item lg={6} md={6} sm={8} xl={8} xs={12}>
           <Paper className={loading ? classes.paperLoading : classes.paper}>
             <Card className={classes.card}>
@@ -192,21 +194,23 @@ function Detail(props: DetailProps): JSX.Element {
   };
 
   return (
-    <div className={`${classes.root} root`}>
-      {loading ? (
-        <div className={classes.loading}>
-          <CircularProgress color='primary' />
-        </div>
-      ) : (
-        <>
-          <Grid container>{renderDetailPhoto()}</Grid>
-          <Divider />
-          <CommentComponent paramsId={id} />
-          <SuggestionComponent paramsId={id} />
-        </>
-      )}
+    <div className={classes.detailRoot}>
+      <div className={`${classes.root} detailRoot`}>
+        {loading ? (
+          <div className={classes.loading}>
+            <CircularProgress color='primary' />
+          </div>
+        ) : (
+          <>
+            <Grid container>{renderDetailPhoto()}</Grid>
+            <Divider />
+            <CommentComponent paramsId={id} />
+          </>
+        )}
+      </div>
+      <SuggestionComponent paramsId={id} />
     </div>
   );
 }
 
-export default Detail;
+export default DetaiPhoto;

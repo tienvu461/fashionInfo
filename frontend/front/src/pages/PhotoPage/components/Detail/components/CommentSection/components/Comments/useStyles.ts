@@ -53,7 +53,7 @@ const useStyles: () => Record<
   },
   rootTimeline: {
     padding: 0,
-    marginTop: 0,
+    marginTop: '-15px',
   },
   dotAvatar: {
     width: '86px',
@@ -86,8 +86,8 @@ const useStyles: () => Record<
     padding: 0,
     paddingLeft: '44px',
     // responsive
-    [theme.breakpoints.down('sm')]: {
-      paddingLeft: '24px',
+    [theme.breakpoints.down('md')]: {
+      paddingLeft: '20px',
     },
   },
   timeline: {
