@@ -1,11 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable object-curly-newline */
 import axios from 'axios';
-import { getDataFromLocalStorage } from '../utils/localStorage';
+import { getTokenFromLocalStorage } from '../utils/localStorage';
 
 const request: any = async (url = '', method = '', data = {}) => {
   const config: any = {};
 
-  const token = getDataFromLocalStorage();
+  const token = getTokenFromLocalStorage();
 
   if (token) {
     config.headers = {

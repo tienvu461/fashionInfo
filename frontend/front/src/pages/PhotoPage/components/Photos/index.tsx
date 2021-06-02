@@ -1,23 +1,27 @@
-/* eslint-disable object-curly-newline */
-/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable camelcase */
-import React, { useEffect, useState } from 'react';
-import { Button, Grid, Typography, Box } from '@material-ui/core';
+/* eslint-disable import/no-unresolved */
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
+import React, { useEffect, useState, useRef } from 'react';
+import { Button, Grid, Typography, Box, RootRef } from '@material-ui/core';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Skeleton from '@material-ui/lab/Skeleton';
 import { useDispatch, useSelector } from 'react-redux';
+import { listPhotoAction } from 'src/features/Photo/photoAction';
+import { RootState } from 'src/store/store';
+import Photo from 'src/components/Photo';
 
 import useStyles from './useStyles';
-import Photo from './Photo';
-import { listPhotoAction } from '../../../../features/Photo/photoAction';
-import { RootState } from '../../../../store/store';
+import './_photos.scss';
 
 function Photos(): JSX.Element {
   const classes = useStyles();
   const dispatch = useDispatch<any>();
+  const valueRef = useRef<HTMLInputElement>(null);
+
   const [listImg, setListImg] = useState<Array<any>>([]);
-  const [initialLoading, setInitialLoading] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
+  const [initialLoading, setInitialLoading] = useState<boolean>(false);
 
   // initial fetch data and set gallery to state once time
   useEffect(() => {
@@ -35,38 +39,17 @@ function Photos(): JSX.Element {
     (state: RootState) => state.photo.photoList.dataOrigin
   );
 
-  interface GalleryKeys {
-    image_path: string;
-    id: number;
-    activities: {
-      likes: number;
-      comments: number;
-    };
-  }
-
   const renderPhoto = () => (
     <>
-      {listImg.map((item: GalleryKeys, index: number) => {
+      {listImg.map((item, index: number) => {
         const { id = 0, image_path: pathImgs = '', activities } = item;
 
         return (
-          <Grid
-            key={`${id}`}
-            className={classes.gridItem}
-            item
-            lg={4}
-            md={6}
-            sm={6}
-            spacing={2}
-            style={
-              index >= 0 && index <= 2 ? { paddingTop: '0 !important' } : {}
-            }
-            wrap='wrap'
-            xl={4}
-            xs={12}
-          >
-            <Photo activities={activities} id={id} pathImg={pathImgs} />
-          </Grid>
+          <RootRef rootRef={valueRef} key={`${id}`}>
+            <div className='gridItem'>
+              <Photo activities={activities} id={id} pathImg={pathImgs} />
+            </div>
+          </RootRef>
         );
       })}
     </>
@@ -83,6 +66,8 @@ function Photos(): JSX.Element {
         const { results = [] } = data;
         results.forEach((item) => newListImg.push(item));
         setLoading(false);
+
+        valueRef?.current?.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'center' });
       });
     } else {
       const exist = previousPage.includes('?page=');
@@ -107,8 +92,6 @@ function Photos(): JSX.Element {
           lg={4}
           md={6}
           sm={6}
-          spacing={2}
-          wrap='wrap'
           xl={4}
           xs={12}
         >
@@ -132,8 +115,8 @@ function Photos(): JSX.Element {
   );
 
   return (
-    <div className={`${classes.root} root`}>
-      <Grid container spacing={3}>
+    <div className={`${classes.root} photoRoot`}>
+      <Grid className='container' container>
         {initialLoading ? (
           <>{loadingPhoto()}</>
         ) : (
@@ -141,10 +124,10 @@ function Photos(): JSX.Element {
             {renderPhoto()}
             <Grid
               className={classes.btn}
+              item
               lg={12}
               md={12}
               sm={12}
-              spacing={2}
               xs={12}
             >
               <>

@@ -1,6 +1,6 @@
-/* eslint-disable object-curly-newline */
+/* eslint-disable import/no-unresolved */
 import { makeStyles } from '@material-ui/core/styles';
-import { textColor, pdSM, pdMD, pdLG, pdXL, theme } from '../../styles/theme';
+import { textColor, theme } from 'src/styles/theme';
 
 const useStyles: () => Record<
   | 'root'
@@ -13,39 +13,32 @@ const useStyles: () => Record<
   | 'linkText'
   | 'textNonActive'
   | 'textActive'
+  | 'sectionDesktop'
   | 'navLinks',
   string
 > = makeStyles(() => ({
   root: {
     display: 'flex',
+    justifyContent: 'center',
     flexDirection: 'column',
+  },
+  sectionDesktop: {
+    display: 'none',
+    [theme.breakpoints.up('md')]: {
+      display: 'flex',
+    },
+    marginLeft: '38px',
+    cursor: 'pointer',
   },
   navbar: {
     height: '80px',
   },
   header: {
-    width: '100%',
     background: '#fff',
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
-
-    // responsive
-    [theme.breakpoints.up('sm')]: {
-      padding: pdSM,
-    },
-    [theme.breakpoints.down('sm')]: {
-      padding: pdSM,
-    },
-    [theme.breakpoints.up('md')]: {
-      padding: pdMD,
-    },
-    [theme.breakpoints.up('lg')]: {
-      padding: pdLG,
-    },
-    [theme.breakpoints.up('xl')]: {
-      padding: pdXL,
-    },
+    margin: 'auto'
   },
   logo: {
     height: 'fit-content',

@@ -1,5 +1,6 @@
+/* eslint-disable import/no-unresolved */
 import { createSlice } from '@reduxjs/toolkit';
-import { AUTH_REDUCER } from '../../constants';
+import { AUTH_REDUCER } from 'src/constants';
 
 const loginSlice = createSlice({
     name: AUTH_REDUCER.LOGIN,
@@ -13,12 +14,18 @@ const loginSlice = createSlice({
         },
         loginFail: (state, action) => {
             state.loginResponse = action.payload;
-        }
+        },
+        logoutSuccess: (state) => {
+            state.loginResponse = {
+                status: 0,
+                response: {}
+            };
+        },
     }
 });
 
 const { actions, reducer } = loginSlice;
-const { loginSucess, loginFail } = actions;
+const { loginSucess, loginFail, logoutSuccess } = actions;
 
-export { loginSucess, loginFail };
+export { loginSucess, loginFail, logoutSuccess };
 export default reducer;

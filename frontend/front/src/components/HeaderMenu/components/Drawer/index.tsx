@@ -1,4 +1,3 @@
-/* eslint-disable object-curly-newline */
 import React, { useState } from 'react';
 import { Drawer, IconButton, List, ListItem, ListItemText } from '@material-ui/core';
 import { Menu } from '@material-ui/icons';
@@ -51,9 +50,11 @@ function SideDrawer({ navLinks }: NavLinksType): JSX.Element {
 
   return (
     <>
-      <IconButton aria-label='menu' edge='start' onClick={toggleDrawer('right', true)}>
-        <Menu fontSize='large' style={{ color: 'black' }} />
-      </IconButton>
+      <Menu
+        className={classes.menuBtn}
+        fontSize='large'
+        onClick={toggleDrawer('right', true)}
+      />
 
       <Drawer anchor='right' onClose={toggleDrawer('right', false)} open={state.right}>
         {sideDrawerList('right')}

@@ -69,16 +69,18 @@ class Photo(models.Model):
     brand = models.CharField(max_length=255, null=True, blank=True)
     style = models.CharField(max_length=255, null=True, blank=True)
     photographer =  models.CharField(max_length=255, null=True, blank=True)
+    social_url = models.CharField(max_length=255, null=True, blank=True)
     post_date = models.DateTimeField(auto_now=True)
     tags = TaggableManager()
-    author = models.ForeignKey(
-        User, on_delete=models.CASCADE, default="1")
+    # author = models.ForeignKey(
+    #     User, on_delete=models.CASCADE, default="1")
     # body = MarkdownxField()
     # body = models.TextField()
     image_path = models.ImageField(
         upload_to=datetime.now().strftime('%Y/%m/%d'))
     status = models.IntegerField(choices=modelConst.STATUS, default=0)
     view_count = models.IntegerField(default=0)
+    user_likes = models.ManyToManyField(User, related_name="users_like")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -94,6 +96,7 @@ class PhotoLike(models.Model):
         User, on_delete=models.CASCADE, null=False)
     photo_id = models.ForeignKey(
         Photo, on_delete=models.CASCADE, null=False)
+    is_enabled = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

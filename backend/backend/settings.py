@@ -68,8 +68,8 @@ INSTALLED_APPS = [
 # configure DRF
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework.authentication.SessionAuthentication',
         'rest_framework_simplejwt.authentication.JWTAuthentication',  # OAuth2, JWT
+        'rest_framework.authentication.SessionAuthentication',
     ),
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.AllowAny',
@@ -270,13 +270,13 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
-STATIC_URL = '/static/'
-MEDIA_URL = '/media/'
+STATIC_URL = '/backend_static/'
+MEDIA_URL = '/backend_media/'
 if DEBUG:
     STATICFILES_DIRS = [
-        os.path.join(BASE_DIR, 'static'),
+        os.path.join(BASE_DIR, 'backend_static'),
     ]
-    MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+    MEDIA_ROOT = os.path.join(BASE_DIR, 'backend_media')
 else:
     STATIC_URL = '/backend_static/'
     STATIC_ROOT = os.path.join(BASE_DIR, 'backend_static')

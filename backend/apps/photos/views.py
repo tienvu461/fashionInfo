@@ -94,11 +94,10 @@ class PhotoDetail(generics.RetrieveUpdateDestroyAPIView):
         return Response(serializer.data)
 
 class PhotoCustomPaginate(views.APIView):
-    page_size = 6
-    max_page_size = 50
-
+    page_size = photosConst.PAGE_SIZE
+    max_page_size = photosConst.MAX_PAGE_SIZE
     min_limit = 1
-    max_limit = 50
+    max_limit = max_page_size
 
     def paginate(self, object_list, page=1, limit=10, **kwargs):
         
@@ -256,9 +255,8 @@ class PhotoFeatureDetail(views.APIView):
         serializer = PhotoFeatureSerializer(queryset, many=True)
         return Response(serializer.data)
 
+
 # Create comment on photo
-
-
 class PhotoCommentCreate(generics.CreateAPIView):
     permission_classes = (IsAuthenticated,)
     serializer_class = CommentSerializer
@@ -337,9 +335,10 @@ class PhotoLikeCreate(generics.CreateAPIView):
     
     def post(self, request, *args, **kwargs):
         # query photolike object from DB
-        photo_like = PhotoLike.objects.filter(user_id=self.request.data['user_id'],
+        photo_like = PhotoLike.objects.get(user_id=self.request.data['user_id'],
                                                 photo_id=self.request.data['photo_id'])
-        
+        photo = Photo.objects.get(id=self.request.data['photo_id'])
+
         if not photo_like:
             # if there is no photolike object with above condition => create one
             serializer = self.get_serializer(data=request.data)
@@ -347,10 +346,27 @@ class PhotoLikeCreate(generics.CreateAPIView):
             serializer.is_valid(raise_exception=True)
             self.perform_create(serializer)
             headers = self.get_success_headers(serializer.data)
+            # add user to likes list
+            photo.user_likes.add(self.request.data['user_id'])
+            photo.save()
 
             return Response(serializer.data, status=status.HTTP_200_OK, headers=headers)
         
-        else:
-            # if there is photolike object with above condition => delete it
-            photo_like.delete()
+        elif True == photo_like.is_enabled:
+            # if there is photolike object with above condition => disable it
+            photo_like.is_enabled = False
+            photo_like.save()
+            # remove user to likes list
+            photo.user_likes.remove(self.request.data['user_id'])
+            photo.save()
+
             return Response({'info': 'you have unlike this photo!'}, status=status.HTTP_200_OK)
+        else:
+            # if there is photolike object with above condition => re-enable it
+            photo_like.is_enabled = True
+            photo_like.save()
+            # add user to likes list
+            photo.user_likes.add(self.request.data['user_id'])
+            photo.save()
+            return Response({'info': 'you have like this photo!'}, status=status.HTTP_200_OK)
+            

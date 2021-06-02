@@ -1,5 +1,14 @@
 from django.urls import path, include
-from .views import RedirectSocial, UserListView, BlackListTokenView, ActivateUser, EmailTokenObtainPairView
+from django.conf.urls import url
+from .views import (
+    RedirectSocial, 
+    UserListView, 
+    BlackListTokenView, 
+    ActivateUser, 
+    EmailTokenObtainPairView,
+    ForgotPasswordView,
+    UserProfileViews
+)
 
 accounts_urlpatterns = [
     path('api/', include('djoser.urls')),
@@ -13,4 +22,6 @@ accounts_urlpatterns = [
     path('api/token', EmailTokenObtainPairView.as_view()),
     path('api/user/logout/', BlackListTokenView.as_view(), name='logout-view'),
     path('api/user/activate/<str:uid>/<str:token>/', ActivateUser.as_view(), name='activate-view'),
+    path('api/users/reset_password_confirm/<str:uid>/<str:token>/', ForgotPasswordView.as_view()),
+    path('api/user/profile/', UserProfileViews.as_view()),
 ]
