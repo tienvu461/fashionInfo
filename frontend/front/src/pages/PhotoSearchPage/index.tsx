@@ -20,18 +20,21 @@ function PhotoSearchPage(): JSX.Element {
   const getUrlCurrent = window.location.pathname;
   // get text search in url
   const textSearch = getUrlCurrent.slice(14);
+  // replace % to '' in textSearch
+  const textTag = textSearch.replace(/%20/g, " #");
 
   // initial fetch data and set gallery to state once time
   useEffect(() => {
     // setLoading(true);
     // setInitialLoading(true);
+    setListImg([]);
     dispatch(searchAction(1, `${textSearch}`)).then((data) => {
       const { results = [] } = data;
       setListImg(results);
       // setInitialLoading(false);
       // setLoading(false);
     });
-  }, [dispatch]);
+  }, [dispatch, textSearch]);
 
   interface GalleryKeys {
     image_path: string;
@@ -46,88 +49,88 @@ function PhotoSearchPage(): JSX.Element {
     (state: any) => state.searchTag.dataSearch.dataOrigin
   );
   const { results: photoList = [] } = dataPhoto;
-  console.log("mang ban dau", photoList);
-  const arrayPhoto = [...photoList];
+  const currentPhotoList = [...photoList];
   const handleClick = async (key: string) => {
     const { next: nextPage = '', previous: previousPage = '' } = dataPhoto;
     const getStringSearch = nextPage.split('?page=').pop();
     const getNum_textSearch = getStringSearch.split("&search_text=");
-    console.log("QQQ", getNum_textSearch[0], getNum_textSearch[1]);
     await dispatch(searchAction(getNum_textSearch[0], getNum_textSearch[1])).then((data) => {
-        const { results = [] } = data;
-        console.log("data moi", results);
-        results.forEach((item) => arrayPhoto.push(item));
-        console.log("mang moi", arrayPhoto);
-        // setLoading(false);
+      const { results = [] } = data;
+      results.forEach((item) => currentPhotoList.push(item));
+      // setLoading(false);
 
-        setTimeout(() => {
-          window.scrollBy({
-            behavior: 'smooth',
-            top: document.body.scrollHeight - 2720,
-          });
-        }, 200);
-      });
-      // setListImg(arrayPhoto);
+      setTimeout(() => {
+        window.scrollBy({
+          behavior: 'smooth',
+          top: document.body.scrollHeight - 2720,
+        });
+      }, 200);
+    });
+    setListImg(currentPhotoList);
   };
 
-const renderPhoto = () => (
-  <>
-    {arrayPhoto.map((item: GalleryKeys, index: number) => {
-      const { id = 0, image_path: pathImgs = '', activities } = item;
+  const renderPhoto = () => (
+    <>
+      {listImg.map((item: GalleryKeys, index: number) => {
+        const { id = 0, image_path: pathImgs = '', activities } = item;
 
-      return (
-        <Grid
-          key={`${id}`}
-          className={classes.gridItem}
-          item
-          lg={4}
-          md={6}
-          sm={6}
-          style={
-            index >= 0 && index <= 2 ? { paddingTop: '0 !important' } : {}
-          }
-          xl={4}
-          xs={12}
-        >
-          <Photo activities={activities} id={id} pathImg={pathImgs} />
-        </Grid>
-      );
-    })}
-  </>
+        return (
+          <Grid
+            key={`${id}`}
+            className={classes.gridItem}
+            item
+            lg={4}
+            md={6}
+            sm={6}
+            style={
+              index >= 0 && index <= 2 ? { paddingTop: '0 !important' } : {}
+            }
+            xl={4}
+            xs={12}
+          >
+            <Photo activities={activities} id={id} pathImg={pathImgs} />
+          </Grid>
+        );
+      })}
+    </>
   );
 
   return (
-    <div className={`${classes.root} root`}>
-      <Grid container spacing={3}>
-        {renderPhoto()}
-      </Grid>
-      <Grid
-        className={classes.btn}
-        item
-        lg={12}
-        md={12}
-        sm={12}
-        xs={12}
-      >
-        <>
-          {dataPhoto.next ? (
-            <Button
-              className={classes.nextBtn}
-              // endIcon={loading ? <CircularProgress /> : null}
-              onClick={() => handleClick('next')}
-              variant='contained'
-            >
-              <Typography
-                className={classes.textBtn}
-                component='h5'
-                variant='h5'
+    <div>
+      <div />
+      <div className={`${classes.root} root`}>
+        <Typography className={classes.textSearch}>{`#${textTag}`}</Typography>
+        <Grid container spacing={3}>
+          {renderPhoto()}
+        </Grid>
+        <Grid
+          className={classes.btn}
+          item
+          lg={12}
+          md={12}
+          sm={12}
+          xs={12}
+        >
+          <>
+            {dataPhoto.next ? (
+              <Button
+                className={classes.nextBtn}
+                // endIcon={loading ? <CircularProgress /> : null}
+                onClick={() => handleClick('next')}
+                variant='contained'
               >
-                Xem thêm
-              </Typography>
-            </Button>
-          ) : null}
-        </>
-      </Grid>
+                <Typography
+                  className={classes.textBtn}
+                  component='h5'
+                  variant='h5'
+                >
+                  Xem thêm
+                </Typography>
+              </Button>
+            ) : null}
+          </>
+        </Grid>
+      </div>
     </div>
   );
 }

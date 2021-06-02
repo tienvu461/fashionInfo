@@ -26,6 +26,7 @@ const useStyles: () => Record<
   | 'nextBtn'
   | 'textBtn'
   | 'loadingPhoto'
+  | 'textSearch'
   | 'skeleton',
   string
 > = makeStyles(() => ({
@@ -50,6 +51,13 @@ const useStyles: () => Record<
       padding: pdXL,
       paddingTop: '77px',
     },
+  },
+  textSearch: {
+    paddingBottom: '86px',
+    fontSize: '120px',
+    textAlign: 'left',
+    fontFamily: 'Darker Grotesque',
+    fontWeight: 'bold',
   },
   paper: {},
   picture: {
