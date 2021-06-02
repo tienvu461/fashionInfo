@@ -55,12 +55,11 @@ const useStyles: () => Record<
     color: black,
   },
   btn: {
-    padding: '40px 0',
+    padding: '40px 0 80px',
   },
   nextBtn: {
     height: '60px',
     width: '220px',
-    // marginRight: '20px',
   },
   textBtn: {
     textTransform: 'initial',
