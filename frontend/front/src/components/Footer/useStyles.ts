@@ -25,7 +25,7 @@ const useStyles: () => Record<
     backgroundColor: '#0D0D0D',
   },
   leftFooter: {
-    padding: '151px 0 52px 0',
+    // padding: '151px 0 52px 0',
   },
   rightFooter: {
     padding: '176px 0 52px 0',
@@ -84,7 +84,6 @@ const useStyles: () => Record<
     alignItems: 'flex-start',
   },
   menuList: {
-    width: '340px',
     display: 'flex',
     justifyContent: 'space-between',
   },
