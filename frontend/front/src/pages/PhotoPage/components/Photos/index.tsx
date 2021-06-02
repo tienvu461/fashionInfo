@@ -39,26 +39,14 @@ function Photos(): JSX.Element {
     (state: RootState) => state.photo.photoList.dataOrigin
   );
 
-  interface GalleryKeys {
-    image_path: string;
-    id: number;
-    activities: {
-      likes: number;
-      comments: number;
-    };
-  }
-
   const renderPhoto = () => (
     <>
-      {listImg.map((item: GalleryKeys, index: number) => {
+      {listImg.map((item, index: number) => {
         const { id = 0, image_path: pathImgs = '', activities } = item;
 
         return (
           <RootRef rootRef={valueRef} key={`${id}`}>
-            <div
-              className={`${classes.gridItem} gridItem`}
-              style={index % 2 === 0 ? {} : {}}
-            >
+            <div className='gridItem'>
               <Photo activities={activities} id={id} pathImg={pathImgs} />
             </div>
           </RootRef>
@@ -127,8 +115,8 @@ function Photos(): JSX.Element {
   );
 
   return (
-    <div className={`${classes.root} root`}>
-      <Grid className={`${classes.container} container`} container>
+    <div className={`${classes.root} photoRoot`}>
+      <Grid className='container' container>
         {initialLoading ? (
           <>{loadingPhoto()}</>
         ) : (

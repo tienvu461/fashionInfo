@@ -7,9 +7,7 @@ import {
 
 const useStyles: () => Record<
   | 'root'
-  | 'container'
   | 'backDrop'
-  | 'gridItem'
   | 'actions'
   | 'left'
   | 'leftActions'
@@ -26,10 +24,6 @@ const useStyles: () => Record<
   root: {
     height: 'auto',
     backgroundColor: white,
-  },
-  container: {
-  },
-  gridItem: {
   },
   actions: {
     display: 'flex',

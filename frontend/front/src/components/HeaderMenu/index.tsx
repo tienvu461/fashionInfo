@@ -14,7 +14,6 @@ import {
   IconButton,
   Toolbar,
 } from '@material-ui/core';
-import AccountCircle from '@material-ui/icons/AccountCircle';
 import logo from 'src/assets/images/logoLucete.svg';
 import icon from 'src/assets/images/user.svg';
 import Search from './components/Search';
@@ -23,6 +22,8 @@ import ScrollToTop from './components/ScrollToTop';
 import MenuDesktop from './components/MenuDesktop';
 import useStyles from './useStyles';
 import { ROUTE_FORUM, ROUTE_HOME, ROUTE_PHOTO } from '../../constants';
+
+import './_headerMenu.scss';
 
 interface AuxProps {
   window?: () => Window;
@@ -75,14 +76,7 @@ function HeaderMenu(props: AuxProps): JSX.Element {
           justify='center'
         >
           <AppBar>
-            <Grid
-              className={classes.header}
-              item
-              lg={12}
-              md={12}
-              sm={12}
-              xs={12}
-            >
+            <div className={`${classes.header} header`}>
               <Grid className={classes.logo}>
                 <img
                   alt='Lucete'
@@ -172,7 +166,7 @@ function HeaderMenu(props: AuxProps): JSX.Element {
                 </Grid>
                 <SideDrawer navLinks={navLinks} />
               </Hidden>
-            </Grid>
+            </div>
           </AppBar>
           <Toolbar id='back-to-top-anchor' />
         </Grid>
