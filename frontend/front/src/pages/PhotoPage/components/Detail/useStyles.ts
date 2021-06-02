@@ -97,7 +97,7 @@ const useStyles: () => Record<
       padding: '0 0 88px 40px',
     },
     [theme.breakpoints.down('sm')]: {
-      padding: '0 0 88px 30px',
+      padding: '0 0 88px 20px',
     },
   },
   title: {
