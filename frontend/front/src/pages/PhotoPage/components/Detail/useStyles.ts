@@ -43,6 +43,7 @@ const useStyles: () => Record<
   },
   card: {
     boxShadow: 'none',
+    borderRadius: 0
   },
   paper: {
     boxShadow: 'none',
