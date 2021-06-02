@@ -64,13 +64,8 @@
           $("#loading").show();
         },
         success: function (data) {
-          //   var access_key = data.access;
-          //   var refresh_key = data.refresh;
-          //   var user = data.user;
-          localStorage.setItem("access", data.access);
-          localStorage.setItem("refresh", data.refresh);
-          localStorage.setItem("user", data.user);
-          console.log(data);
+          localStorage.setItem("@token", data.access);
+          localStorage.setItem("@refreshToken", data.refresh);
           location.href = "{{host}}";
         },
         complete: function () {
