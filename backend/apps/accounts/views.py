@@ -27,8 +27,12 @@ class RedirectSocial(View):
     def get(self, request, *args, **kwargs):
         code, state = str(request.GET['code']), str(request.GET['state'])
         json_obj = {'code': code, 'state': state}
-        print(json_obj)
-        return render(request, 'social_redirect.html', {'code': code, 'state': state})
+        logger.debug(json_obj)
+         
+        protocol = 'https://' if request.is_secure() else 'http://'
+        host = "{0}{1}".format(protocol, settings.HOSTNAME)
+        host = "http://api.tienvv.com"
+        return render(request, 'social_redirect.html', {'host': host, 'code': code, 'state': state})
         return JsonResponse(json_obj)
 
 # used to test auth
