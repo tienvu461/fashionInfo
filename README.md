@@ -172,3 +172,10 @@ docker exec -u fashion_info fashion-info_postgresql_1 pg_dump -Fc fasion_info_db
 docker exec -t b1b873af3554 pg_dumpall -c -U fashion_info > dump_`date +%d-%m-%Y"_"%H_%M_%S`.sql
 
 ```
+
+
+#####
+Use alternative key
+ssh-add ~/.ssh/personal_rsa
+ssh-add -l
+https://www.freecodecamp.org/news/manage-multiple-github-accounts-the-ssh-way-2dadc30ccaca/
