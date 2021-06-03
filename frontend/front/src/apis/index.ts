@@ -1,5 +1,6 @@
 // HOST
 export const HOST = 'http://api.tienvv.com';
+// export const HOST = 'http://localhost:8000/';
 
 // USER AUTH
 export const LOGIN_API = `${HOST}/api/jwt/create`;
