@@ -1,6 +1,6 @@
 @import '../../../../styles/styles.scss';
 
-.photoRoot{
+.photoRoot {
     display: flex;
     padding-top: 77px;
 
@@ -9,12 +9,12 @@
         width: 100%;
         justify-content: center;
 
-        .container{
+        .container {
             width: 100%;
             justify-content: center;
         }
 
-        .gridItem{
+        .gridItem {
             // screen < 600, img (100% x fit-content)
             width: 100%;
             height: fit-content;
@@ -27,8 +27,8 @@
         justify-content: center;
     }
 
-    .container{
-    
+    .container {
+
         // screen >= 600
         @media screen and (min-width: 600px) {
             width: 100%;
@@ -52,27 +52,27 @@
             width: 1520px;
             justify-content: space-between;
         }
-    
-        .gridItem{
+
+        .gridItem {
 
             padding-bottom: 40px;
 
             // screen >= 600, img (480 x fit-content)
             @media screen and (min-width: 600px) {
-            width: 480px;
-            height: fit-content;
+                width: 480px;
+                height: fit-content;
             }
 
             // screen >= 600, img (480 x fit-content)
             @media screen and (max-width: 960px) {
-            width: 480px;
-            height: fit-content;
+                width: 480px;
+                height: fit-content;
             }
 
             // screen >= 960, img (360 x fit-content)
             @media screen and (min-width: 960px) {
-            width: 360px;
-            height: fit-content;
+                width: 360px;
+                height: fit-content;
             }
 
             // screen >= 1600

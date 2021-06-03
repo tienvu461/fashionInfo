@@ -2,8 +2,8 @@
 /* eslint-disable import/no-unresolved */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-import React, { useEffect, useState } from 'react';
-import { Button, Grid, Typography, Box } from '@material-ui/core';
+import React, { useEffect, useState, useRef } from 'react';
+import { Button, Grid, Typography, Box, RootRef } from '@material-ui/core';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Skeleton from '@material-ui/lab/Skeleton';
 import { useDispatch, useSelector } from 'react-redux';
@@ -11,12 +11,17 @@ import { searchAction } from 'src/features/Search/searchAction';
 import { RootState } from 'src/store/store';
 import Photo from 'src/components/Photo';
 
-import useStyles from './useStyles';
+// import useStyles from './useStyles';
+import useStyles from '../PhotoPage/components/Photos/useStyles';
+import '../PhotoPage/components/Photos/_photos.scss';
 
 function PhotoSearchPage(): JSX.Element {
   const classes = useStyles();
   const dispatch = useDispatch<any>();
+  const valueRef = useRef<HTMLInputElement>(null);
   const [listImg, setListImg] = useState<Array<any>>([]);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [initialLoading, setInitialLoading] = useState<boolean>(false);
   const getUrlCurrent = window.location.pathname;
   // get text search in url
   const textSearch = getUrlCurrent.slice(14);
@@ -25,31 +30,48 @@ function PhotoSearchPage(): JSX.Element {
 
   // initial fetch data and set gallery to state once time
   useEffect(() => {
-    // setLoading(true);
-    // setInitialLoading(true);
+    setLoading(true);
+    setInitialLoading(true);
     setListImg([]);
     dispatch(searchAction(1, `${textSearch}`)).then((data) => {
       const { results = [] } = data;
       setListImg(results);
-      // setInitialLoading(false);
-      // setLoading(false);
+      setInitialLoading(false);
+      setLoading(false);
     });
   }, [dispatch, textSearch]);
-
-  interface GalleryKeys {
-    image_path: string;
-    id: number;
-    activities: {
-      likes: number;
-      comments: number;
-    };
-  }
 
   const dataPhoto = useSelector(
     (state: any) => state.searchTag.dataSearch.dataOrigin
   );
+
+  const renderPhoto = () => (
+    <>
+      {listImg.map((item, index: number) => {
+        const { id = 0, image_path: pathImgs = '', activities } = item;
+
+        return (
+          <RootRef rootRef={valueRef} key={`${id}`}>
+            <div className='gridItem'>
+              <Photo activities={activities} id={id} pathImg={pathImgs} />
+            </div>
+          </RootRef>
+        );
+      })}
+    </>
+  );
   const { results: photoList = [] } = dataPhoto;
   const currentPhotoList = [...photoList];
+
+  const handleSearchTagNotFound = (array) => {
+    if (!array.length) {
+      return (
+        <Typography className={`${classes.textSearch} textSearch`}>Tag is not found</Typography>
+      )
+    }
+    return null
+  }
+  // test(currentPhotoList);
   const handleClick = async (key: string) => {
     const { next: nextPage = '', previous: previousPage = '' } = dataPhoto;
     const getStringSearch = nextPage.split('?page=').pop();
@@ -57,81 +79,93 @@ function PhotoSearchPage(): JSX.Element {
     await dispatch(searchAction(getNum_textSearch[0], getNum_textSearch[1])).then((data) => {
       const { results = [] } = data;
       results.forEach((item) => currentPhotoList.push(item));
-      // setLoading(false);
+      setLoading(false);
 
-      setTimeout(() => {
-        window.scrollBy({
-          behavior: 'smooth',
-          top: document.body.scrollHeight - 2720,
-        });
-      }, 200);
+      valueRef?.current?.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'center' });
     });
     setListImg(currentPhotoList);
   };
 
-  const renderPhoto = () => (
-    <>
-      {listImg.map((item: GalleryKeys, index: number) => {
-        const { id = 0, image_path: pathImgs = '', activities } = item;
-
-        return (
+    const loadingPhoto = () => (
+      <>
+        {[1, 2, 3].map((id) => (
           <Grid
-            key={`${id}`}
-            className={classes.gridItem}
+            key={id}
+            className={classes.loadingPhoto}
             item
             lg={4}
             md={6}
             sm={6}
-            style={
-              index >= 0 && index <= 2 ? { paddingTop: '0 !important' } : {}
-            }
             xl={4}
             xs={12}
           >
-            <Photo activities={activities} id={id} pathImg={pathImgs} />
+            <Box marginRight={2} my={5} width='100%'>
+              <Skeleton
+                animation='wave'
+                height={250}
+                variant='rect'
+                width='100%'
+              />
+              <Box pt={0.5}>
+                <Skeleton variant='rect' />
+              </Box>
+              <Box pt={0.5}>
+                <Skeleton variant='rect' width='60%' />
+              </Box>
+            </Box>
           </Grid>
-        );
-      })}
-    </>
+        ))}
+      </>
   );
 
   return (
-    <div>
-      <div />
-      <div className={`${classes.root} root`}>
-        <Typography className={classes.textSearch}>{`#${textTag}`}</Typography>
-        <Grid container spacing={3}>
-          {renderPhoto()}
-        </Grid>
-        <Grid
-          className={classes.btn}
-          item
-          lg={12}
-          md={12}
-          sm={12}
-          xs={12}
-        >
-          <>
-            {dataPhoto.next ? (
-              <Button
-                className={classes.nextBtn}
-                // endIcon={loading ? <CircularProgress /> : null}
-                onClick={() => handleClick('next')}
-                variant='contained'
-              >
-                <Typography
-                  className={classes.textBtn}
-                  component='h5'
-                  variant='h5'
-                >
-                  Xem thêm
-                </Typography>
-              </Button>
-            ) : null}
-          </>
+    <>
+      <div style={{ padding: '50px 0px', backgroundColor: '#EEEEEE' }} />
+      <div className={`${classes.root} photoRoot`}>
+        <Grid className='container' container>
+          <Typography className={`${classes.textSearch} textSearch`}>{`#${textTag}`}</Typography>
+          {handleSearchTagNotFound(currentPhotoList)}
         </Grid>
       </div>
-    </div>
+      <div className={`${classes.root} photoRoot`}>
+        <Grid className='container' container>
+          {initialLoading ? (
+            <>{loadingPhoto()}</>
+          ) : (
+            <>
+              {renderPhoto()}
+              <Grid
+                className={classes.btn}
+                item
+                lg={12}
+                md={12}
+                sm={12}
+                xs={12}
+              >
+                <>
+                  {dataPhoto.next ? (
+                    <Button
+                      className={classes.nextBtn}
+                      endIcon={loading ? <CircularProgress /> : null}
+                      onClick={() => handleClick('next')}
+                      variant='contained'
+                    >
+                      <Typography
+                        className={classes.textBtn}
+                        component='h5'
+                        variant='h5'
+                      >
+                        Xem thêm
+                      </Typography>
+                    </Button>
+                  ) : null}
+                </>
+              </Grid>
+            </>
+          )}
+        </Grid>
+      </div>
+    </>
   );
 }
 export default PhotoSearchPage;

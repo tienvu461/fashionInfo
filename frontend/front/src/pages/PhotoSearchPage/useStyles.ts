@@ -53,7 +53,7 @@ const useStyles: () => Record<
     },
   },
   textSearch: {
-    paddingBottom: '86px',
+    // paddingBottom: '86px',
     fontSize: '120px',
     textAlign: 'left',
     fontFamily: 'Darker Grotesque',

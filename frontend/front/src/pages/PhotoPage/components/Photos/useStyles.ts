@@ -18,6 +18,7 @@ const useStyles: () => Record<
   | 'nextBtn'
   | 'textBtn'
   | 'loadingPhoto'
+  | 'textSearch'
   | 'skeleton',
   string
 > = makeStyles(() => ({
@@ -75,6 +76,13 @@ const useStyles: () => Record<
     width: '100%',
   },
   loadingPhoto: {},
+  textSearch: {
+    fontSize: '120px',
+    textAlign: 'left',
+    fontFamily: 'Darker Grotesque',
+    fontWeight: 'bold',
+    backgroundColor: '#FFFFFF',
+  },
 }));
 
 export { useStyles as default };
