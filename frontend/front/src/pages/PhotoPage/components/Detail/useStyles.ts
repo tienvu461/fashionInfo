@@ -130,7 +130,6 @@ const useStyles: () => Record<
     background: gray1,
     padding: '3px 15px',
     marginRight: '4px',
-    marginBottom: '4px',
   },
   tags: {
     display: 'flex',
