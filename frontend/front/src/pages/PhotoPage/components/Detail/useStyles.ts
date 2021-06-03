@@ -87,7 +87,7 @@ const useStyles: () => Record<
     width: '100%',
     height: '100%',
     display: 'flex',
-    alignItems: 'flex-end',
+    // alignItems: 'flex-end',
   },
   title: {
     letterSpacing: '1px',

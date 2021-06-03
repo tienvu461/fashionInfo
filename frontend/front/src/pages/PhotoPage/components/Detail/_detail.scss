@@ -2,23 +2,91 @@
 
 .detailRoot {
     // screen >= 600
+    @media screen and (max-width: 600px) {
+        width: 100%;
+
+        .photoDetail{
+            flex-direction: column;
+            padding: 0 20px;
+            padding-bottom: 96px;
+        }
+
+        .gridPhoto{
+            width: 100%;
+            // height: 479.094827586px;
+        }
+
+        .information {
+            padding-left: 0;
+        }
+    }
+    // screen >= 600
     @media screen and (min-width: 600px) {
         width: 100%;
+
+        .photoDetail{
+            flex-direction: column;
+            padding-bottom: 96px;
+            padding: 0 20px;
+        }
+
+        .gridPhoto{
+            width: 100%;
+            // height: 479.094827586px;
+        }
+
+        .information {
+            padding-left: 0;
+        }
     }
 
     // screen >= 960
     @media screen and (min-width: 960px) {
         width: 760px;
+
+        .photoDetail{
+            flex-direction: column;
+            padding-bottom: 96px;
+        }
+        .gridPhoto{
+            width: 760px;
+            height: 479.094827586px;
+        }
+
+        .information {
+            padding-left: 0;
+            padding-top: 40px;
+        }
     }
 
     // screen >= 1280
     @media screen and (min-width: 1280px) {
         width: 1160px;
+
+        .photoDetail{
+            flex-direction: row;
+            padding-bottom: 0;
+        }
+
+        .gridPhoto{
+            width: 585px;
+            height: 731.25px;
+        }
+        .information {
+            padding-left: 130px;
+            padding-top: 0;
+            align-items: flex-end;
+        }
     }
 
     // screen >= 1600
     @media screen and (min-width: 1600px) {
         width: 1520px;
+
+        .photoDetail{
+            flex-direction: row;
+            padding-bottom: 0;
+        }
 
         .gridPhoto{
             width: 780px;
@@ -26,6 +94,8 @@
         }
         .information {
             padding-left: 130px;
+            padding-top: 0;
+            align-items: flex-end;
         }
     }
 

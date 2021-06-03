@@ -108,12 +108,12 @@ function DetaiPhoto(props: DetailProps): JSX.Element {
         const { name = '', value = '' } = item;
         return (
           <React.Fragment key={`${index + 1}`}>
-            <Grid item lg={4} md={6} sm={12} xl={6} xs={6}>
+            <Grid item lg={4} md={6} sm={6} xl={6} xs={6}>
               <Typography className={classes.name} component='h6' variant='h6'>
                 {name}
               </Typography>
             </Grid>
-            <Grid item lg={8} md={6} sm={12} xl={6} xs={6}>
+            <Grid item lg={8} md={6} sm={6} xl={6} xs={6}>
               <div className={classes.valueName}>
                 <Typography
                   className={name === 'Instagram' || name === 'Photographer' ? classes.value2 : classes.value}
@@ -134,7 +134,7 @@ function DetaiPhoto(props: DetailProps): JSX.Element {
     const { tags: listTags = [] } = photoDetail;
 
     return (
-      <Grid item lg={6} md={12} sm={12} xl={12} xs={12}>
+      <Grid item lg={12} md={12} sm={12} xl={12} xs={12}>
         <div className={classes.tags}>
           {listTags.map((item: string, index: number) => (
             <Grid key={`${index + 1}`} className={classes.tag}>
