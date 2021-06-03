@@ -19,5 +19,19 @@
     // screen >= 1600
     @media screen and (min-width: 1600px) {
         width: 1520px;
+
+        .gridPhoto{
+            width: 780px;
+            height: 975px;
+        }
+        .information {
+            width: 780px;
+            height: 975px;
+            padding-left: 130px;
+        }
+    }
+
+    .photoDetail{
+        display: flex;
     }
 }
