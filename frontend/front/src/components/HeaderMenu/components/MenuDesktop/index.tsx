@@ -1,14 +1,15 @@
+/* eslint-disable import/no-unresolved */
 import React, { FunctionComponent } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useHistory } from 'react-router-dom';
 import { Menu, MenuItem, Typography } from '@material-ui/core';
 import { toast } from 'react-toastify';
-import { clearStoreFromlocalStorage } from '../../../../utils/localStorage';
+import { clearStoreFromlocalStorage } from 'src/utils/localStorage';
+import { ROUTE_LOGIN, ROUTE_REGISTER, ROUTE_PROFILE, ROUTE_HOME } from 'src/constants';
+import LoginIcon from 'src/assets/images/user.svg';
+import RegisterIcon from 'src/assets/images/registration.svg';
+import LogoutIcon from 'src/assets/images/iconLogout.svg';
 import useStyles from './useStyles';
-import { ROUTE_LOGIN, ROUTE_REGISTER, ROUTE_PROFILE, ROUTE_HOME } from '../../../../constants';
-import LoginIcon from '../../../../assets/images/user.svg';
-import RegisterIcon from '../../../../assets/images/registration.svg';
-import LogoutIcon from '../../../../assets/images/iconLogout.svg';
 
 type MenuProps = {
   menuId: string;
@@ -29,7 +30,7 @@ const MenuDesktop: FunctionComponent<MenuProps> = ({
     (state: any) => state.login.loginResponse.status
   );
 
-  const userName = useSelector((state: any) => state.profile.currentUser.user.username);
+  const userName = useSelector((state: any) => state.profile.currentUser.user?.username);
   // const logOut = () => {
   //   return {
   //     type: 'CLEAR_STORE',
