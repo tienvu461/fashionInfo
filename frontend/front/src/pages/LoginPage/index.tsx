@@ -1,3 +1,4 @@
+/* eslint-disable import/order */
 /* eslint-disable import/no-unresolved */
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -23,9 +24,10 @@ import { RootState } from 'src/store/store';
 import {
   loginAction,
   getUrlSocialAction,
-} from '../../features/Login/LoginAction';
-import iconGg from '../../assets/images/iconfinder_Google_Loginin.png';
-import iconFb from '../../assets/images/iconFb_Login.png';
+} from 'src/features/Login/LoginAction';
+import { getUserProfile } from 'src/features/Profile/ProfileAction';
+import iconGg from 'src/assets/images/iconfinder_Google_Loginin.png';
+import iconFb from 'src/assets/images/iconFb_Login.png';
 import useStyles from './useStyles';
 
 type FieldStates = {
@@ -70,15 +72,23 @@ function LoginPage(): JSX.Element {
 
   useEffect(() => {
     if (loginStatus === 200) {
-      history.push('/');
+    const fetchProfile = async () => {
+      await dispatch(getUserProfile());
+        history.push('/');
+      };
+      fetchProfile();
     }
   });
 
   useEffect(() => {
     if (loginStatus === 200 && cmtPhotoId) {
-      history.replace(`/photo/${cmtPhotoId}`);
+    const fetchProfile = async () => {
+      await dispatch(getUserProfile());
+        history.replace(`/photo/${cmtPhotoId}`);
+      };
+      fetchProfile();
     }
-  }, [cmtPhotoId, loginStatus, history]);
+  }, [dispatch, cmtPhotoId, loginStatus, history]);
 
   function handleError() {
     if (loginStatus === 400) {

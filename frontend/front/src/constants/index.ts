@@ -7,6 +7,7 @@ export { LOCAL_STORAGE_TOKEN_KEY, LOCAL_STORAGE_CREDENTIALS_KEY };
 /* =============* REDUCER + ACTION *============= */
 const AUTH_REDUCER = {
   LOGIN: 'login',
+  PROFILE: 'profile'
 };
 export { AUTH_REDUCER };
 
