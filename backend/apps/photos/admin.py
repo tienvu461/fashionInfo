@@ -124,7 +124,7 @@ class FileInline(admin.TabularInline):
 
 @admin.register(News)
 class NewsAdmin(MarkdownxModelAdmin):
-    list_display = ('title',  'status', 'get_description', 'tag_list', 'created_at',
+    list_display = ('title',  'status', 'summary', 'tag_list', 'created_at',
                     'updated_at')
     list_filter = ('created_at', 'updated_at', "status",)
     search_fields = ('title',)

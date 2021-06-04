@@ -185,6 +185,7 @@ class News(models.Model):
         return markdownify(self.content)
 
     status = models.IntegerField(choices=modelConst.STATUS, default=0)
+    view_count = models.IntegerField(default=0)
     user_likes = models.ManyToManyField(User, related_name="news_users_like")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -198,12 +199,12 @@ class News(models.Model):
         return self.title
 
     # get summary <= 150 chars
-    def get_description(self):
+    def summary(self):
         summary = self.content[:150] 
         last_space = summary.rfind(" ")
         summary = summary[:last_space] + "..."
         return markdownify(summary)
-    get_description.short_description = "Description"
+    summary.short_description = "Description"
 
 class NewsAttachedPhoto(models.Model):
     news = models.ForeignKey(

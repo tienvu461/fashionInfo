@@ -206,7 +206,7 @@ class NewsSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = News
-        fields = ['id', 'title', 'author', 'formatted_markdown',
+        fields = ['id', 'title', 'author', 'summary',
                   'status', 'created_at', 'activities', 'tags']
 
     def to_representation(self, instance):
@@ -257,11 +257,10 @@ class NewsLikeSerializer(serializers.ModelSerializer):
 class NewsDetailSerializer(NewsSerializer):
     likes = serializers.SerializerMethodField()
     comments = serializers.SerializerMethodField()
-    detail_info = serializers.SerializerMethodField()
 
     class Meta:
         model = News
-        fields = ['id', 'title', 'content', 'status', 'thumbnail',
+        fields = ['id', 'title', 'formatted_markdown', 'status', 'thumbnail', 'author',
                   'created_at', 'likes', 'comments', 'user_likes', 'tags', 'view_count']
         removed_fields = []
 
@@ -284,7 +283,7 @@ class NewsDetailSerializer(NewsSerializer):
 
     def get_comments(self, instance):
         comment_queryset = NewsComment.objects.filter(news_id=instance.id, parent__isnull=True)
-        reply_queryset = NewsComment.objects.filter(photo_id=instance.id, parent__isnull=False)
+        reply_queryset = NewsComment.objects.filter(news_id=instance.id, parent__isnull=False)
 
         # data = serializers.serialize('json', query)
         comment_data =  NewsCommentSerializer(comment_queryset, many=True).data

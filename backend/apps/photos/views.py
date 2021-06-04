@@ -173,8 +173,8 @@ class PhotoSuggest(CustomPaginate):
         try:
             org_queryset = Photo.objects.filter(id=photo_id).distinct()
             org_serializer = PhotoDetailSerializer(org_queryset, many=True)
-            logger.debug(
-                ("org_queryset data = {}".format(org_serializer.data[0])))
+            # logger.debug(
+            #     ("org_queryset data = {}".format(org_serializer.data[0])))
 
             # get tags list, filter and sort photos having matched tags
             org_tag_list = org_serializer.data[0]["tags"]
@@ -380,7 +380,7 @@ class NewsList(generics.ListCreateAPIView):
 
 class NewsDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = News.objects.all()
-    serializer_class = NewsSerializer
+    serializer_class = NewsDetailSerializer
 
     def get(self, request, *args, **kwargs):
         # view increment
@@ -487,8 +487,8 @@ class NewsSuggest(CustomPaginate):
         try:
             org_queryset = News.objects.filter(id=news_id).distinct()
             org_serializer = NewsDetailSerializer(org_queryset, many=True)
-            logger.debug(
-                ("org_queryset data = {}".format(org_serializer.data[0])))
+            # logger.debug(
+            #     ("org_queryset data = {}".format(org_serializer.data[0])))
 
             # get tags list, filter and sort news having matched tags
             org_tag_list = org_serializer.data[0]["tags"]
@@ -500,7 +500,7 @@ class NewsSuggest(CustomPaginate):
             clauses = ((Q(tags__name__iexact=tag) for tag in org_tag_list))
             query = reduce(operator.or_, clauses)
             similar_news_queryset = News.objects.filter(
-                query | Q(author__iexact=org_author)).distinct()
+                query | Q(author=org_author)).distinct()
 
             # similar_news_queryset = News.objects.filter(tags__name__in=org_tag_list).distinct()
             # similar_news_queryset = News.objects.filter(Q(tags__icontains='candy')|Q(body__icontains='candy'))
@@ -566,8 +566,8 @@ class NewsFeatureDetail(views.APIView):
     def get(self, request, *args, **kwargs):
         queryset = NewsFeature.objects.filter(in_use=True)
         if queryset.count() == 0:
-            logger.error("Feature photos does not exist")
-            return Response("Feature photos does not exist", status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            logger.error("Feature news does not exist")
+            return Response("Feature news does not exist", status=status.HTTP_500_INTERNAL_SERVER_ERROR)
         serializer = NewsFeatureSerializer(queryset, many=True)
         return Response(serializer.data)
 
