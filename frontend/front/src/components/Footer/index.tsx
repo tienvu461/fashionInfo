@@ -64,9 +64,9 @@ function Footer(): JSX.Element {
                 mới nhất từ chúng tôi{' '}
               </Typography>
             </div>
-            <Grid className={classes.logoFooter} style={matches ? { display: 'block' } : {}}>
+            {/* <Grid className={classes.logoFooter} style={matches ? { display: 'block' } : {}}>
               <img alt='logo-footer' src={logoFooter} />
-            </Grid>
+            </Grid> */}
           </div>
           <Grid container alignItems='center' className={classes.emailInput}>
             <Grid item>
