@@ -13,6 +13,7 @@ const useStyles: () => Record<
   | 'nestedTimeline'
   | 'timelineTwo'
   | 'action'
+  | 'actionWithoutLogin'
   | 'flex'
   | 'textStyle'
   | 'actionName'
@@ -110,6 +111,20 @@ const useStyles: () => Record<
       flexDirection: 'column',
       alignItems: 'left',
     },
+
+    [theme.breakpoints.down('lg')]: {
+      flexDirection: 'column',
+    },
+  },
+  actionWithoutLogin: {
+    display: 'flex',
+
+    [theme.breakpoints.down('sm')]: {
+      justifyContent: 'space-between',
+    },
+    [theme.breakpoints.down('lg')]: {
+      flexDirection: 'column',
+    },
   },
   flex: {
     display: 'flex',
@@ -128,7 +143,7 @@ const useStyles: () => Record<
     letterSpacing: '0.8px',
   },
   actionName: {
-    paddingRight: '17px',
+    paddingRight: '40px',
     fontWeight: 'bold',
     color: '#2E4A91',
     textAlign: 'left',

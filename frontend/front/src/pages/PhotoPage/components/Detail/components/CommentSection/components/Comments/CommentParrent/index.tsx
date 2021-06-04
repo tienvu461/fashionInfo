@@ -132,7 +132,7 @@ function CommentParrent(props: CommentProps): JSX.Element {
       </TimelineSeparator>
       <TimelineContent className={classes.content}>
         <Paper className={classes.paper} elevation={3}>
-          <Grid className={classes.action}>
+          <Grid className={loginStatus === 200 ? classes.action : classes.actionWithoutLogin}>
             <Typography className={`${classes.actionName} ${classes.textStyle}`} component='h6' variant='h6'>
               {cmtProps?.user_id}
             </Typography>

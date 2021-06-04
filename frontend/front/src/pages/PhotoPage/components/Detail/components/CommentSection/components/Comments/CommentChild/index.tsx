@@ -118,24 +118,21 @@ function CommentChild(props: CmtChild): JSX.Element {
               <Typography className={`${classes.actionName} ${classes.textStyle}`} component='h6' variant='h6'>
                 {item?.user_id}
               </Typography>
-
-              <>
+              <div className={classes.flex}>
+                <Typography className={`${classes.actionTime} ${classes.textStyle}`} component='h6' variant='h6'>
+                  {formatDate(item?.created_at)}
+                </Typography>
                 {loginStatus === 200 ? (
-                  <div className={classes.flex}>
-                    <Typography className={`${classes.actionTime} ${classes.textStyle}`} component='h6' variant='h6'>
-                      {formatDate(item?.created_at)}
-                    </Typography>
-                    <Typography
-                      className={`${classes.actionReply} ${classes.textStyle}`}
-                      component='h6'
-                      variant='h6'
-                      onClick={() => onAnswer(cmtProps?.cmt_id)}
-                    >
-                      Trả lời
-                    </Typography>
-                  </div>
+                  <Typography
+                    className={`${classes.actionReply} ${classes.textStyle}`}
+                    component='h6'
+                    variant='h6'
+                    onClick={() => onAnswer(cmtProps?.cmt_id)}
+                  >
+                    Trả lời
+                  </Typography>
                 ) : null}
-              </>
+              </div>
             </Grid>
             <Typography className={`${classes.comment} ${classes.textStyle}`} component='h6' variant='h6'>
               {item.content}
