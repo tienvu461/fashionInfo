@@ -63,13 +63,6 @@ function Photo(props: PropsType): JSX.Element {
     }
   };
 
-  // const updateLike = () => {
-  //   if (likeAction && click) {
-  //     return likes + 1;
-  //   }
-  //   return likes;
-  // };
-
   useEffect(() => {
     let checkUserLike = userLikes.map((item) => item === userID);
     checkUserLike = checkUserLike.filter((item) => item === true);
