@@ -124,8 +124,8 @@ class FileInline(admin.TabularInline):
 
 @admin.register(News)
 class NewsAdmin(MarkdownxModelAdmin):
-    list_display = ('title',  "status", 'created_at',
-                    'updated_at', 'get_description', 'tag_list')
+    list_display = ('title',  'status', 'get_description', 'tag_list', 'created_at',
+                    'updated_at')
     list_filter = ('created_at', 'updated_at', "status",)
     search_fields = ('title',)
     prepopulated_fields = {'slug': ('title',)}
@@ -162,7 +162,8 @@ class NewsAdmin(MarkdownxModelAdmin):
                         with f_list.open(f_name) as md_file:
                             img_ptn = re.compile(r"\]\((.*.jpg)\)")
                             content = md_file.read().decode('utf8')
-                            prefix = "{0}{1}".format(settings.MEDIA_URL, adminConst.ATTACH_DIR)+datetime.now().strftime('%Y/%m/%d/')
+                            prefix = "{0}{1}".format(
+                                settings.MEDIA_URL, adminConst.ATTACH_DIR)+datetime.now().strftime('%Y/%m/%d/')
                             content = re.sub(
                                 img_ptn, rf"]({prefix}\1)", content)
                             obj.content = content
@@ -172,7 +173,7 @@ class NewsAdmin(MarkdownxModelAdmin):
                             NewsAttachedPhoto.objects.create(
                                 news_id=obj.id, image=ImageFile(jpg_file))
             # delete zipfile after extracted
-            file_path = archived.zip_file 
+            file_path = archived.zip_file
             logger.debug(file_path)
             result = NewsArchivedFile.objects.filter(news_id=obj.id).delete()
             logger.debug("NewsArchivedFile delete result = {}".format(result))
@@ -190,6 +191,7 @@ class NewsCommentAdmin(admin.ModelAdmin):
 @admin.register(PhotoCategory)
 class PhotoCategoryAdmin(admin.ModelAdmin):
     list_display = ('cat_name', 'created_at')
+
 
 @admin.register(NewsCategory)
 class NewsCategoryAdmin(admin.ModelAdmin):

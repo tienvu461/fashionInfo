@@ -1,3 +1,4 @@
+import logging
 from django.db import models, transaction
 from django import forms
 from django.contrib.auth.models import User
@@ -11,6 +12,7 @@ from datetime import datetime
 
 from .consts import modelConst, adminConst
 
+logger = logging.getLogger("photos")
 
 class GenericConfig(models.Model):
     config_name = models.CharField(default="default", max_length=50)
@@ -182,9 +184,6 @@ class News(models.Model):
     def formatted_markdown(self):
         return markdownify(self.content)
 
-    def content_summary(self):
-        return markdownify(self.content[:300] + "...")
-
     status = models.IntegerField(choices=modelConst.STATUS, default=0)
     user_likes = models.ManyToManyField(User, related_name="news_users_like")
     created_at = models.DateTimeField(auto_now_add=True)
@@ -198,11 +197,13 @@ class News(models.Model):
     def __str__(self):
         return self.title
 
-    # truncate text in list admin view
+    # get summary <= 150 chars
     def get_description(self):
-        return markdownify(self.content[:1000] + "...")
-    content_summary.short_description = "Description"
-
+        summary = self.content[:150] 
+        last_space = summary.rfind(" ")
+        summary = summary[:last_space] + "..."
+        return markdownify(summary)
+    get_description.short_description = "Description"
 
 class NewsAttachedPhoto(models.Model):
     news = models.ForeignKey(
@@ -249,3 +250,19 @@ class NewsComment(models.Model):
     def __str__(self):
         return str(self.cmt_id)
 
+def get_default_news():
+    return News.objects.get_or_create(id=1)
+class NewsFeature(models.Model):
+    feature_photo = ForeignKey(
+        News, related_name='feature', on_delete=models.CASCADE, default=get_default_news)
+    in_use = models.BooleanField(choices=modelConst.BINARY, default=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    # when updated, there is only 1 config in use = true, others are false
+    def save(self, *args, **kwargs):
+        if not self.in_use:
+            return super(NewsFeature, self).save(*args, **kwargs)
+        with transaction.atomic():
+            NewsFeature.objects.filter(in_use=True).update(in_use=False)
+            return super(NewsFeature, self).save(*args, **kwargs)
