@@ -24,7 +24,9 @@ function Comments(): JSX.Element {
   const photoId = useSelector((state: RootState) => state.photo.photoDetail.id);
   const loginStatus = useSelector((state: any) => state.login.loginResponse.status);
   const user = useSelector((state: any) => state.login.loginResponse.userID);
-  const userName = useSelector((state: any) => state.profile.currentUser.user?.username);
+  const firstName = useSelector((state: any) => state.profile.currentUser.user?.first_name);
+  const lastName = useSelector((state: any) => state.profile.currentUser.user?.last_name);
+  const userName = `${firstName} ${lastName}`;
 
   const listComments = useMemo(
     () => (
