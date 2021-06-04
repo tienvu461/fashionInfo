@@ -34,6 +34,9 @@ const useStyles: () => Record<'root' | 'titleSuggestion' | 'btn' | 'nextBtn' | '
   textBtn: {
     textTransform: 'initial',
     paddingBottom: '6px',
+    [theme.breakpoints.down('md')]: {
+      fontSize: '30px !important',
+    },
   },
 }));
 

@@ -3,6 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import {
   white,
   black,
+  theme
 } from 'src/styles/theme';
 
 const useStyles: () => Record<
@@ -65,6 +66,9 @@ const useStyles: () => Record<
   textBtn: {
     textTransform: 'initial',
     paddingBottom: '6px',
+    [theme.breakpoints.down('md')]: {
+      fontSize: '30px !important'
+    }
   },
   backDrop: {
     width: '100%',

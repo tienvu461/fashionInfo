@@ -108,12 +108,12 @@ function DetaiPhoto(props: DetailProps): JSX.Element {
         const { name = '', value = '' } = item;
         return (
           <React.Fragment key={`${index + 1}`}>
-            <Grid item lg={4} md={6} sm={12} xl={12} xs={6}>
+            <Grid item lg={4} md={6} sm={6} xl={6} xs={6}>
               <Typography className={classes.name} component='h6' variant='h6'>
                 {name}
               </Typography>
             </Grid>
-            <Grid item lg={8} md={6} sm={12} xl={12} xs={6}>
+            <Grid item lg={8} md={6} sm={6} xl={6} xs={6}>
               <div className={classes.valueName}>
                 <Typography
                   className={name === 'Instagram' || name === 'Photographer' ? classes.value2 : classes.value}
@@ -134,7 +134,7 @@ function DetaiPhoto(props: DetailProps): JSX.Element {
     const { tags: listTags = [] } = photoDetail;
 
     return (
-      <Grid item lg={6} md={12} sm={12} xl={12} xs={12}>
+      <Grid item lg={12} md={12} sm={12} xl={12} xs={12}>
         <div className={classes.tags}>
           {listTags.map((item: string, index: number) => (
             <Grid key={`${index + 1}`} className={classes.tag}>
@@ -151,13 +151,13 @@ function DetaiPhoto(props: DetailProps): JSX.Element {
 
     return (
       <>
-        <Grid className={classes.gridPhoto} item lg={6} md={6} sm={8} xl={8} xs={12}>
+        <div>
           <Paper className={loading ? classes.paperLoading : classes.paper}>
             <Card className={classes.card}>
               <CardActionArea>
                 <CardMedia
                   alt='Contemplative Reptile'
-                  className={classes.picture}
+                  className={`${classes.picture} gridPhoto`}
                   component='img'
                   image={pathImg}
                   title='Contemplative Reptile'
@@ -174,21 +174,19 @@ function DetaiPhoto(props: DetailProps): JSX.Element {
               </div>
             </Card>
           </Paper>
-        </Grid>
-        <Grid item lg={6} md={6} sm={4} xl={4} xs={12}>
-          <div className={classes.information}>
-            <Grid container>
-              <Grid item lg={12} md={12} sm={12} xl={12} xs={12}>
-                <Typography className={classes.title} component='h4' variant='h4'>
-                  Thông tin
-                </Typography>
-              </Grid>
-
-              {renderInformation()}
-              {renderTags()}
+        </div>
+        <div className={`${classes.information} gridPhoto information`}>
+          <Grid container>
+            <Grid item lg={12} md={12} sm={12} xl={12} xs={12}>
+              <Typography className={classes.title} component='h4' variant='h4'>
+                Thông tin
+              </Typography>
             </Grid>
-          </div>
-        </Grid>
+
+            {renderInformation()}
+            {renderTags()}
+          </Grid>
+        </div>
       </>
     );
   };
@@ -202,7 +200,7 @@ function DetaiPhoto(props: DetailProps): JSX.Element {
           </div>
         ) : (
           <>
-            <Grid container>{renderDetailPhoto()}</Grid>
+            <div className='photoDetail'>{renderDetailPhoto()}</div>
             <Divider />
             <CommentComponent paramsId={id} />
           </>
