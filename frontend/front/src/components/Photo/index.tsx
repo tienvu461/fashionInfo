@@ -32,7 +32,8 @@ function Photo(props: PropsType): JSX.Element {
   const dispatch = useDispatch<any>();
   const history = useHistory();
   const [likeAction, setLikeAction] = useState<boolean>(false);
-  const [click, setClick] = useState<boolean>(false);
+  // const [click, setClick] = useState<boolean>(false);
+  const [like, setLike] = useState<number>(likes);
 
   const checkPathImg = (path) => {
     if (path.includes(HOST)) {
@@ -44,23 +45,22 @@ function Photo(props: PropsType): JSX.Element {
   const loginStatus = useSelector((state: any) => state.login.loginResponse?.status);
   const userID = useSelector((state: any) => state.login.loginResponse?.userID);
 
-  const likePhoto = (photo_id: string | number) => {
+  const likePhoto = (photo_id: string | number, key: string) => {
     if (loginStatus === 200) {
       const credentials = JSON.parse(getCredentialsFromLocalStorage());
       dispatch(likePhotoAction({ user_id: credentials.userID, photo_id })).then(() => {
-      setClick(!click);
-      setLikeAction(!likeAction);
+      // setClick(!click);
+      if (key === 'like') {
+        setLikeAction(true);
+        setLike(like + 1);
+      } else {
+        setLikeAction(false);
+        setLike(like - 1);
+      }
       });
     } else {
       toast.warn('Please login your account');
     }
-  };
-
-  const updateLike = () => {
-    if (likeAction && click) {
-      return likes + 1;
-    }
-    return likes;
   };
 
   useEffect(() => {
@@ -88,11 +88,16 @@ function Photo(props: PropsType): JSX.Element {
             <div className={classes.left}>
               <div className={classes.leftActions}>
                 {likeAction ? (
-                  <FavoriteIcon style={{ color: 'red' }} onClick={() => likePhoto(id)} />
+                  <FavoriteIcon style={{ color: 'red' }} onClick={() => likePhoto(id, 'unlike')} />
                 ) : (
-                  <img alt='heart-icon' onClick={() => likePhoto(id)} className={classes.icon} src={HeartIcon} />
+                  <img
+                    alt='heart-icon'
+                    onClick={() => likePhoto(id, 'like')}
+                    className={classes.icon}
+                    src={HeartIcon}
+                  />
                 )}
-                <div className={classes.num}>{updateLike()}</div>
+                <div className={classes.num}>{like}</div>
               </div>
               <div className={classes.leftActions}>
                 <img alt='comment-icon' className={classes.icon} src={CommentIcon} />

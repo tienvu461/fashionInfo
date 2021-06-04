@@ -21,10 +21,7 @@ import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import clsx from 'clsx';
 import './_loginpage.scss';
 import { RootState } from 'src/store/store';
-import {
-  loginAction,
-  getUrlSocialAction,
-} from 'src/features/Login/LoginAction';
+import { loginAction, getUrlSocialAction } from 'src/features/Login/LoginAction';
 import { getUserProfile } from 'src/features/Profile/ProfileAction';
 import iconGg from 'src/assets/images/iconfinder_Google_Loginin.png';
 import iconFb from 'src/assets/images/iconFb_Login.png';
@@ -47,9 +44,7 @@ function LoginPage(): JSX.Element {
     showPassword: false,
   });
 
-  const handleChange = (
-    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setfield({
       ...field,
       [event.target.name]: event.target.value,
@@ -65,15 +60,13 @@ function LoginPage(): JSX.Element {
     setfield({ ...field, showPassword: !field.showPassword });
   };
 
-  const loginStatus = useSelector(
-    (state: any) => state.login.loginResponse.status
-  );
+  const loginStatus = useSelector((state: any) => state.login.loginResponse.status);
   const cmtPhotoId = useSelector((state: RootState) => state.photo.isLoginToComment.photoId);
 
   useEffect(() => {
     if (loginStatus === 200) {
-    const fetchProfile = async () => {
-      await dispatch(getUserProfile());
+      const fetchProfile = async () => {
+        await dispatch(getUserProfile());
         history.push('/');
       };
       fetchProfile();
@@ -82,8 +75,8 @@ function LoginPage(): JSX.Element {
 
   useEffect(() => {
     if (loginStatus === 200 && cmtPhotoId) {
-    const fetchProfile = async () => {
-      await dispatch(getUserProfile());
+      const fetchProfile = async () => {
+        await dispatch(getUserProfile());
         history.replace(`/photo/${cmtPhotoId}`);
       };
       fetchProfile();
@@ -92,29 +85,16 @@ function LoginPage(): JSX.Element {
 
   function handleError() {
     if (loginStatus === 400) {
-      return (
-        <span className={classes.errorText}>
-          Vui lòng nhập tài khoản/email và mật khẩu
-        </span>
-      );
+      return <span className={classes.errorText}>Vui lòng nhập tài khoản/email và mật khẩu</span>;
     }
     if (loginStatus === 401) {
-      return (
-        <span className={classes.errorText}>
-          Tài khoản/Email hoặc mật khẩu không đúng
-        </span>
-      );
+      return <span className={classes.errorText}>Tài khoản/Email hoặc mật khẩu không đúng</span>;
     }
     return null;
   }
 
   return (
-    <Grid
-      className={clsx(classes.root && 'login-page')}
-      component='main'
-      container
-      item
-    >
+    <Grid className={clsx(classes.root && 'login-page')} component='main' container item>
       <Grid className='imageBannerLogin' item md={6} sm={12} xs={12} />
       <Grid item md={6} sm={12} xs={12}>
         <div className={classes.paper}>
@@ -133,42 +113,20 @@ function LoginPage(): JSX.Element {
                 onClick={() => {
                   dispatch(getUrlSocialAction());
                 }}
-                startIcon={
-                  <Avatar
-                    alt='goole-icon'
-                    className={classes.small}
-                    src={iconGg}
-                  />
-                }
+                startIcon={<Avatar alt='goole-icon' className={classes.small} src={iconGg} />}
               >
                 <Typography component='span'>
-                  <Box
-                    className={classes.socialButton}
-                    color='#000000'
-                    fontSize={16}
-                    fontWeight='fontWeightBold'
-                  >
+                  <Box className={classes.socialButton} color='#000000' fontSize={16} fontWeight='fontWeightBold'>
                     Qua Google
                   </Box>
                 </Typography>
               </Button>
               <Button
                 className={classes.button}
-                startIcon={
-                  <Avatar
-                    alt='goole-icon'
-                    className={classes.small}
-                    src={iconFb}
-                  />
-                }
+                startIcon={<Avatar alt='goole-icon' className={classes.small} src={iconFb} />}
               >
                 <Typography component='span'>
-                  <Box
-                    className={classes.socialButton}
-                    color='#000000'
-                    fontSize={16}
-                    fontWeight='fontWeightBold'
-                  >
+                  <Box className={classes.socialButton} color='#000000' fontSize={16} fontWeight='fontWeightBold'>
                     Qua Facebook
                   </Box>
                 </Typography>
@@ -201,10 +159,7 @@ function LoginPage(): JSX.Element {
                 required
                 variant='outlined'
               />
-              <div
-                className={classes.fontManual}
-                style={{ paddingTop: '16px' }}
-              >
+              <div className={classes.fontManual} style={{ paddingTop: '16px' }}>
                 Mật khẩu
               </div>
               <TextField
@@ -215,15 +170,8 @@ function LoginPage(): JSX.Element {
                 InputProps={{
                   endAdornment: (
                     <InputAdornment position='end'>
-                      <IconButton
-                        aria-label='toggle password visibility'
-                        onClick={handleClickShowPassword}
-                      >
-                        {field.showPassword ? (
-                          <Visibility />
-                        ) : (
-                          <VisibilityOff />
-                        )}
+                      <IconButton aria-label='toggle password visibility' onClick={handleClickShowPassword}>
+                        {field.showPassword ? <Visibility /> : <VisibilityOff />}
                       </IconButton>
                     </InputAdornment>
                   ),
@@ -240,11 +188,7 @@ function LoginPage(): JSX.Element {
                 <div>
                   <FormControlLabel
                     control={<Checkbox color='secondary' value='remember' />}
-                    label={
-                      <span style={{ fontFamily: 'Roboto', fontSize: '14' }}>
-                        Ghi nhớ mật khẩu
-                      </span>
-                    }
+                    label={<span style={{ fontFamily: 'Roboto', fontSize: '14' }}>Ghi nhớ mật khẩu</span>}
                   />
                 </div>
                 <div>

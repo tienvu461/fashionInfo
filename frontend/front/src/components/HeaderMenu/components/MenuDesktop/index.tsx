@@ -1,14 +1,15 @@
+/* eslint-disable import/no-unresolved */
 import React, { FunctionComponent } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useHistory } from 'react-router-dom';
 import { Menu, MenuItem, Typography } from '@material-ui/core';
 import { toast } from 'react-toastify';
-import { clearStoreFromlocalStorage } from '../../../../utils/localStorage';
+import { clearStoreFromlocalStorage } from 'src/utils/localStorage';
+import { ROUTE_LOGIN, ROUTE_REGISTER, ROUTE_PROFILE, ROUTE_HOME } from 'src/constants';
+import LoginIcon from 'src/assets/images/user.svg';
+import RegisterIcon from 'src/assets/images/registration.svg';
+import LogoutIcon from 'src/assets/images/iconLogout.svg';
 import useStyles from './useStyles';
-import { ROUTE_LOGIN, ROUTE_REGISTER, ROUTE_PROFILE, ROUTE_HOME } from '../../../../constants';
-import LoginIcon from '../../../../assets/images/user.svg';
-import RegisterIcon from '../../../../assets/images/registration.svg';
-import LogoutIcon from '../../../../assets/images/iconLogout.svg';
 
 type MenuProps = {
   menuId: string;
@@ -29,9 +30,7 @@ const MenuDesktop: FunctionComponent<MenuProps> = ({
     (state: any) => state.login.loginResponse.status
   );
 
-  const loginData = useSelector(
-    (state: any) => state.login.loginResponse.userID
-  );
+  const userName = useSelector((state: any) => state.profile.currentUser.user?.username);
   // const logOut = () => {
   //   return {
   //     type: 'CLEAR_STORE',
@@ -68,34 +67,19 @@ const MenuDesktop: FunctionComponent<MenuProps> = ({
     >
       {loginStatus === 200 ? (
         <div>
-          <Link
-            to={ROUTE_PROFILE}
-            style={{ textDecoration: 'none', color: 'black' }}
-          >
+          <Link to={ROUTE_PROFILE} style={{ textDecoration: 'none', color: 'black' }}>
             <MenuItem onClick={handleMenuClose} className={classes.menuItem}>
               {/* <PersonIcon className={classes.iconItem} /> */}
               {/* <MenuItem onClick={handleMenuClose} className={classes.menuItem}> */}
-              <img
-                src={LoginIcon}
-                alt='register'
-                className={classes.iconItem}
-              />
+              <img src={LoginIcon} alt='register' className={classes.iconItem} />
               <Typography component='span' className={classes.linkItem}>
-                UserID {loginData}
+                {userName}
               </Typography>
             </MenuItem>
           </Link>
-          <Link
-            to={ROUTE_HOME}
-            onClick={onClickLogout}
-            style={{ textDecoration: 'none', color: 'black' }}
-          >
+          <Link to={ROUTE_HOME} onClick={onClickLogout} style={{ textDecoration: 'none', color: 'black' }}>
             <MenuItem onClick={handleMenuClose} className={classes.menuItem}>
-              <img
-                src={LogoutIcon}
-                alt='register'
-                className={classes.iconItem}
-              />
+              <img src={LogoutIcon} alt='register' className={classes.iconItem} />
               <Typography component='span' className={classes.linkItem}>
                 Đăng xuất
               </Typography>
@@ -104,31 +88,17 @@ const MenuDesktop: FunctionComponent<MenuProps> = ({
         </div>
       ) : (
         <div>
-          <Link
-            to={ROUTE_LOGIN}
-            style={{ textDecoration: 'none', color: 'black' }}
-          >
+          <Link to={ROUTE_LOGIN} style={{ textDecoration: 'none', color: 'black' }}>
             <MenuItem onClick={handleMenuClose} className={classes.menuItem}>
-              <img
-                src={LoginIcon}
-                alt='register'
-                className={classes.iconItem}
-              />
+              <img src={LoginIcon} alt='register' className={classes.iconItem} />
               <Typography component='span' className={classes.linkItem}>
                 Đăng nhập
               </Typography>
             </MenuItem>
           </Link>
-          <Link
-            to={ROUTE_REGISTER}
-            style={{ textDecoration: 'none', color: 'black' }}
-          >
+          <Link to={ROUTE_REGISTER} style={{ textDecoration: 'none', color: 'black' }}>
             <MenuItem onClick={handleMenuClose} className={classes.menuItem}>
-              <img
-                src={RegisterIcon}
-                alt='register'
-                className={classes.iconItem}
-              />
+              <img src={RegisterIcon} alt='register' className={classes.iconItem} />
               <Typography component='span' className={classes.linkItem}>
                 Đăng ký
               </Typography>
