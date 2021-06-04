@@ -35,6 +35,7 @@ import {
   setDataFromLocalStorage } from './utils/localStorage';
 import { loginSucess } from './features/Login/LoginSlice';
 import { refreshTokenAction } from './features/Login/LoginAction';
+import { getUserProfile } from './features/Profile/ProfileAction';
 
 toast.configure({
   autoClose: 2000
@@ -98,6 +99,7 @@ function App(): JSX.Element {
   useEffect(() => {
     if (credentials) {
       dispatch(loginSucess(credentials));
+      dispatch(getUserProfile());
       handleExpired();
     }
   }, []);
