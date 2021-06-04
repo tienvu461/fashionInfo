@@ -104,16 +104,17 @@ const useStyles: () => Record<
   },
   action: {
     display: 'flex',
-    // alignItems: 'center',
 
     // responsive
     [theme.breakpoints.down('sm')]: {
-      flexDirection: 'column',
       alignItems: 'left',
     },
 
     [theme.breakpoints.down('lg')]: {
       flexDirection: 'column',
+    },
+    [theme.breakpoints.up('lg')]: {
+      flexDirection: 'row',
     },
   },
   actionWithoutLogin: {
@@ -124,6 +125,9 @@ const useStyles: () => Record<
     },
     [theme.breakpoints.down('lg')]: {
       flexDirection: 'column',
+    },
+    [theme.breakpoints.up('lg')]: {
+      flexDirection: 'row',
     },
   },
   flex: {
@@ -152,6 +156,9 @@ const useStyles: () => Record<
     paddingRight: '53px',
     fontWeight: 'normal',
     color: '#616161',
+    [theme.breakpoints.down('md')]: {
+      paddingRight: 0,
+    },
   },
   actionReply: {
     fontWeight: 'normal',
