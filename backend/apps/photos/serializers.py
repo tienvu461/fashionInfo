@@ -10,7 +10,7 @@ from django.conf import settings
 import logging
 import json
 
-from .models import Photo, News, PhotoFeature, PhotoLike, PhotoComment, GenericConfig
+from .models import Photo, News, PhotoFeature, PhotoLike, PhotoComment, GenericConfig, NewsComment, NewsLike
 from .consts import modelConst, postTypeEnum
 from .utils import calc_interactive_pt, nested_comment
 logger = logging.getLogger('photos')
@@ -205,11 +205,9 @@ class NewsSerializer(serializers.ModelSerializer):
 
     def get_activities(self, instance):
         like_num = NewsLike.objects.filter(post_id=instance.id).count()
-        dislike_num = NewsDislike.objects.filter(post_id=instance.id).count()
         comment_num = NewsComment.objects.filter(post_id=instance.id).count()
 
         return {'likes': like_num,
-                'dislikes': dislike_num,
                 'comments': comment_num
                 }
 
