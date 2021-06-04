@@ -1,7 +1,6 @@
 /* eslint-disable implicit-arrow-linebreak */
 import {
   makeStyles,
-  Theme,
   createStyles,
 } from '@material-ui/core/styles';
 

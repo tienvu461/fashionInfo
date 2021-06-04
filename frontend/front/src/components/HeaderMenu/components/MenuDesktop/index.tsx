@@ -1,4 +1,5 @@
 /* eslint-disable import/no-unresolved */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { FunctionComponent } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useHistory } from 'react-router-dom';

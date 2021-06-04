@@ -1,6 +1,7 @@
 /* eslint-disable import/no-unresolved */
 /* eslint-disable react/jsx-props-no-spreading */
 /* eslint-disable react/require-default-props */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { ReactChildren, ReactChild, useState } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import {
@@ -41,7 +42,7 @@ function HeaderMenu(props: AuxProps): JSX.Element {
   const history = useHistory();
   const location = useLocation();
   const [anchorEl, setAnchorEl] = useState(null);
-  const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
+  // const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
   const [active, setActive] = useState(location.pathname);
 
   const menuId = 'search-menu';
@@ -49,7 +50,7 @@ function HeaderMenu(props: AuxProps): JSX.Element {
   setAnchorEl(event.currentTarget);
 };
   const handleMobileMenuClose = () => {
-    setMobileMoreAnchorEl(null);
+    // setMobileMoreAnchorEl(null);
   };
 
   const handleMenuClose = () => {
