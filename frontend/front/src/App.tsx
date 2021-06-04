@@ -71,6 +71,7 @@ function App(): JSX.Element {
       const encodeToken = jwtDecode<CustomJwtPayload>(getToken);
       const { user_id: userID } = encodeToken;
       setDataFromLocalStorage(JSON.stringify({ status: 200, userID }));
+      dispatch(getUserProfile());
     }
   }, []);
 
