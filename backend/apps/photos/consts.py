@@ -6,7 +6,8 @@ class adminConst:
     WIDTH_LA = 540
     WIDTH_SM = 360
     WIDTH_XS = 180
-
+    ATTACH_DIR = "attached/"
+    ARCHIVED_DIR = "archived/"
 class modelConst:
     STATUS = (
         (0, "Draft"),

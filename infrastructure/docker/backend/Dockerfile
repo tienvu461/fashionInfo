@@ -66,4 +66,4 @@ RUN chown -R www-data:www-data ${APP_HOME}
 RUN mkdir -p ${LOG_PATH}
 RUN chown -R www-data:www-data ${LOG_PATH}
 
-USER www-data
+# USER www-data
