@@ -10,7 +10,7 @@ import {
   setRefreshTokenToLocalStorage,
 } from 'src/utils/localStorage';
 
-import { loginService, getUrlSocialService, refreshTokenService } from 'src/services/auth';
+import { loginService, getUrlSocialService, refreshTokenService, profileService } from 'src/services/auth';
 import { loginSucess, loginFail, logoutSuccess } from './LoginSlice';
 
 export const loginAction = (payload: {
