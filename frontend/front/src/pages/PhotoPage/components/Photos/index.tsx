@@ -42,12 +42,12 @@ function Photos(): JSX.Element {
   const renderPhoto = () => (
     <>
       {listImg.map((item, index: number) => {
-        const { id = 0, image_path: pathImgs = '', activities } = item;
+        const { id = 0, image_path: pathImgs = '', activities, user_likes: userLikes = [] } = item;
 
         return (
           <RootRef rootRef={valueRef} key={`${id}`}>
             <div className='gridItem'>
-              <Photo activities={activities} id={id} pathImg={pathImgs} />
+              <Photo activities={activities} id={id} pathImg={pathImgs} userLikes={userLikes} />
             </div>
           </RootRef>
         );
@@ -140,8 +140,8 @@ function Photos(): JSX.Element {
                   >
                     <Typography
                       className={classes.textBtn}
-                      component='h5'
-                      variant='h5'
+                      component='h4'
+                      variant='h4'
                     >
                       Xem thêm
                     </Typography>

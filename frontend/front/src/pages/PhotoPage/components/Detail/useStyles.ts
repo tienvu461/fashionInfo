@@ -5,7 +5,6 @@ import { pdXL, pdSM, pdLG, pdMD, theme, black, gray1, gray2, blackBlue, blackThi
 const useStyles: () => Record<
   | 'detailRoot'
   | 'root'
-  | 'gridPhoto'
   | 'loading'
   | 'card'
   | 'paper'
@@ -33,7 +32,6 @@ const useStyles: () => Record<
     height: 'auto',
     margin: 'auto',
   },
-  gridPhoto: {},
   loading: {
     height: '975px',
     width: '100%',
@@ -55,12 +53,12 @@ const useStyles: () => Record<
     width: '100%',
   },
   picture: {
-    height: '975px',
+    // height: '975px',
     zIndex: 4,
 
     // responsive
     [theme.breakpoints.down('xs')]: {
-      height: '700px',
+      // height: '700px',
       zIndex: 4,
     },
   },
@@ -89,16 +87,7 @@ const useStyles: () => Record<
     width: '100%',
     height: '100%',
     display: 'flex',
-    alignItems: 'flex-end',
-    padding: '0 0 88px 130px',
-
-    // responsive
-    [theme.breakpoints.up('sm')]: {
-      padding: '0 0 88px 40px',
-    },
-    [theme.breakpoints.down('sm')]: {
-      padding: '0 0 88px 20px',
-    },
+    // alignItems: 'flex-end',
   },
   title: {
     letterSpacing: '1px',
@@ -141,7 +130,6 @@ const useStyles: () => Record<
     background: gray1,
     padding: '3px 15px',
     marginRight: '4px',
-    marginBottom: '4px',
   },
   tags: {
     display: 'flex',

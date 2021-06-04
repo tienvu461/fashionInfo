@@ -1,7 +1,8 @@
+/* eslint-disable camelcase */
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable import/no-unresolved */
-import React, { useEffect } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { Route, Switch } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { useDispatch } from 'react-redux';
@@ -30,7 +31,8 @@ import {
   clearStoreFromlocalStorage,
   getCredentialsFromLocalStorage,
   getRefreshTokenFromLocalStorage,
-  getTokenFromLocalStorage } from './utils/localStorage';
+  getTokenFromLocalStorage,
+  setDataFromLocalStorage } from './utils/localStorage';
 import { loginSucess } from './features/Login/LoginSlice';
 import { refreshTokenAction } from './features/Login/LoginAction';
 
@@ -58,11 +60,21 @@ function App(): JSX.Element {
   const getCredentials = getCredentialsFromLocalStorage();
   const getToken = getTokenFromLocalStorage();
   const getRefreshToken = getRefreshTokenFromLocalStorage();
-
   const credentials = JSON.parse(getCredentials);
+  type CustomJwtPayload = JwtPayload & { exp: number; user_id: string; };
 
-  const handleAuth = () => {
-    type CustomJwtPayload = JwtPayload & { exp: number };
+  // handle token (login social)
+
+  const getInfoBySocialLogin = useMemo(() => {
+    if (getToken) {
+      const encodeToken = jwtDecode<CustomJwtPayload>(getToken);
+      const { user_id: userID } = encodeToken;
+      setDataFromLocalStorage(JSON.stringify({ status: 200, userID }));
+    }
+  }, []);
+
+  // handle token (login web)
+  const handleExpired = () => {
     const token = jwtDecode<CustomJwtPayload>(getToken);
     const refreshToken = jwtDecode<CustomJwtPayload>(getRefreshToken);
 
@@ -86,9 +98,11 @@ function App(): JSX.Element {
   useEffect(() => {
     if (credentials) {
       dispatch(loginSucess(credentials));
-      handleAuth();
+      handleExpired();
     }
   }, []);
+
+  useEffect(() => getInfoBySocialLogin, []);
 
   return (
     <div className='App'>

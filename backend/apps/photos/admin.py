@@ -46,6 +46,7 @@ class PhotoAdmin(MarkdownxModelAdmin):
     list_display = ('title',  "status", 'created_at',
                     'updated_at', 'image_path', 'thumbnail', 'get_category', 'tag_list', 'view_count')
     list_filter = ('created_at', 'updated_at', "status",)
+    exclude = ('user_likes',)
     search_fields = ('title',)
     prepopulated_fields = {'slug': ('title',)}
     # readonly_fields = ('thumbail',)

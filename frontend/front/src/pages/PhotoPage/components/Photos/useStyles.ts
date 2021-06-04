@@ -3,6 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import {
   white,
   black,
+  theme
 } from 'src/styles/theme';
 
 const useStyles: () => Record<
@@ -18,6 +19,7 @@ const useStyles: () => Record<
   | 'nextBtn'
   | 'textBtn'
   | 'loadingPhoto'
+  | 'textSearch'
   | 'skeleton',
   string
 > = makeStyles(() => ({
@@ -55,16 +57,18 @@ const useStyles: () => Record<
     color: black,
   },
   btn: {
-    padding: '40px 0',
+    padding: '40px 0 80px',
   },
   nextBtn: {
     height: '60px',
     width: '220px',
-    // marginRight: '20px',
   },
   textBtn: {
     textTransform: 'initial',
     paddingBottom: '6px',
+    [theme.breakpoints.down('md')]: {
+      fontSize: '30px !important'
+    }
   },
   backDrop: {
     width: '100%',
@@ -76,6 +80,13 @@ const useStyles: () => Record<
     width: '100%',
   },
   loadingPhoto: {},
+  textSearch: {
+    fontSize: '120px',
+    textAlign: 'left',
+    fontFamily: 'Darker Grotesque',
+    fontWeight: 'bold',
+    backgroundColor: '#FFFFFF',
+  },
 }));
 
 export { useStyles as default };

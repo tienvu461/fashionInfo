@@ -1,131 +1,105 @@
-import {
-  makeStyles,
-  Theme,
-} from '@material-ui/core/styles';
-import logoFooter from '../../assets/images/Logo_footer.svg';
-/* eslint-disable object-curly-newline */
+/* eslint-disable import/no-unresolved */
+import { makeStyles } from '@material-ui/core/styles';
+
 const useStyles: () => Record<
-'root'
-| 'box'
-| 'field'
-| 'lucete'
-| 'small'
-| 'socialButton'
-| 'button'
-| 'headerline'
-| 'boxLeft'
-| 'flex'
-| 'buttonSocial'
-| 'smallSocial'
-| 'flexSocial'
-| 'flexLink'
-|'header', string> = makeStyles((theme: Theme) => ({
+  | 'root'
+  | 'leftFooter'
+  | 'rightFooter'
+  | 'field'
+  | 'emailInput'
+  | 'header'
+  | 'buttonSocial'
+  | 'listIcons'
+  | 'icon'
+  | 'links'
+  | 'menu'
+  | 'menuList'
+  | 'titleHeader'
+  | 'subTitle'
+  | 'logoFooter',
+  string
+> = makeStyles(() => ({
   root: {
-    // width: '100%',
-    // height: '550px',
-    // display: 'flex',
-    // flexDirection: 'row',
+    width: '100%',
+    height: 'auto',
+    backgroundColor: '#0D0D0D',
+  },
+  leftFooter: {
+    // padding: '151px 0 52px 0',
+  },
+  rightFooter: {
+    padding: '176px 0 52px 0',
   },
   header: {
-    fontSize: '30px',
     color: '#FFFFFF',
     fontFamily: 'Roboto',
-  },
-  headerline: {
-    fontSize: '20px',
-    color: '#FFFFFF',
-    fontFamily: 'Roboto',
-  },
-  box: {
-    height: '347px',
-    width: '380.65px',
-    marginTop: '151px',
-    marginLeft: '150px',
-  },
-  boxLeft: {
-    height: '313px',
-    width: '350px',
-    marginTop: '151px',
-    marginLeft: '150px',
-  },
-    field: {
-    '& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline': {
-      borderColor: '#E8E8E8',
-    },
-    // '&:hover .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline': {
-    //   borderColor: '#000000',
-    // },
-    '& .MuiOutlinedInput-input': {
-      color: '#FFFFFF',
-      // fontFamily: 'Roboto',
-    },
-    // '&:hover .MuiOutlinedInput-input': {
-    //   color: '#000000',
-    // },
-    // '& .MuiInputLabel-outlined': {
-    //   color: '#FFFFFF',
-    // },
-    // '&:hover .MuiInputLabel-outlined': {
-    //   color: '#000000',
-    // },
-
-    // TextField select
-    '& .MuiTextField-root': {
-      margin: theme.spacing(1),
-    },
-    width: '380.65px',
-    height: '67.17px',
-    color: '#FFFFFF',
-    paddingTop: '16px'
-  },
-  lucete: {
-    paddingTop: '16px'
-  },
-    button: {
-    width: '106px',
-    height: '18px',
-  },
-    small: {
-    width: '106px',
-    height: '18px',
-    backgroundRepeat: 'no-repeat',
-    '& .MuiAvatar-img': {
-      width: '50%',
-      height: '50%'
-    },
+    fontWeight: 'normal',
+    lineHeight: '35px',
+    letterSpacing: '1.2px',
+    textAlign: 'left',
   },
   buttonSocial: {
-    width: '177px',
-    height: '33px',
+    padding: 0,
   },
-  smallSocial: {
-    width: '177px',
-    height: '33px',
-    backgroundRepeat: 'no-repeat',
-    '& .MuiAvatar-img': {
-      width: '50%',
-      height: '50%'
+  field: {
+    borderBottom: '1px solid #5c5c5c',
+    height: '67.17px',
+    width: '300px',
+
+    '& .MuiInputBase-input': {
+      color: '#FFFFFF',
+      paddingBottom: '16px',
+      paddingTop: '6px',
+      fontSize: '24px',
+    },
+
+    '& .MuiInputLabel-formControl': {
+      color: '#FFFFFF',
+      opacity: 0.5,
+      fontStyle: 'normal',
+      fontWeight: 'normal',
+      fontSize: '15px',
+      lineHeight: '20px',
     },
   },
-  socialButton: {
-  textTransform: 'none',
-  fontFamily: 'Roboto',
+  emailInput: {
+    paddingTop: '56.91px',
   },
-  flex: {
+  logoFooter: {
+    textAlign: 'left',
+    paddingTop: '134.92px',
+  },
+  listIcons: {
     display: 'flex',
-    justifyContent: 'center',
     alignItems: 'center',
+    justifyContent: 'space-between',
+    width: '176.44px',
   },
-  flexSocial: {
+  icon: {},
+  menu: {
+    paddingRight: 0,
+    paddingLeft: 0,
     display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'start',
+    flexDirection: 'column',
+    alignItems: 'flex-start',
   },
-  flexLink: {
+  menuList: {
     display: 'flex',
-    justifyContent: 'space-around',
-    alignItems: 'center',
-  }
+    justifyContent: 'space-between',
+  },
+  titleHeader: {
+    paddingBottom: '60px',
+  },
+  subTitle: {
+    paddingBottom: '21.22px',
+  },
+  links: {
+    display: 'flex',
+    alignItems: 'flex-end',
+    justifyContent: 'space-between',
+    flexDirection: 'column',
+    height: '100%',
+  },
 }));
 
 export { useStyles as default };

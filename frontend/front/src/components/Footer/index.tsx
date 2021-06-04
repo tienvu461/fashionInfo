@@ -1,95 +1,127 @@
+/* eslint-disable import/no-unresolved */
 import React from 'react';
-import {
-  Typography,
-  Box,
-  Grid,
-  TextField,
-  Avatar,
-  Button,
-  CardMedia
-} from '@material-ui/core';
-import clsx from 'clsx';
-import './_footer.scss';
-import iconFT from '../../assets/images/Logo_footer1.png';
-import iconSocial from '../../assets/images/social_logo.png';
+import { Typography, Grid, TextField, IconButton, MenuList, MenuItem, useMediaQuery } from '@material-ui/core';
+import submitBtn from 'src/assets/images/submit_email_footer.svg';
+import logoFooter from 'src/assets/images/Logo_footer1.png';
+import youtube from 'src/assets/images/youtube.svg';
+import instagram from 'src/assets/images/instagram.svg';
+import facebook from 'src/assets/images/facebook.svg';
 import useStyles from './useStyles';
+import './_footer.scss';
 
 function Footer(): JSX.Element {
   const classes = useStyles();
+  const matches = useMediaQuery('(max-width:600px)');
+
+  const menu: Array<{
+    id: string;
+    title: string;
+    firstSubTitle: string;
+    secondSubTitle: string;
+  }> = [
+    {
+      id: 'leftMenu',
+      title: 'Truy cập',
+      firstSubTitle: 'Tin tức mới',
+      secondSubTitle: 'FAQ',
+    },
+    {
+      id: 'rightMenu',
+      title: 'Helps',
+      firstSubTitle: 'Diễn đàn',
+      secondSubTitle: 'Liên hệ',
+    },
+  ];
+
+  const iconList: Array<{
+    name: string;
+    src: string;
+  }> = [
+    {
+      name: 'facebook',
+      src: facebook
+    },
+    {
+      name: 'youtube',
+      src: youtube
+    },
+    {
+      name: 'instagram',
+      src: instagram
+    },
+  ];
+
   return (
-    <Grid
-      // className={clsx(classes.root && 'footer')}
-      component='main'
-      container
-      style={{ backgroundColor: '#0D0D0D', height: '550px' }}
-      item
-    >
-      <Grid item xs={6} md={6} sm={6} style={{ height: '500px', textAlign: 'left' }} className={classes.flex}>
-        <div style={{ width: '380px', height: '194px' }}>
-          <Typography className={classes.header}>Theo dõi tin tức </Typography>
-          <Typography className={classes.header}>mới nhất từ chúng tôi</Typography>
-          <TextField
-            autoComplete='email'
-            autoFocus
-            className={classes.field}
-            fullWidth
-            id='email'
-            margin='normal'
-            name='email'
-            required
-            placeholder='Địa chỉ email'
-            variant='outlined'
-          />
-        </div>
-      </Grid>
-      <Grid item xs={6} md={6} sm={6} style={{ height: '500px', textAlign: 'right' }} className={classes.flex}>
-        <div style={{ width: '380px', height: '194px' }}>
-          <Typography className={classes.header} style={{ color: '#0D0D0D' }}>XXXXXX</Typography>
-          <div className={classes.flexLink}>
-            <Typography className={classes.header}>Truy cập </Typography>
-            <Typography className={classes.header}>Helps</Typography>
+    <div className={classes.root}>
+      <div className='footerRoot'>
+        <Grid className={`${classes.leftFooter} leftFooter`} item lg={6} md={6} sm={12} xs={12}>
+          <div className='footTop'>
+            <div className='leftTop'>
+              <Typography variant='h4' component='h4' className={classes.header}>
+                Theo dõi tin tức{' '}
+              </Typography>
+              <Typography variant='h4' component='h4' className={classes.header}>
+                mới nhất từ chúng tôi{' '}
+              </Typography>
+            </div>
+            {/* <Grid className={classes.logoFooter} style={matches ? { display: 'block' } : {}}>
+              <img alt='logo-footer' src={logoFooter} />
+            </Grid> */}
           </div>
-          <div className={classes.flexLink} style={{ paddingTop: "16px", marginTop: "16px" }}>
-            <Typography className={classes.header} style={{ fontSize: "20px" }}>Tin tức mới </Typography>
-            <Typography className={classes.header} style={{ fontSize: "20px" }}>FAQs</Typography>
-          </div>
-          <div className={classes.flexLink}>
-            <Typography className={classes.header} style={{ fontSize: "20px" }}>Diễn đàn</Typography>
-            <Typography className={classes.header} style={{ fontSize: "20px" }}>Liên hệ</Typography>
-          </div>
-        </div>
-      </Grid>
-      <Grid container item xs={12} md={12} sm={12} style={{ height: '50px' }}>
-        <Grid item xs={6} md={6} sm={6} style={{ textAlign: 'left' }} className={classes.flexSocial}>
-          <div style={{ width: '380px' }}>
-            <Button
-              startIcon={
-                <Avatar
-                  alt='goole-icon'
-                  src={iconFT}
-                  className={classes.small}
-                />
-              }
-              className={classes.button}
-            />
-          </div>
+          <Grid container alignItems='center' className={classes.emailInput}>
+            <Grid item>
+              <TextField
+                autoComplete='email'
+                className={classes.field}
+                fullWidth
+                name='email'
+                type='email'
+                label='Địa chỉ email'
+              />
+            </Grid>
+            <img alt='submit-footer' src={submitBtn} />
+          </Grid>
+          <Grid className={classes.logoFooter} style={matches ? { display: 'none' } : {}}>
+            <img alt='logo-footer' src={logoFooter} />
+          </Grid>
         </Grid>
-        <Grid item xs={6} md={6} sm={6} style={{ textAlign: 'right' }} className={classes.flexSocial}>
-          <div style={{ width: '380px', height: '33px' }}>
-            <Button
-              startIcon={
-                <Avatar
-                  alt='goole-icon'
-                  src={iconSocial}
-                  className={classes.smallSocial}
-                />
-              }
-              className={classes.buttonSocial}
-            />
-          </div>
+        <Grid item lg={6} md={6} sm={6} xs={6} className={classes.rightFooter}>
+          <Grid className={classes.links}>
+            <MenuList className={`${classes.menuList} menuList`}>
+              {menu.map((item) => {
+                const { id = '', title = '', firstSubTitle = '', secondSubTitle = '' } = item;
+
+                return (
+                  <MenuItem key={id} className={classes.menu}>
+                    <Typography variant='h4' component='h4' className={`${classes.header} ${classes.titleHeader} `}>
+                      {title}
+                    </Typography>
+                    <Typography variant='h5' component='h5' className={`${classes.header} ${classes.subTitle}`}>
+                      {firstSubTitle}
+                    </Typography>
+                    <Typography variant='h5' component='h5' className={`${classes.header} ${classes.subTitle}`}>
+                      {secondSubTitle}
+                    </Typography>
+                  </MenuItem>
+                );
+              })}
+            </MenuList>
+            <Grid className={classes.listIcons}>
+              {iconList.map((item) => {
+                const { name = '', src = '' } = item;
+                return (
+                  <div key={name} className={classes.icon}>
+                    <IconButton className={classes.buttonSocial}>
+                      <img alt={name} src={src} />
+                    </IconButton>
+                  </div>
+                );
+              })}
+            </Grid>
+          </Grid>
         </Grid>
-      </Grid>
-    </Grid>
+      </div>
+    </div>
   );
 }
 

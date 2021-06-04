@@ -25,7 +25,7 @@ const useStyles: () => Record<'root' | 'titleSuggestion' | 'btn' | 'nextBtn' | '
     },
   },
   btn: {
-    padding: '40px 0',
+    padding: '40px 0 80px',
   },
   nextBtn: {
     height: '60px',
@@ -34,6 +34,9 @@ const useStyles: () => Record<'root' | 'titleSuggestion' | 'btn' | 'nextBtn' | '
   textBtn: {
     textTransform: 'initial',
     paddingBottom: '6px',
+    [theme.breakpoints.down('md')]: {
+      fontSize: '30px !important',
+    },
   },
 }));
 

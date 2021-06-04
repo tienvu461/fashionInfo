@@ -27,7 +27,7 @@ function SuggestionComponent(props: SuggestionProps): JSX.Element {
 
   const dataPhoto = useSelector((state: RootState) => state.photo.photoSuggestionList.dataOrigin);
   const listPhoto = useSelector((state: RootState) => state.photo.photoSuggestionList.listPhoto);
-  const [listImg, setListImg] = useState<Array<Record<string, string>>>(listPhoto);
+  const [listImg, setListImg] = useState<Array<any>>(listPhoto);
 
   useEffect(() => {
     setLoading(true);
@@ -45,12 +45,12 @@ function SuggestionComponent(props: SuggestionProps): JSX.Element {
   const renderPhoto = () => (
     <>
       {listImg.map((item, index: number) => {
-        const { id = 0, image_path: pathImgs = '', activities } = item;
+        const { id = 0, image_path: pathImgs = '', activities, user_likes: userLikes = [] } = item;
 
         return (
           <RootRef rootRef={valueRef} key={`${id}`}>
             <div className='gridItem'>
-              <Photo activities={activities} id={id} pathImg={pathImgs} />
+              <Photo activities={activities} id={id} pathImg={pathImgs} userLikes={userLikes} />
             </div>
           </RootRef>
         );
@@ -123,7 +123,7 @@ function SuggestionComponent(props: SuggestionProps): JSX.Element {
                       onClick={() => handleClick('next')}
                       variant='contained'
                     >
-                      <Typography className={classes.textBtn} component='h5' variant='h5'>
+                      <Typography className={classes.textBtn} component='h4' variant='h4'>
                         Xem thêm
                       </Typography>
                     </Button>

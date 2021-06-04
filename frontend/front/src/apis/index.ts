@@ -1,5 +1,6 @@
 // HOST
 export const HOST = 'http://api.tienvv.com';
+// export const HOST = 'http://localhost:8000/';
 
 // USER AUTH
 export const LOGIN_API = `${HOST}/api/jwt/create`;
@@ -9,7 +10,7 @@ export const REFRESH_TOKEN_API = `${HOST}/api/jwt/refresh/`;
 export const GET_AUTHEN_URL = `${HOST}/api/social/o/google-oauth2/?redirect_uri=${HOST}/accounts/profile/`;
 
 // SEARCH_TAG
-export const SEARCH_TAG_API = 'http://api.tienvv.com/api/photos';
+export const SEARCH_TAG_API = `${HOST}/api/photos`;
 
 // PHOTO
 export const PHOTO_LIST_API = `${HOST}/api/photos/?page=`;

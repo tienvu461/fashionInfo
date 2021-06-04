@@ -11,7 +11,7 @@ const useStyles: () => Record<
   card: {
     width: '100%',
     boxShadow: 'none !important',
-    borderRadius: '0 !important'
+    borderRadius: '0 !important',
   },
   picture: {
     height: '100%',
