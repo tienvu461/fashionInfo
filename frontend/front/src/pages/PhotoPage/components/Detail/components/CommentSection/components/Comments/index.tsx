@@ -24,6 +24,9 @@ function Comments(): JSX.Element {
   const photoId = useSelector((state: RootState) => state.photo.photoDetail.id);
   const loginStatus = useSelector((state: any) => state.login.loginResponse.status);
   const user = useSelector((state: any) => state.login.loginResponse.userID);
+  const firstName = useSelector((state: any) => state.profile.currentUser.user?.first_name);
+  const lastName = useSelector((state: any) => state.profile.currentUser.user?.last_name);
+  const userName = `${firstName} ${lastName}`;
 
   const listComments = useMemo(
     () => (
@@ -36,7 +39,8 @@ function Comments(): JSX.Element {
                 <CommentParrent
                   key={cmtID}
                   cmtProps={{ ...item, avatar: Ava1, cmtLength: comments.length, lastCmt: index }}
-                  currentUser={user}
+                  userID={user}
+                  userName={userName}
                 />
               );
             })}
@@ -92,7 +96,7 @@ function Comments(): JSX.Element {
             <TimelineContent className={classes.content}>
               <Paper className={classes.paper} elevation={3}>
                 <Typography className={`${classes.actionName} ${classes.textStyle}`} component='h6' variant='h6'>
-                  {`User ${user}`}
+                  {userName}
                 </Typography>
                 <TextField
                   className={classes.textArea}
