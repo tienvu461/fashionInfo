@@ -335,10 +335,15 @@ class PhotoLikeCreate(generics.CreateAPIView):
     
     def post(self, request, *args, **kwargs):
         # query photolike object from DB
-        photo_like = PhotoLike.objects.get(user_id=self.request.data['user_id'],
-                                                photo_id=self.request.data['photo_id'])
+        
         photo = Photo.objects.get(id=self.request.data['photo_id'])
-
+        try: 
+            photo_like = PhotoLike.objects.get(user_id=self.request.data['user_id'],
+                                                photo_id=self.request.data['photo_id'])
+        except Exception as e:
+            logger.info("Like has not been created")
+            logger.info(e)
+            photo_like = None
         if not photo_like:
             # if there is no photolike object with above condition => create one
             serializer = self.get_serializer(data=request.data)
