@@ -16,6 +16,10 @@ photos_urlpatterns = [
     url(r'^api/news/$', views.NewsList.as_view()),
     url(r'api/news/(?P<pk>\d+)/', views.NewsDetail.as_view()),
     url(r'api/news/search', views.NewsSearch.as_view()),
+    url(r'api/news/comment', views.NewsCommentCreate.as_view()),
+    url(r'api/news/like', views.NewsLikeCreate.as_view()),
+    url(r'api/news/suggest', views.NewsSuggest.as_view()),
+    url(r'api/news/feature', views.NewsFeatureDetail.as_view()),
 ]
 
 if settings.DEBUG:

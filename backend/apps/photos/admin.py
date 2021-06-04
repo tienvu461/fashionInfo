@@ -2,6 +2,7 @@ from django.contrib import admin
 from django.forms import ModelForm
 from django.core.files.images import ImageFile
 from django.utils.safestring import mark_safe
+from django.conf import settings
 from markdownx.admin import MarkdownxModelAdmin
 
 import logging
@@ -10,7 +11,7 @@ import zipfile
 import re
 from datetime import datetime
 
-from .models import Photo, PhotoFeature, PhotoLike, PhotoComment, News, NewsAttachedPhoto, NewsArchivedFile, NewsLike, NewsDislike, NewsComment, GenericConfig, Category
+from .models import NewsCategory, Photo, PhotoFeature, PhotoLike, PhotoComment, News, NewsAttachedPhoto, NewsArchivedFile, NewsLike, NewsComment, GenericConfig, PhotoCategory
 from .consts import adminConst
 
 from django import forms
@@ -123,11 +124,12 @@ class FileInline(admin.TabularInline):
 
 @admin.register(News)
 class NewsAdmin(MarkdownxModelAdmin):
-    list_display = ('title',  "status", 'created_at',
-                    'updated_at', 'get_description', 'tag_list')
+    list_display = ('title',  'status', 'summary', 'tag_list', 'created_at',
+                    'updated_at')
     list_filter = ('created_at', 'updated_at', "status",)
     search_fields = ('title',)
     prepopulated_fields = {'slug': ('title',)}
+    exclude = ('user_likes',)
 
     # show tags in list
     def get_queryset(self, request):
@@ -144,11 +146,12 @@ class NewsAdmin(MarkdownxModelAdmin):
         # obj.content = "overriden"
         super().save_model(request, obj, form, change)
         logger.debug("id = {}".format(obj.id))
-        archived_all = NewsArchivedFile.objects.all().count()
-        logger.debug("archived_all = {}".format(archived_all))
+        # archived_all = NewsArchivedFile.objects.all().count()
+        # logger.debug("archived_all = {}".format(archived_all))
         try:
             archived = NewsArchivedFile.objects.get(news_id=obj.id)
         except Exception as e:
+            logger.error("Cannot get archived file")
             logger.error(e)
         else:
             logger.debug(type(archived))
@@ -159,7 +162,8 @@ class NewsAdmin(MarkdownxModelAdmin):
                         with f_list.open(f_name) as md_file:
                             img_ptn = re.compile(r"\]\((.*.jpg)\)")
                             content = md_file.read().decode('utf8')
-                            prefix = "/media/attached/"+datetime.now().strftime('%Y/%m/%d/')
+                            prefix = "{0}{1}".format(
+                                settings.MEDIA_URL, adminConst.ATTACH_DIR)+datetime.now().strftime('%Y/%m/%d/')
                             content = re.sub(
                                 img_ptn, rf"]({prefix}\1)", content)
                             obj.content = content
@@ -169,6 +173,8 @@ class NewsAdmin(MarkdownxModelAdmin):
                             NewsAttachedPhoto.objects.create(
                                 news_id=obj.id, image=ImageFile(jpg_file))
             # delete zipfile after extracted
+            file_path = archived.zip_file
+            logger.debug(file_path)
             result = NewsArchivedFile.objects.filter(news_id=obj.id).delete()
             logger.debug("NewsArchivedFile delete result = {}".format(result))
         obj.save()
@@ -176,12 +182,17 @@ class NewsAdmin(MarkdownxModelAdmin):
 
 @admin.register(NewsComment)
 class NewsCommentAdmin(admin.ModelAdmin):
-    list_display = ('photo_id', 'user_id', 'content',
+    list_display = ('news_id', 'user_id', 'content',
                     'active', 'parent', 'created_at',)
     list_filter = ('created_at', 'active',)
     search_fields = ('content',)
 
 
-@admin.register(Category)
-class CategoryAdmin(admin.ModelAdmin):
+@admin.register(PhotoCategory)
+class PhotoCategoryAdmin(admin.ModelAdmin):
+    list_display = ('cat_name', 'created_at')
+
+
+@admin.register(NewsCategory)
+class NewsCategoryAdmin(admin.ModelAdmin):
     list_display = ('cat_name', 'created_at')
