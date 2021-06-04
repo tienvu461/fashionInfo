@@ -1,3 +1,4 @@
+from django.contrib.auth.models import User
 from django.contrib.sites.models import Site
 from rest_framework import serializers
 from django.http import HttpRequest as request
@@ -45,10 +46,10 @@ class PhotoSerializer(serializers.ModelSerializer):
         # data_fields['image_path'] = instance.image_path.remove()
 
         return data_fields
-
+    
     def get_activities(self, instance):
-        like_num = PhotoLike.objects.filter(photo_id=instance.id).count()
-        comment_num = PhotoComment.objects.filter(photo_id=instance.id).count()
+        like_num = PhotoLike.objects.filter(photo_id=instance.id, is_enabled=True).count()
+        comment_num = PhotoComment.objects.filter(photo_id=instance.id, active=True).count()
         view_count = getattr(instance, 'view_count')
         return {
             'likes': like_num,
