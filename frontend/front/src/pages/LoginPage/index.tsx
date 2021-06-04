@@ -244,15 +244,8 @@ function LoginPage(): JSX.Element {
                 </div>
               </div>
               <Button className={classes.submit} fullWidth type='submit'>
-                <Typography component='span'>
-                  <Box
-                    className={classes.socialButton}
-                    color='#ffffff'
-                    fontSize={16}
-                    fontWeight='fontWeightBold'
-                  >
-                    Đăng nhập
-                  </Box>
+                <Typography component='h6' className={classes.socialButton}>
+                  Đăng nhập
                 </Typography>
               </Button>
             </form>

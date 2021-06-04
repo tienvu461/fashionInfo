@@ -66,7 +66,7 @@ export const logoutAction = () => async (dispatch: Dispatch): Promise<any> => {
 //     }
 //   };
 
-export const getUrlSocialAction = () => async (dispatch: Dispatch): Promise<any> => {
+export const getUrlSocialAction = () => async (): Promise<any> => {
   try {
     const response = await getUrlSocialService();
     const url = response.data.authorization_url;
@@ -75,7 +75,7 @@ export const getUrlSocialAction = () => async (dispatch: Dispatch): Promise<any>
       win.focus();
     }
   } catch (error) {
-    console.log(error);
+    // console.log(error);
   }
 };
 

@@ -10,7 +10,7 @@ const useStyles: () => Record<
 | 'menuItem'
 | 'iconItem'
 | 'linkItem',
-string> = makeStyles((theme: Theme) =>
+string> = makeStyles(() =>
   createStyles({
     menu: {
       top: '40px !important',
@@ -25,6 +25,8 @@ string> = makeStyles((theme: Theme) =>
       paddingLeft: '60px'
     },
     linkItem: {
+      fontFamily: 'Roboto',
+      fontSize: '14px',
       paddingTop: '5px !important',
       paddingLeft: '5px !important',
     },

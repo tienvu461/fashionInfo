@@ -2,12 +2,14 @@ import React, { FunctionComponent } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useHistory } from 'react-router-dom';
 import { Menu, MenuItem, Typography } from '@material-ui/core';
+import { toast } from 'react-toastify';
 import { clearStoreFromlocalStorage } from '../../../../utils/localStorage';
 import useStyles from './useStyles';
-import { ROUTE_LOGIN, ROUTE_REGISTER, ROUTE_HOME } from '../../../../constants';
+import { ROUTE_LOGIN, ROUTE_REGISTER, ROUTE_PROFILE, ROUTE_HOME } from '../../../../constants';
 import LoginIcon from '../../../../assets/images/user.svg';
 import RegisterIcon from '../../../../assets/images/registration.svg';
-// import { toast } from 'react-toastify';
+import LogoutIcon from '../../../../assets/images/iconLogout.svg';
+
 type MenuProps = {
   menuId: string;
   anchorEl: any;
@@ -39,14 +41,14 @@ const MenuDesktop: FunctionComponent<MenuProps> = ({
   function logOut() {
     return {
       type: 'CLEAR_STORE'
-    }
+    };
   }
 
   const onClickLogout = (e: any) => {
     e.preventDefault();
     dispatch(logOut());
     clearStoreFromlocalStorage();
-    // toast.success('Đăng xuất thành công');
+    toast.success('Đăng xuất thành công');
 
     setTimeout(() => {
       history.push(ROUTE_HOME);
@@ -67,7 +69,7 @@ const MenuDesktop: FunctionComponent<MenuProps> = ({
       {loginStatus === 200 ? (
         <div>
           <Link
-            to={ROUTE_LOGIN}
+            to={ROUTE_PROFILE}
             style={{ textDecoration: 'none', color: 'black' }}
           >
             <MenuItem onClick={handleMenuClose} className={classes.menuItem}>
@@ -90,12 +92,12 @@ const MenuDesktop: FunctionComponent<MenuProps> = ({
           >
             <MenuItem onClick={handleMenuClose} className={classes.menuItem}>
               <img
-                src={RegisterIcon}
+                src={LogoutIcon}
                 alt='register'
                 className={classes.iconItem}
               />
               <Typography component='span' className={classes.linkItem}>
-                Logout
+                Đăng xuất
               </Typography>
             </MenuItem>
           </Link>
@@ -107,7 +109,6 @@ const MenuDesktop: FunctionComponent<MenuProps> = ({
             style={{ textDecoration: 'none', color: 'black' }}
           >
             <MenuItem onClick={handleMenuClose} className={classes.menuItem}>
-              {/* <MenuItem onClick={handleMenuClose} className={classes.menuItem}> */}
               <img
                 src={LoginIcon}
                 alt='register'
