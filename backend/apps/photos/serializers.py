@@ -314,12 +314,12 @@ class NewsSuggestSerializer(NewsSerializer):
 class NewsFeatureSerializer(serializers.ModelSerializer):
     class Meta:
         model = NewsFeature
-        fields = ['id', 'feature_photo', 'in_use', 'created_at']
+        fields = ['id', 'feature_news', 'in_use', 'created_at']
 
     def to_representation(self, instance):
         data_fields = super(NewsFeatureSerializer, self).to_representation(instance)
         queryset = News.objects.values_list('image_path', flat=True)
-        data_fields['feature_photo'] = settings.MEDIA_URL + queryset.get(id=data_fields['feature_photo'])
+        data_fields['feature_news'] = settings.MEDIA_URL + queryset.get(id=data_fields['feature_news'])
         data_fields['created_at'] = int(instance.created_at.timestamp())
 
         return data_fields

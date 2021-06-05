@@ -254,7 +254,7 @@ class NewsComment(models.Model):
 def get_default_news():
     return News.objects.get_or_create(id=1)
 class NewsFeature(models.Model):
-    feature_photo = ForeignKey(
+    feature_news = ForeignKey(
         News, related_name='feature', on_delete=models.CASCADE, default=get_default_news)
     in_use = models.BooleanField(choices=modelConst.BINARY, default=True)
     created_at = models.DateTimeField(auto_now_add=True)
