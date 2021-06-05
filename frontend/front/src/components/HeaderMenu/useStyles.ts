@@ -14,6 +14,7 @@ const useStyles: () => Record<
   | 'textNonActive'
   | 'textActive'
   | 'sectionDesktop'
+  | 'iconImg'
   | 'navLinks',
   string
 > = makeStyles(() => ({
@@ -75,6 +76,11 @@ const useStyles: () => Record<
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
+  },
+  iconImg: {
+    height: '40px',
+    width: '40px',
+    borderRadius: '25px',
   },
   icon: { marginLeft: '38px', cursor: 'pointer' },
 }));

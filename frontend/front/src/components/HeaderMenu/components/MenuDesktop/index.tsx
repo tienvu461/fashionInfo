@@ -68,16 +68,6 @@ const MenuDesktop: FunctionComponent<MenuProps> = ({
     >
       {loginStatus === 200 ? (
         <div>
-          <Link to={ROUTE_PROFILE} style={{ textDecoration: 'none', color: 'black' }}>
-            <MenuItem onClick={handleMenuClose} className={classes.menuItem}>
-              {/* <PersonIcon className={classes.iconItem} /> */}
-              {/* <MenuItem onClick={handleMenuClose} className={classes.menuItem}> */}
-              <img src={LoginIcon} alt='register' className={classes.iconItem} />
-              <Typography component='span' className={classes.linkItem}>
-                {userName}
-              </Typography>
-            </MenuItem>
-          </Link>
           <Link to={ROUTE_HOME} onClick={onClickLogout} style={{ textDecoration: 'none', color: 'black' }}>
             <MenuItem onClick={handleMenuClose} className={classes.menuItem}>
               <img src={LogoutIcon} alt='register' className={classes.iconItem} />
@@ -87,26 +77,7 @@ const MenuDesktop: FunctionComponent<MenuProps> = ({
             </MenuItem>
           </Link>
         </div>
-      ) : (
-        <div>
-          <Link to={ROUTE_LOGIN} style={{ textDecoration: 'none', color: 'black' }}>
-            <MenuItem onClick={handleMenuClose} className={classes.menuItem}>
-              <img src={LoginIcon} alt='register' className={classes.iconItem} />
-              <Typography component='span' className={classes.linkItem}>
-                Đăng nhập
-              </Typography>
-            </MenuItem>
-          </Link>
-          <Link to={ROUTE_REGISTER} style={{ textDecoration: 'none', color: 'black' }}>
-            <MenuItem onClick={handleMenuClose} className={classes.menuItem}>
-              <img src={RegisterIcon} alt='register' className={classes.iconItem} />
-              <Typography component='span' className={classes.linkItem}>
-                Đăng ký
-              </Typography>
-            </MenuItem>
-          </Link>
-        </div>
-      )}
+      ) : null }
     </Menu>
   );
 };

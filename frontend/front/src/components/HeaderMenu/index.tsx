@@ -4,6 +4,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { ReactChildren, ReactChild, useState } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import {
   Grid,
   AppBar,
@@ -17,6 +18,7 @@ import {
 } from '@material-ui/core';
 import logo from 'src/assets/images/logoLucete.svg';
 import icon from 'src/assets/images/user.svg';
+import avtTest from 'src/assets/images/vuduchai.jpg';
 import Search from './components/Search';
 import SideDrawer from './components/Drawer';
 import ScrollToTop from './components/ScrollToTop';
@@ -63,6 +65,37 @@ function HeaderMenu(props: AuxProps): JSX.Element {
     { title: 'Photo', path: ROUTE_PHOTO },
     { title: 'Forum', path: ROUTE_FORUM },
   ];
+
+  const loginStatus = useSelector((state: any) => state.login.loginResponse.status);
+  console.log("loginStatus", loginStatus)
+
+  const handleIconLogIn = () => {
+    if (loginStatus) {
+    return (
+      <Grid className={classes.icon}>
+        <IconButton
+          edge='end'
+          aria-label='account of current user'
+          aria-controls={menuId}
+          aria-haspopup='true'
+          onClick={handleProfileMenuOpen}
+          color='inherit'
+        >
+          <img alt='avt' src={avtTest} className={classes.iconImg} />
+        </IconButton>
+      </Grid>
+        )
+    }
+    return (
+      <Grid className={classes.icon}>
+        <img
+          alt='Lucete'
+          onClick={() => history.push('/login')}
+          src={icon}
+        />
+      </Grid>
+    )
+}
 
   return (
     <div style={{ position: 'relative' }}>
@@ -123,6 +156,7 @@ function HeaderMenu(props: AuxProps): JSX.Element {
                 </Grid>
                 <Grid className={classes.actions}>
                   <Search />
+                  {handleIconLogIn()}
                   {/* <Grid className={classes.icon}>
                     <img
                       alt='Lucete'
@@ -130,7 +164,14 @@ function HeaderMenu(props: AuxProps): JSX.Element {
                       src={icon}
                     />
                   </Grid> */}
-                  <div className={classes.sectionDesktop}>
+                  {/* <Grid className={classes.icon}>
+                    <img
+                      alt='Lucete'
+                      onClick={() => history.push('/login')}
+                      src={icon}
+                    />
+                  </Grid>                  */}
+                  {/* <div className={classes.sectionDesktop}>
                     <IconButton
                       edge='end'
                       aria-label='account of current user'
@@ -144,7 +185,7 @@ function HeaderMenu(props: AuxProps): JSX.Element {
                         src={icon}
                       />
                     </IconButton>
-                  </div>
+                  </div> */}
                 </Grid>
               </Hidden>
               <MenuDesktop
