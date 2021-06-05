@@ -13,6 +13,6 @@ export const getUserProfile = () => async (dispatch: Dispatch): Promise<any> => 
       dispatch(storeProfile(data));
     }
   } catch (error) {
-    console.log(error);
+    // console.log(error);
   }
 };
