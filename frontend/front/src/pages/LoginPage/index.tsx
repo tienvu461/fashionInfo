@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable import/no-unresolved */
 import React, { useState, useEffect } from 'react';
 import clsx from 'clsx';
@@ -16,6 +17,7 @@ import {
   Link,
   InputAdornment,
   IconButton,
+  CircularProgress,
 } from '@material-ui/core';
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
@@ -38,9 +40,10 @@ type FieldStates = {
 
 function LoginPage(): JSX.Element {
   const classes = useStyles();
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<any>();
   const history = useHistory();
 
+  const [loading, setLoading] = useState<boolean>(false);
   const [field, setfield] = useState<FieldStates>({
     username: '',
     password: '',
@@ -56,7 +59,12 @@ function LoginPage(): JSX.Element {
 
   const handleSubmit = (event: React.ChangeEvent<HTMLFormElement>) => {
     event.preventDefault();
-    dispatch(loginAction(field));
+    setLoading(true);
+    dispatch(loginAction(field)).then((status) => {
+      if (status === 200) {
+        setLoading(false);
+      }
+    });
   };
 
   const handleClickShowPassword = () => {
@@ -200,10 +208,18 @@ function LoginPage(): JSX.Element {
                   </Link>
                 </div>
               </div>
-              <Button className={classes.submit} fullWidth type='submit'>
-                <Typography component='h6' className={classes.socialButton}>
-                  Đăng nhập
-                </Typography>
+              <Button
+                className={classes.submit}
+                fullWidth
+                type='submit'
+              >
+                {loading ? (
+                  <CircularProgress />
+                ) : (
+                  <Typography component='h6' className={classes.socialButton}>
+                    Đăng nhập
+                  </Typography>
+                )}
               </Button>
             </form>
             <Box textAlign='center'>
@@ -212,7 +228,6 @@ function LoginPage(): JSX.Element {
                 <span className={classes.fontManual}> Đăng ký ngay</span>
               </Link>
             </Box>
-            {/* </div> */}
           </Box>
         </div>
       </Grid>

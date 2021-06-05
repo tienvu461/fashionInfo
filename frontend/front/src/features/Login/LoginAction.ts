@@ -33,11 +33,14 @@ export const loginAction = (payload: {
                 setRefreshTokenToLocalStorage(data.refresh);
 
                 toast.success('Đăng nhập thành công !');
-            }
+              }
+            return status;
         } catch (error) {
             const { response: { data = {}, status = '' } = {}, } = error;
             dispatch(loginFail({ data, status }));
         }
+
+        return 0;
     };
 
 // clear localstorage

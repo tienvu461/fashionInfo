@@ -4,22 +4,24 @@ import {
 } from '@material-ui/core/styles';
 
 const useStyles: () => Record<
-'root'
-| 'paper'
-| 'avatar'
-| 'form'
-| 'field'
-| 'link'
-| 'small'
-| 'socialButton'
-| 'button'
-| 'savepassword'
-| 'header'
-| 'fontManual'
-| 'titleLogin'
-| 'title'
-| 'errorText'
-| 'submit', string> = makeStyles((theme: Theme) => ({
+  | 'root'
+  | 'paper'
+  | 'avatar'
+  | 'form'
+  | 'field'
+  | 'link'
+  | 'small'
+  | 'socialButton'
+  | 'button'
+  | 'savepassword'
+  | 'header'
+  | 'fontManual'
+  | 'titleLogin'
+  | 'title'
+  | 'errorText'
+  | 'submit',
+  string
+> = makeStyles((theme: Theme) => ({
   root: {
     width: '100%',
     height: '90vh',
@@ -50,7 +52,7 @@ const useStyles: () => Record<
     },
     '&.MuiButton-root': {
       padding: '15px 0px',
-    }
+    },
   },
   field: {
     '& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline': {
@@ -78,7 +80,7 @@ const useStyles: () => Record<
       margin: theme.spacing(1),
     },
     width: '390px',
-    height: '50px'
+    height: '50px',
   },
   link: {
     color: '#2C5282',
@@ -100,7 +102,7 @@ const useStyles: () => Record<
   savepassword: {
     display: 'flex',
     justifyContent: 'space-between',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   header: {
     fontSize: '16px',
@@ -123,7 +125,7 @@ const useStyles: () => Record<
   },
   errorText: {
     fontFamily: 'Roboto',
-    color: '#FF0000'
+    color: '#FF0000',
   },
 }));
 
