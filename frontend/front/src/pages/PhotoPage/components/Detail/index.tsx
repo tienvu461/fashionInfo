@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable import/extensions */
 /* eslint-disable import/no-unresolved */
 /* eslint-disable @typescript-eslint/no-explicit-any */
@@ -5,11 +6,14 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
+import { toast } from 'react-toastify';
 import { Grid, Paper, Card, CardActionArea, CardMedia, Typography, Divider, CircularProgress } from '@material-ui/core';
+import FavoriteIcon from '@material-ui/icons/Favorite';
 import HeartIcon from 'src/assets/images/heart.svg';
-import { getDetailAction } from 'src/features/Photo/photoAction';
+import { getDetailAction, likePhotoAction } from 'src/features/Photo/photoAction';
 import ShareIcon from 'src/assets/images/share.svg';
 import { RootState } from 'src/store/store';
+
 import useStyles from './useStyles';
 import CommentComponent from './components/CommentSection';
 import SuggestionComponent from './components/Suggestion';
@@ -28,11 +32,17 @@ function DetaiPhoto(props: DetailProps): JSX.Element {
 
   const classes = useStyles();
   const [loading, setLoading] = useState<boolean>(false);
+  const [likeAction, setLikeAction] = useState<boolean>(false);
   const dispatch = useDispatch<any>();
 
   const photoDetail = useSelector((state: RootState) => state.photo.photoDetail);
+  const [like, setLike] = useState<number>(0);
+
+  const userLikes = useSelector((state: RootState) => state.photo.photoDetail?.user_likes);
   const detailInfo = useSelector((state: RootState) => state.photo.photoDetail.detail_info);
   const photoComment = useSelector((state: RootState) => state.photo.photoComment);
+  const userID = useSelector((state: any) => state.login.loginResponse?.userID);
+  const loginStatus = useSelector((state: any) => state.login.loginResponse?.status);
 
   useEffect(() => {
     setLoading(true);
@@ -45,12 +55,25 @@ function DetaiPhoto(props: DetailProps): JSX.Element {
 
     // fetch data detail information
     dispatch(getDetailAction(id)).then((res) => {
-      const { status = '' } = res;
+      const { status = '', data: { likes = 0 } = {} } = res;
       if (status === 200) {
         setLoading(false);
+        setLike(likes);
       }
     });
   }, [dispatch, id]);
+
+  useEffect(() => {
+    if (userLikes) {
+      let checkUserLike = userLikes.map((item) => item === userID);
+      checkUserLike = checkUserLike.filter((item) => item === true);
+      if (checkUserLike[0]) {
+        setLikeAction(checkUserLike[0]);
+      } else {
+        setLikeAction(false);
+      }
+    }
+  }, [userLikes, userID]);
 
   // Fecch detail page again after comment to get the newest comment list
   useEffect(() => {
@@ -146,6 +169,22 @@ function DetaiPhoto(props: DetailProps): JSX.Element {
     );
   };
 
+   const likePhoto = (photo_id: string | number, key: string) => {
+     if (loginStatus === 200) {
+       dispatch(likePhotoAction({ user_id: userID, photo_id })).then(() => {
+         if (key === 'like') {
+           setLikeAction(true);
+           setLike(like + 1);
+         } else {
+           setLikeAction(false);
+           setLike(like - 1);
+         }
+       });
+     } else {
+       toast.warn('Please login your account');
+     }
+   };
+
   const renderDetailPhoto = () => {
     const { image_path: pathImg = '' } = photoDetail;
 
@@ -165,8 +204,21 @@ function DetaiPhoto(props: DetailProps): JSX.Element {
               </CardActionArea>
               <div className={classes.actions}>
                 <div className={classes.left}>
-                  <img alt='heart-icon' src={HeartIcon} />
-                  <div className={classes.num}>{photoDetail.likes}</div>
+                  {likeAction ? (
+                    <FavoriteIcon
+                      onClick={() => likePhoto(id, 'unlike')}
+                      className={classes.heartIcon}
+                      style={{ color: 'red' }}
+                    />
+                  ) : (
+                    <img
+                      onClick={() => likePhoto(id, 'like')}
+                      className={classes.heartIcon}
+                      alt='heart-icon'
+                      src={HeartIcon}
+                    />
+                  )}
+                  <div className={classes.num}>{like}</div>
                 </div>
                 <div className={classes.right}>
                   <img alt='share-icon' src={ShareIcon} />

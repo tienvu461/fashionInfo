@@ -35,6 +35,7 @@ import {
   setDataFromLocalStorage } from './utils/localStorage';
 import { loginSucess } from './features/Login/LoginSlice';
 import { refreshTokenAction } from './features/Login/LoginAction';
+import { getUserProfile } from './features/Profile/ProfileAction';
 
 toast.configure({
   autoClose: 2000
@@ -70,6 +71,7 @@ function App(): JSX.Element {
       const encodeToken = jwtDecode<CustomJwtPayload>(getToken);
       const { user_id: userID } = encodeToken;
       setDataFromLocalStorage(JSON.stringify({ status: 200, userID }));
+      dispatch(getUserProfile());
     }
   }, []);
 
@@ -98,6 +100,7 @@ function App(): JSX.Element {
   useEffect(() => {
     if (credentials) {
       dispatch(loginSucess(credentials));
+      dispatch(getUserProfile());
       handleExpired();
     }
   }, []);

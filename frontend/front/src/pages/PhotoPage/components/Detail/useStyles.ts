@@ -1,6 +1,6 @@
 /* eslint-disable import/no-unresolved */
 import { makeStyles } from '@material-ui/core/styles';
-import { pdXL, pdSM, pdLG, pdMD, theme, black, gray1, gray2, blackBlue, blackThin } from 'src/styles/theme';
+import { theme, black, gray1, gray2, blackBlue, blackThin } from 'src/styles/theme';
 
 const useStyles: () => Record<
   | 'detailRoot'
@@ -22,7 +22,8 @@ const useStyles: () => Record<
   | 'value2'
   | 'tag'
   | 'tags'
-  | 'tagText',
+  | 'tagText'
+  | 'heartIcon',
   string
 > = makeStyles(() => ({
   detailRoot: {
@@ -41,7 +42,7 @@ const useStyles: () => Record<
   },
   card: {
     boxShadow: 'none',
-    borderRadius: 0
+    borderRadius: 0,
   },
   paper: {
     boxShadow: 'none',
@@ -147,6 +148,9 @@ const useStyles: () => Record<
     letterSpacing: '1px',
     color: blackThin,
   },
+  heartIcon: {
+    cursor: 'pointer'
+  }
 }));
 
 export { useStyles as default };
