@@ -18,7 +18,6 @@ import {
 } from '@material-ui/core';
 import logo from 'src/assets/images/logoLucete.svg';
 import icon from 'src/assets/images/user.svg';
-import avtTest from 'src/assets/images/vuduchai.jpg';
 import Search from './components/Search';
 import SideDrawer from './components/Drawer';
 import ScrollToTop from './components/ScrollToTop';
@@ -44,20 +43,13 @@ function HeaderMenu(props: AuxProps): JSX.Element {
   const history = useHistory();
   const location = useLocation();
   const [anchorEl, setAnchorEl] = useState(null);
-  // const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
   const [active, setActive] = useState(location.pathname);
-
   const menuId = 'search-menu';
   const handleProfileMenuOpen = (event: any) => {
   setAnchorEl(event.currentTarget);
 };
-  const handleMobileMenuClose = () => {
-    // setMobileMoreAnchorEl(null);
-  };
-
   const handleMenuClose = () => {
     setAnchorEl(null);
-    handleMobileMenuClose();
   };
 
   const navLinks: Array<NavLinksType> = [
@@ -67,8 +59,7 @@ function HeaderMenu(props: AuxProps): JSX.Element {
   ];
 
   const loginStatus = useSelector((state: any) => state.login.loginResponse.status);
-  console.log("loginStatus", loginStatus)
-
+  const profiePhoto = useSelector((state: any) => state.profile.currentUser.profile_photo);
   const handleIconLogIn = () => {
     if (loginStatus) {
     return (
@@ -80,11 +71,12 @@ function HeaderMenu(props: AuxProps): JSX.Element {
           aria-haspopup='true'
           onClick={handleProfileMenuOpen}
           color='inherit'
+          style={{ height: '40px', width: '40px' }}
         >
-          <img alt='avt' src={avtTest} className={classes.iconImg} />
+          <img alt='avt' src={profiePhoto} className={classes.iconImg} />
         </IconButton>
       </Grid>
-        )
+        );
     }
     return (
       <Grid className={classes.icon}>
@@ -94,8 +86,8 @@ function HeaderMenu(props: AuxProps): JSX.Element {
           src={icon}
         />
       </Grid>
-    )
-}
+    );
+};
 
   return (
     <div style={{ position: 'relative' }}>
@@ -157,35 +149,6 @@ function HeaderMenu(props: AuxProps): JSX.Element {
                 <Grid className={classes.actions}>
                   <Search />
                   {handleIconLogIn()}
-                  {/* <Grid className={classes.icon}>
-                    <img
-                      alt='Lucete'
-                      onClick={() => history.push('/login')}
-                      src={icon}
-                    />
-                  </Grid> */}
-                  {/* <Grid className={classes.icon}>
-                    <img
-                      alt='Lucete'
-                      onClick={() => history.push('/login')}
-                      src={icon}
-                    />
-                  </Grid>                  */}
-                  {/* <div className={classes.sectionDesktop}>
-                    <IconButton
-                      edge='end'
-                      aria-label='account of current user'
-                      aria-controls={menuId}
-                      aria-haspopup='true'
-                      onClick={handleProfileMenuOpen}
-                      color='inherit'
-                    >
-                      <img
-                        alt='Lucete'
-                        src={icon}
-                      />
-                    </IconButton>
-                  </div> */}
                 </Grid>
               </Hidden>
               <MenuDesktop
@@ -195,16 +158,8 @@ function HeaderMenu(props: AuxProps): JSX.Element {
               />
               <Hidden mdUp>
                 <Grid className={classes.actions}>
-                  <Grid className={classes.icon}>
-                    <img
-                      alt='Lucete'
-                      onClick={() => history.push('/login')}
-                      src={icon}
-                    />
-                  </Grid>
-                  <Grid>
-                    <Search />
-                  </Grid>
+                  <Search />
+                  {handleIconLogIn()}
                 </Grid>
                 <SideDrawer navLinks={navLinks} />
               </Hidden>

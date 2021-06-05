@@ -74,8 +74,9 @@ const useStyles: () => Record<
   },
   actions: {
     display: 'flex',
-    justifyContent: 'space-between',
+    justifyContent: 'center',
     alignItems: 'center',
+    padding: '0px 15px',
   },
   iconImg: {
     height: '40px',
