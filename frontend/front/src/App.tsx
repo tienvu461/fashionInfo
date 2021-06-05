@@ -3,14 +3,14 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable import/no-unresolved */
 import React, { useEffect, useMemo } from 'react';
-import { Route, Switch } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { useDispatch } from 'react-redux';
+import { Route, Switch } from 'react-router-dom';
 import jwtDecode, { JwtPayload } from 'jwt-decode';
 
 import './App.scss';
 import 'react-toastify/dist/ReactToastify.css';
-import HeaderMenu from './components/HeaderMenu';
+
 import {
   ROUTE_FORUM,
   ROUTE_HOME,
@@ -18,24 +18,26 @@ import {
   ROUTE_PHOTO,
   ROUTE_PHOTO_SEARCH,
 } from './constants';
-import ForumPage from './pages/ForumPage';
-import PhotoPage from './pages/PhotoPage';
-import PhotoSearchPage from './pages/PhotoSearchPage';
-import LoginPage from './pages/LoginPage';
-import MagazinePage from './pages/MagaginzePage';
-import NotFound from './pages/NotFound';
-import DetailPhoto from './pages/PhotoPage/components/Detail';
-import Footer from './components/Footer';
-
 import {
   clearStoreFromlocalStorage,
   getCredentialsFromLocalStorage,
   getRefreshTokenFromLocalStorage,
   getTokenFromLocalStorage,
-  setDataFromLocalStorage } from './utils/localStorage';
+  setDataFromLocalStorage
+} from './utils/localStorage';
+
+import NotFound from './pages/NotFound';
+import Footer from './components/Footer';
+import ForumPage from './pages/ForumPage';
+import PhotoPage from './pages/PhotoPage';
+import LoginPage from './pages/LoginPage';
+import MagazinePage from './pages/MagaginzePage';
+import HeaderMenu from './components/HeaderMenu';
+import PhotoSearchPage from './pages/PhotoSearchPage';
 import { loginSucess } from './features/Login/LoginSlice';
-import { refreshTokenAction } from './features/Login/LoginAction';
+import DetailPhoto from './pages/PhotoPage/components/Detail';
 import { getUserProfile } from './features/Profile/ProfileAction';
+import { refreshTokenAction } from './features/Login/LoginAction';
 
 toast.configure({
   autoClose: 2000

@@ -45,29 +45,10 @@ export const logoutAction = () => async (dispatch: Dispatch): Promise<any> => {
    try {
     clearStoreFromlocalStorage();
     dispatch(logoutSuccess);
-    // toast.success('Đăng xuất thành công');
    } catch (e) {
     //    console.log(e);
    }
 };
-
-// export const getUrlSocialAction = () => async (dispatch: Dispatch) => {
-//     try {
-//       const response = await loginService(payload);
-//       // console.log('LOGIN SUCCESS', response);
-//       const { data = {}, status = '' } = response;
-//       if (status === 200) {
-//         dispatch(loginSucess({ data, status }));
-//         setDataFromLocalStorage(JSON.stringify(response));
-//         setTokenToLocalStorage(data.access);
-//         // console.log("RES", response);
-//       }
-//     } catch (error) {
-//       const { response: { data = {}, status = '' } = {} } = error;
-//       dispatch(loginFail({ data, status }));
-//       // console.log('LOGIN ERROR', error);
-//     }
-//   };
 
 export const getUrlSocialAction = () => async (): Promise<any> => {
   try {

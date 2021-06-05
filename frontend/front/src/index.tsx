@@ -1,15 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { ThemeProvider } from '@material-ui/core/styles';
-import { BrowserRouter } from 'react-router-dom';
-
 import { Provider } from 'react-redux';
-
-import { theme } from './styles/theme';
-
-import './index.scss';
+import { BrowserRouter } from 'react-router-dom';
+import { ThemeProvider } from '@material-ui/core/styles';
 import App from './App';
 import store from './store/store';
+
+import { theme } from './styles/theme';
+import './index.scss';
 
 ReactDOM.render(
   <ThemeProvider theme={theme}>

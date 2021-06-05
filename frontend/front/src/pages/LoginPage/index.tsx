@@ -1,9 +1,9 @@
-/* eslint-disable import/order */
 /* eslint-disable import/no-unresolved */
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useState, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import clsx from 'clsx';
 import { useHistory } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+
 import {
   Typography,
   Box,
@@ -19,13 +19,15 @@ import {
 } from '@material-ui/core';
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
-import clsx from 'clsx';
-import './_loginpage.scss';
+
 import { RootState } from 'src/store/store';
-import { loginAction, getUrlSocialAction } from 'src/features/Login/LoginAction';
 import { getUserProfile } from 'src/features/Profile/ProfileAction';
-import iconGg from 'src/assets/images/iconfinder_Google_Loginin.png';
+import { loginAction, getUrlSocialAction } from 'src/features/Login/LoginAction';
+
 import iconFb from 'src/assets/images/iconFb_Login.png';
+import iconGg from 'src/assets/images/iconfinder_Google_Loginin.png';
+
+import './_loginpage.scss';
 import useStyles from './useStyles';
 
 type FieldStates = {
@@ -61,7 +63,7 @@ function LoginPage(): JSX.Element {
     setfield({ ...field, showPassword: !field.showPassword });
   };
 
-  const loginStatus = useSelector((state: any) => state.login.loginResponse.status);
+  const loginStatus = useSelector((state: RootState) => state.login.loginResponse.status);
   const cmtPhotoId = useSelector((state: RootState) => state.photo.isLoginToComment.photoId);
 
   useEffect(() => {

@@ -1,9 +1,8 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable import/no-unresolved */
 /* eslint-disable react/jsx-props-no-spreading */
 /* eslint-disable react/require-default-props */
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { ReactChildren, ReactChild, useState } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
@@ -22,6 +21,7 @@ import {
 import logo from 'src/assets/images/logoLucete.svg';
 import icon from 'src/assets/images/user.svg';
 import ScrollIcon from 'src/assets/images/scrollToTop.svg';
+import { RootState } from 'src/store/store';
 import Search from './components/Search';
 import SideDrawer from './components/Drawer';
 import ScrollToTop from './components/ScrollToTop';
@@ -50,8 +50,8 @@ function HeaderMenu(props: AuxProps): JSX.Element {
   const [active, setActive] = useState(location.pathname);
   const menuId = 'search-menu';
   const handleProfileMenuOpen = (event: any) => {
-  setAnchorEl(event.currentTarget);
-};
+    setAnchorEl(event.currentTarget);
+  };
   const handleMenuClose = () => {
     setAnchorEl(null);
   };
@@ -62,8 +62,8 @@ function HeaderMenu(props: AuxProps): JSX.Element {
     { title: 'Forum', path: ROUTE_FORUM },
   ];
 
-  const loginStatus = useSelector((state: any) => state.login.loginResponse.status);
-  const profiePhoto = useSelector((state: any) => state.profile.currentUser.profile_photo);
+  const loginStatus = useSelector((state: RootState) => state.login.loginResponse.status);
+  const profiePhoto = useSelector((state: RootState) => state.profile.currentUser.profile_photo);
   const handleIconLogIn = () => {
     if (loginStatus) {
     return (
