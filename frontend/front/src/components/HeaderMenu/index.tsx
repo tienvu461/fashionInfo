@@ -145,7 +145,7 @@ function HeaderMenu(props: AuxProps): JSX.Element {
           </AppBar>
           <Toolbar id='back-to-top-anchor' />
         </Grid>
-        <Container maxWidth='xl'>{children}</Container>
+        <div>{children}</div>
         <ScrollToTop {...props}>
           <img alt='scroll-to-top' className={classes.scrollIcon} src={ScrollIcon} />
         </ScrollToTop>
