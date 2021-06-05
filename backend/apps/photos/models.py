@@ -1,3 +1,4 @@
+import logging
 from django.db import models, transaction
 from django import forms
 from django.contrib.auth.models import User
@@ -9,8 +10,9 @@ from markdownx.utils import markdownify
 from taggit.managers import TaggableManager
 from datetime import datetime
 
-from .consts import modelConst
+from .consts import modelConst, adminConst
 
+logger = logging.getLogger("photos")
 
 class GenericConfig(models.Model):
     config_name = models.CharField(default="default", max_length=50)
@@ -22,8 +24,9 @@ class GenericConfig(models.Model):
         default=10, validators=[MaxValueValidator(10), MinValueValidator(-10)])
     views_interact_weight = models.IntegerField(
         default=10, validators=[MaxValueValidator(10), MinValueValidator(-10)])
-    #other configuration
-    show_activities = models.BooleanField(choices=modelConst.BINARY, default=False)
+    # other configuration
+    show_activities = models.BooleanField(
+        choices=modelConst.BINARY, default=False)
     in_use = models.BooleanField(choices=modelConst.BINARY, default=True)
     site_name = models.CharField(default="api.tienvv.com", max_length=50)
 
@@ -47,7 +50,7 @@ class DateCreateModMixin(models.Model):
     mod_date = models.DateTimeField(blank=True, null=True)
 
 
-class Category(models.Model):
+class PhotoCategory(models.Model):
     cat_id = models.AutoField(primary_key=True, null=False)
     cat_name = models.CharField(max_length=255)
     description = models.CharField(max_length=255)
@@ -58,17 +61,19 @@ class Category(models.Model):
         return self.cat_name
 
 # Upload photo
+
+
 class Photo(models.Model):
     title = models.CharField(max_length=50)
     slug = models.SlugField(max_length=255, unique=True, null=True)
-    category = models.ForeignKey(Category, on_delete=models.CASCADE)
+    category = models.ForeignKey(PhotoCategory, on_delete=models.CASCADE)
     model_name = models.CharField(max_length=255, null=True, blank=True)
-    model_job =  models.CharField(max_length=255, null=True, blank=True)
+    model_job = models.CharField(max_length=255, null=True, blank=True)
     shoot_date = models.DateTimeField(null=True, blank=True)
     location = models.CharField(max_length=255, null=True, blank=True)
     brand = models.CharField(max_length=255, null=True, blank=True)
     style = models.CharField(max_length=255, null=True, blank=True)
-    photographer =  models.CharField(max_length=255, null=True, blank=True)
+    photographer = models.CharField(max_length=255, null=True, blank=True)
     social_url = models.CharField(max_length=255, null=True, blank=True)
     post_date = models.DateTimeField(auto_now=True)
     tags = TaggableManager()
@@ -90,6 +95,7 @@ class Photo(models.Model):
     def __str__(self):
         return self.title
 
+
 class PhotoLike(models.Model):
     like_id = models.AutoField(primary_key=True, null=False)
     user_id = models.ForeignKey(
@@ -99,6 +105,7 @@ class PhotoLike(models.Model):
     is_enabled = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
 
 class PhotoComment(models.Model):
     cmt_id = models.AutoField(primary_key=True, null=False)
@@ -121,15 +128,22 @@ class PhotoComment(models.Model):
     def __str__(self):
         return str(self.cmt_id)
 
+
 def get_default_photo():
     return Photo.objects.get_or_create(id=1)
 
+
 class PhotoFeature(models.Model):
-    feature_photo = ForeignKey(Photo, related_name='feature', on_delete=models.CASCADE, default=get_default_photo)
-    login_photo = ForeignKey(Photo, related_name='login', on_delete=models.CASCADE, default=get_default_photo)
-    signup_photo = ForeignKey(Photo, related_name='signup', on_delete=models.CASCADE, default=get_default_photo)
-    popup_photo = ForeignKey(Photo, related_name='popup', on_delete=models.CASCADE, default=get_default_photo)
-    subscribe_photo = ForeignKey(Photo, related_name='subscribe', on_delete=models.CASCADE, default=get_default_photo)
+    feature_photo = ForeignKey(
+        Photo, related_name='feature', on_delete=models.CASCADE, default=get_default_photo)
+    login_photo = ForeignKey(Photo, related_name='login',
+                             on_delete=models.CASCADE, default=get_default_photo)
+    signup_photo = ForeignKey(Photo, related_name='signup',
+                              on_delete=models.CASCADE, default=get_default_photo)
+    popup_photo = ForeignKey(Photo, related_name='popup',
+                             on_delete=models.CASCADE, default=get_default_photo)
+    subscribe_photo = ForeignKey(
+        Photo, related_name='subscribe', on_delete=models.CASCADE, default=get_default_photo)
     in_use = models.BooleanField(choices=modelConst.BINARY, default=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -143,25 +157,36 @@ class PhotoFeature(models.Model):
             return super(PhotoFeature, self).save(*args, **kwargs)
 
 
+class NewsCategory(models.Model):
+    cat_id = models.AutoField(primary_key=True, null=False)
+    cat_name = models.CharField(max_length=255)
+    description = models.CharField(max_length=255)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.cat_name
 
 # Upload news
 
+
 class News(models.Model):
     title = models.CharField(max_length=50)
-    slug = models.SlugField(max_length=200, unique=True, null=True)
-    category = models.ForeignKey(Category, on_delete=models.CASCADE)
+    slug = models.SlugField(max_length=255, unique=True, null=True)
+    category = models.ForeignKey(NewsCategory, on_delete=models.CASCADE)
     tags = TaggableManager()
     author = models.ForeignKey(
         User, related_name='author', on_delete=models.CASCADE, default="1")
-    content = MarkdownxField()
+    thumbnail = models.ImageField(
+        upload_to=datetime.now().strftime('%Y/%m/%d'), default='logos/default.png')
+    content = MarkdownxField(default="Your content goes here")
 
     def formatted_markdown(self):
         return markdownify(self.content)
 
-    def content_summary(self):
-        return markdownify(self.content[:300] + "...")
-
     status = models.IntegerField(choices=modelConst.STATUS, default=0)
+    view_count = models.IntegerField(default=0)
+    user_likes = models.ManyToManyField(User, related_name="news_users_like")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -173,42 +198,34 @@ class News(models.Model):
     def __str__(self):
         return self.title
 
-    # truncate text in list admin view
-    def get_description(self):
-        return markdownify(self.content[:300] + "...")
-    content_summary.short_description = "Description"
-
+    # get summary <= 150 chars
+    def summary(self):
+        summary = self.content[:150] 
+        last_space = summary.rfind(" ")
+        summary = summary[:last_space] + "..."
+        return markdownify(summary)
+    summary.short_description = "Description"
 
 class NewsAttachedPhoto(models.Model):
     news = models.ForeignKey(
         News, related_name='news_photo', on_delete=models.CASCADE)
     image = models.ImageField(
-        upload_to="attached/"+datetime.now().strftime('%Y/%m/%d'), max_length=500)
+        upload_to=adminConst.ATTACH_DIR + datetime.now().strftime('%Y/%m/%d'), max_length=500)
 
 
 class NewsArchivedFile(models.Model):
     news = models.ForeignKey(
         News, related_name='news_file', on_delete=models.CASCADE)
     zip_file = models.FileField(
-        upload_to="archived/"+datetime.now().strftime('%Y/%m/%d'), max_length=500)
-
+        upload_to=adminConst.ARCHIVED_DIR + datetime.now().strftime('%Y/%m/%d'), max_length=500)
 
 class NewsLike(models.Model):
     like_id = models.AutoField(primary_key=True, null=False)
     user_id = models.ForeignKey(
         User, on_delete=models.CASCADE, null=False)
-    photo_id = models.ForeignKey(
+    news_id = models.ForeignKey(
         News, on_delete=models.CASCADE, null=False)
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-
-
-class NewsDislike(models.Model):
-    like_id = models.AutoField(primary_key=True, null=False)
-    user_id = models.ForeignKey(
-        User, on_delete=models.CASCADE, null=False)
-    photo_id = models.ForeignKey(
-        News, on_delete=models.CASCADE, null=False)
+    is_enabled = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -217,7 +234,7 @@ class NewsComment(models.Model):
     cmt_id = models.AutoField(primary_key=True, null=False)
     user_id = models.ForeignKey(
         User, on_delete=models.CASCADE, null=False)
-    photo_id = models.ForeignKey(
+    news_id = models.ForeignKey(
         News, on_delete=models.CASCADE, null=False)
     content = models.CharField(max_length=255)
     # manually deactivate inappropriate comments from admin site
@@ -232,4 +249,21 @@ class NewsComment(models.Model):
         ordering = ('created_at',)
 
     def __str__(self):
-        return 'Comment by {}'.format(self.user_id)
+        return str(self.cmt_id)
+
+def get_default_news():
+    return News.objects.get_or_create(id=1)
+class NewsFeature(models.Model):
+    feature_photo = ForeignKey(
+        News, related_name='feature', on_delete=models.CASCADE, default=get_default_news)
+    in_use = models.BooleanField(choices=modelConst.BINARY, default=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    # when updated, there is only 1 config in use = true, others are false
+    def save(self, *args, **kwargs):
+        if not self.in_use:
+            return super(NewsFeature, self).save(*args, **kwargs)
+        with transaction.atomic():
+            NewsFeature.objects.filter(in_use=True).update(in_use=False)
+            return super(NewsFeature, self).save(*args, **kwargs)

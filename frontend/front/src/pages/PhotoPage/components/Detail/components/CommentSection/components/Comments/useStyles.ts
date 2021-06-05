@@ -13,6 +13,7 @@ const useStyles: () => Record<
   | 'nestedTimeline'
   | 'timelineTwo'
   | 'action'
+  | 'actionWithoutLogin'
   | 'flex'
   | 'textStyle'
   | 'actionName'
@@ -103,12 +104,30 @@ const useStyles: () => Record<
   },
   action: {
     display: 'flex',
-    // alignItems: 'center',
 
     // responsive
     [theme.breakpoints.down('sm')]: {
-      flexDirection: 'column',
       alignItems: 'left',
+    },
+
+    [theme.breakpoints.down('lg')]: {
+      flexDirection: 'column',
+    },
+    [theme.breakpoints.up('lg')]: {
+      flexDirection: 'row',
+    },
+  },
+  actionWithoutLogin: {
+    display: 'flex',
+
+    [theme.breakpoints.down('sm')]: {
+      justifyContent: 'space-between',
+    },
+    [theme.breakpoints.down('lg')]: {
+      flexDirection: 'column',
+    },
+    [theme.breakpoints.up('lg')]: {
+      flexDirection: 'row',
     },
   },
   flex: {
@@ -128,7 +147,7 @@ const useStyles: () => Record<
     letterSpacing: '0.8px',
   },
   actionName: {
-    paddingRight: '17px',
+    paddingRight: '40px',
     fontWeight: 'bold',
     color: '#2E4A91',
     textAlign: 'left',
@@ -137,6 +156,9 @@ const useStyles: () => Record<
     paddingRight: '53px',
     fontWeight: 'normal',
     color: '#616161',
+    [theme.breakpoints.down('md')]: {
+      paddingRight: 0,
+    },
   },
   actionReply: {
     fontWeight: 'normal',

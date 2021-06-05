@@ -28,7 +28,7 @@ const useStyles: () => Record<
       paddingTop: '40px',
     },
     [theme.breakpoints.up('md')]: {
-      paddingRight: '130px',
+      paddingRight: '40px',
     },
     [theme.breakpoints.up('lg')]: {
       paddingRight: '130px',
