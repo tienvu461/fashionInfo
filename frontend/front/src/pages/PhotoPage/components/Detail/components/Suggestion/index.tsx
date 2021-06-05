@@ -1,14 +1,17 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable import/no-unresolved */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable camelcase */
 import React, { useEffect, useState, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+
 import { Grid, Button, Typography, RootRef, Box } from '@material-ui/core';
 import Skeleton from '@material-ui/lab/Skeleton';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import { getPhotoSuggestAction } from 'src/features/Photo/photoAction';
+
 import Photo from 'src/components/Photo';
 import { RootState } from 'src/store/store';
+import { getPhotoSuggestAction } from 'src/features/Photo/photoAction';
 
 import useStyles from './useStyles';
 import './_suggestion.scss';

@@ -1,5 +1,5 @@
-/* eslint-disable import/no-unresolved */
 /* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable import/no-unresolved */
 import React, { FunctionComponent } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
@@ -8,6 +8,7 @@ import { toast } from 'react-toastify';
 import { clearStoreFromlocalStorage } from 'src/utils/localStorage';
 import { ROUTE_HOME } from 'src/constants';
 import LogoutIcon from 'src/assets/images/iconLogout.svg';
+import { RootState } from 'src/store/store';
 import useStyles from './useStyles';
 
 type MenuProps = {
@@ -26,7 +27,7 @@ const MenuDesktop: FunctionComponent<MenuProps> = ({
   const dispatch = useDispatch();
   const history = useHistory();
   const loginStatus = useSelector(
-    (state: any) => state.login.loginResponse.status
+    (state: RootState) => state.login.loginResponse.status
   );
   function logOut() {
     return {
@@ -34,7 +35,7 @@ const MenuDesktop: FunctionComponent<MenuProps> = ({
     };
   }
 
-  const onClickLogout = (e: any) => {
+  const onClickLogout = (e: React.MouseEvent) => {
     e.preventDefault();
     dispatch(logOut());
     clearStoreFromlocalStorage();

@@ -3,6 +3,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Dispatch } from '@reduxjs/toolkit';
 import jwtDecode, { JwtPayload } from 'jwt-decode';
+import { toast } from 'react-toastify';
 import {
   clearStoreFromlocalStorage,
   setDataFromLocalStorage,
@@ -10,7 +11,7 @@ import {
   setRefreshTokenToLocalStorage,
 } from 'src/utils/localStorage';
 
-import { loginService, getUrlSocialService, refreshTokenService, profileService } from 'src/services/auth';
+import { loginService, getUrlSocialService, refreshTokenService } from 'src/services/auth';
 import { loginSucess, loginFail, logoutSuccess } from './LoginSlice';
 
 export const loginAction = (payload: {
@@ -30,11 +31,16 @@ export const loginAction = (payload: {
                 setDataFromLocalStorage(JSON.stringify({ status, userID }));
                 setTokenToLocalStorage(data.access);
                 setRefreshTokenToLocalStorage(data.refresh);
-            }
+
+                toast.success('Đăng nhập thành công !');
+              }
+            return status;
         } catch (error) {
             const { response: { data = {}, status = '' } = {}, } = error;
             dispatch(loginFail({ data, status }));
         }
+
+        return 0;
     };
 
 // clear localstorage
@@ -42,29 +48,10 @@ export const logoutAction = () => async (dispatch: Dispatch): Promise<any> => {
    try {
     clearStoreFromlocalStorage();
     dispatch(logoutSuccess);
-    // toast.success('Đăng xuất thành công');
    } catch (e) {
     //    console.log(e);
    }
 };
-
-// export const getUrlSocialAction = () => async (dispatch: Dispatch) => {
-//     try {
-//       const response = await loginService(payload);
-//       // console.log('LOGIN SUCCESS', response);
-//       const { data = {}, status = '' } = response;
-//       if (status === 200) {
-//         dispatch(loginSucess({ data, status }));
-//         setDataFromLocalStorage(JSON.stringify(response));
-//         setTokenToLocalStorage(data.access);
-//         // console.log("RES", response);
-//       }
-//     } catch (error) {
-//       const { response: { data = {}, status = '' } = {} } = error;
-//       dispatch(loginFail({ data, status }));
-//       // console.log('LOGIN ERROR', error);
-//     }
-//   };
 
 export const getUrlSocialAction = () => async (): Promise<any> => {
   try {

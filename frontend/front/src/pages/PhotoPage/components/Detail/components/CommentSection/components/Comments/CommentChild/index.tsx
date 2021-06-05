@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
 import Ava2 from 'src/assets/images/beck.jpeg';
 
+import { RootState } from 'src/store/store';
 import { commentPhotoAction } from 'src/features/Photo/photoAction';
 import useStyles from '../useStyles';
 
@@ -24,7 +25,7 @@ function CommentChild(props: CmtChild): JSX.Element {
   const [parent, setParent] = useState<number>(0);
   const valueRef = useRef<HTMLInputElement>();
 
-  const loginStatus = useSelector((state: any) => state.login.loginResponse.status);
+  const loginStatus = useSelector((state: RootState) => state.login.loginResponse.status);
 
   const { renderTimelineConnector, cmtChildProps } = props;
   const { item, index, cmtProps, userID, userName } = cmtChildProps;

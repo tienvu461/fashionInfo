@@ -1,7 +1,8 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable import/no-unresolved */
 /* eslint-disable react/jsx-props-no-spreading */
 /* eslint-disable react/require-default-props */
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { ReactChildren, ReactChild, useState } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
@@ -15,9 +16,12 @@ import {
   CssBaseline,
   IconButton,
   Toolbar,
+  Container,
 } from '@material-ui/core';
 import logo from 'src/assets/images/logoLucete.svg';
 import icon from 'src/assets/images/user.svg';
+import ScrollIcon from 'src/assets/images/scrollToTop.svg';
+import { RootState } from 'src/store/store';
 import Search from './components/Search';
 import SideDrawer from './components/Drawer';
 import ScrollToTop from './components/ScrollToTop';
@@ -46,8 +50,8 @@ function HeaderMenu(props: AuxProps): JSX.Element {
   const [active, setActive] = useState(location.pathname);
   const menuId = 'search-menu';
   const handleProfileMenuOpen = (event: any) => {
-  setAnchorEl(event.currentTarget);
-};
+    setAnchorEl(event.currentTarget);
+  };
   const handleMenuClose = () => {
     setAnchorEl(null);
   };
@@ -58,8 +62,8 @@ function HeaderMenu(props: AuxProps): JSX.Element {
     { title: 'Forum', path: ROUTE_FORUM },
   ];
 
-  const loginStatus = useSelector((state: any) => state.login.loginResponse.status);
-  const profiePhoto = useSelector((state: any) => state.profile.currentUser.profile_photo);
+  const loginStatus = useSelector((state: RootState) => state.login.loginResponse.status);
+  const profiePhoto = useSelector((state: RootState) => state.profile.currentUser.profile_photo);
   const handleIconLogIn = () => {
     if (loginStatus) {
     return (
@@ -94,29 +98,15 @@ function HeaderMenu(props: AuxProps): JSX.Element {
       <CssBaseline />
 
       <div className={classes.root}>
-        <Grid
-          alignItems='center'
-          className={classes.navbar}
-          container
-          direction='row'
-          justify='center'
-        >
+        <Grid alignItems='center' className={classes.navbar} container direction='row' justify='center'>
           <AppBar>
             <div className={`${classes.header} header`}>
               <Grid className={classes.logo}>
-                <img
-                  alt='Lucete'
-                  onClick={() => history.push('/')}
-                  src={logo}
-                />
+                <img alt='Lucete' onClick={() => history.push('/')} src={logo} />
               </Grid>
               <Hidden smDown>
                 <Grid className={classes.links}>
-                  <List
-                    aria-labelledby='main navigation'
-                    className={classes.navLinks}
-                    component='nav'
-                  >
+                  <List aria-labelledby='main navigation' className={classes.navLinks} component='nav'>
                     {navLinks.map(({ title, path }) => (
                       <div
                         key={title}
@@ -130,13 +120,9 @@ function HeaderMenu(props: AuxProps): JSX.Element {
                             primary={
                               <>
                                 {active === path ? (
-                                  <span className={classes.textActive}>
-                                    {title}
-                                  </span>
+                                  <span className={classes.textActive}>{title}</span>
                                 ) : (
-                                  <span className={classes.textNonActive}>
-                                    {title}
-                                  </span>
+                                  <span className={classes.textNonActive}>{title}</span>
                                 )}
                               </>
                             }
@@ -151,11 +137,7 @@ function HeaderMenu(props: AuxProps): JSX.Element {
                   {handleIconLogIn()}
                 </Grid>
               </Hidden>
-              <MenuDesktop
-                menuId={menuId}
-                anchorEl={anchorEl}
-                handleMenuClose={handleMenuClose}
-              />
+              <MenuDesktop menuId={menuId} anchorEl={anchorEl} handleMenuClose={handleMenuClose} />
               <Hidden mdUp>
                 <Grid className={classes.actions}>
                   <Search />
@@ -167,9 +149,9 @@ function HeaderMenu(props: AuxProps): JSX.Element {
           </AppBar>
           <Toolbar id='back-to-top-anchor' />
         </Grid>
-        <Grid>{children}</Grid>
+        <div>{children}</div>
         <ScrollToTop {...props}>
-          <div style={{ display: 'none' }} />
+          <img alt='scroll-to-top' className={classes.scrollIcon} src={ScrollIcon} />
         </ScrollToTop>
       </div>
     </div>

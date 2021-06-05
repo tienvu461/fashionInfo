@@ -3,6 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { textColor, theme } from 'src/styles/theme';
 
 const useStyles: () => Record<
+  | 'scrollIcon'
   | 'root'
   | 'navbar'
   | 'header'
@@ -18,6 +19,26 @@ const useStyles: () => Record<
   | 'navLinks',
   string
 > = makeStyles(() => ({
+  scrollIcon: {
+    // the size of this icons image is  80px 80px
+    // responsive
+    [theme.breakpoints.down('md')]: {
+      // size 48px 48px
+      width: '60%',
+    },
+    [theme.breakpoints.up('md')]: {
+      // size 64px 64px
+      width: '80%',
+    },
+    [theme.breakpoints.up('lg')]: {
+      // size 48px 48px
+      width: '80%',
+    },
+    [theme.breakpoints.up('xl')]: {
+      // size 80px 80px
+      width: '100%',
+    },
+  },
   root: {
     display: 'flex',
     justifyContent: 'center',
@@ -39,7 +60,7 @@ const useStyles: () => Record<
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
-    margin: 'auto'
+    margin: 'auto',
   },
   logo: {
     height: 'fit-content',
