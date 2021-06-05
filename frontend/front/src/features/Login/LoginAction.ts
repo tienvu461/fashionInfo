@@ -92,6 +92,6 @@ export const refreshTokenAction = (payload: { refresh: string}) => async (dispat
       setTokenToLocalStorage(data.access);
     }
   } catch (error) {
-    console.log(error);
+    // console.log(error);
   }
 };
