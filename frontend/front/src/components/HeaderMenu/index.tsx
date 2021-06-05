@@ -1,8 +1,10 @@
 /* eslint-disable import/no-unresolved */
 /* eslint-disable react/jsx-props-no-spreading */
 /* eslint-disable react/require-default-props */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { ReactChildren, ReactChild, useState } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import {
   Grid,
   AppBar,
@@ -41,20 +43,13 @@ function HeaderMenu(props: AuxProps): JSX.Element {
   const history = useHistory();
   const location = useLocation();
   const [anchorEl, setAnchorEl] = useState(null);
-  const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
   const [active, setActive] = useState(location.pathname);
-
   const menuId = 'search-menu';
   const handleProfileMenuOpen = (event: any) => {
   setAnchorEl(event.currentTarget);
 };
-  const handleMobileMenuClose = () => {
-    setMobileMoreAnchorEl(null);
-  };
-
   const handleMenuClose = () => {
     setAnchorEl(null);
-    handleMobileMenuClose();
   };
 
   const navLinks: Array<NavLinksType> = [
@@ -62,6 +57,37 @@ function HeaderMenu(props: AuxProps): JSX.Element {
     { title: 'Photo', path: ROUTE_PHOTO },
     { title: 'Forum', path: ROUTE_FORUM },
   ];
+
+  const loginStatus = useSelector((state: any) => state.login.loginResponse.status);
+  const profiePhoto = useSelector((state: any) => state.profile.currentUser.profile_photo);
+  const handleIconLogIn = () => {
+    if (loginStatus) {
+    return (
+      <Grid className={classes.icon}>
+        <IconButton
+          edge='end'
+          aria-label='account of current user'
+          aria-controls={menuId}
+          aria-haspopup='true'
+          onClick={handleProfileMenuOpen}
+          color='inherit'
+          style={{ height: '40px', width: '40px' }}
+        >
+          <img alt='avt' src={profiePhoto} className={classes.iconImg} />
+        </IconButton>
+      </Grid>
+        );
+    }
+    return (
+      <Grid className={classes.icon}>
+        <img
+          alt='Lucete'
+          onClick={() => history.push('/login')}
+          src={icon}
+        />
+      </Grid>
+    );
+};
 
   return (
     <div style={{ position: 'relative' }}>
@@ -122,28 +148,7 @@ function HeaderMenu(props: AuxProps): JSX.Element {
                 </Grid>
                 <Grid className={classes.actions}>
                   <Search />
-                  {/* <Grid className={classes.icon}>
-                    <img
-                      alt='Lucete'
-                      onClick={() => history.push('/login')}
-                      src={icon}
-                    />
-                  </Grid> */}
-                  <div className={classes.sectionDesktop}>
-                    <IconButton
-                      edge='end'
-                      aria-label='account of current user'
-                      aria-controls={menuId}
-                      aria-haspopup='true'
-                      onClick={handleProfileMenuOpen}
-                      color='inherit'
-                    >
-                      <img
-                        alt='Lucete'
-                        src={icon}
-                      />
-                    </IconButton>
-                  </div>
+                  {handleIconLogIn()}
                 </Grid>
               </Hidden>
               <MenuDesktop
@@ -153,16 +158,8 @@ function HeaderMenu(props: AuxProps): JSX.Element {
               />
               <Hidden mdUp>
                 <Grid className={classes.actions}>
-                  <Grid className={classes.icon}>
-                    <img
-                      alt='Lucete'
-                      onClick={() => history.push('/login')}
-                      src={icon}
-                    />
-                  </Grid>
-                  <Grid>
-                    <Search />
-                  </Grid>
+                  <Search />
+                  {handleIconLogIn()}
                 </Grid>
                 <SideDrawer navLinks={navLinks} />
               </Hidden>

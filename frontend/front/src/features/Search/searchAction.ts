@@ -1,8 +1,9 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Dispatch } from '@reduxjs/toolkit';
 import { searchTagService } from '../../services/searchTag';
 import { getDataSearch } from './searchSlide';
 
-export const searchAction = (number: number| string, textSearch: string) => async (dispatch: Dispatch) => {
+export const searchAction = (number: number| string, textSearch: string): any => async (dispatch: Dispatch) => {
     try {
         const response = await searchTagService(number, textSearch);
         // console.log('RESPONSE', response);
@@ -14,5 +15,5 @@ export const searchAction = (number: number| string, textSearch: string) => asyn
     } catch (error) {
         // console.error(error);
     }
-    return 0;
+    return 1;
 };
