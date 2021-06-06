@@ -27,7 +27,7 @@ import SideDrawer from './components/Drawer';
 import ScrollToTop from './components/ScrollToTop';
 import MenuDesktop from './components/MenuDesktop';
 import useStyles from './useStyles';
-import { ROUTE_FORUM, ROUTE_HOME, ROUTE_PHOTO } from '../../constants';
+import { ROUTE_FORUM, ROUTE_HOME, ROUTE_LOGIN, ROUTE_PHOTO } from '../../constants';
 
 import './_headerMenu.scss';
 
@@ -86,7 +86,10 @@ function HeaderMenu(props: AuxProps): JSX.Element {
       <Grid className={classes.icon}>
         <img
           alt='Lucete'
-          onClick={() => history.push('/login')}
+          onClick={() => {
+            setActive(ROUTE_LOGIN);
+            history.push(ROUTE_LOGIN);
+          }}
           src={icon}
         />
       </Grid>
@@ -102,7 +105,14 @@ function HeaderMenu(props: AuxProps): JSX.Element {
           <AppBar>
             <div className={`${classes.header} header`}>
               <Grid className={classes.logo}>
-                <img alt='Lucete' onClick={() => history.push('/')} src={logo} />
+                <img
+                  alt='Lucete'
+                  onClick={() => {
+                  setActive(ROUTE_HOME);
+                  history.push('/');
+                }}
+                  src={logo}
+                />
               </Grid>
               <Hidden smDown>
                 <Grid className={classes.links}>
