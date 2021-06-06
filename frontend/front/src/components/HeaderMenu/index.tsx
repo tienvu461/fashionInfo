@@ -68,24 +68,23 @@ function HeaderMenu(props: AuxProps): JSX.Element {
   const handleIconLogIn = () => {
     const getCredentials = getCredentialsFromLocalStorage();
     const credentials = JSON.parse(getCredentials);
-    const { status: loginStatus = 0 } = credentials;
 
-    if (loginStatus === 200) {
-    return (
-      <Grid className={classes.icon}>
-        <IconButton
-          edge='end'
-          aria-label='account of current user'
-          aria-controls={menuId}
-          aria-haspopup='true'
-          onClick={handleProfileMenuOpen}
-          color='inherit'
-          style={{ height: '40px', width: '40px' }}
-        >
-          <img alt='avt' src={profiePhoto} className={classes.iconImg} />
-        </IconButton>
-      </Grid>
-        );
+    if (credentials && credentials?.status === 200) {
+      return (
+        <Grid className={classes.icon}>
+          <IconButton
+            edge='end'
+            aria-label='account of current user'
+            aria-controls={menuId}
+            aria-haspopup='true'
+            onClick={handleProfileMenuOpen}
+            color='inherit'
+            style={{ height: '40px', width: '40px' }}
+          >
+            <img alt='avt' src={profiePhoto} className={classes.iconImg} />
+          </IconButton>
+        </Grid>
+      );
     }
     return (
       <Grid className={classes.icon}>
