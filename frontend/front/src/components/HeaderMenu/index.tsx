@@ -1,8 +1,11 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable import/no-unresolved */
 /* eslint-disable react/jsx-props-no-spreading */
 /* eslint-disable react/require-default-props */
 import React, { ReactChildren, ReactChild, useState } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import {
   Grid,
   AppBar,
@@ -13,9 +16,12 @@ import {
   CssBaseline,
   IconButton,
   Toolbar,
+  Container,
 } from '@material-ui/core';
 import logo from 'src/assets/images/logoLucete.svg';
 import icon from 'src/assets/images/user.svg';
+import ScrollIcon from 'src/assets/images/scrollToTop.svg';
+import { RootState } from 'src/store/store';
 import Search from './components/Search';
 import SideDrawer from './components/Drawer';
 import ScrollToTop from './components/ScrollToTop';
@@ -41,20 +47,13 @@ function HeaderMenu(props: AuxProps): JSX.Element {
   const history = useHistory();
   const location = useLocation();
   const [anchorEl, setAnchorEl] = useState(null);
-  const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
   const [active, setActive] = useState(location.pathname);
-
   const menuId = 'search-menu';
   const handleProfileMenuOpen = (event: any) => {
-  setAnchorEl(event.currentTarget);
-};
-  const handleMobileMenuClose = () => {
-    setMobileMoreAnchorEl(null);
+    setAnchorEl(event.currentTarget);
   };
-
   const handleMenuClose = () => {
     setAnchorEl(null);
-    handleMobileMenuClose();
   };
 
   const navLinks: Array<NavLinksType> = [
@@ -63,34 +62,51 @@ function HeaderMenu(props: AuxProps): JSX.Element {
     { title: 'Forum', path: ROUTE_FORUM },
   ];
 
+  const loginStatus = useSelector((state: RootState) => state.login.loginResponse.status);
+  const profiePhoto = useSelector((state: RootState) => state.profile.currentUser.profile_photo);
+  const handleIconLogIn = () => {
+    if (loginStatus) {
+    return (
+      <Grid className={classes.icon}>
+        <IconButton
+          edge='end'
+          aria-label='account of current user'
+          aria-controls={menuId}
+          aria-haspopup='true'
+          onClick={handleProfileMenuOpen}
+          color='inherit'
+          style={{ height: '40px', width: '40px' }}
+        >
+          <img alt='avt' src={profiePhoto} className={classes.iconImg} />
+        </IconButton>
+      </Grid>
+        );
+    }
+    return (
+      <Grid className={classes.icon}>
+        <img
+          alt='Lucete'
+          onClick={() => history.push('/login')}
+          src={icon}
+        />
+      </Grid>
+    );
+};
+
   return (
     <div style={{ position: 'relative' }}>
       <CssBaseline />
 
       <div className={classes.root}>
-        <Grid
-          alignItems='center'
-          className={classes.navbar}
-          container
-          direction='row'
-          justify='center'
-        >
+        <Grid alignItems='center' className={classes.navbar} container direction='row' justify='center'>
           <AppBar>
             <div className={`${classes.header} header`}>
               <Grid className={classes.logo}>
-                <img
-                  alt='Lucete'
-                  onClick={() => history.push('/')}
-                  src={logo}
-                />
+                <img alt='Lucete' onClick={() => history.push('/')} src={logo} />
               </Grid>
               <Hidden smDown>
                 <Grid className={classes.links}>
-                  <List
-                    aria-labelledby='main navigation'
-                    className={classes.navLinks}
-                    component='nav'
-                  >
+                  <List aria-labelledby='main navigation' className={classes.navLinks} component='nav'>
                     {navLinks.map(({ title, path }) => (
                       <div
                         key={title}
@@ -104,13 +120,9 @@ function HeaderMenu(props: AuxProps): JSX.Element {
                             primary={
                               <>
                                 {active === path ? (
-                                  <span className={classes.textActive}>
-                                    {title}
-                                  </span>
+                                  <span className={classes.textActive}>{title}</span>
                                 ) : (
-                                  <span className={classes.textNonActive}>
-                                    {title}
-                                  </span>
+                                  <span className={classes.textNonActive}>{title}</span>
                                 )}
                               </>
                             }
@@ -122,47 +134,14 @@ function HeaderMenu(props: AuxProps): JSX.Element {
                 </Grid>
                 <Grid className={classes.actions}>
                   <Search />
-                  {/* <Grid className={classes.icon}>
-                    <img
-                      alt='Lucete'
-                      onClick={() => history.push('/login')}
-                      src={icon}
-                    />
-                  </Grid> */}
-                  <div className={classes.sectionDesktop}>
-                    <IconButton
-                      edge='end'
-                      aria-label='account of current user'
-                      aria-controls={menuId}
-                      aria-haspopup='true'
-                      onClick={handleProfileMenuOpen}
-                      color='inherit'
-                    >
-                      <img
-                        alt='Lucete'
-                        src={icon}
-                      />
-                    </IconButton>
-                  </div>
+                  {handleIconLogIn()}
                 </Grid>
               </Hidden>
-              <MenuDesktop
-                menuId={menuId}
-                anchorEl={anchorEl}
-                handleMenuClose={handleMenuClose}
-              />
+              <MenuDesktop menuId={menuId} anchorEl={anchorEl} handleMenuClose={handleMenuClose} />
               <Hidden mdUp>
                 <Grid className={classes.actions}>
-                  <Grid className={classes.icon}>
-                    <img
-                      alt='Lucete'
-                      onClick={() => history.push('/login')}
-                      src={icon}
-                    />
-                  </Grid>
-                  <Grid>
-                    <Search />
-                  </Grid>
+                  <Search />
+                  {handleIconLogIn()}
                 </Grid>
                 <SideDrawer navLinks={navLinks} />
               </Hidden>
@@ -170,9 +149,9 @@ function HeaderMenu(props: AuxProps): JSX.Element {
           </AppBar>
           <Toolbar id='back-to-top-anchor' />
         </Grid>
-        <Grid>{children}</Grid>
+        <div>{children}</div>
         <ScrollToTop {...props}>
-          <div style={{ display: 'none' }} />
+          <img alt='scroll-to-top' className={classes.scrollIcon} src={ScrollIcon} />
         </ScrollToTop>
       </div>
     </div>

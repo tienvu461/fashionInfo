@@ -22,7 +22,7 @@ function Comments(): JSX.Element {
   const valueRef = useRef<HTMLInputElement>();
   const comments = useSelector((state: RootState) => state.photo.photoDetail.comments);
   const photoId = useSelector((state: RootState) => state.photo.photoDetail.id);
-  const loginStatus = useSelector((state: any) => state.login.loginResponse.status);
+  const loginStatus = useSelector((state: RootState) => state.login.loginResponse.status);
   const user = useSelector((state: any) => state.login.loginResponse.userID);
   const firstName = useSelector((state: any) => state.profile.currentUser.user?.first_name);
   const lastName = useSelector((state: any) => state.profile.currentUser.user?.last_name);

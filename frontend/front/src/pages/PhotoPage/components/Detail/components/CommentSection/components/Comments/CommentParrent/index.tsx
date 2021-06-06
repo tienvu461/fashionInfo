@@ -15,6 +15,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { commentPhotoAction } from 'src/features/Photo/photoAction';
 import Ava2 from 'src/assets/images/beck.jpeg';
+import { RootState } from 'src/store/store';
 import CommentChild from '../CommentChild';
 
 import useStyles from '../useStyles';
@@ -34,7 +35,7 @@ function CommentParrent(props: CommentProps): JSX.Element {
   const [parent, setParent] = useState<number>(0);
   const [textArea, setTextArea] = useState<string>('');
   const [isReply, setisReply] = useState<boolean>(false);
-  const loginStatus = useSelector((state: any) => state.login.loginResponse.status);
+  const loginStatus = useSelector((state: RootState) => state.login.loginResponse.status);
 
   const formatDate = (time: number) => moment(time * 1000).fromNow();
 
