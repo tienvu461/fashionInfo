@@ -22,6 +22,7 @@ import logo from 'src/assets/images/logoLucete.svg';
 import icon from 'src/assets/images/user.svg';
 import ScrollIcon from 'src/assets/images/scrollToTop.svg';
 import { RootState } from 'src/store/store';
+import { getCredentialsFromLocalStorage } from 'src/utils/localStorage';
 import Search from './components/Search';
 import SideDrawer from './components/Drawer';
 import ScrollToTop from './components/ScrollToTop';
@@ -62,10 +63,14 @@ function HeaderMenu(props: AuxProps): JSX.Element {
     { title: 'Forum', path: ROUTE_FORUM },
   ];
 
-  const loginStatus = useSelector((state: RootState) => state.login.loginResponse.status);
   const profiePhoto = useSelector((state: RootState) => state.profile.currentUser.profile_photo);
+
   const handleIconLogIn = () => {
-    if (loginStatus) {
+    const getCredentials = getCredentialsFromLocalStorage();
+    const credentials = JSON.parse(getCredentials);
+    const { status: loginStatus = 0 } = credentials;
+
+    if (loginStatus === 200) {
     return (
       <Grid className={classes.icon}>
         <IconButton
