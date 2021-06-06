@@ -101,10 +101,6 @@ export const theme = createMuiTheme({
         backgroundColor: black,
         '&:hover': { backgroundColor: grayPrimary },
       },
-      // outlined: {
-      //   color: white,
-      //   borer: 'none',
-      // },
       contained: {
         color: white,
         border: `1px solid ${black}`,
@@ -114,10 +110,6 @@ export const theme = createMuiTheme({
           color: black,
           border: 'transparent',
         },
-        // '&:hover: none': {
-        //   backgroundColor: red,
-        //   color: white,
-        // },
         boxShadow: 'none',
       },
     },
@@ -126,70 +118,17 @@ export const theme = createMuiTheme({
     MuiAccordionSummary: {
       content: {
         margin: '0 !important',
-        // display: 'flex',
-        // alignItems: 'center',
-        // justifyContent: 'space-between',
       },
       root: { minHeight: 'fit-content !important', padding: 0 },
     },
     MuiAccordionDetails: { root: { padding: '0' } },
-    // MuiCheckbox: {
-    //   root: {
-    //     marginRight: '5px',
-    //   },
-    //   colorSecondary: {
-    //     color: darkColor,
-    //     '&$checked': {
-    //       color: darkColor,
-    //     },
-    //   },
-    // },
-    // MuiFormLabel: {
-    //   root: {
-    //     '&$focused': {
-    //       color: darkColor,
-    //     },
-    //   },
-    // },
-    // MuiOutlinedInput: {
-    //   root: {
-    //     '&$focused $notchedOutline': {
-    //       borderColor: darkColor,
-    //       borderWidth: 1,
-    //     },
-    //     '&:hover:not($disabled):not($focused):not($error) $notchedOutline': {
-    //       borderColor: darkColor,
-    //       // Reset on touch devices, it doesn't add specificity
-    //       '@media (hover: none)': {
-    //         borderColor: darkColor,
-    //       },
-    //     },
-    //   },
-    // },
-    // MuiIconButton: {
-    //   root: {
-    //     '&:hover': {
-    //       backgroundColor: firstColor,
-    //       color: darkColor,
-    //     },
-    //   },
-    // },
-    // MuiBadge: {
-    //   badge: {
-    //     color: white,
-    //   },
-    //   anchorOriginTopRightRectangle: {
-    //     backgroundColor: `${red} !important`,
-    //   },
-    // },
-    // MuiListItem: {
-    //   button: {
-    //     '&:focus': {
-    //       backgroundColor: red,
-    //       color: white,
-    //     },
-    //   },
-    // },
+    MuiTab: {
+      root: {
+        '&$selected': {
+          fontWeight: 900
+        },
+      },
+    },
   },
 });
 
