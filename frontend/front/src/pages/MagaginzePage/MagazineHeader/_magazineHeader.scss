@@ -2,8 +2,8 @@
 
 .magazineHeader{
 
-    @media screen and (max-width: 600px) {
-
+    @media screen and (min-width: 600px) {
+        width: 100%;
     }
 
     
@@ -12,13 +12,21 @@
         .banner{
             width: 100%;
         } 
+        .magazineContent{
+            width: 100%;
+            padding: 0 20px;
+        }
     }
     
     // screen >= 960
     @media screen and (min-width: 960px) {
         .banner{
             width: 100%;
-        }  
+        } 
+
+        .magazineContent{
+            width: 760px;
+        }
     }
 
     // screen >= 1280
@@ -29,6 +37,10 @@
             height: 167.25px;
             width: 100%;
         }  
+
+        .magazineContent{
+            width: 1160px;
+        }
     }
 
     // screen >= 1600
@@ -38,7 +50,22 @@
         .banner{
             height: 223px;
             width: 100%;
-        }   
+        } 
+        
+        .magazineContent{
+            width: 1520px;
+        }
+    }
+
+    @media screen and (min-width: 1900px) {
+        .magazineContent{
+            margin: auto;
+        }
+    }
+    @media screen and (max-width: 1900px) {
+        .magazineContent{
+            margin: auto;
+        }
     }
 
     .banner-img{
