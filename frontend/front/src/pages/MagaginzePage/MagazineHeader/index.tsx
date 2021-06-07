@@ -14,6 +14,25 @@ const a11yProps = (index: any) => ({
   'aria-controls': `simple-tabpanel-${index}`,
 });
 
+const arrMenu = [
+  {
+    label: 'Thời trang',
+    content: 'Item One',
+  },
+  {
+    label: 'Giải trí',
+    content: 'Item Two',
+  },
+  {
+    label: 'Nghệ thuật',
+    content: 'Item Three',
+  },
+  {
+    label: 'Phong cách sống',
+    content: 'Item Four',
+  },
+];
+
 function MagazineHeader(): JSX.Element {
     const classes = useStyles();
     const [value, setValue] = useState(0);
@@ -44,23 +63,17 @@ function MagazineHeader(): JSX.Element {
               onChange={handleChangeTab}
               aria-label='simple tabs menu'
             >
-              <Tab label='Thời trang' {...a11yProps(0)} className={classes.menuTab} />
-              <Tab label='Giải trí' {...a11yProps(1)} className={classes.menuTab} />
-              <Tab label='Nghệ thuật' {...a11yProps(2)} className={classes.menuTab} />
-              <Tab label='Phong cách sống' {...a11yProps(3)} className={classes.menuTab} />
+              {arrMenu.map((menu, index) => (
+                <Tab key={`${index + 1}`} label={menu.label} {...a11yProps(1)} className={classes.menuTab} />
+              ))}
             </Tabs>
-            <TabPanel value={value} index={0}>
-              Item One
-            </TabPanel>
-            <TabPanel value={value} index={1}>
-              Item Two
-            </TabPanel>
-            <TabPanel value={value} index={2}>
-              Item Three
-            </TabPanel>
-            <TabPanel value={value} index={3}>
-              Item Four
-            </TabPanel>
+            {arrMenu.map((menu, index) => (
+              <div key={`${index + 1}`}>
+                <TabPanel value={value} index={index}>
+                  {menu.content}
+                </TabPanel>
+              </div>
+            ))}
           </div>
         </div>
       </div>
