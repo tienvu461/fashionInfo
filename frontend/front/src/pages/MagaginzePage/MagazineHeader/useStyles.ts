@@ -2,7 +2,7 @@
 import { makeStyles } from '@material-ui/core/styles';
 import { black } from 'src/styles/theme';
 
-const useStyles: () => Record<'titleHeadLine' | 'menuTab', string> = makeStyles(() => ({
+const useStyles: () => Record<'titleHeadLine' | 'menuTab' | 'content', string> = makeStyles(() => ({
   titleHeadLine: {
     fontStyle: 'normal',
     fontWeight: 900,
@@ -30,6 +30,11 @@ const useStyles: () => Record<'titleHeadLine' | 'menuTab', string> = makeStyles(
     '& .MuiTab-wrapper': {
       alignItems: 'baseline',
     },
+  },
+  content: {
+    backgroundColor: '#E5E5E5',
+    height: 'fit-content',
+    width: '100%'
   },
 }));
 

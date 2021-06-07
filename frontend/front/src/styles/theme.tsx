@@ -68,6 +68,12 @@ export const theme = createMuiTheme({
       '@media (max-width:960px)': { fontSize: '24px' },
       '@media (max-width:600px)': { fontSize: '20px' },
     },
+    h3: {
+      fontSize: '64px',
+      '@media (max-width:1080px)': { fontSize: '53.33px' },
+      '@media (max-width:960px)': { fontSize: '1.49333333333rem' },
+      '@media (max-width:720px)': { fontSize: '1.28rem' },
+    },
     h2: {
       fontSize: '96px',
       '@media (max-width:1080px)': { fontSize: '80px' },
@@ -125,7 +131,7 @@ export const theme = createMuiTheme({
     MuiTab: {
       root: {
         '&$selected': {
-          fontWeight: 900
+          fontWeight: 900,
         },
       },
     },

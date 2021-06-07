@@ -6,6 +6,7 @@ import { Grid, Typography, Tabs, Tab } from '@material-ui/core';
 import banner from 'src/assets/images/magazine/banner.png';
 import TabPanel from './component/TabPanel';
 import useStyles from './useStyles';
+import Entertainment from '../Entertainment';
 
 import './_magazineHeader.scss';
 
@@ -21,7 +22,7 @@ const arrMenu = [
   },
   {
     label: 'Giải trí',
-    content: 'Item Two',
+    content: <Entertainment />,
   },
   {
     label: 'Nghệ thuật',
@@ -68,7 +69,7 @@ function MagazineHeader(): JSX.Element {
               ))}
             </Tabs>
             {arrMenu.map((menu, index) => (
-              <div key={`${index + 1}`}>
+              <div className={classes.content} key={`${index + 1}`}>
                 <TabPanel value={value} index={index}>
                   {menu.content}
                 </TabPanel>

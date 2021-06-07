@@ -22,8 +22,8 @@ function TabPanel(props: TabPanelProps): JSX.Element {
       {...other}
     >
       {value === index && (
-        <Box p={3}>
-          <Typography>{children}</Typography>
+        <Box paddingTop={15.625}>
+          {children}
         </Box>
       )}
     </div>
