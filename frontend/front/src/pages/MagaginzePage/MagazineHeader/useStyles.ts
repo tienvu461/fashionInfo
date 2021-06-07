@@ -20,6 +20,9 @@ const useStyles: () => Record<'titleHeadLine' | 'menuTab', string> = makeStyles(
     fontWeight: 'normal',
     lineHeight: '18px',
     fontSize: '24px',
+    textTransform: 'inherit',
+    minWidth: 0,
+    marginRight: '89px',
 
     fontStyle: 'normal',
     fontFamily: 'Roboto',

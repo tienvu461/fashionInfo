@@ -93,7 +93,7 @@ export const theme = createMuiTheme({
   },
   overrides: {
     MuiAppBar: {
-      root: { boxShadow: 'none' },
+      root: { boxShadow: 'none', height: '80px' },
       colorPrimary: { backgroundColor: white },
     },
     MuiButton: {

@@ -61,9 +61,10 @@ const useStyles: () => Record<
     justifyContent: 'space-between',
     alignItems: 'center',
     margin: 'auto',
+    height: '80px'
   },
   logo: {
-    height: 'fit-content',
+    height: '35px',
     cursor: 'pointer',
   },
   links: {
@@ -87,11 +88,16 @@ const useStyles: () => Record<
   textNonActive: {
     color: textColor,
     fontSize: '24px',
+    fontFamily: 'Roboto',
+    letterSpacing: '0.2px',
+    fontWeight: 'normal',
   },
   textActive: {
     color: textColor,
     fontWeight: 'bold',
     fontSize: '24px',
+    fontFamily: 'Roboto',
+    letterSpacing: '0.2px',
   },
   actions: {
     display: 'flex',
