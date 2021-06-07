@@ -1,11 +1,27 @@
 /* eslint-disable import/no-unresolved */
+import { white, gray2 } from 'src/styles/theme';
 import { makeStyles } from '@material-ui/core/styles';
-import { black } from 'src/styles/theme';
 
 const useStyles: () => Record<
-  'author' | 'entertaimentTitle' | 'headerTitle' | 'headerSubTitle' | 'authorName' | 'authorTime' | 'divide',
+  | 'container'
+  | 'entertaimentHeader'
+  | 'author'
+  | 'entertaimentTitle'
+  | 'headerTitle'
+  | 'headerSubTitle'
+  | 'authorName'
+  | 'authorTime'
+  | 'divide',
   string
 > = makeStyles(() => ({
+  container: {
+    backgroundColor: gray2,
+  },
+  entertaimentHeader: {
+    backgroundColor: white,
+    height: '600px',
+    display: 'flex'
+  },
   author: {
     display: 'flex',
     alignItems: 'center',

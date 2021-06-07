@@ -68,15 +68,15 @@ function MagazineHeader(): JSX.Element {
                 <Tab key={`${index + 1}`} label={menu.label} {...a11yProps(1)} className={classes.menuTab} />
               ))}
             </Tabs>
-            {arrMenu.map((menu, index) => (
-              <div className={classes.content} key={`${index + 1}`}>
-                <TabPanel value={value} index={index}>
-                  {menu.content}
-                </TabPanel>
-              </div>
-            ))}
           </div>
         </div>
+        {arrMenu.map((menu, index) => (
+          <div className={classes.content} key={`${index + 1}`}>
+            <TabPanel value={value} index={index}>
+              {menu.content}
+            </TabPanel>
+          </div>
+            ))}
       </div>
     );
 }

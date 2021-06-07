@@ -1,7 +1,7 @@
 @import '../../../styles/styles.scss';
 
 .entertaiment{
-    background-color: #fff;
+    // background-color: #fff;
 
     @media screen and (min-width: 600px) {
         width: 100%;
@@ -33,31 +33,39 @@
     @media screen and (min-width: 1600px) {
         width: 100%;
 
-        .container {
-
-            align-items: center;
-            height: auto;
+        .header{
+            display: flex;
+            justify-content: flex-end;
             width: 100%;
-            
-            .entertaiment-img{
-                width: 740px;
-                height: 600px;
-                img {
+
+            .container {
+                width: 1652.5px;
+                height: auto;
+                
+                .entertaiment-img{
                     width: 740px;
                     height: 600px;
+                    img {
+                        width: 740px;
+                        height: 600px;
+                    }
                 }
-            }
-
-            .entertaiment-title{
-                width: 100%;
-                align-self: flex-end;
-                padding: 0 200px 22px 40px;
+    
+                .entertaiment-title{
+                    width: 100%;
+                    align-self: flex-end;
+                    padding: 0 200px 22px 40px;
+                }
             }
         }
     }
 
     @media screen and (min-width: 1900px) {
-        
+        .header{
+            .container {
+                width: 1720px;
+            }
+        }
     }
     @media screen and (max-width: 1900px) {
         

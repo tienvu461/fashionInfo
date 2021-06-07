@@ -11,23 +11,33 @@ function Entertainment(): JSX.Element {
 
     return (
       <div className='entertaiment'>
-        <div className='container'>
-          <div className='entertaiment-img'>
-            <img alt='entertaiment-header' src={HeaderImg} />
-          </div>
-          <div className='entertaiment-title'>
-            <Typography variant='h3' component='h3' className={`${classes.entertaimentTitle} ${classes.headerTitle}`}>
-              Tiêu đề bài nổi bật
-            </Typography>
-            <Typography className={`${classes.entertaimentTitle} ${classes.headerSubTitle}`}>
-              Dép xỏ ngón là món đồ rất thông dụng. Nhưng nó hoàn toàn có thể trở thành một phụ kiện thời trang
-              &quot;hợp mốt&quot; nếu bạn biết cách lựa chọn trang phục. Bạn có biết, gia tăng năng lượng tích cực và
-              thu hút những điều tốt đẹp trong cuộc sống?
-            </Typography>
-            <div className={classes.author}>
-              <Typography variant='h6' component='h6' className={classes.authorName}>Lucete</Typography>
-              <Divider className={classes.divide} />
-              <Typography className={classes.authorTime}>2 giờ trước</Typography>
+        <div className='header'>
+          <div className={`container ${classes.container}`}>
+            <div className='entertaiment-img'>
+              <img alt='entertaiment-header' src={HeaderImg} />
+            </div>
+            <div className={classes.entertaimentHeader}>
+              <div className='entertaiment-title '>
+                <Typography
+                  variant='h3'
+                  component='h3'
+                  className={`${classes.entertaimentTitle} ${classes.headerTitle}`}
+                >
+                  Tiêu đề bài nổi bật
+                </Typography>
+                <Typography className={`${classes.entertaimentTitle} ${classes.headerSubTitle}`}>
+                  Dép xỏ ngón là món đồ rất thông dụng. Nhưng nó hoàn toàn có thể trở thành một phụ kiện thời trang
+                  &quot;hợp mốt&quot; nếu bạn biết cách lựa chọn trang phục. Bạn có biết, gia tăng năng lượng tích cực
+                  và thu hút những điều tốt đẹp trong cuộc sống?
+                </Typography>
+                <div className={classes.author}>
+                  <Typography variant='h6' component='h6' className={classes.authorName}>
+                    Lucete
+                  </Typography>
+                  <Divider className={classes.divide} />
+                  <Typography className={classes.authorTime}>2 giờ trước</Typography>
+                </div>
+              </div>
             </div>
           </div>
         </div>
