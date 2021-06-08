@@ -8,7 +8,7 @@ import { RootState } from 'src/store/store';
 import banner from 'src/assets/images/magazine/banner.png';
 import TabPanel from './component/TabPanel';
 import useStyles from './useStyles';
-import Entertainment from '../Entertainment';
+import MagazineContent from '../MagazineContent';
 
 import './_magazineHeader.scss';
 
@@ -20,19 +20,19 @@ const a11yProps = (index: any) => ({
 const arrMenu = [
   {
     label: 'Thời trang',
-    content: 'Item One',
+    content: <MagazineContent title='Thời trang' />,
   },
   {
     label: 'Giải trí',
-    content: <Entertainment />,
+    content: <MagazineContent title='Giải trí' />,
   },
   {
     label: 'Nghệ thuật',
-    content: 'Item Three',
+    content: <MagazineContent title='Nghệ thuật' />,
   },
   {
     label: 'Phong cách sống',
-    content: 'Item Four',
+    content: <MagazineContent title='Phong cách sống' />,
   },
 ];
 
