@@ -39,7 +39,7 @@ const initialState: InitialState = {
 };
 
 const photoSlice = createSlice({
-  name: 'COUNTER_REDUCER',
+  name: 'PHOTO_REDUCER',
   initialState,
   reducers: {
     getListPhoto: (state, { payload }) => {
