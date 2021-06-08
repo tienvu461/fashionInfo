@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable react/require-default-props */
 import React, { ReactNode } from 'react';
-import { Typography, Box } from '@material-ui/core';
+import { useMediaQuery, Box } from '@material-ui/core';
 
 interface TabPanelProps {
   children?: ReactNode;
@@ -12,6 +12,7 @@ interface TabPanelProps {
 
 function TabPanel(props: TabPanelProps): JSX.Element {
   const { children, value, index, ...other } = props;
+  const matches = useMediaQuery('(max-width:1280px)');
 
   return (
     <div
@@ -22,7 +23,7 @@ function TabPanel(props: TabPanelProps): JSX.Element {
       {...other}
     >
       {value === index && (
-        <Box paddingTop={15.625}>
+        <Box paddingTop={matches ? 7.5 : 15.625}>
           {children}
         </Box>
       )}
