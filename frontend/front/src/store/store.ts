@@ -5,6 +5,7 @@ import { combineReducers } from 'redux';
 import loginReducer from '../features/Login/LoginSlice';
 import photoReducer from '../features/Photo/photoSlice';
 import profileReducer from '../features/Profile/ProfileSlice';
+import magazineReducer from '../features/Magazine/MagazineSlice';
 import { clearStoreFromlocalStorage } from '../utils/localStorage';
 import searchTagReducer from '../features/Search/searchSlide';
 
@@ -12,6 +13,7 @@ const appReducer = combineReducers({
   login: loginReducer,
   profile: profileReducer,
   photo: photoReducer,
+  magazine: magazineReducer,
   searchTag: searchTagReducer,
 });
 

@@ -2,7 +2,7 @@
 import { makeStyles } from '@material-ui/core/styles';
 import { black, theme } from 'src/styles/theme';
 
-const useStyles: () => Record<'titleHeadLine' | 'tab' | 'menuTab' | 'content', string> = makeStyles(() => ({
+const useStyles: () => Record<'titleHeadLine' | 'menuTab' | 'content', string> = makeStyles(() => ({
   titleHeadLine: {
     fontStyle: 'normal',
     fontWeight: 900,
@@ -11,13 +11,6 @@ const useStyles: () => Record<'titleHeadLine' | 'tab' | 'menuTab' | 'content', s
     letterSpacing: '3.2px',
 
     color: black,
-  },
-  tab: {
-    [theme.breakpoints.up('xs')]: {
-      '& .MuiTabs-flexContainer': {
-        flexWrap: 'wrap'
-      }
-    },
   },
   menuTab: {
     textAlign: 'left',
