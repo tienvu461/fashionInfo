@@ -163,6 +163,7 @@ class NewsCategory(models.Model):
     description = models.CharField(max_length=255)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    order = models.IntegerField(unique=True, null=False)
 
     def __str__(self):
         return self.cat_name
@@ -254,7 +255,7 @@ class NewsComment(models.Model):
 def get_default_news():
     return News.objects.get_or_create(id=1)
 class NewsFeature(models.Model):
-    feature_photo = ForeignKey(
+    feature_news = ForeignKey(
         News, related_name='feature', on_delete=models.CASCADE, default=get_default_news)
     in_use = models.BooleanField(choices=modelConst.BINARY, default=True)
     created_at = models.DateTimeField(auto_now_add=True)

@@ -9,8 +9,8 @@ import logging
 
 from .models import Photo, PhotoLike, PhotoFeature, PhotoComment, GenericConfig
 from .serializers import PhotoSerializer, PhotoDetailSerializer, PhotoFeatureSerializer, PhotoSuggestSerializer, PhotoCommentSerializer, PhotoLikeSerializer
-from .models import News, NewsLike, NewsFeature, NewsComment
-from .serializers import NewsSerializer, NewsDetailSerializer, NewsFeatureSerializer, NewsSuggestSerializer, NewsCommentSerializer, NewsLikeSerializer
+from .models import News, NewsLike, NewsFeature, NewsComment, NewsCategory
+from .serializers import NewsSerializer, NewsDetailSerializer, NewsFeatureSerializer, NewsSuggestSerializer, NewsCommentSerializer, NewsLikeSerializer, NewsCategorySerializer
 from .consts import photosConst
 from .utils import calc_interactive_pt
 
@@ -432,8 +432,8 @@ class NewsLikeCreate(generics.CreateAPIView):
 
         news = News.objects.get(id=self.request.data['news_id'])
         try:
-            news_like = News.objects.get(user_id=self.request.data['user_id'],
-                                         news_id=self.request.data['news_id'])
+            news_like = NewsLike.objects.get(user_id=self.request.data['user_id'],
+                                             news_id=self.request.data['news_id'])
         except Exception as e:
             logger.info("Like has not been created")
             logger.info(e)
@@ -600,3 +600,8 @@ class NewsCommentCreate(generics.CreateAPIView):
         headers = self.get_success_headers(serializer.data)
 
         return Response(serializer.data, status=status.HTTP_200_OK, headers=headers)
+
+
+class NewsCategoryList(generics.ListCreateAPIView):
+    queryset = NewsCategory.objects.all()
+    serializer_class = NewsCategorySerializer
