@@ -53,22 +53,20 @@ function MagazineHeader(): JSX.Element {
           <Typography className={classes.titleHeadLine} variant='h2' component='h2'>
             Khu vực Headline
           </Typography>
-          <div>
-            <Tabs
-              TabIndicatorProps={{
+          <Tabs
+            TabIndicatorProps={{
                 style: {
                   display: 'none',
                 },
               }}
-              value={value}
-              onChange={handleChangeTab}
-              aria-label='simple tabs menu'
-            >
-              {arrMenu.map((menu, index) => (
-                <Tab key={`${index + 1}`} label={menu.label} {...a11yProps(1)} className={classes.menuTab} />
+            value={value}
+            onChange={handleChangeTab}
+            aria-label='simple tabs menu'
+          >
+            {arrMenu.map((menu, index) => (
+              <Tab key={`${index + 1}`} label={menu.label} {...a11yProps(1)} className={classes.menuTab} />
               ))}
-            </Tabs>
-          </div>
+          </Tabs>
         </div>
         {arrMenu.map((menu, index) => (
           <div className={classes.content} key={`${index + 1}`}>
@@ -76,7 +74,7 @@ function MagazineHeader(): JSX.Element {
               {menu.content}
             </TabPanel>
           </div>
-            ))}
+        ))}
       </div>
     );
 }
