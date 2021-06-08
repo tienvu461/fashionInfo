@@ -26,7 +26,7 @@ const useStyles: () => Record<
     alignItems: 'center',
     paddingTop: '45px',
     [theme.breakpoints.down('md')]: {
-      paddingTop: '27px',
+      paddingTop: '30px',
     },
   },
   entertaimentTitle: {
@@ -42,11 +42,10 @@ const useStyles: () => Record<
     },
     [theme.breakpoints.up('md')]: {
       fontSize: '35px',
-      letterSpacing: '2.2px',
+      letterSpacing: '3.2px',
     },
     [theme.breakpoints.up('lg')]: {
       lineHeight: '115px',
-      letterSpacing: '3.2px',
       fontSize: '40px',
     },
 
