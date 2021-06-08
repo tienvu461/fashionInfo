@@ -66,6 +66,7 @@
         success: function (data) {
           localStorage.setItem("@token", data.access);
           localStorage.setItem("@refreshToken", data.refresh);
+          location.reload(); 
           location.href = "{{host}}";
         },
         complete: function () {

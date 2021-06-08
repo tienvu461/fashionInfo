@@ -1,0 +1,142 @@
+@import '../../../styles/styles.scss';
+
+.entertaiment{
+    // background-color: #fff;
+    display: flex;
+    justify-content: center;
+
+    @media screen and (max-width: 600px) {
+        width: 100%;
+
+        .container {
+            height: auto;
+            width: 100%;
+            flex-direction: column;
+            
+            .entertaiment-img{
+                width: 100%;
+                height: auto;
+                img {
+                    width: 100%;
+                    height: 100%;
+                }
+            }
+
+            .entertaiment-title{
+                width: auto;
+                height: auto;
+                align-self: flex-end;
+                padding: 0 20px 22px 20px;
+            }
+        }
+    }
+
+    
+    // screen >= 960
+    @media screen and (min-width: 600px) {
+        .container {
+            height: auto;
+            width: 760px;
+            flex-direction: column;
+            
+            .entertaiment-img{
+                width: 100%;
+                height: auto;
+                img {
+                    width: 100%;
+                    height: 100%;
+                }
+            }
+
+            .entertaiment-title{
+                width: 100%;
+                align-self: flex-end;
+                padding: 0 20px 22px 20px;
+            }
+        }
+    }
+    
+    // screen >= 960
+    @media screen and (min-width: 960px) {
+        .container {
+            height: auto;
+            width: 760px;
+            flex-direction: column;
+            
+            .entertaiment-img{
+                width: 100%;
+                height: auto;
+                img {
+                    width: 100%;
+                    height: 100%;
+                }
+            }
+
+            .entertaiment-title{
+                width: 100%;
+                align-self: flex-end;
+                padding: 0 20px 22px 20px;
+            }
+        }
+    }
+
+    // screen >= 1280
+    @media screen and (min-width: 1280px) {
+        .container {
+            height: auto;
+            width: 1160px;
+            flex-direction: row;
+            
+            .entertaiment-img{
+                width: calc(1160px*(37/76));
+                height: calc(1160px*(15/38));
+                img {
+                    width: calc(1160px*(37/76));
+                    height: calc(1160px*(15/38));
+                }
+            }
+
+            .entertaiment-title{
+                align-self: flex-end;
+                width: calc(1160px*(39/76));
+                // height: calc(1160px*(23/38));
+                padding: 0 0 22px 40px;
+            }
+        }
+
+    }
+
+    // screen >= 1600
+    @media screen and (min-width: 1600px) {
+        .container {
+            height: auto;
+            width: 1520px;
+            
+            .entertaiment-img{
+                width: 740px;
+                height: 600px;
+                img {
+                    width: 740px;
+                    height: 600px;
+                }
+            }
+
+            .entertaiment-title{
+                width: 780px;
+                height: auto;
+                align-self: flex-end;
+                padding: 0 200px 22px 40px;
+            }
+        }
+    }
+
+    @media screen and (min-width: 1900px) {
+    }
+    @media screen and (max-width: 1900px) {
+        
+    }
+    
+    .container {
+        display: flex;
+    }
+}

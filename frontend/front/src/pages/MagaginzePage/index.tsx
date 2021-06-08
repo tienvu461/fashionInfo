@@ -1,5 +1,12 @@
 import React from 'react';
+import MagazineHeader from './MagazineHeader';
 
-const MagazinePage = (): JSX.Element => <div>Magazine Page</div>;
+function MagazinePage(): JSX.Element {
+    return (
+      <div>
+        <MagazineHeader />
+      </div>
+    );
+}
 
 export default MagazinePage;
