@@ -1,5 +1,5 @@
 /* eslint-disable import/no-unresolved */
-import { white, gray2 } from 'src/styles/theme';
+import { white, gray2, theme } from 'src/styles/theme';
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles: () => Record<
@@ -19,8 +19,7 @@ const useStyles: () => Record<
   },
   entertaimentHeader: {
     backgroundColor: white,
-    height: '600px',
-    display: 'flex'
+    display: 'flex',
   },
   author: {
     display: 'flex',
@@ -34,8 +33,20 @@ const useStyles: () => Record<
     fontFamily: 'Darker Grotesque',
     fontStyle: 'normal',
     fontWeight: 900,
-    lineHeight: '115px',
-    letterSpacing: '3.2px',
+
+    [theme.breakpoints.down('md')]: {
+      fontSize: '35px',
+    },
+    [theme.breakpoints.up('md')]: {
+      fontSize: '35px',
+      lineHeight: '115px',
+      letterSpacing: '3.2px',
+    },
+    [theme.breakpoints.up('lg')]: {
+      lineHeight: '115px',
+      letterSpacing: '3.2px',
+      fontSize: '40px',
+    },
 
     color: '#000000',
   },
@@ -43,10 +54,20 @@ const useStyles: () => Record<
     fontFamily: 'Roboto',
     fontStyle: 'normal',
     fontWeight: 'normal',
-    fontSize: '22px',
+
     lineHeight: '23px',
     letterSpacing: '0.7px',
     paddingTop: '17px',
+
+    [theme.breakpoints.down('md')]: {
+      fontSize: '16px',
+    },
+    [theme.breakpoints.up('md')]: {
+      fontSize: '18px',
+    },
+    [theme.breakpoints.up('lg')]: {
+      fontSize: '22px',
+    },
 
     color: '#000000',
   },

@@ -70,7 +70,7 @@ export const theme = createMuiTheme({
     },
     h3: {
       fontSize: '64px',
-      '@media (max-width:1080px)': { fontSize: '53.33px' },
+      '@media (max-width:1600px)': { fontSize: '50px' },
       '@media (max-width:960px)': { fontSize: '1.49333333333rem' },
       '@media (max-width:720px)': { fontSize: '1.28rem' },
     },
