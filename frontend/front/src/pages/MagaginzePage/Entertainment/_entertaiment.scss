@@ -15,57 +15,36 @@
     
     // screen >= 960
     @media screen and (min-width: 960px) {
-       
+        .container {
+            height: auto;
+            justify-content: center;
+            
+            .entertaiment-img{
+                width: 740px;
+                height: 600px;
+                img {
+                    width: 740px;
+                    height: 600px;
+                }
+            }
+
+            .entertaiment-title{
+                width: 780px;
+                align-self: flex-end;
+                padding: 0 200px 22px 40px;
+            }
+        }
     }
 
     // screen >= 1280
     @media screen and (min-width: 1280px) {
-        width: 100%;
-        .container{
-            .entertaiment-img{
-                width: 740px;
-           
-            }
-        }
     }
 
     // screen >= 1600
     @media screen and (min-width: 1600px) {
-        width: 100%;
-
-        .header{
-            display: flex;
-            justify-content: flex-end;
-            width: 100%;
-
-            .container {
-                width: 1652.5px;
-                height: auto;
-                
-                .entertaiment-img{
-                    width: 740px;
-                    height: 600px;
-                    img {
-                        width: 740px;
-                        height: 600px;
-                    }
-                }
-    
-                .entertaiment-title{
-                    width: 100%;
-                    align-self: flex-end;
-                    padding: 0 200px 22px 40px;
-                }
-            }
-        }
     }
 
     @media screen and (min-width: 1900px) {
-        .header{
-            .container {
-                width: 1720px;
-            }
-        }
     }
     @media screen and (max-width: 1900px) {
         
