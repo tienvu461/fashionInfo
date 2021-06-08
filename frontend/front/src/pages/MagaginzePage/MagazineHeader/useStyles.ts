@@ -1,8 +1,8 @@
 /* eslint-disable import/no-unresolved */
 import { makeStyles } from '@material-ui/core/styles';
-import { black } from 'src/styles/theme';
+import { black, theme } from 'src/styles/theme';
 
-const useStyles: () => Record<'titleHeadLine' | 'menuTab' | 'content', string> = makeStyles(() => ({
+const useStyles: () => Record<'titleHeadLine' | 'tab' | 'menuTab' | 'content', string> = makeStyles(() => ({
   titleHeadLine: {
     fontStyle: 'normal',
     fontWeight: 900,
@@ -11,6 +11,13 @@ const useStyles: () => Record<'titleHeadLine' | 'menuTab' | 'content', string> =
     letterSpacing: '3.2px',
 
     color: black,
+  },
+  tab: {
+    [theme.breakpoints.up('xs')]: {
+      '& .MuiTabs-flexContainer': {
+        flexWrap: 'wrap'
+      }
+    },
   },
   menuTab: {
     textAlign: 'left',
@@ -34,7 +41,7 @@ const useStyles: () => Record<'titleHeadLine' | 'menuTab' | 'content', string> =
   content: {
     backgroundColor: '#E5E5E5',
     height: 'fit-content',
-    width: '100%'
+    width: '100%',
   },
 }));
 

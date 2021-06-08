@@ -62,6 +62,7 @@ function MagazineHeader(): JSX.Element {
             value={value}
             onChange={handleChangeTab}
             aria-label='simple tabs menu'
+            className={classes.tab}
           >
             {arrMenu.map((menu, index) => (
               <Tab key={`${index + 1}`} label={menu.label} {...a11yProps(1)} className={classes.menuTab} />
