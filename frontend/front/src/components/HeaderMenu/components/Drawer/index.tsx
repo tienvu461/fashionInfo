@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable import/no-unresolved */
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -22,7 +23,7 @@ interface NavLinksType {
 function SideDrawer({ navLinks }: NavLinksType): JSX.Element {
   const classes = useStyles();
   const history = useHistory();
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<any>();
   const [anchorState, setAnchorState] = useState<AnchorState>({ right: false });
   const [openListItem, setOpenListItem] = useState<boolean>(false);
   const categories = useSelector((state: RootState) => state.magazine.categories);
@@ -46,37 +47,60 @@ function SideDrawer({ navLinks }: NavLinksType): JSX.Element {
       }))
     : [];
 
-  const handleClickSubMenu = (menu: {menu: string; id: number}) => {
+  const handleClickSubMenu = (menu: {menu: string; id: number}, path: string) => {
     dispatch(magazineMenu(menu));
+    history.push(path);
+    setAnchorState({
+      right: false,
+    });
+  };
+
+  const handleClickListItem = (
+    event: React.MouseEvent<HTMLDivElement, MouseEvent>,
+    index: number,
+    anchor: string,
+    params: {
+      title: string;
+      path: string;
+    }
+    ) => {
+    if (params.title === 'Magazine') {
+      setOpenListItem(!openListItem);
+      // history.push(params.path);
+      setAnchorState({
+        right: true,
+      });
+    } else {
+      history.push(params.path);
+      setAnchorState({
+        right: false,
+      });
+    }
   };
 
   const sideDrawerList = (anchor: string) => (
     <div className={classes.list} role='presentation'>
       <List component='nav'>
-        {navLinks.map(({ title, path }) => (
+        {navLinks.map(({ title, path }, index) => (
           <>
             <ListItem
               button
               key={title}
-              onClick={() => {
-                history.push(path);
-                toggleDrawer(anchor, false);
-                if (title === 'Magazine') {
-                  setOpenListItem(!openListItem);
-                }
-              }}
+              onClick={(e) => handleClickListItem(e, index, anchor, { title, path })}
               onKeyDown={toggleDrawer(anchor, false)}
             >
               <ListItemText primary={title} />
               {title === 'Magazine' ? (
-                <ListItemIcon className={classes.listItemIcon}>{openListItem ? <ExpandLess /> : <ExpandMore />}</ListItemIcon>
+                <ListItemIcon className={classes.listItemIcon}>
+                  {openListItem ? <ExpandLess /> : <ExpandMore />}
+                </ListItemIcon>
               ) : null}
             </ListItem>
             {title === 'Magazine' ? (
               <Collapse in={openListItem} timeout='auto' unmountOnExit>
                 <List className={classes.subList} component='div' disablePadding>
                   {menuTabMagazine.map((item) => (
-                    <ListItem onClick={() => handleClickSubMenu(item)} button key={item.id}>
+                    <ListItem onClick={() => handleClickSubMenu(item, path)} button key={item.id}>
                       <ListItemText primary={item.menu} />
                     </ListItem>
                   ))}
