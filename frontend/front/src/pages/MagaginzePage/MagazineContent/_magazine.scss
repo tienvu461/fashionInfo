@@ -31,7 +31,7 @@
             }
         }
 
-        .magazine-list {
+        .magazine-topic {
             height: auto;
             width: 100%;
         }
@@ -62,7 +62,7 @@
             }
         }
 
-        .magazine-list {
+        .magazine-topic {
             height: auto;
             width: 760px;
         }
@@ -91,7 +91,7 @@
             }
         }
 
-        .magazine-list {
+        .magazine-topic {
             height: auto;
             width: 760px;
         }
@@ -121,7 +121,7 @@
             }
         }
 
-        .magazine-list {
+        .magazine-topic {
             height: auto;
             width: 1160px;
         }
@@ -150,9 +150,20 @@
             }
         }
 
-        .magazine-list {
+        .magazine-topic {
             height: auto;
             width: 1520px;
+            
+            .magazine-list{
+                width: 100%;
+                flex-wrap: wrap;
+                gap: 40px;
+
+                .magazine-grid-list {
+                    width: 480px;
+                }
+            }
+
         }
     }
 
@@ -162,9 +173,7 @@
         
     }
     
-    .magazine-container {
+    .magazine-container, .magazine-list {
         display: flex;
     }
-
-    .magazine-list {}
 }

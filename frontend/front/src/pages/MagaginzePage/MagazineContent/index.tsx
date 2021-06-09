@@ -1,7 +1,8 @@
 /* eslint-disable import/no-unresolved */
-import React from 'react';
-import { Divider, Grid, Typography } from '@material-ui/core';
+import React, { useRef } from 'react';
+import { Divider, RootRef, Typography } from '@material-ui/core';
 import HeaderImg from 'src/assets/images/magazine/entertaimentHeader.png';
+import MagazineCard from 'src/components/MagazineCard';
 
 import useStyles from './useStyles';
 import './_magazine.scss';
@@ -13,6 +14,19 @@ interface MangazineContentProps {
 function MagazineContent(props: MangazineContentProps): JSX.Element {
   const classes = useStyles();
   const { title = '' } = props;
+  const valueRef = useRef<HTMLInputElement>(null);
+
+  const renderMagazineList = () => (
+    <>
+      {[0, 1, 2, 3].map((item) => (
+        <RootRef rootRef={valueRef} key={`${item}`}>
+          <div className='magazine-grid-list'>
+            <MagazineCard />
+          </div>
+        </RootRef>
+        ))}
+    </>
+    );
 
   return (
     <div className='magazine'>
@@ -40,10 +54,10 @@ function MagazineContent(props: MangazineContentProps): JSX.Element {
           </div>
         </div>
       </div>
-      <div className='magazine-list'>
-        <Typography className={classes.topic}>
-          Chủ đề xu hướng
-        </Typography>
+      <div className='magazine-topic'>
+        <Typography className={classes.topic}>Chủ đề xu hướng</Typography>
+
+        <div className='magazine-list'>{renderMagazineList()}</div>
       </div>
     </div>
   );

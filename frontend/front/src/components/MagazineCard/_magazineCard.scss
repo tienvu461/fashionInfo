@@ -1,0 +1,40 @@
+@import '../../styles/styles.scss';
+
+.root-card{
+   width: 100%;
+    @media screen and (max-width: 600px) {
+      width: 100%;
+    }
+
+    
+    // screen >= 960
+    @media screen and (min-width: 600px) {
+
+    }
+    
+    // screen >= 960
+    @media screen and (min-width: 960px) {
+
+    }
+
+    // screen >= 1280
+    @media screen and (min-width: 1280px) {
+
+    }
+
+    // screen >= 1600
+    @media screen and (min-width: 1600px) {
+      .card-magazine {
+         height: 350px;
+      }
+      .card-magazine-content {
+         height: 250px;
+      }
+    }
+
+    @media screen and (min-width: 1900px) {
+    }
+    @media screen and (max-width: 1900px) {
+        
+    }
+}
