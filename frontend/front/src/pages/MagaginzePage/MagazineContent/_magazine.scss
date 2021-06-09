@@ -1,19 +1,20 @@
 @import '../../../styles/styles.scss';
 
-.entertaiment{
+.magazine{
     // background-color: #fff;
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    align-items: center;
 
     @media screen and (max-width: 600px) {
         width: 100%;
 
-        .container {
+        .magazine-container {
             height: auto;
             width: 100%;
             flex-direction: column;
             
-            .entertaiment-img{
+            .magazine-img{
                 width: 100%;
                 height: auto;
                 img {
@@ -22,24 +23,30 @@
                 }
             }
 
-            .entertaiment-title{
+            .magazine-title{
                 width: auto;
                 height: auto;
                 align-self: flex-end;
                 padding: 0 20px 22px 20px;
             }
         }
+
+        .magazine-list {
+            height: auto;
+            width: 100%;
+        }
     }
 
     
     // screen >= 960
     @media screen and (min-width: 600px) {
-        .container {
+
+        .magazine-container {
             height: auto;
             width: 760px;
             flex-direction: column;
             
-            .entertaiment-img{
+            .magazine-img{
                 width: 100%;
                 height: auto;
                 img {
@@ -48,22 +55,27 @@
                 }
             }
 
-            .entertaiment-title{
+            .magazine-title{
                 width: 100%;
                 align-self: flex-end;
                 padding: 0 20px 22px 20px;
             }
+        }
+
+        .magazine-list {
+            height: auto;
+            width: 760px;
         }
     }
     
     // screen >= 960
     @media screen and (min-width: 960px) {
-        .container {
+        .magazine-container {
             height: auto;
             width: 760px;
             flex-direction: column;
             
-            .entertaiment-img{
+            .magazine-img{
                 width: 100%;
                 height: auto;
                 img {
@@ -72,22 +84,27 @@
                 }
             }
 
-            .entertaiment-title{
+            .magazine-title{
                 width: 100%;
                 align-self: flex-end;
                 padding: 0 20px 22px 20px;
             }
         }
+
+        .magazine-list {
+            height: auto;
+            width: 760px;
+        }
     }
 
     // screen >= 1280
     @media screen and (min-width: 1280px) {
-        .container {
+        .magazine-container {
             height: auto;
             width: 1160px;
             flex-direction: row;
             
-            .entertaiment-img{
+            .magazine-img{
                 width: calc(1160px*(37/76));
                 height: calc(1160px*(15/38));
                 img {
@@ -96,7 +113,7 @@
                 }
             }
 
-            .entertaiment-title{
+            .magazine-title{
                 align-self: flex-end;
                 width: calc(1160px*(39/76));
                 // height: calc(1160px*(23/38));
@@ -104,15 +121,19 @@
             }
         }
 
+        .magazine-list {
+            height: auto;
+            width: 1160px;
+        }
     }
 
     // screen >= 1600
     @media screen and (min-width: 1600px) {
-        .container {
+        .magazine-container {
             height: auto;
             width: 1520px;
             
-            .entertaiment-img{
+            .magazine-img{
                 width: 740px;
                 height: 600px;
                 img {
@@ -121,12 +142,17 @@
                 }
             }
 
-            .entertaiment-title{
+            .magazine-title{
                 width: 780px;
                 height: auto;
                 align-self: flex-end;
                 padding: 0 200px 22px 40px;
             }
+        }
+
+        .magazine-list {
+            height: auto;
+            width: 1520px;
         }
     }
 
@@ -136,7 +162,9 @@
         
     }
     
-    .container {
+    .magazine-container {
         display: flex;
     }
+
+    .magazine-list {}
 }

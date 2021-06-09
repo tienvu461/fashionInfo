@@ -4,7 +4,7 @@ import { Divider, Grid, Typography } from '@material-ui/core';
 import HeaderImg from 'src/assets/images/magazine/entertaimentHeader.png';
 
 import useStyles from './useStyles';
-import './_entertaiment.scss';
+import './_magazine.scss';
 
 interface MangazineContentProps {
   title: string;
@@ -15,17 +15,17 @@ function MagazineContent(props: MangazineContentProps): JSX.Element {
   const { title = '' } = props;
 
   return (
-    <div className='entertaiment'>
-      <div className={`container ${classes.container}`}>
-        <div className='entertaiment-img'>
-          <img alt='entertaiment-header' src={HeaderImg} />
+    <div className='magazine'>
+      <div className={`magazine-container ${classes.container}`}>
+        <div className='magazine-img'>
+          <img alt='magazine-header' src={HeaderImg} />
         </div>
-        <div className={classes.entertaimentHeader}>
-          <div className='entertaiment-title '>
-            <Typography variant='h3' component='h3' className={`${classes.entertaimentTitle} ${classes.headerTitle}`}>
+        <div className={classes.magazineHeader}>
+          <div className='magazine-title '>
+            <Typography variant='h3' component='h3' className={`${classes.magazineTitle} ${classes.headerTitle}`}>
               {title}
             </Typography>
-            <Typography className={`${classes.entertaimentTitle} ${classes.headerSubTitle}`}>
+            <Typography className={`${classes.magazineTitle} ${classes.headerSubTitle}`}>
               Dép xỏ ngón là món đồ rất thông dụng. Nhưng nó hoàn toàn có thể trở thành một phụ kiện thời trang
               &quot;hợp mốt&quot; nếu bạn biết cách lựa chọn trang phục. Bạn có biết, gia tăng năng lượng tích cực và
               thu hút những điều tốt đẹp trong cuộc sống?
@@ -39,6 +39,11 @@ function MagazineContent(props: MangazineContentProps): JSX.Element {
             </div>
           </div>
         </div>
+      </div>
+      <div className='magazine-list'>
+        <Typography className={classes.topic}>
+          Chủ đề xu hướng
+        </Typography>
       </div>
     </div>
   );
