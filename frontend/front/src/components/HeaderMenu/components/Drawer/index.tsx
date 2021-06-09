@@ -56,9 +56,6 @@ function SideDrawer({ navLinks }: NavLinksType): JSX.Element {
   };
 
   const handleClickListItem = (
-    event: React.MouseEvent<HTMLDivElement, MouseEvent>,
-    index: number,
-    anchor: string,
     params: {
       title: string;
       path: string;
@@ -66,12 +63,12 @@ function SideDrawer({ navLinks }: NavLinksType): JSX.Element {
     ) => {
     if (params.title === 'Magazine') {
       setOpenListItem(!openListItem);
-      // history.push(params.path);
       setAnchorState({
         right: true,
       });
     } else {
       history.push(params.path);
+      setOpenListItem(false);
       setAnchorState({
         right: false,
       });
@@ -81,12 +78,12 @@ function SideDrawer({ navLinks }: NavLinksType): JSX.Element {
   const sideDrawerList = (anchor: string) => (
     <div className={classes.list} role='presentation'>
       <List component='nav'>
-        {navLinks.map(({ title, path }, index) => (
+        {navLinks.map(({ title, path }) => (
           <>
             <ListItem
               button
               key={title}
-              onClick={(e) => handleClickListItem(e, index, anchor, { title, path })}
+              onClick={() => handleClickListItem({ title, path })}
               onKeyDown={toggleDrawer(anchor, false)}
             >
               <ListItemText primary={title} />
