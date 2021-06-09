@@ -1,10 +1,12 @@
 /* eslint-disable import/no-unresolved */
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Drawer, List, ListItem, ListItemText, Collapse } from '@material-ui/core';
 import { useHistory } from 'react-router-dom';
+import { isEmpty } from 'lodash';
 import { Menu } from '@material-ui/icons';
 import { magazineMenu } from 'src/features/Magazine/MagazineSlice';
+import { RootState } from 'src/store/store';
 import useStyles from './useStyles';
 
 interface AnchorState {
@@ -21,8 +23,9 @@ function SideDrawer({ navLinks }: NavLinksType): JSX.Element {
   const classes = useStyles();
   const history = useHistory();
   const dispatch = useDispatch();
-  const [state, setState] = useState<AnchorState>({ right: false });
+  const [anchorState, setAnchorState] = useState<AnchorState>({ right: false });
   const [openListItem, setOpenListItem] = useState<boolean>(false);
+  const categories = useSelector((state: RootState) => state.magazine.categories);
 
   const toggleDrawer = (anchor: string, open: boolean) => (event) => {
     if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
@@ -30,30 +33,18 @@ function SideDrawer({ navLinks }: NavLinksType): JSX.Element {
     }
 
     if (anchor === 'right') {
-      setState({
+      setAnchorState({
         right: open,
       });
     }
   };
 
-  const menuTabMagazine: Array<{menu: string; id: number}> = [
-    {
-      menu: 'Thời trang',
-      id: 0
-    },
-    {
-      menu: 'Giải trí',
-      id: 1
-    },
-    {
-      menu: 'Nghệ thuật',
-      id: 2
-    },
-    {
-      menu: 'Phong cách sống',
-      id: 3
-    },
-  ];
+  const menuTabMagazine = !isEmpty(categories.results)
+    ? categories.results.map((cat, index) => ({
+        menu: cat.cat_name,
+        id: index,
+      }))
+    : [];
 
   const handleClickSubMenu = (menu: {menu: string; id: number}) => {
     dispatch(magazineMenu(menu));
@@ -102,7 +93,7 @@ function SideDrawer({ navLinks }: NavLinksType): JSX.Element {
     <>
       <Menu className={classes.menuBtn} fontSize='large' onClick={toggleDrawer('right', true)} />
 
-      <Drawer className={classes.drawer} anchor='right' onClose={toggleDrawer('right', false)} open={state.right}>
+      <Drawer className={classes.drawer} anchor='right' onClose={toggleDrawer('right', false)} open={anchorState.right}>
         {sideDrawerList('right')}
       </Drawer>
     </>

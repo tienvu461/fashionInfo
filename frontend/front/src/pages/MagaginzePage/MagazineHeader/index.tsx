@@ -24,19 +24,18 @@ function MagazineHeader(): JSX.Element {
     const matches = useMediaQuery('(max-width:1080px)');
     const matchToRenderTab = useMediaQuery('(max-width:1280px)');
 
-    // const magazineMenu = useSelector((state: RootState) => state.magazine.magazineMenu);
+    const magazineMenu = useSelector((state: RootState) => state.magazine.magazineMenu);
     const categories = useSelector((state: RootState) => state.magazine.categories);
 
     const handleChangeTab = (event: React.ChangeEvent<any>, newValue: number) => {
       setValue(newValue);
     };
 
-    // useEffect(() => {
-    //   if (magazineMenu) {
-    //     console.log('ok')
-    //     setValue(magazineMenu.id);
-    //   }
-    // }, [magazineMenu]);
+    useEffect(() => {
+      if (magazineMenu) {
+        setValue(magazineMenu.id);
+      }
+    }, [magazineMenu]);
 
     const arrMenu = !isEmpty(categories.results) ? categories.results.map((cat) => ({
       label: cat.cat_name,
