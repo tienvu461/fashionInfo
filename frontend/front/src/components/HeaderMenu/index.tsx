@@ -157,7 +157,7 @@ function HeaderMenu(props: AuxProps): JSX.Element {
                   <Search />
                   {handleIconLogIn()}
                 </Grid>
-                <SideDrawer navLinks={navLinks} />
+                <SideDrawer setActive={setActive} navLinks={navLinks} />
               </Hidden>
             </div>
           </AppBar>

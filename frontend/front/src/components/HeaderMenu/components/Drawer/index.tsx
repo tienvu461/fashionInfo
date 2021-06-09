@@ -18,9 +18,10 @@ interface NavLinksType {
     title: string;
     path: string;
   }>;
+  setActive: any;
 }
 
-function SideDrawer({ navLinks }: NavLinksType): JSX.Element {
+function SideDrawer({ navLinks, setActive }: NavLinksType): JSX.Element {
   const classes = useStyles();
   const history = useHistory();
   const dispatch = useDispatch<any>();
@@ -50,6 +51,7 @@ function SideDrawer({ navLinks }: NavLinksType): JSX.Element {
   const handleClickSubMenu = (menu: {menu: string; id: number}, path: string) => {
     dispatch(magazineMenu(menu));
     history.push(path);
+    setActive('/');
     setAnchorState({
       right: false,
     });
@@ -68,6 +70,7 @@ function SideDrawer({ navLinks }: NavLinksType): JSX.Element {
       });
     } else {
       history.push(params.path);
+      setActive(params.path);
       setOpenListItem(false);
       setAnchorState({
         right: false,
