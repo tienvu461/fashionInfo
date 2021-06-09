@@ -20,7 +20,7 @@ const a11yProps = (index: any) => ({
 
 function MagazineHeader(): JSX.Element {
     const classes = useStyles();
-    const [value, setValue] = useState<number>(4);
+    const [value, setValue] = useState<number>(0);
     const matches = useMediaQuery('(max-width:1080px)');
     const matchToRenderTab = useMediaQuery('(max-width:1280px)');
 
