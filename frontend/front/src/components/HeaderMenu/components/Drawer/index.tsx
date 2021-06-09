@@ -1,10 +1,10 @@
 /* eslint-disable import/no-unresolved */
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Drawer, List, ListItem, ListItemText, Collapse } from '@material-ui/core';
+import { Drawer, List, ListItem, ListItemText, Collapse, ListItemIcon } from '@material-ui/core';
 import { useHistory } from 'react-router-dom';
 import { isEmpty } from 'lodash';
-import { Menu } from '@material-ui/icons';
+import { ExpandLess, ExpandMore, Menu } from '@material-ui/icons';
 import { magazineMenu } from 'src/features/Magazine/MagazineSlice';
 import { RootState } from 'src/store/store';
 import useStyles from './useStyles';
@@ -51,10 +51,7 @@ function SideDrawer({ navLinks }: NavLinksType): JSX.Element {
   };
 
   const sideDrawerList = (anchor: string) => (
-    <div
-      className={classes.list}
-      role='presentation'
-    >
+    <div className={classes.list} role='presentation'>
       <List component='nav'>
         {navLinks.map(({ title, path }) => (
           <>
@@ -71,6 +68,9 @@ function SideDrawer({ navLinks }: NavLinksType): JSX.Element {
               onKeyDown={toggleDrawer(anchor, false)}
             >
               <ListItemText primary={title} />
+              {title === 'Magazine' ? (
+                <ListItemIcon className={classes.listItemIcon}>{openListItem ? <ExpandLess /> : <ExpandMore />}</ListItemIcon>
+              ) : null}
             </ListItem>
             {title === 'Magazine' ? (
               <Collapse in={openListItem} timeout='auto' unmountOnExit>
