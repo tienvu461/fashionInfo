@@ -9,8 +9,8 @@ import logging
 
 from .models import Photo, PhotoLike, PhotoFeature, PhotoComment, GenericConfig
 from .serializers import PhotoSerializer, PhotoDetailSerializer, PhotoFeatureSerializer, PhotoSuggestSerializer, PhotoCommentSerializer, PhotoLikeSerializer
-from .models import News, NewsLike, NewsFeature, NewsComment, NewsCategory
-from .serializers import NewsSerializer, NewsDetailSerializer, NewsFeatureSerializer, NewsSuggestSerializer, NewsCommentSerializer, NewsLikeSerializer, NewsCategorySerializer
+from .models import News, NewsLike, NewsFeature, NewsComment, NewsCategory, NewsSubCategory
+from .serializers import NewsSerializer, NewsDetailSerializer, NewsFeatureSerializer, NewsSuggestSerializer, NewsCommentSerializer, NewsLikeSerializer, NewsCategorySerializer, NewsSubCategorySerializer
 from .consts import photosConst
 from .utils import calc_interactive_pt
 
@@ -605,3 +605,7 @@ class NewsCommentCreate(generics.CreateAPIView):
 class NewsCategoryList(generics.ListCreateAPIView):
     queryset = NewsCategory.objects.all()
     serializer_class = NewsCategorySerializer
+
+class NewsSubCategoryList(generics.ListCreateAPIView):
+    queryset = NewsSubCategory.objects.all()
+    serializer_class = NewsSubCategorySerializer
