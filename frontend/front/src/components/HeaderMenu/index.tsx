@@ -16,7 +16,6 @@ import {
   CssBaseline,
   IconButton,
   Toolbar,
-  Container,
 } from '@material-ui/core';
 import logo from 'src/assets/images/logoLucete.svg';
 import icon from 'src/assets/images/user.svg';
