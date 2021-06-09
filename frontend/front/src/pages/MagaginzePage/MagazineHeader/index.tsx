@@ -20,21 +20,23 @@ const a11yProps = (index: any) => ({
 
 function MagazineHeader(): JSX.Element {
     const classes = useStyles();
-    const [value, setValue] = useState<number>(0);
+    const [value, setValue] = useState<number>(4);
     const matches = useMediaQuery('(max-width:1080px)');
+    const matchToRenderTab = useMediaQuery('(max-width:1280px)');
 
-    const magazineMenu = useSelector((state: RootState) => state.magazine.magazineMenu);
+    // const magazineMenu = useSelector((state: RootState) => state.magazine.magazineMenu);
     const categories = useSelector((state: RootState) => state.magazine.categories);
 
     const handleChangeTab = (event: React.ChangeEvent<any>, newValue: number) => {
       setValue(newValue);
     };
 
-    useEffect(() => {
-      if (magazineMenu) {
-        setValue(magazineMenu.id);
-      }
-    }, [magazineMenu]);
+    // useEffect(() => {
+    //   if (magazineMenu) {
+    //     console.log('ok')
+    //     setValue(magazineMenu.id);
+    //   }
+    // }, [magazineMenu]);
 
     const arrMenu = !isEmpty(categories.results) ? categories.results.map((cat) => ({
       label: cat.cat_name,
@@ -59,6 +61,8 @@ function MagazineHeader(): JSX.Element {
                   display: 'none',
                 },
               }}
+              variant='scrollable'
+              scrollButtons={matchToRenderTab ? 'on' : 'off'}
               value={value}
               onChange={handleChangeTab}
               aria-label='simple tabs menu'
@@ -69,15 +73,13 @@ function MagazineHeader(): JSX.Element {
             </Tabs>
           </div>
         )}
-        {
-          arrMenu.map((menu, index) => (
-            <div className={classes.content} key={`${index + 1}`}>
-              <TabPanel value={value} index={index}>
-                <MagazineContent title={menu.description} />
-              </TabPanel>
-            </div>
-          ))
-        }
+        {arrMenu.map((menu, index) => (
+          <div className={classes.content} key={`${index + 1}`}>
+            <TabPanel value={value} index={index}>
+              <MagazineContent title={menu.description} />
+            </TabPanel>
+          </div>
+        ))}
       </div>
     );
 }
