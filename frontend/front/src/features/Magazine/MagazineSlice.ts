@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable import/no-unresolved */
 import { createSlice } from '@reduxjs/toolkit';
 
@@ -6,13 +7,15 @@ interface InitialState {
     menu: string;
     id: number;
   };
+  categories: Record<string, any>
 }
 
 const initialState: InitialState = {
   magazineMenu: {
     menu: '',
-    id: 0
-  }
+    id: 0,
+  },
+  categories: {},
 };
 
 const magazineSlice = createSlice({
@@ -22,11 +25,14 @@ const magazineSlice = createSlice({
     magazineMenu: (state, action) => {
       state.magazineMenu = { ...action.payload };
     },
+    categories: (state, action) => {
+      state.categories = action.payload;
+    }
   },
 });
 
 const { actions, reducer } = magazineSlice;
-const { magazineMenu } = actions;
+const { magazineMenu, categories } = actions;
 
-export { magazineMenu };
+export { magazineMenu, categories };
 export default reducer;

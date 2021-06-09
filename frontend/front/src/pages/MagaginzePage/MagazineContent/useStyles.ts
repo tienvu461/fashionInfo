@@ -45,6 +45,10 @@ const useStyles: () => Record<
       letterSpacing: '3.2px',
     },
     [theme.breakpoints.up('lg')]: {
+      lineHeight: '60px',
+      fontSize: '40px',
+    },
+    [theme.breakpoints.up('xl')]: {
       lineHeight: '115px',
       fontSize: '40px',
     },

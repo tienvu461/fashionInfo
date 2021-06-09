@@ -23,7 +23,7 @@ function MagazineContent(props: MangazineContentProps): JSX.Element {
         <div className={classes.entertaimentHeader}>
           <div className='entertaiment-title '>
             <Typography variant='h3' component='h3' className={`${classes.entertaimentTitle} ${classes.headerTitle}`}>
-              {`Tiêu đề bài nổi bật: ${title}`}
+              {title}
             </Typography>
             <Typography className={`${classes.entertaimentTitle} ${classes.headerSubTitle}`}>
               Dép xỏ ngón là món đồ rất thông dụng. Nhưng nó hoàn toàn có thể trở thành một phụ kiện thời trang

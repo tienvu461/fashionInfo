@@ -4,6 +4,7 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Grid, Typography, Tabs, Tab, useMediaQuery } from '@material-ui/core';
+import { isEmpty } from 'lodash';
 import { RootState } from 'src/store/store';
 import banner from 'src/assets/images/magazine/banner.png';
 import TabPanel from './component/TabPanel';
@@ -17,31 +18,13 @@ const a11yProps = (index: any) => ({
   'aria-controls': `simple-tabpanel-${index}`,
 });
 
-const arrMenu = [
-  {
-    label: 'Thời trang',
-    title: 'Thời trang',
-  },
-  {
-    label: 'Giải trí',
-    title: 'Giải trí',
-  },
-  {
-    label: 'Nghệ thuật',
-    title: 'Nghệ thuật',
-  },
-  {
-    label: 'Phong cách sống',
-    title: 'Phong cách sống',
-  },
-];
-
 function MagazineHeader(): JSX.Element {
     const classes = useStyles();
     const [value, setValue] = useState<number>(0);
     const matches = useMediaQuery('(max-width:1080px)');
 
     const magazineMenu = useSelector((state: RootState) => state.magazine.magazineMenu);
+    const categories = useSelector((state: RootState) => state.magazine.categories);
 
     const handleChangeTab = (event: React.ChangeEvent<any>, newValue: number) => {
       setValue(newValue);
@@ -52,6 +35,11 @@ function MagazineHeader(): JSX.Element {
         setValue(magazineMenu.id);
       }
     }, [magazineMenu]);
+
+    const arrMenu = !isEmpty(categories.results) ? categories.results.map((cat) => ({
+      label: cat.cat_name,
+      description: cat.description,
+    })) : [];
 
     return (
       <div className='magazineHeader'>
@@ -81,13 +69,15 @@ function MagazineHeader(): JSX.Element {
             </Tabs>
           </div>
         )}
-        {arrMenu.map((menu, index) => (
-          <div className={classes.content} key={`${index + 1}`}>
-            <TabPanel value={value} index={index}>
-              <MagazineContent title={menu.title} />
-            </TabPanel>
-          </div>
-        ))}
+        {
+          arrMenu.map((menu, index) => (
+            <div className={classes.content} key={`${index + 1}`}>
+              <TabPanel value={value} index={index}>
+                <MagazineContent title={menu.description} />
+              </TabPanel>
+            </div>
+          ))
+        }
       </div>
     );
 }

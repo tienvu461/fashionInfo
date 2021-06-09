@@ -1,7 +1,16 @@
-import React from 'react';
+/* eslint-disable import/no-unresolved */
+import React, { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { getListCategoryAction } from 'src/features/Magazine/MagazineAction';
 import MagazineHeader from './MagazineHeader';
 
 function MagazinePage(): JSX.Element {
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+      dispatch(getListCategoryAction());
+    }, [dispatch]);
+
     return (
       <div>
         <MagazineHeader />
