@@ -1,6 +1,7 @@
 
 import logging
 import json
+import re
 
 from .consts import photosConst
 logger = logging.getLogger('photos')
@@ -32,3 +33,6 @@ def nested_comment(list_comment, list_reply):
     return
 
         
+def striphtml(data):
+    p = re.compile(r'<.*?>')
+    return p.sub('', data)

@@ -206,7 +206,7 @@ class NewsSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = News
-        fields = ['id', 'title', 'author', 'summary',
+        fields = ['id', 'title', 'author', 'summary', 'thumbnail',
                   'status', 'created_at', 'activities', 'tags', 'category', 'sub_category']
 
     def to_representation(self, instance):
