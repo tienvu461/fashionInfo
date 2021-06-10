@@ -9,7 +9,7 @@ function MagazinePage(): JSX.Element {
 
     useEffect(() => {
       dispatch(getListCategoryAction());
-      dispatch(getListMagazineAction());
+      dispatch(getListMagazineAction('Business', 1));
     }, [dispatch]);
 
     return (

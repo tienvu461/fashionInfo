@@ -19,9 +19,9 @@ export const getListCategoryAction = () => async (dispatch: Dispatch): Promise<a
   return 0;
 };
 
-export const getListMagazineAction = () => async (dispatch: Dispatch): Promise<any> => {
+export const getListMagazineAction = (cat: string, num: number) => async (dispatch: Dispatch): Promise<any> => {
   try {
-    const response = await getListMagazine();
+    const response = await getListMagazine(cat, num);
     const { data = {}, status = '' } = response;
     if (status === 200) {
       dispatch(magazineList(data));

@@ -2,11 +2,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable import/no-unresolved */
 import React, { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { Grid, Typography, Tabs, Tab, useMediaQuery } from '@material-ui/core';
 import { isEmpty } from 'lodash';
 import { RootState } from 'src/store/store';
 import banner from 'src/assets/images/magazine/banner.png';
+import { getListMagazineAction } from 'src/features/Magazine/MagazineAction';
 import TabPanel from './component/TabPanel';
 import useStyles from './useStyles';
 import MagazineContent from '../MagazineContent';
@@ -21,15 +22,13 @@ const a11yProps = (index: any) => ({
 function MagazineHeader(): JSX.Element {
     const classes = useStyles();
     const [value, setValue] = useState<number>(0);
+    const [caterogyName, setCategoryName] = useState<string>('Business');
+    const dispatch = useDispatch();
     const matches = useMediaQuery('(max-width:1080px)');
     const matchToRenderTab = useMediaQuery('(max-width:1280px)');
 
     const magazineMenu = useSelector((state: RootState) => state.magazine.magazineMenu);
     const categories = useSelector((state: RootState) => state.magazine.categories);
-
-    const handleChangeTab = (event: React.ChangeEvent<any>, newValue: number) => {
-      setValue(newValue);
-    };
 
     useEffect(() => {
       if (magazineMenu) {
@@ -41,6 +40,15 @@ function MagazineHeader(): JSX.Element {
       label: cat.cat_name,
       description: cat.description,
     })) : [];
+
+    const handleChangeTab = (event: React.ChangeEvent<any>, newValue: number) => {
+      let getCategoryName = arrMenu.map((item, index) => (index === newValue ? item.label : null));
+      getCategoryName = getCategoryName.filter((item) => item !== null);
+
+      setValue(newValue);
+      setCategoryName(getCategoryName[0]);
+      dispatch(getListMagazineAction(getCategoryName[0], 1));
+    };
 
     return (
       <div className='magazineHeader'>
@@ -75,7 +83,7 @@ function MagazineHeader(): JSX.Element {
         {arrMenu.map((menu, index) => (
           <div className={classes.content} key={`${index + 1}`}>
             <TabPanel value={value} index={index}>
-              <MagazineContent category={menu.label} title={menu.description} />
+              <MagazineContent category={caterogyName} title={menu.description} />
             </TabPanel>
           </div>
         ))}
