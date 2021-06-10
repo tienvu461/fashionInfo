@@ -3,7 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 // import { black } from 'src/styles/theme';
 
 const useStyles: () => Record<
-  'root' | 'cardMagazine' | 'headerText' | 'author' | 'time' | 'divider' | 'titleCard' | 'summary',
+  'root' | 'cardMagazine' | 'headerText' | 'subCategory' | 'time' | 'divider' | 'titleCard' | 'summary',
   string
 > = makeStyles(() => ({
   root: {
@@ -22,7 +22,7 @@ const useStyles: () => Record<
 
     color: '#000000',
   },
-  author: {
+  subCategory: {
     fontWeight: 'bold',
     letterSpacing: '0.52px',
     paddingRight: '26px',
@@ -47,8 +47,14 @@ const useStyles: () => Record<
     color: '#000000',
   },
   summary: {
-    textAlign: 'left'
-  }
+    fontFamily: 'Roboto',
+    fontStyle: 'normal',
+    lineHeight: '23px',
+    fontWeight: 'normal',
+    letterSpacing: '0.7px',
+    textAlign: 'left',
+    color: '#000000',
+  },
 }));
 
 export { useStyles as default };
