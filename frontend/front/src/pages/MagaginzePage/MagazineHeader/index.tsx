@@ -75,7 +75,7 @@ function MagazineHeader(): JSX.Element {
         {arrMenu.map((menu, index) => (
           <div className={classes.content} key={`${index + 1}`}>
             <TabPanel value={value} index={index}>
-              <MagazineContent title={menu.description} />
+              <MagazineContent category={menu.label} title={menu.description} />
             </TabPanel>
           </div>
         ))}

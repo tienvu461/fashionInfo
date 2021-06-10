@@ -13,24 +13,33 @@ import './_magazine.scss';
 
 interface MangazineContentProps {
   title: string;
+  category: string;
 }
 
 function MagazineContent(props: MangazineContentProps): JSX.Element {
   const classes = useStyles();
-  const { title = '' } = props;
+  const { title = '', category = '' } = props;
   const valueRef = useRef<HTMLInputElement>(null);
   const magazineList = useSelector((state: RootState) => state.magazine.magazineList);
+
+  const filterListMagazine = (arr: Array<any>) => {
+    let filterArr = arr.map((item) => (item.category === category ? item : null));
+    filterArr = filterArr.filter((item) => item !== null);
+    return filterArr;
+  };
+
+  const listMagazineByCategory = !isEmpty(magazineList?.results) ? filterListMagazine(magazineList?.results) : [];
 
   const renderMagazineList = () => (
     <>
       {
-        !isEmpty(magazineList?.results) ? magazineList?.results.map((item) => (
+        listMagazineByCategory.map((item) => (
           <RootRef rootRef={valueRef} key={`${item}`}>
             <div className='magazine-grid-list'>
               <MagazineCard cardProps={item} />
             </div>
           </RootRef>
-        )) : []
+        ))
       }
     </>
   );
