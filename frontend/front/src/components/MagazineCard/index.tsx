@@ -3,6 +3,8 @@
 import React from 'react';
 import { Card, CardActionArea, CardContent, CardMedia, Divider, Typography } from '@material-ui/core';
 import moment from 'moment';
+import ReactHtmlParser from 'react-html-parser';
+
 import cardImg from 'src/assets/images/magazine/magazineCard.png';
 import useStyles from './useStyles';
 import './_magazineCard.scss';
@@ -35,20 +37,30 @@ function MagazineCard(props: MagazineCardProps): JSX.Element {
             />
             <CardContent className='card-magazine-content'>
               <div className='author-magazine'>
-                <Typography className={`${classes.textTitle} ${classes.author}`} gutterBottom variant='h6' component='h2'>
+                <Typography
+                  className={`${classes.headerText} ${classes.author}`}
+                  gutterBottom
+                  variant='h6'
+                  component='h2'
+                >
                   {`Author ${author}`}
                 </Typography>
                 <Divider className={classes.divider} />
-                <Typography className={`${classes.textTitle} ${classes.time}`} gutterBottom variant='h6' component='h2'>
+                <Typography
+                  className={`${classes.headerText} ${classes.time}`}
+                  gutterBottom
+                  variant='h6'
+                  component='h2'
+                >
                   {formatDate(createAt)}
                 </Typography>
               </div>
-              <Typography variant='body2' color='textSecondary' component='p'>
+              <Typography className={classes.titleCard} variant='h4' color='textSecondary' component='h4'>
                 {title}
               </Typography>
-              <Typography variant='body2' color='textSecondary' component='p'>
-                {summary}
-              </Typography>
+              <div className={classes.summary}>
+                {ReactHtmlParser(summary)}
+              </div>
             </CardContent>
           </CardActionArea>
         </Card>
