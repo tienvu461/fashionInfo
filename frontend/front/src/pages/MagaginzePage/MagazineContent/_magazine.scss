@@ -189,6 +189,7 @@
             .magazine-list{
                 width: 100%;
                 flex-wrap: wrap;
+                justify-content: initial;
                 gap: 40px;
 
                 .magazine-grid-list {

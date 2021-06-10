@@ -7,7 +7,8 @@ interface InitialState {
     menu: string;
     id: number;
   };
-  categories: Record<string, any>
+  categories: Record<string, any>;
+  magazineList: Record<string, any>;
 }
 
 const initialState: InitialState = {
@@ -16,6 +17,7 @@ const initialState: InitialState = {
     id: 0,
   },
   categories: {},
+  magazineList: {}
 };
 
 const magazineSlice = createSlice({
@@ -27,12 +29,15 @@ const magazineSlice = createSlice({
     },
     categories: (state, action) => {
       state.categories = action.payload;
+    },
+    magazineList: (state, action) => {
+      state.magazineList = action.payload;
     }
   },
 });
 
 const { actions, reducer } = magazineSlice;
-const { magazineMenu, categories } = actions;
+const { magazineMenu, categories, magazineList } = actions;
 
-export { magazineMenu, categories };
+export { magazineMenu, categories, magazineList };
 export default reducer;

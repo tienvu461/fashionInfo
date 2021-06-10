@@ -8,6 +8,7 @@
          height: 350px;
       }
       .card-magazine-content {
+         padding: 18px;
          height: 250px;
       }
     }
@@ -19,6 +20,7 @@
          height: 350px;
       }
       .card-magazine-content {
+         padding: 18px;
          height: 250px;
       }
     }
@@ -39,6 +41,7 @@
          height: 262.5px;
       }
       .card-magazine-content {
+         padding: 18px;
          height: 187.5px;
 
       }
@@ -50,7 +53,14 @@
          height: 350px;
       }
       .card-magazine-content {
+         padding: 18px;
          height: 250px;
+
+         .author-magazine {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+         }
       }
     }
 
