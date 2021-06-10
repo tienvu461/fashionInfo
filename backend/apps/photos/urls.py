@@ -21,6 +21,7 @@ photos_urlpatterns = [
     url(r'api/magazine/suggest', views.NewsSuggest.as_view()),
     url(r'api/magazine/feature', views.NewsFeatureDetail.as_view()),
     url(r'api/magazine/category', views.NewsCategoryList.as_view()),
+    url(r'api/magazine/subcategory', views.NewsSubCategoryList.as_view()),
 ]
 
 if settings.DEBUG:
