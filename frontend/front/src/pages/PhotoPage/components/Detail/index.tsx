@@ -1,22 +1,24 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable import/extensions */
 /* eslint-disable import/no-unresolved */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable camelcase */
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+
 import moment from 'moment';
 import { toast } from 'react-toastify';
 import { Grid, Paper, Card, CardActionArea, CardMedia, Typography, Divider, CircularProgress } from '@material-ui/core';
 import FavoriteIcon from '@material-ui/icons/Favorite';
-import HeartIcon from 'src/assets/images/heart.svg';
-import { getDetailAction, likePhotoAction } from 'src/features/Photo/photoAction';
-import ShareIcon from 'src/assets/images/share.svg';
-import { RootState } from 'src/store/store';
 
-import useStyles from './useStyles';
+import { RootState } from 'src/store/store';
+import HeartIcon from 'src/assets/images/heart.svg';
+import ShareIcon from 'src/assets/images/share.svg';
+import { getDetailAction, likePhotoAction } from 'src/features/Photo/photoAction';
+
 import CommentComponent from './components/CommentSection';
 import SuggestionComponent from './components/Suggestion';
+
+import useStyles from './useStyles';
 import './_detail.scss';
 
 interface DetailProps {
