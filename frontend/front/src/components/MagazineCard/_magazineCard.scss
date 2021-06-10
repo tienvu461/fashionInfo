@@ -10,6 +10,12 @@
       .card-magazine-content {
          padding: 18px;
          height: 250px;
+
+         .sub-category-magazine {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+         }
       }
     }
 
@@ -22,6 +28,12 @@
       .card-magazine-content {
          padding: 18px;
          height: 250px;
+
+         .sub-category-magazine {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+         }
       }
     }
     
@@ -44,6 +56,22 @@
          padding: 18px;
          height: 187.5px;
 
+         .sub-category-magazine {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+
+         }
+         .titleCard{
+            font-size: 22px;
+            line-height: 30px;
+         }
+
+         .summary{
+            font-size: 16px;
+            line-height: 18px;
+         }
+
       }
     }
 
@@ -60,6 +88,16 @@
             display: flex;
             align-items: center;
             justify-content: flex-start;
+
+         }
+         .titleCard{
+            font-size: 30px;
+            line-height: 36px;
+         }
+
+         .summary{
+            font-size: 18px;
+            line-height: 23px;
          }
       }
     }
