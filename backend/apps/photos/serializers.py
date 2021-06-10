@@ -203,6 +203,8 @@ class PhotoFeatureSerializer(serializers.ModelSerializer):
 class NewsSerializer(serializers.ModelSerializer):
     activities = serializers.SerializerMethodField()
     tags = TagListSerializerField()
+    sub_category = serializers.SlugRelatedField(read_only=True, slug_field='cat_name')
+    category = serializers.SlugRelatedField(read_only=True, slug_field='cat_name')
 
     class Meta:
         model = News
