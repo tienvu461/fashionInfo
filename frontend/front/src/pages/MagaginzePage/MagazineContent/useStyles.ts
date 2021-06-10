@@ -12,7 +12,10 @@ const useStyles: () => Record<
   | 'authorName'
   | 'authorTime'
   | 'topic'
-  | 'divide',
+  | 'divide'
+  | 'btn'
+  | 'nextBtn'
+  | 'textBtn',
   string
 > = makeStyles(() => ({
   container: {
@@ -114,7 +117,21 @@ const useStyles: () => Record<
     paddingTop: '30px',
 
     color: '#000000',
-  }
+  },
+  btn: {
+    padding: '40px 0 80px',
+  },
+  nextBtn: {
+    height: '60px',
+    width: '220px',
+  },
+  textBtn: {
+    textTransform: 'initial',
+    paddingBottom: '6px',
+    [theme.breakpoints.down('md')]: {
+      fontSize: '30px !important',
+    },
+  },
 }));
 
 export { useStyles as default };

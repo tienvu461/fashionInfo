@@ -1,8 +1,9 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable import/no-unresolved */
-import React, { useRef } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { Divider, RootRef, Typography } from '@material-ui/core';
+import { Button, CircularProgress, Divider, Grid, RootRef, Typography } from '@material-ui/core';
 import { isEmpty } from 'lodash';
 
 import HeaderImg from 'src/assets/images/magazine/entertaimentHeader.png';
@@ -20,6 +21,7 @@ interface MangazineContentProps {
 function MagazineContent(props: MangazineContentProps): JSX.Element {
   const classes = useStyles();
   const { title = '', category = '' } = props;
+  const [listCard, setListCard] = useState<Array<any>>([]);
   const valueRef = useRef<HTMLInputElement>(null);
   const magazineList = useSelector((state: RootState) => state.magazine.magazineList);
 
@@ -29,21 +31,34 @@ function MagazineContent(props: MangazineContentProps): JSX.Element {
     return filterArr;
   };
 
-  const listMagazineByCategory = !isEmpty(magazineList?.results) ? filterListMagazine(magazineList?.results) : [];
+  const listMagazineByCategory = useMemo(() => {
+    if (!isEmpty(magazineList?.results)) {
+      return filterListMagazine(magazineList?.results);
+    }
+    return [];
+  }, [magazineList?.results]);
+
+  useEffect(() => {
+    setListCard(listMagazineByCategory);
+  }, [listMagazineByCategory]);
 
   const renderMagazineList = () => (
     <>
-      {
-        listMagazineByCategory.map((item) => (
-          <RootRef rootRef={valueRef} key={`${item}`}>
-            <div className='magazine-grid-list'>
-              <MagazineCard cardProps={item} />
-            </div>
-          </RootRef>
-        ))
-      }
+      {listCard.map((item) => (
+        <RootRef rootRef={valueRef} key={`${item}`}>
+          <div className='magazine-grid-list'>
+            <MagazineCard cardProps={item} />
+          </div>
+        </RootRef>
+      ))}
     </>
   );
+
+  const handleClick = async (key: string) => {
+    const { next: nextPage = '', previous: previousPage = '' } = magazineList;
+    console.log(key);
+    console.log(nextPage);
+  };
 
   return (
     <div className='magazine'>
@@ -75,6 +90,24 @@ function MagazineContent(props: MangazineContentProps): JSX.Element {
         <Typography className={classes.topic}>Chủ đề xu hướng</Typography>
 
         <div className='magazine-list'>{renderMagazineList()}</div>
+        <Grid className={classes.btn} item lg={12} md={12} sm={12} xs={12}>
+          <>
+            {
+             listMagazineByCategory.length < 6 ? null
+              : (
+                <Button
+                  className={classes.nextBtn}
+                // endIcon={loading ? <CircularProgress /> : null}
+                  onClick={() => handleClick('next')}
+                  variant='contained'
+                >
+                  <Typography className={classes.textBtn} component='h4' variant='h4'>
+                    Xem thêm
+                  </Typography>
+                </Button>)
+            }
+          </>
+        </Grid>
       </div>
     </div>
   );
