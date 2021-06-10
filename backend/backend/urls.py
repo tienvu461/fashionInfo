@@ -19,6 +19,7 @@ from django.conf.urls import url
 
 from apps.accounts.urls import accounts_urlpatterns
 from apps.photos.urls import photos_urlpatterns
+from apps.forum.urls import forum_urlpatterns
 from markdownx import urls as markdownx
 from . import settings
 
@@ -31,6 +32,9 @@ urlpatterns = [
 urlpatterns += accounts_urlpatterns
 # add photos urls to urlpatterns
 urlpatterns += photos_urlpatterns
+# add spirit urls to urlpatterns
+urlpatterns += forum_urlpatterns
+
 
 if settings.DEBUG:
     import debug_toolbar
