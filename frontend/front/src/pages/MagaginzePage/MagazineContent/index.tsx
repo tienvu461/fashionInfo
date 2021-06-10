@@ -2,12 +2,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable import/no-unresolved */
 import React, { useEffect, useMemo, useRef, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { Button, CircularProgress, Divider, Grid, RootRef, Typography } from '@material-ui/core';
 import { isEmpty } from 'lodash';
 
 import HeaderImg from 'src/assets/images/magazine/entertaimentHeader.png';
 import MagazineCard from 'src/components/MagazineCard';
+import { getListMagazineAction } from 'src/features/Magazine/MagazineAction';
 import { RootState } from 'src/store/store';
 
 import useStyles from './useStyles';
@@ -21,7 +22,9 @@ interface MangazineContentProps {
 function MagazineContent(props: MangazineContentProps): JSX.Element {
   const classes = useStyles();
   const { title = '', category = '' } = props;
+  const dispatch = useDispatch<any>();
   const [listCard, setListCard] = useState<Array<any>>([]);
+  const [loading, setLoading] = useState<boolean>(false);
   const valueRef = useRef<HTMLInputElement>(null);
   const magazineList = useSelector((state: RootState) => state.magazine.magazineList);
 
@@ -55,9 +58,23 @@ function MagazineContent(props: MangazineContentProps): JSX.Element {
   );
 
   const handleClick = async (key: string) => {
-    const { next: nextPage = '', previous: previousPage = '' } = magazineList;
-    console.log(key);
-    console.log(nextPage);
+    const { next: nextPage = '' } = magazineList;
+    const newListCard = [...listCard];
+    setLoading(true);
+    if (key === 'next') {
+      const nextNum = nextPage.split('&page=').pop();
+      await dispatch(getListMagazineAction(category, +`${nextNum}`)).then((data) => {
+        const { results = [] } = data;
+        results.forEach((item) => newListCard.push(item));
+
+        setLoading(false);
+      });
+    } else {
+      // handle previous page
+    }
+
+    setListCard(newListCard);
+    valueRef?.current?.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'center' });
   };
 
   return (
@@ -97,7 +114,7 @@ function MagazineContent(props: MangazineContentProps): JSX.Element {
               : (
                 <Button
                   className={classes.nextBtn}
-                // endIcon={loading ? <CircularProgress /> : null}
+                  endIcon={loading ? <CircularProgress /> : null}
                   onClick={() => handleClick('next')}
                   variant='contained'
                 >
