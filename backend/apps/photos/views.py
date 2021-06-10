@@ -348,6 +348,8 @@ class NewsList(generics.ListCreateAPIView):
     # filter_class = NewsFilter
 
     def list(self, request, *args, **kwargs):
+        category = request.GET.get('category', '')
+        logger.debug(category)
         # getting show/hide setting from Generic Config tbl
         config_obj = GenericConfig.objects.filter(in_use=True)
         try:
@@ -357,7 +359,7 @@ class NewsList(generics.ListCreateAPIView):
             logger.error("Cannot get config\nException: {}".format(e))
             show_activities = True
 
-        queryset = News.objects.all()
+        queryset = News.objects.filter(category__cat_name__iexact=category)
         # queryset = queryset.order_by('-created_at')
 
         page = self.paginate_queryset(queryset)
