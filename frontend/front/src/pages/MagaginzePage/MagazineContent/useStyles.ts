@@ -4,20 +4,24 @@ import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles: () => Record<
   | 'container'
-  | 'entertaimentHeader'
+  | 'magazineHeader'
   | 'author'
-  | 'entertaimentTitle'
+  | 'magazineTitle'
   | 'headerTitle'
   | 'headerSubTitle'
   | 'authorName'
   | 'authorTime'
-  | 'divide',
+  | 'topic'
+  | 'divide'
+  | 'btn'
+  | 'nextBtn'
+  | 'textBtn',
   string
 > = makeStyles(() => ({
   container: {
     backgroundColor: gray2,
   },
-  entertaimentHeader: {
+  magazineHeader: {
     backgroundColor: white,
     display: 'flex',
   },
@@ -29,7 +33,7 @@ const useStyles: () => Record<
       paddingTop: '30px',
     },
   },
-  entertaimentTitle: {
+  magazineTitle: {
     textAlign: 'left',
   },
   headerTitle: {
@@ -45,6 +49,10 @@ const useStyles: () => Record<
       letterSpacing: '3.2px',
     },
     [theme.breakpoints.up('lg')]: {
+      lineHeight: '60px',
+      fontSize: '40px',
+    },
+    [theme.breakpoints.up('xl')]: {
       lineHeight: '115px',
       fontSize: '40px',
     },
@@ -97,6 +105,32 @@ const useStyles: () => Record<
   divide: {
     width: '60px',
     borderBottom: '1px solid #000000',
+  },
+  topic: {
+    fontFamily: 'Roboto',
+    fontStyle: 'normal',
+    fontWeight: 'bold',
+    fontSize: '26px',
+    lineHeight: '107px',
+    letterSpacing: '2.2px',
+    textAlign: 'left',
+    paddingTop: '30px',
+
+    color: '#000000',
+  },
+  btn: {
+    padding: '40px 0 80px',
+  },
+  nextBtn: {
+    height: '60px',
+    width: '220px',
+  },
+  textBtn: {
+    textTransform: 'initial',
+    paddingBottom: '6px',
+    [theme.breakpoints.down('md')]: {
+      fontSize: '30px !important',
+    },
   },
 }));
 

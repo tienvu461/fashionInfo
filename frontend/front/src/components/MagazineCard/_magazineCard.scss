@@ -1,0 +1,110 @@
+@import '../../styles/styles.scss';
+
+.root-card{
+   width: 100%;
+    @media screen and (max-width: 600px) {
+      width: 100%;
+      .card-magazine {
+         height: 350px;
+      }
+      .card-magazine-content {
+         padding: 18px;
+         height: 250px;
+
+         .sub-category-magazine {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+         }
+      }
+    }
+
+    
+    // screen >= 960
+    @media screen and (min-width: 600px) {
+      .card-magazine {
+         height: 350px;
+      }
+      .card-magazine-content {
+         padding: 18px;
+         height: 250px;
+
+         .sub-category-magazine {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+         }
+      }
+    }
+    
+   //  // screen >= 960
+   //  @media screen and (min-width: 960px) {
+   //    .card-magazine {
+   //       height: 350px;
+   //    }
+   //    .card-magazine-content {
+   //       height: 250px;
+   //    }
+   //  }
+
+    // screen >= 1280
+    @media screen and (min-width: 1280px) {
+      .card-magazine {
+         height: 262.5px;
+      }
+      .card-magazine-content {
+         padding: 18px;
+         height: 187.5px;
+
+         .sub-category-magazine {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+
+         }
+         .titleCard{
+            font-size: 22px;
+            line-height: 30px;
+         }
+
+         .summary{
+            font-size: 16px;
+            line-height: 18px;
+         }
+
+      }
+    }
+
+    // screen >= 1600
+    @media screen and (min-width: 1600px) {
+      .card-magazine {
+         height: 350px;
+      }
+      .card-magazine-content {
+         padding: 18px;
+         height: 250px;
+
+         .sub-category-magazine {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+
+         }
+         .titleCard{
+            font-size: 30px;
+            line-height: 36px;
+         }
+
+         .summary{
+            font-size: 18px;
+            line-height: 23px;
+         }
+      }
+    }
+
+    @media screen and (min-width: 1900px) {
+    }
+    @media screen and (max-width: 1900px) {
+        
+    }
+}
