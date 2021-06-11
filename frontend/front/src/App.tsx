@@ -10,6 +10,7 @@ import { CircularProgress } from '@material-ui/core';
 import jwtDecode, { JwtPayload } from 'jwt-decode';
 
 import './App.scss';
+import 'react-lazy-load-image-component/src/effects/blur.css';
 import 'react-toastify/dist/ReactToastify.css';
 
 import {

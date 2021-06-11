@@ -1,10 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable import/no-unresolved */
 import React from 'react';
-import { Card, CardActionArea, CardContent, CardMedia, Divider, Typography, useMediaQuery } from '@material-ui/core';
 import moment from 'moment';
+import { LazyLoadImage } from 'react-lazy-load-image-component';
+import { Card, CardActionArea, CardContent, Divider, Typography, useMediaQuery } from '@material-ui/core';
 
 import cardImg from 'src/assets/images/magazine/magazineCard.png';
+import { HOST } from 'src/apis';
 import useStyles from './useStyles';
 import './_magazineCard.scss';
 
@@ -25,6 +27,9 @@ function MagazineCard(props: MagazineCardProps): JSX.Element {
   } = cardProps;
   const screenMin = useMediaQuery('(min-width:1280px)');
   const screenMax = useMediaQuery('(max-width:1920px)');
+  const matches = useMediaQuery('(min-width:1600px)');
+  const matches1 = useMediaQuery('(min-width:1280px)');
+  const matches2 = useMediaQuery('(min-width:600px)');
 
   const formatDate = (time: number) => moment(time * 1000).fromNow();
   const formatText = (text: string, key: string) => {
@@ -40,14 +45,50 @@ function MagazineCard(props: MagazineCardProps): JSX.Element {
     return text;
   };
 
+  const checkPathImg = (path) => {
+    if (path.includes(HOST)) {
+      return path;
+    }
+
+    return `${HOST}${path}`;
+  };
+
+  const controlWidthImg = () => {
+    if (matches) {
+      return 480;
+    }
+    if (matches1) {
+      return 360;
+    }
+    if (matches2) return 480;
+
+    return 480;
+  };
+
+  const controlHeithImg = () => {
+    if (matches) {
+      return 350;
+    }
+    if (matches1) {
+      return 262.5;
+    }
+    if (matches2) return 350;
+
+    return 350;
+  };
+
     return (
       <>
         <Card className={`${classes.root} root-card`}>
           <CardActionArea>
-            <CardMedia
+            <LazyLoadImage
+              alt='Contemplative Reptile'
               className={`${classes.cardMagazine} card-magazine`}
-              image={thumbnail || cardImg}
-              title='Contemplative Reptile'
+              src={checkPathImg(thumbnail || cardImg)}
+              effect='blur'
+              height={controlHeithImg()}
+              width={controlWidthImg()}
+              delayMethod
             />
             <CardContent className='card-magazine-content'>
               <div className='sub-category-magazine'>
@@ -69,7 +110,12 @@ function MagazineCard(props: MagazineCardProps): JSX.Element {
                   {formatDate(createAt)}
                 </Typography>
               </div>
-              <Typography className={`${classes.titleCard} titleCard`} variant='h4' color='textSecondary' component='h4'>
+              <Typography
+                className={`${classes.titleCard} titleCard`}
+                variant='h4'
+                color='textSecondary'
+                component='h4'
+              >
                 {formatText(title, 'title')}
                 {/* {title} */}
               </Typography>

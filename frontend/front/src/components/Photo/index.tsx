@@ -8,9 +8,9 @@ import { Card, CardActionArea, useMediaQuery } from '@material-ui/core';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import { toast } from 'react-toastify';
+
 import { HOST } from 'src/apis';
 import { ROUTE_PHOTO } from 'src/constants';
-// import BannerPic from 'src/assets/images/photos/hotPic.jpg';
 import HeartIcon from 'src/assets/images/heart.svg';
 import CommentIcon from 'src/assets/images/comment.svg';
 import ShareIcon from 'src/assets/images/share.svg';
@@ -33,8 +33,8 @@ function Photo(props: PropsType): JSX.Element {
   const dispatch = useDispatch<any>();
   const history = useHistory();
   const [likeAction, setLikeAction] = useState<boolean>(false);
-  // const [click, setClick] = useState<boolean>(false);
   const [like, setLike] = useState<number>(likes);
+
   const matches = useMediaQuery('(min-width:1600px)');
   const matches1 = useMediaQuery('(min-width:960px)');
   const matches2 = useMediaQuery('(max-width:960px)');
@@ -53,7 +53,6 @@ function Photo(props: PropsType): JSX.Element {
     if (loginStatus === 200) {
       const credentials = JSON.parse(getCredentialsFromLocalStorage());
       dispatch(likePhotoAction({ user_id: credentials.userID, photo_id })).then(() => {
-      // setClick(!click);
       if (key === 'like') {
         setLikeAction(true);
         setLike(like + 1);
@@ -106,6 +105,7 @@ function Photo(props: PropsType): JSX.Element {
             effect='blur'
             height={controlHeithImg()}
             width={controlWidthImg()}
+            delayMethod
           />
         </CardActionArea>
         <div className='cardActions'>
