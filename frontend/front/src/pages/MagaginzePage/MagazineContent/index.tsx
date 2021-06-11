@@ -77,6 +77,8 @@ function MagazineContent(props: MangazineContentProps): JSX.Element {
     valueRef?.current?.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'center' });
   };
 
+  console.log(magazineList?.next);
+
   return (
     <div className='magazine'>
       <div className={`magazine-container ${classes.container}`}>
@@ -109,20 +111,18 @@ function MagazineContent(props: MangazineContentProps): JSX.Element {
         <div className='magazine-list'>{renderMagazineList()}</div>
         <Grid className={classes.btn} item lg={12} md={12} sm={12} xs={12}>
           <>
-            {
-             listMagazineByCategory.length < 6 ? null
-              : (
-                <Button
-                  className={classes.nextBtn}
-                  endIcon={loading ? <CircularProgress /> : null}
-                  onClick={() => handleClick('next')}
-                  variant='contained'
-                >
-                  <Typography className={classes.textBtn} component='h4' variant='h4'>
-                    Xem thêm
-                  </Typography>
-                </Button>)
-            }
+            {magazineList?.next === null ? null : (
+              <Button
+                className={classes.nextBtn}
+                endIcon={loading ? <CircularProgress /> : null}
+                onClick={() => handleClick('next')}
+                variant='contained'
+              >
+                <Typography className={classes.textBtn} component='h4' variant='h4'>
+                  Xem thêm
+                </Typography>
+              </Button>
+            )}
           </>
         </Grid>
       </div>
