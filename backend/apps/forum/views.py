@@ -7,6 +7,7 @@ from spirit.core.utils.paginator import paginate, yt_paginate
 from spirit import topic 
 from spirit.category.models import Category
 from spirit.topic.models import Topic
+from spirit.comment.models import Comment
 import logging
 
 logger = logging.getLogger("photos")
@@ -25,13 +26,19 @@ def index_active(request):
         .with_bookmarks(user=request.user)
         .order_by('-is_globally_pinned', '-last_active')
         .select_related('category'))
+    
+
+#     first_comment = Comment.objects.filter(topic__id=topics.first().id)
+#     logger.debug(first_comment)
 
     topics_from_pinned_cate = Topic.objects.filter(category=4)
-    logger.debug("topics_from_pinned_cate: {}".format(topics_from_pinned_cate))
+    logger.debug("topics: {}".format(topics_from_pinned_cate.values()))
+    
     topics = yt_paginate(
         topics,
         per_page=config.topics_per_page,
         page_number=request.GET.get('page', 1))
+    
     return render(
         request=request,
         template_name='spirit/topic/active.html',
