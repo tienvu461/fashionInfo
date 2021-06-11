@@ -1,8 +1,9 @@
 /* eslint-disable import/no-unresolved */
-import React, { useEffect } from 'react';
+import React, { useEffect, lazy } from 'react';
 import { useDispatch } from 'react-redux';
 import { getListCategoryAction, getListMagazineAction } from 'src/features/Magazine/MagazineAction';
-import MagazineHeader from './MagazineHeader';
+
+const MagazineHeader = lazy(() => import('./MagazineHeader'));
 
 function MagazinePage(): JSX.Element {
     const dispatch = useDispatch();

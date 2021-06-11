@@ -2,10 +2,11 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable import/no-unresolved */
-import React, { useEffect, useMemo } from 'react';
+import React, { useEffect, useMemo, Suspense, lazy } from 'react';
 import { toast } from 'react-toastify';
 import { useDispatch } from 'react-redux';
 import { Route, Switch } from 'react-router-dom';
+import { CircularProgress } from '@material-ui/core';
 import jwtDecode, { JwtPayload } from 'jwt-decode';
 
 import './App.scss';
@@ -29,7 +30,6 @@ import {
 import NotFound from './pages/NotFound';
 import Footer from './components/Footer';
 import ForumPage from './pages/ForumPage';
-import PhotoPage from './pages/PhotoPage';
 import LoginPage from './pages/LoginPage';
 import MagazinePage from './pages/MagaginzePage';
 import HeaderMenu from './components/HeaderMenu';
@@ -38,6 +38,8 @@ import { loginSucess } from './features/Login/LoginSlice';
 import DetailPhoto from './pages/PhotoPage/components/Detail';
 import { getUserProfile } from './features/Profile/ProfileAction';
 import { refreshTokenAction } from './features/Login/LoginAction';
+
+const PhotoPage = lazy(() => import('./pages/PhotoPage'));
 
 toast.configure({
   autoClose: 2000
@@ -111,18 +113,20 @@ function App(): JSX.Element {
 
   return (
     <div className='App'>
-      <HeaderMenu>
-        <Switch>
-          <Route component={PhotoPage} exact path={ROUTE_PHOTO} />
-          <Route component={PhotoSearchPage} exact path={ROUTE_PHOTO_SEARCH} />
-          <Route component={DetailPhoto} exact path={`${ROUTE_PHOTO}/:id`} />
-          <Route component={MagazinePage} exact path={ROUTE_HOME} />
-          <Route component={ForumPage} exact path={ROUTE_FORUM} />
-          <Route component={LoginPage} exact path={ROUTE_LOGIN} />
-          <Route component={NotFound} />
-        </Switch>
-      </HeaderMenu>
-      <Footer />
+      <Suspense fallback={<CircularProgress className='main-loading' />}>
+        <HeaderMenu>
+          <Switch>
+            <Route component={PhotoPage} exact path={ROUTE_PHOTO} />
+            <Route component={PhotoSearchPage} exact path={ROUTE_PHOTO_SEARCH} />
+            <Route component={DetailPhoto} exact path={`${ROUTE_PHOTO}/:id`} />
+            <Route component={MagazinePage} exact path={ROUTE_HOME} />
+            <Route component={ForumPage} exact path={ROUTE_FORUM} />
+            <Route component={LoginPage} exact path={ROUTE_LOGIN} />
+            <Route component={NotFound} />
+          </Switch>
+        </HeaderMenu>
+        <Footer />
+      </Suspense>
     </div>
   );
 }
