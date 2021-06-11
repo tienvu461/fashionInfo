@@ -50,7 +50,7 @@ function MagazineHeader(): JSX.Element {
     };
 
     useEffect(() => {
-      if (magazineMenu) {
+      if (magazineMenu.id) {
         setValue(magazineMenu.id);
         getMagazineList(magazineMenu.id);
       }

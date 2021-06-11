@@ -1,7 +1,6 @@
 /* eslint-disable import/no-unresolved */
 import { makeStyles } from '@material-ui/core/styles';
-import { theme } from 'src/styles/theme';
-// import { black } from 'src/styles/theme';
+// import { theme } from 'src/styles/theme';
 
 const useStyles: () => Record<
   'root' | 'cardMagazine' | 'headerText' | 'subCategory' | 'time' | 'divider' | 'titleCard' | 'summary',
