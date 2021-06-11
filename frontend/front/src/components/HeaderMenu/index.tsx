@@ -16,7 +16,6 @@ import {
   CssBaseline,
   IconButton,
   Toolbar,
-  Container,
 } from '@material-ui/core';
 import logo from 'src/assets/images/logoLucete.svg';
 import icon from 'src/assets/images/user.svg';
@@ -157,7 +156,7 @@ function HeaderMenu(props: AuxProps): JSX.Element {
                   <Search />
                   {handleIconLogIn()}
                 </Grid>
-                <SideDrawer navLinks={navLinks} />
+                <SideDrawer setActive={setActive} navLinks={navLinks} />
               </Hidden>
             </div>
           </AppBar>

@@ -1,6 +1,6 @@
 /* eslint-disable import/no-unresolved */
 import { makeStyles } from '@material-ui/core/styles';
-import { black, theme } from 'src/styles/theme';
+import { black } from 'src/styles/theme';
 
 const useStyles: () => Record<'titleHeadLine' | 'menuTab' | 'content', string> = makeStyles(() => ({
   titleHeadLine: {
