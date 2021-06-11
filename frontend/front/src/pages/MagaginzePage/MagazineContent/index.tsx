@@ -77,8 +77,6 @@ function MagazineContent(props: MangazineContentProps): JSX.Element {
     valueRef?.current?.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'center' });
   };
 
-  console.log(magazineList?.next);
-
   return (
     <div className='magazine'>
       <div className={`magazine-container ${classes.container}`}>

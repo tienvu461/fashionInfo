@@ -1,7 +1,8 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react/jsx-props-no-spreading */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable import/no-unresolved */
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Grid, Typography, Tabs, Tab, useMediaQuery } from '@material-ui/core';
 import { isEmpty } from 'lodash';
@@ -30,16 +31,30 @@ function MagazineHeader(): JSX.Element {
     const magazineMenu = useSelector((state: RootState) => state.magazine.magazineMenu);
     const categories = useSelector((state: RootState) => state.magazine.categories);
 
+    const arrMenu = useMemo(() => {
+      if (!isEmpty(categories.results)) {
+        return categories.results.map((cat) => ({
+          label: cat.cat_name,
+          description: cat.description,
+        }));
+      }
+      return [];
+    }, [categories.results]);
+
+    const getMagazineList = (id) => {
+      let getCategoryName = arrMenu.map((item, index) => (index === id ? item.label : null));
+      getCategoryName = getCategoryName.filter((item) => item !== null);
+
+      setCategoryName(getCategoryName[0]);
+      dispatch(getListMagazineAction(getCategoryName[0], 1));
+    };
+
     useEffect(() => {
       if (magazineMenu) {
         setValue(magazineMenu.id);
+        getMagazineList(magazineMenu.id);
       }
-    }, [magazineMenu]);
-
-    const arrMenu = !isEmpty(categories.results) ? categories.results.map((cat) => ({
-      label: cat.cat_name,
-      description: cat.description,
-    })) : [];
+    }, [magazineMenu, dispatch]);
 
     const handleChangeTab = (event: React.ChangeEvent<any>, newValue: number) => {
       let getCategoryName = arrMenu.map((item, index) => (index === newValue ? item.label : null));
