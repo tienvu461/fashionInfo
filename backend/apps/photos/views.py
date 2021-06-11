@@ -12,7 +12,7 @@ from .serializers import PhotoSerializer, PhotoDetailSerializer, PhotoFeatureSer
 from .models import News, NewsLike, NewsFeature, NewsComment, NewsCategory, NewsSubCategory
 from .serializers import NewsSerializer, NewsDetailSerializer, NewsFeatureSerializer, NewsSuggestSerializer, NewsCommentSerializer, NewsLikeSerializer, NewsCategorySerializer, NewsSubCategorySerializer
 from .consts import photosConst
-from .utils import calc_interactive_pt
+from .utils import calc_interactive_pt, striphtml
 
 logger = logging.getLogger("photos")
 

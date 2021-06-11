@@ -26,4 +26,7 @@ export const getRefreshTokenFromLocalStorage = (): any => {
 };
 
 // clear localstorage
-export const clearStoreFromlocalStorage = () => localStorage.clear();
+export const clearStoreFromlocalStorage = ():any => {
+  localStorage.clear();
+  return 1;
+};

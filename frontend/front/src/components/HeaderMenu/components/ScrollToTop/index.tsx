@@ -1,7 +1,7 @@
 /* eslint-disable react/require-default-props */
 import React, { ReactChildren, ReactChild } from 'react';
 import { Grid, useScrollTrigger, Zoom } from '@material-ui/core';
-import ScrollIcon from '../../../../assets/images/scrollToTop.svg';
+
 import useStyles from './useStyles';
 
 interface ScrollProps {
@@ -14,7 +14,7 @@ function ScrollToTop({ children, window }: ScrollProps): JSX.Element {
   const trigger = useScrollTrigger({
     target: window ? window() : undefined,
     disableHysteresis: true,
-    // threshold: 100,
+    threshold: 500,
   });
 
   const handleClick = (event: React.MouseEvent<HTMLDivElement>) => {
@@ -31,11 +31,6 @@ function ScrollToTop({ children, window }: ScrollProps): JSX.Element {
     <Zoom in={trigger}>
       <Grid className={classes.root} onClick={handleClick} role='presentation'>
         {children}
-        <img
-          alt='scroll-to-top'
-          className={classes.scrollIcon}
-          src={ScrollIcon}
-        />
       </Grid>
     </Zoom>
   );

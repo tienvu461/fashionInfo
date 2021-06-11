@@ -203,16 +203,18 @@ class PhotoFeatureSerializer(serializers.ModelSerializer):
 class NewsSerializer(serializers.ModelSerializer):
     activities = serializers.SerializerMethodField()
     tags = TagListSerializerField()
+    sub_category = serializers.SlugRelatedField(read_only=True, slug_field='cat_name')
+    category = serializers.SlugRelatedField(read_only=True, slug_field='cat_name')
 
     class Meta:
         model = News
-        fields = ['id', 'title', 'author', 'summary',
+        fields = ['id', 'title', 'author', 'summary', 'thumbnail',
                   'status', 'created_at', 'activities', 'tags', 'category', 'sub_category']
 
     def to_representation(self, instance):
         data_fields = super(NewsSerializer, self).to_representation(instance)
         data_fields['created_at'] = int(instance.created_at.timestamp())
-
+        data_fields['author'] = instance.author.first_name + ' ' + instance.author.last_name
         return data_fields
 
     def get_activities(self, instance):

@@ -11,6 +11,7 @@ from taggit.managers import TaggableManager
 from datetime import datetime
 
 from .consts import modelConst, adminConst
+from .utils import striphtml
 
 logger = logging.getLogger("photos")
 
@@ -216,7 +217,7 @@ class News(models.Model):
         summary = self.content[:150] 
         last_space = summary.rfind(" ")
         summary = summary[:last_space] + "..."
-        return markdownify(summary)
+        return striphtml(markdownify(summary))
     summary.short_description = "Description"
 
 class NewsAttachedPhoto(models.Model):

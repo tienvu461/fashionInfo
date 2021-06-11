@@ -14,7 +14,6 @@ const profileSlice = createSlice({
   name: AUTH_REDUCER.PROFILE,
   initialState,
   reducers: {
-    // contains reducerfunction name
     storeProfile: (state, action) => {
       state.currentUser = action.payload;
     },

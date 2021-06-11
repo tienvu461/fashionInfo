@@ -1,6 +1,7 @@
+/* eslint-disable import/no-unresolved */
 import React from 'react';
 import { Grid, Typography, useMediaQuery } from '@material-ui/core';
-import BannerPic from '../../../../assets/images/photos/hotPic.jpg';
+import BannerPic from 'src/assets/images/photos/hotPic.jpg';
 
 import useStyles from './useStyles';
 

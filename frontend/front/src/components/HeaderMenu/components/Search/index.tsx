@@ -10,17 +10,20 @@ import useStyles from './useStyles';
 function Search(): JSX.Element {
   const classes = useStyles();
   const history = useHistory();
-  const [value, setValue] = useState();
+  const [value, setValue] = useState<string>('');
   const valueRef = useRef<HTMLInputElement>();
   const dispatch = useDispatch();
-  const onChange = (event) => { setValue(event.target.value); };
-  const handleKeyDown = (event: any) => {
-    if (event.target.value !== '') {
+  const onChange = (event) => {
+    const textSearch = event.target.value;
+    setValue(textSearch);
+    };
+
+  const handleKeyDown = (event: React.KeyboardEvent) => {
+    if (value !== '') {
       if (event.key === 'Enter') {
-      dispatch(searchAction(1, event.target.value));
-      console.log('Enter', event.target.value);
-      history.push(`/photo/search/${event.target.value}`);
-      event.target.value = '';
+      dispatch(searchAction(1, value));
+      history.push(`/photo/search/${value}`);
+      setValue('');
       valueRef.current?.blur();
     }
     }
@@ -40,6 +43,7 @@ function Search(): JSX.Element {
         name='textSearch'
         placeholder='Search...'
         onChange={onChange}
+        value={value}
         inputRef={valueRef}
         onKeyDown={handleKeyDown}
         style={{ fontFamily: 'Roboto', fontSize: '24' }}

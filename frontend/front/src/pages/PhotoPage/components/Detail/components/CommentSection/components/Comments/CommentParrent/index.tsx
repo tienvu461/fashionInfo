@@ -11,28 +11,31 @@ import {
   TimelineSeparator,
 } from '@material-ui/lab';
 import moment from 'moment';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { commentPhotoAction } from 'src/features/Photo/photoAction';
 import Ava2 from 'src/assets/images/beck.jpeg';
+import { RootState } from 'src/store/store';
 import CommentChild from '../CommentChild';
 
 import useStyles from '../useStyles';
 
 interface CommentProps {
   cmtProps: any;
-  currentUser: any;
+  userID: any;
+  userName: any;
 }
 
 function CommentParrent(props: CommentProps): JSX.Element {
   const classes = useStyles();
-  const { cmtProps, currentUser } = props;
+  const { cmtProps, userID, userName } = props;
 
   const dispatch = useDispatch<any>();
   const valueRef = useRef<HTMLInputElement>();
   const [parent, setParent] = useState<number>(0);
   const [textArea, setTextArea] = useState<string>('');
   const [isReply, setisReply] = useState<boolean>(false);
+  const loginStatus = useSelector((state: RootState) => state.login.loginResponse.status);
 
   const formatDate = (time: number) => moment(time * 1000).fromNow();
 
@@ -60,7 +63,7 @@ function CommentParrent(props: CommentProps): JSX.Element {
         content: string;
         parent: null | number;
       } = {
-        user_id: currentUser,
+        user_id: userID,
         photo_id: cmtProps?.photo_id,
         content: textArea,
         parent,
@@ -95,7 +98,7 @@ function CommentParrent(props: CommentProps): JSX.Element {
           <TimelineContent className={classes.content}>
             <Paper className={classes.paper} elevation={3}>
               <Typography className={`${classes.actionName} ${classes.textStyle}`} component='h6' variant='h6'>
-                {`User ${currentUser}`}
+                {userName}
               </Typography>
               <TextField
                 className={classes.textArea}
@@ -105,8 +108,8 @@ function CommentParrent(props: CommentProps): JSX.Element {
                 aria-label='maximum height'
                 placeholder='Viết bình luận...'
                 InputProps={{
-                    classes: { input: classes.inputTextArea },
-                  }}
+                  classes: { input: classes.inputTextArea },
+                }}
                 onChange={onTextFieldChange}
                 onKeyPress={onKeyPressReply}
                 inputRef={valueRef}
@@ -115,9 +118,9 @@ function CommentParrent(props: CommentProps): JSX.Element {
             </Paper>
           </TimelineContent>
         </TimelineItem>
-        ) : null}
+      ) : null}
     </>
-    );
+  );
 
   return (
     // <Grid>
@@ -130,7 +133,7 @@ function CommentParrent(props: CommentProps): JSX.Element {
       </TimelineSeparator>
       <TimelineContent className={classes.content}>
         <Paper className={classes.paper} elevation={3}>
-          <Grid className={classes.action}>
+          <Grid className={loginStatus === 200 ? classes.action : classes.actionWithoutLogin}>
             <Typography className={`${classes.actionName} ${classes.textStyle}`} component='h6' variant='h6'>
               {cmtProps?.user_id}
             </Typography>
@@ -138,14 +141,17 @@ function CommentParrent(props: CommentProps): JSX.Element {
               <Typography className={`${classes.actionTime} ${classes.textStyle}`} component='h6' variant='h6'>
                 {formatDate(cmtProps?.created_at)}
               </Typography>
-              <Typography
-                onClick={() => onAnswer(cmtProps?.cmt_id)}
-                className={`${classes.actionReply} ${classes.textStyle}`}
-                component='h6'
-                variant='h6'
-              >
-                Trả lời
-              </Typography>
+
+              {loginStatus === 200 ? (
+                <Typography
+                  onClick={() => onAnswer(cmtProps?.cmt_id)}
+                  className={`${classes.actionReply} ${classes.textStyle}`}
+                  component='h6'
+                  variant='h6'
+                >
+                  Trả lời
+                </Typography>
+              ) : null}
             </div>
           </Grid>
           <Typography className={`${classes.comment} ${classes.textStyle}`} component='h6' variant='h6'>
@@ -162,7 +168,7 @@ function CommentParrent(props: CommentProps): JSX.Element {
                   key={item.cmt_id}
                   renderTimelineConnector={renderTimelineConnector}
                   // isReplies={isReplies}
-                  cmtChildProps={{ item, index, cmtProps, currentUser }}
+                  cmtChildProps={{ item, index, cmtProps, userID, userName }}
                 />
               </>
             ))}

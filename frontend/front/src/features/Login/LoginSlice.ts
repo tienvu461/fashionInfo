@@ -2,13 +2,18 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { AUTH_REDUCER } from 'src/constants';
 
+interface InitialStateType {
+  loginResponse: Record<string, string | number | Record<string, string>>;
+}
+
+const initialState: InitialStateType = {
+  loginResponse: {},
+};
+
 const loginSlice = createSlice({
     name: AUTH_REDUCER.LOGIN,
-    initialState: {
-        loginResponse: {}
-    },
+    initialState,
     reducers: {
-        // contains reducerfunction name
         loginSucess: (state, action) => {
             state.loginResponse = action.payload;
         },

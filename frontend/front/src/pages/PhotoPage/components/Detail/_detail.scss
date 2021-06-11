@@ -7,7 +7,6 @@
 
         .photoDetail{
             flex-direction: column;
-            padding: 0 20px;
             padding-bottom: 96px;
         }
 
@@ -27,7 +26,6 @@
         .photoDetail{
             flex-direction: column;
             padding-bottom: 96px;
-            padding: 0 20px;
         }
 
         .gridPhoto{
@@ -41,6 +39,12 @@
     }
 
     // screen >= 960
+    @media screen and (max-width: 960px) {
+        .photoDetail{
+            padding: 0 20px;
+        }
+    }
+
     @media screen and (min-width: 960px) {
         width: 760px;
 
@@ -50,7 +54,7 @@
         }
         .gridPhoto{
             width: 760px;
-            height: 479.094827586px;
+            // height: 479.094827586px;
         }
 
         .information {

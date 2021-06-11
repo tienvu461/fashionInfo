@@ -1,56 +1,30 @@
 /* eslint-disable import/no-unresolved */
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles, createStyles } from '@material-ui/core/styles';
 import { theme } from 'src/styles/theme';
 
-const useStyles: () => Record<'root' | 'scrollIcon', string> = makeStyles(
-  () => ({
+const useStyles: () => Record<'root', string> = makeStyles(() => createStyles({
     root: {
       cursor: 'pointer',
-      position: 'absolute',
+      position: 'fixed',
       bottom: '80px',
+      right: '10px',
 
       // the size of the scrollIcon image is 80px 80px
       // responsive
 
-      [theme.breakpoints.up('sm')]: {
-        display: 'none',
-      },
-      [theme.breakpoints.down('sm')]: {
-        display: 'none',
+      [theme.breakpoints.down('md')]: {
+        right: '0',
       },
       [theme.breakpoints.up('md')]: {
-        // size 48px 48px
-        right: '-12px',
-        display: 'block',
+        right: '10px',
       },
       [theme.breakpoints.up('lg')]: {
-        // size 64px 64px
-        right: '18px',
-        display: 'flex',
-        alignItems: 'flex-end',
-        justifyContent: 'flex-end',
+        right: '10px',
       },
       [theme.breakpoints.up('xl')]: {
-        // 80px 80px
-        right: '60px',
-        display: 'flex',
-        alignItems: 'flex-end',
-        justifyContent: 'flex-end',
+        right: '20px',
       },
     },
-    scrollIcon: {
-      // the size of this icons image is  80px 80px
-      // responsive
-      [theme.breakpoints.up('md')]: {
-        // size 48px 48px
-        width: '60%',
-      },
-      [theme.breakpoints.up('lg')]: {
-        // size 64px 64px
-        width: '80%',
-      },
-    },
-  })
-);
+  }));
 
 export { useStyles as default };
