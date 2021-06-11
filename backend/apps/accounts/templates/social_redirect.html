@@ -72,6 +72,11 @@
         complete: function () {
           $("#loading").hide();
         },
+        statusCode: {
+          500: function() {
+            alert('Không thể đăng nhập qua Google vì email này đã được đăng ký, vui lòng đăng nhập với email khác!');
+          }
+        }
       });
       return false;
     });
