@@ -141,16 +141,17 @@ function RegisterPage(): JSX.Element {
               }}
               validationSchema={Yup.object().shape({
                 email: Yup.string()
-                  .email('Email không hợp lệ')
-                  .required('Vui lòng nhập Email'),
-                username: Yup.string().required('Vui lòng nhập họ tên'),
+                  .email('Email không hợp lệ'),
+                  // .required('Vui lòng nhập Email'),
+                username: Yup.string(),
+                // .required('Vui lòng nhập họ tên'),
                 password: Yup.string()
                   .matches(
-                    /^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[!@#$%^&*()]).{8,20}\S$/
-                  )
-                  .required(
-                    'Please valid password. One uppercase, one lowercase, one special character and no spaces'
+                    /^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[!@#$%^&*()]).{7,20}\S$/
                   ),
+                  // .required(
+                  //   'Please valid password. One uppercase, one lowercase, one special character and no spaces'
+                  // ),
                 re_password: Yup.string().when('password', {
                   is: (val) => (!!(val && val.length > 0)),
                   then: Yup.string().oneOf(
@@ -158,7 +159,7 @@ function RegisterPage(): JSX.Element {
                     'Mật khẩu không trùng khớp'
                   )
                 })
-                  .required('Vui lòng xác nhận mật khẩu'),
+                  // .required('Vui lòng xác nhận mật khẩu'),
               })}
             >
               {(props: FormikProps<FiledFormik>) => {
@@ -199,7 +200,7 @@ function RegisterPage(): JSX.Element {
                     </div>
                     <TextField
                       autoComplete='email'
-                      autoFocus
+                      // autoFocus
                       className={classes.field}
                       fullWidth
                       margin='normal'
@@ -229,7 +230,7 @@ function RegisterPage(): JSX.Element {
                       value={values.password}
                       helperText={
                         errors.password && touched.password
-                          ? 'Mật khẩu hợp lệ tối thiểu 1 chữ viết hoa, viết thường và không có khoảng trống'
+                          ? 'Mật khẩu hợp lệ tối thiểu 8 kí tự gồm 1 chữ viết hoa, viết thường, số'
                           : null
                       }
                       error={!!(errors.password && touched.password)}
