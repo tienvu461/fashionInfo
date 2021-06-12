@@ -76,7 +76,6 @@ function App(): JSX.Element {
 
   const getInfoBySocialLogin = useMemo(() => {
     if (getToken) {
-      console.log('get Token')
       const encodeToken = jwtDecode<CustomJwtPayload>(getToken);
       const { user_id: userID } = encodeToken;
       setDataFromLocalStorage(JSON.stringify({ status: 200, userID }));
@@ -116,18 +115,17 @@ function App(): JSX.Element {
   }
 
   useEffect(() => {
+    console.log('login response');
+    console.log('getCredentials: ', getCredentials);
+    console.log('credentials: ', credentials);
     if (credentials) {
-      console.log('login response');
       dispatch(loginSucess(credentials));
       dispatch(getUserProfile());
       handleExpired();
     }
-  }, [credentials, getToken]);
+  }, [getToken, getCredentials]);
 
-  useEffect(() => {
-    console.log('DISPATCH');
-    return getInfoBySocialLogin;
-  }, [getToken]);
+  useEffect(() => getInfoBySocialLogin, [getToken]);
 
   return (
     <div className='App'>
