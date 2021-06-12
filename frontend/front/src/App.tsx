@@ -81,7 +81,7 @@ function App(): JSX.Element {
       setDataFromLocalStorage(JSON.stringify({ status: 200, userID }));
       dispatch(getUserProfile());
     }
-  }, []);
+  }, [getToken]);
 
   // handle token (login web)
   const handleExpired = () => {
@@ -122,7 +122,7 @@ function App(): JSX.Element {
     }
   }, []);
 
-  useEffect(() => getInfoBySocialLogin, []);
+  useEffect(() => getInfoBySocialLogin, [getToken]);
 
   return (
     <div className='App'>
