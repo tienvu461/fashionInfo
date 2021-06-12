@@ -5,7 +5,7 @@
 import React, { useEffect, useMemo, Suspense, lazy } from 'react';
 import { toast } from 'react-toastify';
 import { useDispatch } from 'react-redux';
-import { Route, Switch } from 'react-router-dom';
+import { Route, Switch, useLocation } from 'react-router-dom';
 import { CircularProgress } from '@material-ui/core';
 import jwtDecode, { JwtPayload } from 'jwt-decode';
 
@@ -17,6 +17,7 @@ import {
   ROUTE_FORUM,
   ROUTE_HOME,
   ROUTE_LOGIN,
+  ROUTE_REGISTER,
   ROUTE_PHOTO,
   ROUTE_PHOTO_SEARCH,
 } from './constants';
@@ -32,6 +33,7 @@ import NotFound from './pages/NotFound';
 import Footer from './components/Footer';
 import ForumPage from './pages/ForumPage';
 import LoginPage from './pages/LoginPage';
+import RegisterPage from './pages/Register';
 import MagazinePage from './pages/MagaginzePage';
 import HeaderMenu from './components/HeaderMenu';
 import PhotoSearchPage from './pages/PhotoSearchPage';
@@ -62,6 +64,7 @@ const logOut = () => ({
 
 function App(): JSX.Element {
   const dispatch = useDispatch<any>();
+  const location = useLocation();
 
   const getCredentials = getCredentialsFromLocalStorage();
   const getToken = getTokenFromLocalStorage();
@@ -101,6 +104,15 @@ function App(): JSX.Element {
       toast.error('Phiên đăng nhập đã hết hạn. Vui lòng đăng nhập lại !');
     }
   };
+  // handle footer
+  function handleFoooter() {
+    if (!(location.pathname === ROUTE_REGISTER || location.pathname === ROUTE_LOGIN)) {
+      return (
+        <Footer />
+      );
+    }
+    return null;
+  }
 
   useEffect(() => {
     if (credentials) {
@@ -122,11 +134,12 @@ function App(): JSX.Element {
             <Route component={DetailPhoto} exact path={`${ROUTE_PHOTO}/:id`} />
             <Route component={MagazinePage} exact path={ROUTE_HOME} />
             <Route component={ForumPage} exact path={ROUTE_FORUM} />
+            <Route component={RegisterPage} exact path={ROUTE_REGISTER} />
             <Route component={LoginPage} exact path={ROUTE_LOGIN} />
             <Route component={NotFound} />
           </Switch>
         </HeaderMenu>
-        <Footer />
+        {handleFoooter()}
       </Suspense>
     </div>
   );

@@ -86,6 +86,7 @@ const useStyles: () => Record<
     fontSize: '16px',
     lineHeight: '19px',
     color: '#616161',
+    display: 'flex',
 
     // responsive
     [theme.breakpoints.down('sm')]: {

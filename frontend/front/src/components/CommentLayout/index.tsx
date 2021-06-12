@@ -10,6 +10,7 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { ROUTE_LOGIN } from 'src/constants';
 import { isLoginToComment } from 'src/features/Photo/photoSlice';
 import { RootState } from 'src/store/store';
+import FormDialog from 'src/components/LoginPopup'
 import useStyles from './useStyles';
 
 interface CommentProps {
@@ -54,9 +55,10 @@ function CommentLayout(props: CommentProps): JSX.Element {
               <div>
                 {loginStatus ? null : (
                   <Typography className={classes.subText}>
-                    <Link to={ROUTE_LOGIN} onClick={redirectLogin} className={classes.spanText}>
+                    {/* <Link to={ROUTE_LOGIN} onClick={redirectLogin} className={classes.spanText}>
                       Đăng nhập
-                    </Link>
+                    </Link> */}
+                    <FormDialog />
                     để bình luận
                   </Typography>
                 )}
