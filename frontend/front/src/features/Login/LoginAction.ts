@@ -57,10 +57,12 @@ export const getUrlSocialAction = () => async (): Promise<any> => {
   try {
     const response = await getUrlSocialService();
     const url = response.data.authorization_url;
-    const win = window.open(url, '_blank');
-    if (win != null) {
-      win.focus();
-    }
+
+    window.location.replace(url);
+    // const win = window.open(url, '_blank');
+    // if (win != null) {
+    //   win.focus();
+    // }
   } catch (error) {
     // console.log(error);
   }
