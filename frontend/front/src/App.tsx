@@ -117,11 +117,12 @@ function App(): JSX.Element {
 
   useEffect(() => {
     if (credentials) {
+      console.log('login response');
       dispatch(loginSucess(credentials));
       dispatch(getUserProfile());
       handleExpired();
     }
-  }, []);
+  }, [credentials, getToken]);
 
   useEffect(() => {
     console.log('DISPATCH');
