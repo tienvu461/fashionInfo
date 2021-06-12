@@ -16,22 +16,31 @@
   // background-size: contain;
 }
 
-.logingg{
+.logingg {
   background-image: url('../../assets/images/iconfinder_Google_Loginin.png');
-    background-repeat: no-repeat;
-    background-position: left; 
-  }
+  background-repeat: no-repeat;
+  background-position: left;
+}
 
-.loginfb{
+.loginfb {
   background-image: url('../../assets/images/iconFb_Login.png');
   background-repeat: no-repeat;
 }
 
-.line{ 
-  height:1px;
+.line {
+  height: 1px;
   width: 52px;
-  border-width:0;
-  color:gray; 
-  background-color:gray;
+  border-width: 0;
+  color: gray;
+  background-color: gray;
   margin: 0;
+}
+
+.paper {
+  width: 390px;
+  margin: 64px 32px;
+
+  @media screen and (max-width: 500px) {
+    margin: 0;
+  }
 }

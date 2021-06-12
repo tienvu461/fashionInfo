@@ -5,6 +5,7 @@ export const HOST = 'http://api.tienvv.com';
 // USER AUTH
 export const LOGIN_API = `${HOST}/api/jwt/create`;
 export const REFRESH_TOKEN_API = `${HOST}/api/jwt/refresh/`;
+export const REGISTER = `${HOST}/api/users/`;
 
 // USER PROFILE
 export const USER_PROFILE_API = `${HOST}/api/user/profile/`;
