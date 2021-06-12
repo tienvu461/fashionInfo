@@ -79,6 +79,7 @@ function App(): JSX.Element {
       const encodeToken = jwtDecode<CustomJwtPayload>(getToken);
       const { user_id: userID } = encodeToken;
       setDataFromLocalStorage(JSON.stringify({ status: 200, userID }));
+      dispatch(loginSucess({ status: 200, userID }));
       dispatch(getUserProfile());
     }
   }, [getToken]);
@@ -115,15 +116,12 @@ function App(): JSX.Element {
   }
 
   useEffect(() => {
-    console.log('login response');
-    console.log('getCredentials: ', getCredentials);
-    console.log('credentials: ', credentials);
     if (credentials) {
       dispatch(loginSucess(credentials));
       dispatch(getUserProfile());
       handleExpired();
     }
-  }, [getToken, getCredentials]);
+  }, [credentials]);
 
   useEffect(() => getInfoBySocialLogin, [getToken]);
 
