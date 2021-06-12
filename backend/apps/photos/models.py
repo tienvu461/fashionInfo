@@ -11,6 +11,7 @@ from taggit.managers import TaggableManager
 from datetime import datetime
 
 from .consts import modelConst, adminConst
+from .utils import striphtml
 
 logger = logging.getLogger("photos")
 
@@ -163,6 +164,18 @@ class NewsCategory(models.Model):
     description = models.CharField(max_length=255)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    order = models.IntegerField(unique=True, null=False)
+
+    def __str__(self):
+        return self.cat_name
+
+class NewsSubCategory(models.Model):
+    cat_id = models.AutoField(primary_key=True, null=False)
+    cat_name = models.CharField(max_length=255)
+    description = models.CharField(max_length=255)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    order = models.IntegerField(unique=True, null=False)
 
     def __str__(self):
         return self.cat_name
@@ -174,6 +187,7 @@ class News(models.Model):
     title = models.CharField(max_length=50)
     slug = models.SlugField(max_length=255, unique=True, null=True)
     category = models.ForeignKey(NewsCategory, on_delete=models.CASCADE)
+    sub_category = models.ForeignKey(NewsSubCategory, on_delete=models.CASCADE)
     tags = TaggableManager()
     author = models.ForeignKey(
         User, related_name='author', on_delete=models.CASCADE, default="1")
@@ -203,7 +217,7 @@ class News(models.Model):
         summary = self.content[:150] 
         last_space = summary.rfind(" ")
         summary = summary[:last_space] + "..."
-        return markdownify(summary)
+        return striphtml(markdownify(summary))
     summary.short_description = "Description"
 
 class NewsAttachedPhoto(models.Model):
@@ -254,7 +268,7 @@ class NewsComment(models.Model):
 def get_default_news():
     return News.objects.get_or_create(id=1)
 class NewsFeature(models.Model):
-    feature_photo = ForeignKey(
+    feature_news = ForeignKey(
         News, related_name='feature', on_delete=models.CASCADE, default=get_default_news)
     in_use = models.BooleanField(choices=modelConst.BINARY, default=True)
     created_at = models.DateTimeField(auto_now_add=True)

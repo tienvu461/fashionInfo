@@ -6,6 +6,7 @@ import loginReducer from '../features/Login/LoginSlice';
 import registerReducer from '../features/Register/RegisterSlice';
 import photoReducer from '../features/Photo/photoSlice';
 import profileReducer from '../features/Profile/ProfileSlice';
+import magazineReducer from '../features/Magazine/MagazineSlice';
 import { clearStoreFromlocalStorage } from '../utils/localStorage';
 import searchTagReducer from '../features/Search/searchSlide';
 
@@ -14,6 +15,7 @@ const appReducer = combineReducers({
   register: registerReducer,
   profile: profileReducer,
   photo: photoReducer,
+  magazine: magazineReducer,
   searchTag: searchTagReducer,
 });
 

@@ -1,87 +1,40 @@
 /* eslint-disable import/no-unresolved */
 import { makeStyles } from '@material-ui/core/styles';
-import { white, black, theme } from 'src/styles/theme';
+import { black } from 'src/styles/theme';
 
-const useStyles: () => Record<
-  | 'root'
-  | 'backDrop'
-  | 'actions'
-  | 'left'
-  | 'leftActions'
-  | 'right'
-  | 'num'
-  | 'icon'
-  | 'btn'
-  | 'nextBtn'
-  | 'textBtn'
-  | 'loadingPhoto'
-  | 'textSearch'
-  | 'skeleton',
-  string
-> = makeStyles(() => ({
-  root: {
-    height: 'auto',
-    backgroundColor: white,
-  },
-  actions: {
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    padding: '30px',
-  },
-  left: {
-    display: 'flex',
-    justifyContent: 'space-between',
-  },
-  right: { cursor: 'pointer' },
-  leftActions: {
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginRight: '30px',
-  },
-  icon: {
-    paddingRight: '8px',
-    cursor: 'pointer',
-  },
-  num: {
-    fontFamily: 'Roboto Mono',
+const useStyles: () => Record<'titleHeadLine' | 'menuTab' | 'content', string> = makeStyles(() => ({
+  titleHeadLine: {
     fontStyle: 'normal',
-    fontWeight: 'normal',
-    fontSize: '18px',
-    lineHeight: '24px',
+    fontWeight: 900,
+    lineHeight: '115px',
+    textAlign: 'left',
+    letterSpacing: '3.2px',
+
     color: black,
   },
-  btn: {
-    padding: '40px 0 80px',
-  },
-  nextBtn: {
-    height: '60px',
-    width: '220px',
-  },
-  textBtn: {
-    textTransform: 'initial',
-    paddingBottom: '6px',
-    [theme.breakpoints.down('md')]: {
-      fontSize: '30px !important',
+  menuTab: {
+    textAlign: 'left',
+    padding: 0,
+    color: '#373F41',
+    letterSpacing: '0.2px',
+    fontWeight: 'normal',
+    lineHeight: '18px',
+    fontSize: '24px',
+    textTransform: 'inherit',
+    minWidth: 0,
+    marginRight: '89px',
+
+    fontStyle: 'normal',
+    fontFamily: 'Roboto',
+
+    '& .MuiTab-wrapper': {
+      alignItems: 'baseline',
     },
   },
-  backDrop: {
+  content: {
+    backgroundColor: '#E5E5E5',
+    height: 'fit-content',
     width: '100%',
-    zIndex: 1,
-    color: white,
-  },
-  skeleton: {
-    padding: '100px 0',
-    width: '100%',
-  },
-  loadingPhoto: {},
-  textSearch: {
-    fontSize: '120px',
-    textAlign: 'left',
-    fontFamily: 'Darker Grotesque',
-    fontWeight: 'bold',
-    backgroundColor: '#FFFFFF',
   },
 }));
 

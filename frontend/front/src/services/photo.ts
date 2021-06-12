@@ -1,13 +1,14 @@
+/* eslint-disable import/no-unresolved */
 /* eslint-disable camelcase */
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import request from 'src/configs';
 import {
   PHOTO_LIST_API,
   PHOTO_GET_BY_ID_API,
   PHOTO_LIST_SUGGEST_API,
   PHOTO_LIKE_API,
   PHOTO_COMMENT_API,
-} from '../apis';
-import request from '../configs/index';
+} from 'src/apis';
 
 export const getListPhoto = (page: number): any => request(`${PHOTO_LIST_API}${page}`, 'GET');
 

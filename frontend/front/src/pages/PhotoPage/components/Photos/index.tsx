@@ -87,15 +87,9 @@ function Photos(): JSX.Element {
   const loadingPhoto = () => (
     <>
       {[1, 2, 3].map((id) => (
-        <Grid
+        <div
+          className={`gridItem ${classes.loadingPhoto}`}
           key={id}
-          className={classes.loadingPhoto}
-          item
-          lg={4}
-          md={6}
-          sm={6}
-          xl={4}
-          xs={12}
         >
           <Box marginRight={2} my={5} width='100%'>
             <Skeleton
@@ -111,7 +105,7 @@ function Photos(): JSX.Element {
               <Skeleton variant='rect' width='60%' />
             </Box>
           </Box>
-        </Grid>
+        </div>
       ))}
     </>
   );

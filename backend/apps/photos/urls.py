@@ -13,13 +13,15 @@ photos_urlpatterns = [
     url(r'api/photos/suggest', views.PhotoSuggest.as_view()),
     url(r'api/photos/feature', views.PhotoFeatureDetail.as_view()),
 
-    url(r'^api/news/$', views.NewsList.as_view()),
-    url(r'api/news/(?P<pk>\d+)/', views.NewsDetail.as_view()),
-    url(r'api/news/search', views.NewsSearch.as_view()),
-    url(r'api/news/comment', views.NewsCommentCreate.as_view()),
-    url(r'api/news/like', views.NewsLikeCreate.as_view()),
-    url(r'api/news/suggest', views.NewsSuggest.as_view()),
-    url(r'api/news/feature', views.NewsFeatureDetail.as_view()),
+    url(r'^api/magazine/$', views.NewsList.as_view()),
+    url(r'api/magazine/(?P<pk>\d+)/', views.NewsDetail.as_view()),
+    url(r'api/magazine/search', views.NewsSearch.as_view()),
+    url(r'api/magazine/comment', views.NewsCommentCreate.as_view()),
+    url(r'api/magazine/like', views.NewsLikeCreate.as_view()),
+    url(r'api/magazine/suggest', views.NewsSuggest.as_view()),
+    url(r'api/magazine/feature', views.NewsFeatureDetail.as_view()),
+    url(r'api/magazine/category', views.NewsCategoryList.as_view()),
+    url(r'api/magazine/subcategory', views.NewsSubCategoryList.as_view()),
 ]
 
 if settings.DEBUG:
