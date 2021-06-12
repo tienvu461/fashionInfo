@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import clsx from 'clsx';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-
+import Link from 'react-router-dom/Link';
 import {
   Typography,
   Box,
@@ -14,7 +14,6 @@ import {
   TextField,
   FormControlLabel,
   Checkbox,
-  Link,
   InputAdornment,
   IconButton,
   CircularProgress,
@@ -108,7 +107,7 @@ function LoginPage(): JSX.Element {
     <Grid className={clsx(classes.root && 'login-page')} component='main' container item>
       <Grid className='imageBannerLogin' item md={6} sm={12} xs={12} />
       <Grid item md={6} sm={12} xs={12}>
-        <div className={classes.paper}>
+        <div className={clsx(classes.paper && 'paper')}>
           <Box textAlign='left'>
             <Typography component='span'>
               <Box className={classes.header}>Welcome back!</Box>
@@ -224,8 +223,8 @@ function LoginPage(): JSX.Element {
             </form>
             <Box textAlign='center'>
               <span className={classes.fontManual}>Chưa có tài khoản?</span>
-              <Link className={classes.link}>
-                <span className={classes.fontManual}> Đăng ký ngay</span>
+              <Link className={classes.link} to='/register'>
+                <span className={classes.fontManual} style={{ cursor: 'pointer' }}> Đăng ký ngay</span>
               </Link>
             </Box>
           </Box>
