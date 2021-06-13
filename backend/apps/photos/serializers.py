@@ -11,7 +11,8 @@ import logging
 import json
 
 from .models import Photo, PhotoFeature, PhotoLike, PhotoComment, GenericConfig
-from .models import News, NewsFeature, NewsComment, NewsLike
+from .models import News, NewsFeature, NewsComment, NewsLike, NewsCategory, NewsSubCategory
+from apps.accounts.models import UserProfile
 from .consts import modelConst, postTypeEnum
 from .utils import calc_interactive_pt, nested_comment
 logger = logging.getLogger('photos')
@@ -71,9 +72,11 @@ class PhotoSerializer(serializers.ModelSerializer):
 
 
 class PhotoCommentSerializer(serializers.ModelSerializer):
+    user_photo = serializers.SerializerMethodField()
+    user_fullname = serializers.SerializerMethodField() 
     class Meta:
         model = PhotoComment
-        fields = ['cmt_id', 'user_id', 'photo_id', 'content', 'active', 'parent',
+        fields = ['cmt_id', 'user_id', 'user_photo', 'photo_id', 'content', 'active', 'parent',
                   'created_at']
 
     # take the current photo comment object from DB, which is a list => append a new comment to that list
@@ -81,9 +84,17 @@ class PhotoCommentSerializer(serializers.ModelSerializer):
         data_fields = super(PhotoCommentSerializer,
                             self).to_representation(instance)
         data_fields['created_at'] = int(instance.created_at.timestamp())
-        data_fields['user_id'] = instance.user_id.first_name + ' ' + instance.user_id.last_name
+        # data_fields['user_id'] = instance.user_id.first_name + ' ' + instance.user_id.last_name
 
         return data_fields
+    def user_fullname(self, instance):
+       return instance.user_id.get_full_name
+        
+    def get_user_photo(self, instance): 
+        user_id = getattr(instance, 'user_id')
+        user_photo = UserProfile.objects.get(user=user_id)
+        logger.debug(user_photo)
+        return "1"
 
 
 class PhotoLikeSerializer(serializers.ModelSerializer):
@@ -203,16 +214,18 @@ class PhotoFeatureSerializer(serializers.ModelSerializer):
 class NewsSerializer(serializers.ModelSerializer):
     activities = serializers.SerializerMethodField()
     tags = TagListSerializerField()
+    sub_category = serializers.SlugRelatedField(read_only=True, slug_field='cat_name')
+    category = serializers.SlugRelatedField(read_only=True, slug_field='cat_name')
 
     class Meta:
         model = News
-        fields = ['id', 'title', 'author', 'summary',
-                  'status', 'created_at', 'activities', 'tags']
+        fields = ['id', 'title', 'author', 'summary', 'thumbnail',
+                  'status', 'created_at', 'activities', 'tags', 'category', 'sub_category']
 
     def to_representation(self, instance):
         data_fields = super(NewsSerializer, self).to_representation(instance)
         data_fields['created_at'] = int(instance.created_at.timestamp())
-
+        data_fields['author'] = instance.author.first_name + ' ' + instance.author.last_name
         return data_fields
 
     def get_activities(self, instance):
@@ -233,7 +246,7 @@ class NewsCommentSerializer(serializers.ModelSerializer):
         fields = ['cmt_id', 'user_id', 'news_id', 'content', 'active', 'parent',
                   'created_at']
 
-    # take the current photo comment object from DB, which is a list => append a new comment to that list
+    # take the current news comment object from DB, which is a list => append a new comment to that list
     def to_representation(self, instance):
         data_fields = super(NewsCommentSerializer,
                             self).to_representation(instance)
@@ -261,7 +274,7 @@ class NewsDetailSerializer(NewsSerializer):
     class Meta:
         model = News
         fields = ['id', 'title', 'formatted_markdown', 'status', 'thumbnail', 'author',
-                  'created_at', 'likes', 'comments', 'user_likes', 'tags', 'view_count']
+                  'created_at', 'likes', 'comments', 'user_likes', 'tags', 'view_count', 'category', 'sub_category']
         removed_fields = []
 
     def __init__(self, *args, **kwargs):
@@ -282,12 +295,16 @@ class NewsDetailSerializer(NewsSerializer):
         return NewsLike.objects.filter(news_id=instance.id, is_enabled=True).count()
 
     def get_comments(self, instance):
+        # get all comment with parent field is null
         comment_queryset = NewsComment.objects.filter(news_id=instance.id, parent__isnull=True)
+        # get all comment with parent field is not null
         reply_queryset = NewsComment.objects.filter(news_id=instance.id, parent__isnull=False)
 
         # data = serializers.serialize('json', query)
+        # get json of comment and reply
         comment_data =  NewsCommentSerializer(comment_queryset, many=True).data
         reply_data =  NewsCommentSerializer(reply_queryset, many=True).data
+        # update "reply" feild if needed
         nested_comment(comment_data, reply_data)
         return comment_data
 
@@ -314,12 +331,36 @@ class NewsSuggestSerializer(NewsSerializer):
 class NewsFeatureSerializer(serializers.ModelSerializer):
     class Meta:
         model = NewsFeature
-        fields = ['id', 'feature_photo', 'in_use', 'created_at']
+        fields = ['id', 'feature_news', 'in_use', 'created_at']
 
     def to_representation(self, instance):
         data_fields = super(NewsFeatureSerializer, self).to_representation(instance)
         queryset = News.objects.values_list('image_path', flat=True)
-        data_fields['feature_photo'] = settings.MEDIA_URL + queryset.get(id=data_fields['feature_photo'])
+        data_fields['feature_news'] = settings.MEDIA_URL + queryset.get(id=data_fields['feature_news'])
+        data_fields['created_at'] = int(instance.created_at.timestamp())
+
+        return data_fields
+
+class NewsCategorySerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = NewsCategory
+        fields = ['cat_id', 'cat_name', 'description', 'created_at', 'order']
+
+    def to_representation(self, instance):
+        data_fields = super(NewsCategorySerializer, self).to_representation(instance)
+        data_fields['created_at'] = int(instance.created_at.timestamp())
+
+        return data_fields
+
+class NewsSubCategorySerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = NewsSubCategory
+        fields = ['cat_id', 'cat_name', 'description', 'created_at', 'order']
+
+    def to_representation(self, instance):
+        data_fields = super(NewsSubCategorySerializer, self).to_representation(instance)
         data_fields['created_at'] = int(instance.created_at.timestamp())
 
         return data_fields
