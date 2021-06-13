@@ -102,7 +102,7 @@ function HeaderMenu(props: AuxProps): JSX.Element {
         />
       </Grid>
     );
-};
+  };
 
   return (
     <div style={{ position: 'relative' }}>
@@ -112,7 +112,7 @@ function HeaderMenu(props: AuxProps): JSX.Element {
         <Grid alignItems='center' className={classes.navbar} container direction='row' justify='center'>
           <AppBar>
             <div className={`${classes.header} header`}>
-              <Grid className={classes.logo}>
+              <Grid className={`${classes.logo} logo`}>
                 <img
                   alt='Lucete'
                   onClick={() => {
@@ -163,7 +163,7 @@ function HeaderMenu(props: AuxProps): JSX.Element {
               />
               <Hidden mdUp>
                 <Grid className={classes.actions}>
-                  <Search />
+                  {/* <Search /> */}
                   {handleIconLogIn()}
                 </Grid>
                 <SideDrawer setActive={setActive} navLinks={navLinks} />

@@ -15,42 +15,42 @@ import { loginService, getUrlSocialService, refreshTokenService } from 'src/serv
 import { loginSucess, loginFail, logoutSuccess } from './LoginSlice';
 
 export const loginAction = (payload: {
-  username: string; password: string, showPassword: boolean
+  email: string; password: string, showPassword: boolean
 }) => async (dispatch: Dispatch): Promise<any> => {
-        try {
-            const response = await loginService(payload);
-            /**
-             * TO DO ENOCODE JWT
-             */
-            type CustomJwtPayload = JwtPayload & { user_id: string };
-            const dataEncodeJwt = jwtDecode<CustomJwtPayload>(response.data.access);
-            const { user_id: userID } = dataEncodeJwt;
-            const { data = {}, status = '' } = response;
-            if (status === 200) {
-                dispatch(loginSucess({ data, status, userID }));
-                setDataFromLocalStorage(JSON.stringify({ status, userID }));
-                setTokenToLocalStorage(data.access);
-                setRefreshTokenToLocalStorage(data.refresh);
+  try {
+    const response = await loginService(payload);
+    /**
+     * TO DO ENOCODE JWT
+     */
+    type CustomJwtPayload = JwtPayload & { user_id: string };
+    const dataEncodeJwt = jwtDecode<CustomJwtPayload>(response.data.access);
+    const { user_id: userID } = dataEncodeJwt;
+    const { data = {}, status = '' } = response;
+    if (status === 200) {
+      dispatch(loginSucess({ data, status, userID }));
+      setDataFromLocalStorage(JSON.stringify({ status, userID }));
+      setTokenToLocalStorage(data.access);
+      setRefreshTokenToLocalStorage(data.refresh);
 
-                toast.success('Đăng nhập thành công !');
-              }
-            return status;
-        } catch (error) {
-            const { response: { data = {}, status = '' } = {}, } = error;
-            dispatch(loginFail({ data, status }));
-        }
+      toast.success('Đăng nhập thành công !');
+    }
+    return status;
+  } catch (error) {
+    const { response: { data = {}, status = '' } = {}, } = error;
+    dispatch(loginFail({ data, status }));
+  }
 
-        return 0;
-    };
+  return 0;
+};
 
 // clear localstorage
 export const logoutAction = () => async (dispatch: Dispatch): Promise<any> => {
-   try {
+  try {
     clearStoreFromlocalStorage();
     dispatch(logoutSuccess);
-   } catch (e) {
+  } catch (e) {
     //    console.log(e);
-   }
+  }
 };
 
 export const getUrlSocialAction = () => async (): Promise<any> => {
@@ -68,7 +68,7 @@ export const getUrlSocialAction = () => async (): Promise<any> => {
   }
 };
 
-export const refreshTokenAction = (payload: { refresh: string}) => async (dispatch: Dispatch): Promise<any> => {
+export const refreshTokenAction = (payload: { refresh: string }) => async (dispatch: Dispatch): Promise<any> => {
   try {
     const response = await refreshTokenService(payload);
     type CustomJwtPayload = JwtPayload & { user_id: string };
