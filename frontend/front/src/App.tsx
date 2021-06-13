@@ -79,6 +79,7 @@ function App(): JSX.Element {
       const encodeToken = jwtDecode<CustomJwtPayload>(getToken);
       const { user_id: userID } = encodeToken;
       setDataFromLocalStorage(JSON.stringify({ status: 200, userID }));
+      dispatch(loginSucess({ status: 200, userID }));
       dispatch(getUserProfile());
     }
   }, [getToken]);
@@ -120,7 +121,7 @@ function App(): JSX.Element {
       dispatch(getUserProfile());
       handleExpired();
     }
-  }, []);
+  }, [credentials]);
 
   useEffect(() => getInfoBySocialLogin, [getToken]);
 

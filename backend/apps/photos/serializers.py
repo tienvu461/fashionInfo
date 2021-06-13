@@ -12,6 +12,7 @@ import json
 
 from .models import Photo, PhotoFeature, PhotoLike, PhotoComment, GenericConfig
 from .models import News, NewsFeature, NewsComment, NewsLike, NewsCategory, NewsSubCategory
+from apps.accounts.models import UserProfile
 from .consts import modelConst, postTypeEnum
 from .utils import calc_interactive_pt, nested_comment
 logger = logging.getLogger('photos')
@@ -71,9 +72,11 @@ class PhotoSerializer(serializers.ModelSerializer):
 
 
 class PhotoCommentSerializer(serializers.ModelSerializer):
+    user_photo = serializers.SerializerMethodField()
+    user_fullname = serializers.SerializerMethodField() 
     class Meta:
         model = PhotoComment
-        fields = ['cmt_id', 'user_id', 'photo_id', 'content', 'active', 'parent',
+        fields = ['cmt_id', 'user_fullname', 'user_photo', 'photo_id', 'content', 'active', 'parent',
                   'created_at']
 
     # take the current photo comment object from DB, which is a list => append a new comment to that list
@@ -81,9 +84,16 @@ class PhotoCommentSerializer(serializers.ModelSerializer):
         data_fields = super(PhotoCommentSerializer,
                             self).to_representation(instance)
         data_fields['created_at'] = int(instance.created_at.timestamp())
-        data_fields['user_id'] = instance.user_id.first_name + ' ' + instance.user_id.last_name
+        # data_fields['user_id'] = instance.user_id.first_name + ' ' + instance.user_id.last_name
 
         return data_fields
+    def get_user_fullname(self, instance):
+       return instance.user_id.get_full_name()
+        
+    def get_user_photo(self, instance): 
+        user_id = getattr(instance, 'user_id')
+        user_photo = UserProfile.objects.get(user=user_id)
+        return getattr(user_photo, "profile_photo").url
 
 
 class PhotoLikeSerializer(serializers.ModelSerializer):
