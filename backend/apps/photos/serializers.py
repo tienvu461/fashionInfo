@@ -11,7 +11,7 @@ import logging
 import json
 
 from .models import Photo, PhotoFeature, PhotoLike, PhotoComment, GenericConfig
-from .models import News, NewsFeature, NewsComment, NewsLike, NewsCategory, NewsSubCategory
+from .models import News, NewsFeature, MagazineComment, MagazineLike, NewsCategory, NewsSubCategory
 from .consts import modelConst, postTypeEnum
 from .utils import calc_interactive_pt, nested_comment
 logger = logging.getLogger('photos')
@@ -218,8 +218,8 @@ class NewsSerializer(serializers.ModelSerializer):
         return data_fields
 
     def get_activities(self, instance):
-        like_num = NewsLike.objects.filter(news_id=instance.id, is_enabled=True).count()
-        comment_num = NewsComment.objects.filter(news_id=instance.id, active=True).count()
+        like_num = MagazineLike.objects.filter(magazine_id=instance.id, is_enabled=True).count()
+        comment_num = MagazineComment.objects.filter(magazine_id=instance.id, active=True).count()
         view_count = getattr(instance, 'view_count')
         return {
             'likes': like_num,
@@ -229,15 +229,15 @@ class NewsSerializer(serializers.ModelSerializer):
 
 
 
-class NewsCommentSerializer(serializers.ModelSerializer):
+class MagazineCommentSerializer(serializers.ModelSerializer):
     class Meta:
-        model = NewsComment
-        fields = ['cmt_id', 'user_id', 'news_id', 'content', 'active', 'parent',
+        model = MagazineComment
+        fields = ['cmt_id', 'user_id', 'magazine_id', 'content', 'active', 'parent',
                   'created_at']
 
     # take the current news comment object from DB, which is a list => append a new comment to that list
     def to_representation(self, instance):
-        data_fields = super(NewsCommentSerializer,
+        data_fields = super(MagazineCommentSerializer,
                             self).to_representation(instance)
         data_fields['created_at'] = int(instance.created_at.timestamp())
         data_fields['user_id'] = instance.user_id.first_name + ' ' + instance.user_id.last_name
@@ -245,18 +245,18 @@ class NewsCommentSerializer(serializers.ModelSerializer):
         return data_fields
 
 
-class NewsLikeSerializer(serializers.ModelSerializer):
+class MagazineLikeSerializer(serializers.ModelSerializer):
     class Meta:
-        model = NewsLike
-        fields = ['like_id', 'user_id', 'news_id', 'created_at']
+        model = MagazineLike
+        fields = ['like_id', 'user_id', 'magazine_id', 'created_at']
 
     def to_representation(self, instance):
-        data_fields = super(NewsLikeSerializer, self).to_representation(instance)
+        data_fields = super(MagazineLikeSerializer, self).to_representation(instance)
         data_fields['created_at'] = int(instance.created_at.timestamp())
 
         return data_fields
 
-class NewsDetailSerializer(NewsSerializer):
+class MagazineDetailSerializer(NewsSerializer):
     likes = serializers.SerializerMethodField()
     comments = serializers.SerializerMethodField()
 
@@ -281,18 +281,18 @@ class NewsDetailSerializer(NewsSerializer):
                 self.fields.pop(field_name)
 
     def get_likes(self, instance):
-        return NewsLike.objects.filter(news_id=instance.id, is_enabled=True).count()
+        return MagazineLike.objects.filter(magazine_id=instance.id, is_enabled=True).count()
 
     def get_comments(self, instance):
         # get all comment with parent field is null
-        comment_queryset = NewsComment.objects.filter(news_id=instance.id, parent__isnull=True)
+        comment_queryset = MagazineComment.objects.filter(magazine_id=instance.id, parent__isnull=True)
         # get all comment with parent field is not null
-        reply_queryset = NewsComment.objects.filter(news_id=instance.id, parent__isnull=False)
+        reply_queryset = MagazineComment.objects.filter(magazine_id=instance.id, parent__isnull=False)
 
         # data = serializers.serialize('json', query)
         # get json of comment and reply
-        comment_data =  NewsCommentSerializer(comment_queryset, many=True).data
-        reply_data =  NewsCommentSerializer(reply_queryset, many=True).data
+        comment_data =  MagazineCommentSerializer(comment_queryset, many=True).data
+        reply_data =  MagazineCommentSerializer(reply_queryset, many=True).data
         # update "reply" feild if needed
         nested_comment(comment_data, reply_data)
         return comment_data

@@ -233,22 +233,22 @@ class NewsArchivedFile(models.Model):
     zip_file = models.FileField(
         upload_to=adminConst.ARCHIVED_DIR + datetime.now().strftime('%Y/%m/%d'), max_length=500)
 
-class NewsLike(models.Model):
+class MagazineLike(models.Model):
     like_id = models.AutoField(primary_key=True, null=False)
     user_id = models.ForeignKey(
         User, on_delete=models.CASCADE, null=False)
-    news_id = models.ForeignKey(
+    magazine_id = models.ForeignKey(
         News, on_delete=models.CASCADE, null=False)
     is_enabled = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
 
-class NewsComment(models.Model):
+class MagazineComment(models.Model):
     cmt_id = models.AutoField(primary_key=True, null=False)
     user_id = models.ForeignKey(
         User, on_delete=models.CASCADE, null=False)
-    news_id = models.ForeignKey(
+    magazine_id = models.ForeignKey(
         News, on_delete=models.CASCADE, null=False)
     content = models.CharField(max_length=255)
     # manually deactivate inappropriate comments from admin site

@@ -11,7 +11,7 @@ import zipfile
 import re
 from datetime import datetime
 
-from .models import NewsCategory, Photo, PhotoFeature, PhotoLike, PhotoComment, News, NewsAttachedPhoto, NewsArchivedFile, NewsLike, NewsComment, GenericConfig, PhotoCategory, NewsFeature, NewsSubCategory
+from .models import NewsCategory, Photo, PhotoFeature, PhotoLike, PhotoComment, News, NewsAttachedPhoto, NewsArchivedFile, MagazineComment, GenericConfig, PhotoCategory, NewsFeature, NewsSubCategory
 from .consts import adminConst
 
 from django import forms
@@ -149,7 +149,7 @@ class NewsAdmin(MarkdownxModelAdmin):
         # archived_all = NewsArchivedFile.objects.all().count()
         # logger.debug("archived_all = {}".format(archived_all))
         try:
-            archived = NewsArchivedFile.objects.get(news_id=obj.id)
+            archived = NewsArchivedFile.objects.get(magazine_id=obj.id)
         except Exception as e:
             logger.error("Cannot get archived file")
             logger.error(e)
@@ -171,17 +171,17 @@ class NewsAdmin(MarkdownxModelAdmin):
                     if '.jpg' in f_name:
                         with f_list.open(f_name, "r") as jpg_file:
                             NewsAttachedPhoto.objects.create(
-                                news_id=obj.id, image=ImageFile(jpg_file))
+                                magazine_id=obj.id, image=ImageFile(jpg_file))
             # delete zipfile after extracted
             file_path = archived.zip_file
             logger.debug(file_path)
-            result = NewsArchivedFile.objects.filter(news_id=obj.id).delete()
+            result = NewsArchivedFile.objects.filter(magazine_id=obj.id).delete()
             logger.debug("NewsArchivedFile delete result = {}".format(result))
         obj.save()
 
-@admin.register(NewsComment)
-class NewsCommentAdmin(admin.ModelAdmin):
-    list_display = ('news_id', 'user_id', 'content',
+@admin.register(MagazineComment)
+class MagazineCommentAdmin(admin.ModelAdmin):
+    list_display = ('magazine_id', 'user_id', 'content',
                     'active', 'parent', 'created_at',)
     list_filter = ('created_at', 'active',)
     search_fields = ('content',)

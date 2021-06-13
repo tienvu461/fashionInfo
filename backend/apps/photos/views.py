@@ -5,12 +5,13 @@ from django.db.models import Q
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework import serializers, views, status, mixins, generics, pagination
+from rest_framework.exceptions import ValidationError
 import logging
 
 from .models import Photo, PhotoLike, PhotoFeature, PhotoComment, GenericConfig
 from .serializers import PhotoSerializer, PhotoDetailSerializer, PhotoFeatureSerializer, PhotoSuggestSerializer, PhotoCommentSerializer, PhotoLikeSerializer
-from .models import News, NewsLike, NewsFeature, NewsComment, NewsCategory, NewsSubCategory
-from .serializers import NewsSerializer, NewsDetailSerializer, NewsFeatureSerializer, NewsSuggestSerializer, NewsCommentSerializer, NewsLikeSerializer, NewsCategorySerializer, NewsSubCategorySerializer
+from .models import News, MagazineLike, NewsFeature, MagazineComment, NewsCategory, NewsSubCategory
+from .serializers import NewsSerializer, MagazineDetailSerializer, NewsFeatureSerializer, NewsSuggestSerializer, MagazineCommentSerializer, MagazineLikeSerializer, NewsCategorySerializer, NewsSubCategorySerializer
 from .consts import photosConst
 from .utils import calc_interactive_pt, striphtml
 
@@ -350,6 +351,8 @@ class NewsList(generics.ListCreateAPIView):
     def list(self, request, *args, **kwargs):
         category = request.GET.get('category', '')
         logger.debug(category)
+        if not category:
+            raise ValidationError
         # getting show/hide setting from Generic Config tbl
         config_obj = GenericConfig.objects.filter(in_use=True)
         try:
@@ -380,9 +383,9 @@ class NewsList(generics.ListCreateAPIView):
         return Response(serializer.data)
 
 
-class NewsDetail(generics.RetrieveUpdateDestroyAPIView):
+class MagazineDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = News.objects.all()
-    serializer_class = NewsDetailSerializer
+    serializer_class = MagazineDetailSerializer
 
     def get(self, request, *args, **kwargs):
         # view increment
@@ -425,23 +428,23 @@ class NewsSearch(views.APIView, pagination.PageNumberPagination):
         return Response(serializer.data)
 
 
-class NewsLikeCreate(generics.CreateAPIView):
+class MagazineLikeCreate(generics.CreateAPIView):
     permission_classes = (IsAuthenticated,)
-    serializer_class = NewsLikeSerializer
+    serializer_class = MagazineLikeSerializer
 
     def post(self, request, *args, **kwargs):
         # query photolike object from DB
 
-        news = News.objects.get(id=self.request.data['news_id'])
+        news = News.objects.get(id=self.request.data['magazine_id'])
         try:
-            news_like = NewsLike.objects.get(user_id=self.request.data['user_id'],
-                                             news_id=self.request.data['news_id'])
+            news_like = MagazineLike.objects.get(user_id=self.request.data['user_id'],
+                                             magazine_id=self.request.data['magazine_id'])
         except Exception as e:
             logger.info("Like has not been created")
             logger.info(e)
             news_like = None
         if not news_like:
-            # if there is no newslike object with above condition => create one
+            # if there is no MagazineLike object with above condition => create one
             serializer = self.get_serializer(data=request.data)
             logger.debug(serializer)
             serializer.is_valid(raise_exception=True)
@@ -454,7 +457,7 @@ class NewsLikeCreate(generics.CreateAPIView):
             return Response(serializer.data, status=status.HTTP_200_OK, headers=headers)
 
         elif True == news_like.is_enabled:
-            # if there is newslike object with above condition => disable it
+            # if there is MagazineLike object with above condition => disable it
             news_like.is_enabled = False
             news_like.save()
             # remove user to likes list
@@ -463,7 +466,7 @@ class NewsLikeCreate(generics.CreateAPIView):
 
             return Response({'info': 'you have unlike this news!'}, status=status.HTTP_200_OK)
         else:
-            # if there is newslike object with above condition => re-enable it
+            # if there is MagazineLike object with above condition => re-enable it
             news_like.is_enabled = True
             news_like.save()
             # add user to likes list
@@ -475,8 +478,8 @@ class NewsLikeCreate(generics.CreateAPIView):
 class NewsSuggest(CustomPaginate):
     def get(self, request):
         page = request.GET.get("page")
-        news_id = request.GET.get('news_id')
-        logger.debug(news_id)
+        magazine_id = request.GET.get('magazine_id')
+        logger.debug(magazine_id)
 
         # # getting interactive ratio from Generic Config tbl
         # config_obj = GenericConfig.objects.filter(in_use=True)
@@ -487,8 +490,8 @@ class NewsSuggest(CustomPaginate):
         #     return Response(status=status.HTTP_400_BAD_REQUEST,)
 
         try:
-            org_queryset = News.objects.filter(id=news_id).distinct()
-            org_serializer = NewsDetailSerializer(org_queryset, many=True)
+            org_queryset = News.objects.filter(id=magazine_id).distinct()
+            org_serializer = MagazineDetailSerializer(org_queryset, many=True)
             # logger.debug(
             #     ("org_queryset data = {}".format(org_serializer.data[0])))
 
@@ -508,7 +511,7 @@ class NewsSuggest(CustomPaginate):
             # similar_news_queryset = News.objects.filter(Q(tags__icontains='candy')|Q(body__icontains='candy'))
 
             similar_news_queryset = similar_news_queryset.exclude(
-                id=news_id)
+                id=magazine_id)
             similar_news_serializer = NewsSerializer(
                 similar_news_queryset, many=True)
             # logger.debug(("similar_news_serializer data = {}".format(
@@ -576,9 +579,9 @@ class NewsFeatureDetail(views.APIView):
 # Create comment on photo
 
 
-class NewsCommentCreate(generics.CreateAPIView):
+class MagazineCommentCreate(generics.CreateAPIView):
     permission_classes = (IsAuthenticated,)
-    serializer_class = NewsCommentSerializer
+    serializer_class = MagazineCommentSerializer
 
     def post(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
@@ -591,7 +594,7 @@ class NewsCommentCreate(generics.CreateAPIView):
                 parent_id = getattr(parent, 'cmt_id')
                 logger.debug(parent)
                 logger.debug(type(parent))
-                existing_cmt = NewsComment.objects.filter(cmt_id=parent_id)
+                existing_cmt = MagazineComment.objects.filter(cmt_id=parent_id)
                 logger.debug(existing_cmt)
             except Exception as e:
                 logger.error(e)
