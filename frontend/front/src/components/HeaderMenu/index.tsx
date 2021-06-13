@@ -16,6 +16,7 @@ import {
   CssBaseline,
   IconButton,
   Toolbar,
+  CircularProgress,
 } from '@material-ui/core';
 import logo from 'src/assets/images/logoLucete.svg';
 import icon from 'src/assets/images/user.svg';
@@ -111,9 +112,9 @@ function HeaderMenu(props: AuxProps): JSX.Element {
                 <img
                   alt='Lucete'
                   onClick={() => {
-                  setActive(ROUTE_HOME);
-                  history.push('/');
-                }}
+                    setActive(ROUTE_HOME);
+                    history.push('/');
+                  }}
                   src={logo}
                 />
               </Grid>
@@ -150,7 +151,12 @@ function HeaderMenu(props: AuxProps): JSX.Element {
                   {handleIconLogIn()}
                 </Grid>
               </Hidden>
-              <MenuDesktop menuId={menuId} anchorEl={anchorEl} handleMenuClose={handleMenuClose} />
+              <MenuDesktop
+                setActive={setActive}
+                menuId={menuId}
+                anchorEl={anchorEl}
+                handleMenuClose={handleMenuClose}
+              />
               <Hidden mdUp>
                 <Grid className={classes.actions}>
                   <Search />

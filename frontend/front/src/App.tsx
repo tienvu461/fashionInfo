@@ -4,7 +4,7 @@
 /* eslint-disable import/no-unresolved */
 import React, { useEffect, useMemo, Suspense, lazy } from 'react';
 import { toast } from 'react-toastify';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Route, Switch, useLocation } from 'react-router-dom';
 import { CircularProgress } from '@material-ui/core';
 import jwtDecode, { JwtPayload } from 'jwt-decode';
@@ -34,15 +34,17 @@ import Footer from './components/Footer';
 import ForumPage from './pages/ForumPage';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/Register';
-import MagazinePage from './pages/MagaginzePage';
+// import MagazinePage from './pages/MagaginzePage';
 import HeaderMenu from './components/HeaderMenu';
 import PhotoSearchPage from './pages/PhotoSearchPage';
 import { loginSucess } from './features/Login/LoginSlice';
 import DetailPhoto from './pages/PhotoPage/components/Detail';
 import { getUserProfile } from './features/Profile/ProfileAction';
 import { refreshTokenAction } from './features/Login/LoginAction';
+import { RootState } from './store/store';
 
 const PhotoPage = lazy(() => import('./pages/PhotoPage'));
+const MagazinePage = lazy(() => import('./pages/MagaginzePage'));
 
 toast.configure({
   autoClose: 2000
@@ -64,6 +66,7 @@ const logOut = () => ({
 
 function App(): JSX.Element {
   const dispatch = useDispatch<any>();
+  const logoutStatus = useSelector((state: RootState) => state.login.loginResponse?.status);
   const location = useLocation();
 
   const getCredentials = getCredentialsFromLocalStorage();
@@ -124,6 +127,8 @@ function App(): JSX.Element {
   }, [credentials]);
 
   useEffect(() => getInfoBySocialLogin, [getToken]);
+
+  if (logoutStatus === 0) return <CircularProgress className='main-loading' />;
 
   return (
     <div className='App'>
