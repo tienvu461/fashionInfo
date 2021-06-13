@@ -1,11 +1,17 @@
 from django.db.models import Q
 from django.db import models
 from django.contrib.auth.models import User
-# import for email login
-from rest_framework_simplejwt.serializers import TokenObtainSerializer
-from rest_framework import serializers
-from rest_framework_simplejwt.tokens import RefreshToken
+from django.contrib.auth import authenticate
 
+from rest_framework_simplejwt.serializers import TokenObtainSerializer
+from rest_framework_simplejwt.tokens import RefreshToken
+from rest_framework_simplejwt.authentication import default_user_authentication_rule
+
+from rest_framework import serializers
+from rest_framework import exceptions
+
+# import for email login
+from django.utils.translation import gettext as _
 import logging
 
 from .models import UserProfile
@@ -45,10 +51,32 @@ class UserProfileSerializer(serializers.ModelSerializer):
     #     instance.save()
     #     return instance
 
-
 class EmailTokenObtainSerializer(TokenObtainSerializer):
     username_field = User.EMAIL_FIELD
 
+    default_error_messages = {
+        'no_active_account': _('No active account found with the given credentials')
+    }
+
+    def validate(self, attrs):
+        authenticate_kwargs = {
+            self.username_field: attrs[self.username_field],
+            'password': attrs['password'],
+        }
+        try:
+            authenticate_kwargs['request'] = self.context['request']
+        except KeyError:
+            pass
+        
+        self.user = authenticate(**authenticate_kwargs)
+
+        if not default_user_authentication_rule(self.user):
+            raise exceptions.AuthenticationFailed(
+                self.error_messages['no_active_account'],
+                'no_active_account',
+            )
+
+        return {}
 # overide the JWT generation class, make it be able to generate JWT by email
 
 
@@ -58,6 +86,8 @@ class CustomTokenObtainPairSerializer(EmailTokenObtainSerializer):
         return RefreshToken.for_user(user)
 
     def validate(self, attrs):
+
+        data = super().validate(attrs)
         # validate user from POST request
 
         user = User.objects.get(
