@@ -3,7 +3,7 @@
 /* eslint-disable import/no-unresolved */
 /* eslint-disable react/jsx-props-no-spreading */
 /* eslint-disable react/require-default-props */
-import React, { ReactChildren, ReactChild, useState } from 'react';
+import React, { ReactChildren, ReactChild, useState, useEffect } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import {
@@ -56,6 +56,10 @@ function HeaderMenu(props: AuxProps): JSX.Element {
   const handleMenuClose = () => {
     setAnchorEl(null);
   };
+
+  useEffect(() => {
+    setActive(location.pathname);
+  }, [location.pathname]);
 
   const navLinks: Array<NavLinksType> = [
     { title: 'Magazine', path: ROUTE_HOME },
