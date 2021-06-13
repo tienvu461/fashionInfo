@@ -1,8 +1,10 @@
-/* eslint-disable import/order */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable import/no-unresolved */
 import React, { useState, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import clsx from 'clsx';
 import { useHistory } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import Link from 'react-router-dom/Link';
 import {
   Typography,
   Box,
@@ -12,34 +14,37 @@ import {
   TextField,
   FormControlLabel,
   Checkbox,
-  Link,
   InputAdornment,
   IconButton,
+  CircularProgress,
 } from '@material-ui/core';
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
-import clsx from 'clsx';
-import './_loginpage.scss';
+
 import { RootState } from 'src/store/store';
-import { loginAction, getUrlSocialAction } from 'src/features/Login/LoginAction';
 import { getUserProfile } from 'src/features/Profile/ProfileAction';
-import iconGg from 'src/assets/images/iconfinder_Google_Loginin.png';
+import { loginAction, getUrlSocialAction } from 'src/features/Login/LoginAction';
+
 import iconFb from 'src/assets/images/iconFb_Login.png';
+import iconGg from 'src/assets/images/iconfinder_Google_Loginin.png';
+
+import './_loginpage.scss';
 import useStyles from './useStyles';
 
 type FieldStates = {
-  username: string;
+  email: string;
   password: string;
   showPassword: boolean;
 };
 
 function LoginPage(): JSX.Element {
   const classes = useStyles();
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<any>();
   const history = useHistory();
 
+  const [loading, setLoading] = useState<boolean>(false);
   const [field, setfield] = useState<FieldStates>({
-    username: '',
+    email: '',
     password: '',
     showPassword: false,
   });
@@ -53,14 +58,21 @@ function LoginPage(): JSX.Element {
 
   const handleSubmit = (event: React.ChangeEvent<HTMLFormElement>) => {
     event.preventDefault();
-    dispatch(loginAction(field));
+    setLoading(true);
+    dispatch(loginAction(field)).then((status) => {
+      if (status === 200) {
+        setLoading(false);
+      } else {
+        setLoading(false);
+      }
+    });
   };
 
   const handleClickShowPassword = () => {
     setfield({ ...field, showPassword: !field.showPassword });
   };
 
-  const loginStatus = useSelector((state: any) => state.login.loginResponse.status);
+  const loginStatus = useSelector((state: RootState) => state.login.loginResponse.status);
   const cmtPhotoId = useSelector((state: RootState) => state.photo.isLoginToComment.photoId);
 
   useEffect(() => {
@@ -87,7 +99,7 @@ function LoginPage(): JSX.Element {
     if (loginStatus === 400) {
       return <span className={classes.errorText}>Vui lòng nhập tài khoản/email và mật khẩu</span>;
     }
-    if (loginStatus === 401) {
+    if (loginStatus === 401 || loginStatus === 500) {
       return <span className={classes.errorText}>Tài khoản/Email hoặc mật khẩu không đúng</span>;
     }
     return null;
@@ -97,7 +109,7 @@ function LoginPage(): JSX.Element {
     <Grid className={clsx(classes.root && 'login-page')} component='main' container item>
       <Grid className='imageBannerLogin' item md={6} sm={12} xs={12} />
       <Grid item md={6} sm={12} xs={12}>
-        <div className={classes.paper}>
+        <div className={clsx(classes.paper && 'paper')}>
           <Box textAlign='left'>
             <Typography component='span'>
               <Box className={classes.header}>Welcome back!</Box>
@@ -148,13 +160,13 @@ function LoginPage(): JSX.Element {
             <form className={classes.form} noValidate onSubmit={handleSubmit}>
               <div className={classes.fontManual}>Email</div>
               <TextField
-                autoComplete='username'
+                autoComplete='email'
                 autoFocus
                 className={classes.field}
                 fullWidth
-                id='username'
+                id='email'
                 margin='normal'
-                name='username'
+                name='email'
                 onChange={(event) => handleChange(event)}
                 required
                 variant='outlined'
@@ -197,19 +209,26 @@ function LoginPage(): JSX.Element {
                   </Link>
                 </div>
               </div>
-              <Button className={classes.submit} fullWidth type='submit'>
-                <Typography component='h6' className={classes.socialButton}>
-                  Đăng nhập
-                </Typography>
+              <Button
+                className={classes.submit}
+                fullWidth
+                type='submit'
+              >
+                {loading ? (
+                  <CircularProgress />
+                ) : (
+                  <Typography component='h6' className={classes.socialButton}>
+                    Đăng nhập
+                  </Typography>
+                )}
               </Button>
             </form>
             <Box textAlign='center'>
               <span className={classes.fontManual}>Chưa có tài khoản?</span>
-              <Link className={classes.link}>
-                <span className={classes.fontManual}> Đăng ký ngay</span>
+              <Link className={classes.link} to='/register'>
+                <span className={classes.fontManual} style={{ cursor: 'pointer' }}> Đăng ký ngay</span>
               </Link>
             </Box>
-            {/* </div> */}
           </Box>
         </div>
       </Grid>

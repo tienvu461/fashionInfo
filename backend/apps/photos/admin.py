@@ -11,7 +11,7 @@ import zipfile
 import re
 from datetime import datetime
 
-from .models import NewsCategory, Photo, PhotoFeature, PhotoLike, PhotoComment, News, NewsAttachedPhoto, NewsArchivedFile, NewsLike, NewsComment, GenericConfig, PhotoCategory
+from .models import NewsCategory, Photo, PhotoFeature, PhotoLike, PhotoComment, News, NewsAttachedPhoto, NewsArchivedFile, NewsLike, NewsComment, GenericConfig, PhotoCategory, NewsFeature, NewsSubCategory
 from .consts import adminConst
 
 from django import forms
@@ -179,7 +179,6 @@ class NewsAdmin(MarkdownxModelAdmin):
             logger.debug("NewsArchivedFile delete result = {}".format(result))
         obj.save()
 
-
 @admin.register(NewsComment)
 class NewsCommentAdmin(admin.ModelAdmin):
     list_display = ('news_id', 'user_id', 'content',
@@ -195,4 +194,14 @@ class PhotoCategoryAdmin(admin.ModelAdmin):
 
 @admin.register(NewsCategory)
 class NewsCategoryAdmin(admin.ModelAdmin):
+    list_display = ('cat_name', 'created_at')
+
+
+@admin.register(NewsFeature)
+class NewsFeatureAdmin(admin.ModelAdmin):
+    # form = CustomizedConfigForm
+    list_display = ('id', 'feature_news', 'in_use', 'created_at')
+
+@admin.register(NewsSubCategory)
+class NewsSubCategoryAdmin(admin.ModelAdmin):
     list_display = ('cat_name', 'created_at')

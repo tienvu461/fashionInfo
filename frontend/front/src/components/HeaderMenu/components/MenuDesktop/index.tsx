@@ -1,14 +1,14 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable import/no-unresolved */
 import React, { FunctionComponent } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { Menu, MenuItem, Typography } from '@material-ui/core';
 import { toast } from 'react-toastify';
 import { clearStoreFromlocalStorage } from 'src/utils/localStorage';
-import { ROUTE_LOGIN, ROUTE_REGISTER, ROUTE_PROFILE, ROUTE_HOME } from 'src/constants';
-import LoginIcon from 'src/assets/images/user.svg';
-import RegisterIcon from 'src/assets/images/registration.svg';
+import { ROUTE_HOME } from 'src/constants';
 import LogoutIcon from 'src/assets/images/iconLogout.svg';
+import { RootState } from 'src/store/store';
 import useStyles from './useStyles';
 
 type MenuProps = {
@@ -27,23 +27,15 @@ const MenuDesktop: FunctionComponent<MenuProps> = ({
   const dispatch = useDispatch();
   const history = useHistory();
   const loginStatus = useSelector(
-    (state: any) => state.login.loginResponse.status
+    (state: RootState) => state.login.loginResponse.status
   );
-
-  const userName = useSelector((state: any) => state.profile.currentUser.user?.username);
-  // const logOut = () => {
-  //   return {
-  //     type: 'CLEAR_STORE',
-  //   };
-  // };
-
   function logOut() {
     return {
       type: 'CLEAR_STORE'
     };
   }
 
-  const onClickLogout = (e: any) => {
+  const onClickLogout = (e: React.MouseEvent) => {
     e.preventDefault();
     dispatch(logOut());
     clearStoreFromlocalStorage();
@@ -52,6 +44,7 @@ const MenuDesktop: FunctionComponent<MenuProps> = ({
     setTimeout(() => {
       history.push(ROUTE_HOME);
     }, 2000);
+    handleMenuClose();
   };
 
   return (
@@ -66,46 +59,13 @@ const MenuDesktop: FunctionComponent<MenuProps> = ({
       className={classes.menu}
     >
       {loginStatus === 200 ? (
-        <div>
-          <Link to={ROUTE_PROFILE} style={{ textDecoration: 'none', color: 'black' }}>
-            <MenuItem onClick={handleMenuClose} className={classes.menuItem}>
-              {/* <PersonIcon className={classes.iconItem} /> */}
-              {/* <MenuItem onClick={handleMenuClose} className={classes.menuItem}> */}
-              <img src={LoginIcon} alt='register' className={classes.iconItem} />
-              <Typography component='span' className={classes.linkItem}>
-                {userName}
-              </Typography>
-            </MenuItem>
-          </Link>
-          <Link to={ROUTE_HOME} onClick={onClickLogout} style={{ textDecoration: 'none', color: 'black' }}>
-            <MenuItem onClick={handleMenuClose} className={classes.menuItem}>
-              <img src={LogoutIcon} alt='register' className={classes.iconItem} />
-              <Typography component='span' className={classes.linkItem}>
-                Đăng xuất
-              </Typography>
-            </MenuItem>
-          </Link>
-        </div>
-      ) : (
-        <div>
-          <Link to={ROUTE_LOGIN} style={{ textDecoration: 'none', color: 'black' }}>
-            <MenuItem onClick={handleMenuClose} className={classes.menuItem}>
-              <img src={LoginIcon} alt='register' className={classes.iconItem} />
-              <Typography component='span' className={classes.linkItem}>
-                Đăng nhập
-              </Typography>
-            </MenuItem>
-          </Link>
-          <Link to={ROUTE_REGISTER} style={{ textDecoration: 'none', color: 'black' }}>
-            <MenuItem onClick={handleMenuClose} className={classes.menuItem}>
-              <img src={RegisterIcon} alt='register' className={classes.iconItem} />
-              <Typography component='span' className={classes.linkItem}>
-                Đăng ký
-              </Typography>
-            </MenuItem>
-          </Link>
-        </div>
-      )}
+        <MenuItem onClick={onClickLogout} className={classes.menuItem}>
+          <img src={LogoutIcon} alt='register' />
+          <Typography component='span' className={classes.linkItem}>
+            Đăng xuất
+          </Typography>
+        </MenuItem>
+      ) : null }
     </Menu>
   );
 };

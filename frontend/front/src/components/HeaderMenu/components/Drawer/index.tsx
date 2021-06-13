@@ -1,6 +1,14 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable import/no-unresolved */
 import React, { useState } from 'react';
-import { Drawer, IconButton, List, ListItem, ListItemText } from '@material-ui/core';
-import { Menu } from '@material-ui/icons';
+import { useDispatch, useSelector } from 'react-redux';
+import { Drawer, List, ListItem, ListItemText, Collapse, ListItemIcon } from '@material-ui/core';
+import { useHistory } from 'react-router-dom';
+import { isEmpty } from 'lodash';
+import { ExpandLess, ExpandMore, Menu } from '@material-ui/icons';
+import { magazineMenu } from 'src/features/Magazine/MagazineSlice';
+import { RootState } from 'src/store/store';
+import Search from '../Search';
 import useStyles from './useStyles';
 
 interface AnchorState {
@@ -11,11 +19,16 @@ interface NavLinksType {
     title: string;
     path: string;
   }>;
+  setActive: any;
 }
 
-function SideDrawer({ navLinks }: NavLinksType): JSX.Element {
+function SideDrawer({ navLinks, setActive }: NavLinksType): JSX.Element {
   const classes = useStyles();
-  const [state, setState] = useState<AnchorState>({ right: false });
+  const history = useHistory();
+  const dispatch = useDispatch<any>();
+  const [anchorState, setAnchorState] = useState<AnchorState>({ right: false });
+  const [openListItem, setOpenListItem] = useState<boolean>(false);
+  const categories = useSelector((state: RootState) => state.magazine.categories);
 
   const toggleDrawer = (anchor: string, open: boolean) => (event) => {
     if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
@@ -23,26 +36,79 @@ function SideDrawer({ navLinks }: NavLinksType): JSX.Element {
     }
 
     if (anchor === 'right') {
-      setState({
+      setAnchorState({
         right: open,
       });
     }
   };
 
+  const menuTabMagazine = !isEmpty(categories.results)
+    ? categories.results.map((cat, index) => ({
+      menu: cat.cat_name,
+      id: index,
+    }))
+    : [];
+
+  const handleClickSubMenu = (menu: { menu: string; id: number }, path: string) => {
+    dispatch(magazineMenu(menu));
+    history.push(path);
+    setActive('/');
+    setAnchorState({
+      right: false,
+    });
+  };
+
+  const handleClickListItem = (
+    params: {
+      title: string;
+      path: string;
+    }
+  ) => {
+    if (params.title === 'Magazine') {
+      setOpenListItem(!openListItem);
+      setAnchorState({
+        right: true,
+      });
+    } else {
+      history.push(params.path);
+      setActive(params.path);
+      setOpenListItem(false);
+      setAnchorState({
+        right: false,
+      });
+    }
+  };
+
   const sideDrawerList = (anchor: string) => (
-    <div
-      className={classes.list}
-      onClick={toggleDrawer(anchor, false)}
-      onKeyDown={toggleDrawer(anchor, false)}
-      role='presentation'
-    >
+    <div className={classes.list} role='presentation'>
       <List component='nav'>
         {navLinks.map(({ title, path }) => (
-          <a key={title} className={classes.linkText} href={path}>
-            <ListItem button>
+          <>
+            <ListItem
+              button
+              key={title}
+              onClick={() => handleClickListItem({ title, path })}
+              onKeyDown={toggleDrawer(anchor, false)}
+            >
               <ListItemText primary={title} />
+              {title === 'Magazine' ? (
+                <ListItemIcon className={classes.listItemIcon}>
+                  {openListItem ? <ExpandLess /> : <ExpandMore />}
+                </ListItemIcon>
+              ) : null}
             </ListItem>
-          </a>
+            {title === 'Magazine' ? (
+              <Collapse in={openListItem} timeout='auto' unmountOnExit>
+                <List className={classes.subList} component='div' disablePadding>
+                  {menuTabMagazine.map((item) => (
+                    <ListItem onClick={() => handleClickSubMenu(item, path)} button key={item.id}>
+                      <ListItemText primary={item.menu} />
+                    </ListItem>
+                  ))}
+                </List>
+              </Collapse>
+            ) : null}
+          </>
         ))}
       </List>
     </div>
@@ -50,13 +116,9 @@ function SideDrawer({ navLinks }: NavLinksType): JSX.Element {
 
   return (
     <>
-      <Menu
-        className={classes.menuBtn}
-        fontSize='large'
-        onClick={toggleDrawer('right', true)}
-      />
-
-      <Drawer anchor='right' onClose={toggleDrawer('right', false)} open={state.right}>
+      <Menu className={classes.menuBtn} fontSize='large' onClick={toggleDrawer('right', true)} />
+      <Drawer className={classes.drawer} anchor='right' onClose={toggleDrawer('right', false)} open={anchorState.right}>
+        <Search />
         {sideDrawerList('right')}
       </Drawer>
     </>

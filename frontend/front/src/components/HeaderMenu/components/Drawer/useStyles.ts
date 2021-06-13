@@ -5,8 +5,12 @@
 import { makeStyles, Theme } from '@material-ui/core/styles';
 import { black } from 'src/styles/theme';
 
-const useStyles: () => Record<'menuBtn' | 'list' | 'linkText' | 'icon', string> = makeStyles((theme: Theme) => ({
-  list: { width: '100%' },
+const useStyles: () => Record<
+  'menuBtn' | 'drawer' | 'list' | 'subList' | 'linkText' | 'icon' | 'listItemIcon',
+  string
+> = makeStyles((theme: Theme) => ({
+  list: { width: '200px' },
+  subList: { paddingLeft: '20px' },
   linkText: {
     textDecoration: 'none',
     textTransform: 'uppercase',
@@ -16,7 +20,13 @@ const useStyles: () => Record<'menuBtn' | 'list' | 'linkText' | 'icon', string> 
   menuBtn: {
     height: '80px',
     color: '#000',
-    cursor: 'pointer'
+    cursor: 'pointer',
+  },
+  drawer: {
+    width: '100%',
+  },
+  listItemIcon: {
+    minWidth: 'auto'
   },
 }));
 

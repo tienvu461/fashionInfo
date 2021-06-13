@@ -1,12 +1,14 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable camelcase */
 /* eslint-disable import/no-unresolved */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 import React, { useEffect, useState, useRef } from 'react';
-import { Button, Grid, Typography, Box, RootRef } from '@material-ui/core';
-import CircularProgress from '@material-ui/core/CircularProgress';
-import Skeleton from '@material-ui/lab/Skeleton';
 import { useDispatch, useSelector } from 'react-redux';
+import { Button, Grid, Typography, Box, RootRef } from '@material-ui/core';
+import Skeleton from '@material-ui/lab/Skeleton';
+import CircularProgress from '@material-ui/core/CircularProgress';
+
 import { listPhotoAction } from 'src/features/Photo/photoAction';
 import { RootState } from 'src/store/store';
 import Photo from 'src/components/Photo';
@@ -85,15 +87,9 @@ function Photos(): JSX.Element {
   const loadingPhoto = () => (
     <>
       {[1, 2, 3].map((id) => (
-        <Grid
+        <div
+          className={`gridItem ${classes.loadingPhoto}`}
           key={id}
-          className={classes.loadingPhoto}
-          item
-          lg={4}
-          md={6}
-          sm={6}
-          xl={4}
-          xs={12}
         >
           <Box marginRight={2} my={5} width='100%'>
             <Skeleton
@@ -109,7 +105,7 @@ function Photos(): JSX.Element {
               <Skeleton variant='rect' width='60%' />
             </Box>
           </Box>
-        </Grid>
+        </div>
       ))}
     </>
   );

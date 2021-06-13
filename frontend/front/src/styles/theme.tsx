@@ -68,6 +68,18 @@ export const theme = createMuiTheme({
       '@media (max-width:960px)': { fontSize: '24px' },
       '@media (max-width:600px)': { fontSize: '20px' },
     },
+    h3: {
+      fontSize: '64px',
+      '@media (max-width:1600px)': { fontSize: '50px' },
+      '@media (max-width:960px)': { fontSize: '1.49333333333rem' },
+      '@media (max-width:720px)': { fontSize: '1.28rem' },
+    },
+    h2: {
+      fontSize: '96px',
+      '@media (max-width:1080px)': { fontSize: '80px' },
+      '@media (max-width:960px)': { fontSize: '2.24rem' },
+      // '@media (max-width:720px)': { fontSize: '1.92rem' },
+    },
     h1: {
       fontSize: '120px',
       '@media (max-width:1080px)': { fontSize: '100px' },
@@ -87,7 +99,7 @@ export const theme = createMuiTheme({
   },
   overrides: {
     MuiAppBar: {
-      root: { boxShadow: 'none' },
+      root: { boxShadow: 'none', height: '80px' },
       colorPrimary: { backgroundColor: white },
     },
     MuiButton: {
@@ -95,10 +107,6 @@ export const theme = createMuiTheme({
         backgroundColor: black,
         '&:hover': { backgroundColor: grayPrimary },
       },
-      // outlined: {
-      //   color: white,
-      //   borer: 'none',
-      // },
       contained: {
         color: white,
         border: `1px solid ${black}`,
@@ -108,10 +116,6 @@ export const theme = createMuiTheme({
           color: black,
           border: 'transparent',
         },
-        // '&:hover: none': {
-        //   backgroundColor: red,
-        //   color: white,
-        // },
         boxShadow: 'none',
       },
     },
@@ -120,70 +124,17 @@ export const theme = createMuiTheme({
     MuiAccordionSummary: {
       content: {
         margin: '0 !important',
-        // display: 'flex',
-        // alignItems: 'center',
-        // justifyContent: 'space-between',
       },
       root: { minHeight: 'fit-content !important', padding: 0 },
     },
     MuiAccordionDetails: { root: { padding: '0' } },
-    // MuiCheckbox: {
-    //   root: {
-    //     marginRight: '5px',
-    //   },
-    //   colorSecondary: {
-    //     color: darkColor,
-    //     '&$checked': {
-    //       color: darkColor,
-    //     },
-    //   },
-    // },
-    // MuiFormLabel: {
-    //   root: {
-    //     '&$focused': {
-    //       color: darkColor,
-    //     },
-    //   },
-    // },
-    // MuiOutlinedInput: {
-    //   root: {
-    //     '&$focused $notchedOutline': {
-    //       borderColor: darkColor,
-    //       borderWidth: 1,
-    //     },
-    //     '&:hover:not($disabled):not($focused):not($error) $notchedOutline': {
-    //       borderColor: darkColor,
-    //       // Reset on touch devices, it doesn't add specificity
-    //       '@media (hover: none)': {
-    //         borderColor: darkColor,
-    //       },
-    //     },
-    //   },
-    // },
-    // MuiIconButton: {
-    //   root: {
-    //     '&:hover': {
-    //       backgroundColor: firstColor,
-    //       color: darkColor,
-    //     },
-    //   },
-    // },
-    // MuiBadge: {
-    //   badge: {
-    //     color: white,
-    //   },
-    //   anchorOriginTopRightRectangle: {
-    //     backgroundColor: `${red} !important`,
-    //   },
-    // },
-    // MuiListItem: {
-    //   button: {
-    //     '&:focus': {
-    //       backgroundColor: red,
-    //       color: white,
-    //     },
-    //   },
-    // },
+    MuiTab: {
+      root: {
+        '&$selected': {
+          fontWeight: 900,
+        },
+      },
+    },
   },
 });
 

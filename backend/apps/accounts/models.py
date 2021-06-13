@@ -7,7 +7,7 @@ from django.db.models.signals import post_save
 # from social_auth.signals import socialauth_registered
 
 from .consts import modelConst
-
+User._meta.get_field('email')._unique = True
 
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)

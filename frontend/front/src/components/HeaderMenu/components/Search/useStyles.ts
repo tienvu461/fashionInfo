@@ -1,5 +1,5 @@
 import { makeStyles, Theme, fade } from '@material-ui/core/styles';
-/* eslint-disable object-curly-newline */
+
 const useStyles: () => Record<
   'search' | 'searchIcon' | 'inputRoot' | 'inputInput',
   string
@@ -14,6 +14,9 @@ const useStyles: () => Record<
     [theme.breakpoints.up('sm')]: {
       marginLeft: theme.spacing(1),
       width: 'auto',
+    },
+    [theme.breakpoints.down('md')]: {
+      marginLeft: '15px',
     },
   },
   searchIcon: {
