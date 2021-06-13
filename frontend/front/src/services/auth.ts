@@ -5,7 +5,7 @@ import { LOGIN_API, REGISTER, GET_AUTHEN_URL, REFRESH_TOKEN_API, USER_PROFILE_AP
 import request from '../configs/index';
 
 type PayloadProps = {
-  username: string;
+  email: string;
   password: string;
   re_password?: string;
   showPassword?: boolean;

@@ -32,7 +32,7 @@ import './_loginpage.scss';
 import useStyles from './useStyles';
 
 type FieldStates = {
-  username: string;
+  email: string;
   password: string;
   showPassword: boolean;
 };
@@ -44,7 +44,7 @@ function LoginPage(): JSX.Element {
 
   const [loading, setLoading] = useState<boolean>(false);
   const [field, setfield] = useState<FieldStates>({
-    username: '',
+    email: '',
     password: '',
     showPassword: false,
   });
@@ -61,6 +61,8 @@ function LoginPage(): JSX.Element {
     setLoading(true);
     dispatch(loginAction(field)).then((status) => {
       if (status === 200) {
+        setLoading(false);
+      } else {
         setLoading(false);
       }
     });
@@ -97,7 +99,7 @@ function LoginPage(): JSX.Element {
     if (loginStatus === 400) {
       return <span className={classes.errorText}>Vui lòng nhập tài khoản/email và mật khẩu</span>;
     }
-    if (loginStatus === 401) {
+    if (loginStatus === 401 || loginStatus === 500) {
       return <span className={classes.errorText}>Tài khoản/Email hoặc mật khẩu không đúng</span>;
     }
     return null;
@@ -158,13 +160,13 @@ function LoginPage(): JSX.Element {
             <form className={classes.form} noValidate onSubmit={handleSubmit}>
               <div className={classes.fontManual}>Email</div>
               <TextField
-                autoComplete='username'
+                autoComplete='email'
                 autoFocus
                 className={classes.field}
                 fullWidth
-                id='username'
+                id='email'
                 margin='normal'
-                name='username'
+                name='email'
                 onChange={(event) => handleChange(event)}
                 required
                 variant='outlined'

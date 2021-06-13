@@ -15,6 +15,9 @@ const useStyles: () => Record<
       marginLeft: theme.spacing(1),
       width: 'auto',
     },
+    [theme.breakpoints.down('md')]: {
+      marginLeft: '15px',
+    },
   },
   searchIcon: {
     height: '100%',
