@@ -94,36 +94,36 @@ function PhotoSearchPage(): JSX.Element {
     setListImg(currentPhotoList);
   };
 
-    const loadingPhoto = () => (
-      <>
-        {[1, 2, 3].map((id) => (
-          <Grid
-            key={id}
-            className={classes.loadingPhoto}
-            item
-            lg={4}
-            md={6}
-            sm={6}
-            xl={4}
-            xs={12}
-          >
-            <Box marginRight={2} my={5} width='100%'>
-              <Skeleton
-                animation='wave'
-                height={250}
-                variant='rect'
-                width='100%'
-              />
-              <Box pt={0.5}>
-                <Skeleton variant='rect' />
-              </Box>
-              <Box pt={0.5}>
-                <Skeleton variant='rect' width='60%' />
-              </Box>
+  const loadingPhoto = () => (
+    <>
+      {[1, 2, 3].map((id) => (
+        <Grid
+          key={id}
+          className={classes.loadingPhoto}
+          item
+          lg={4}
+          md={6}
+          sm={6}
+          xl={4}
+          xs={12}
+        >
+          <Box marginRight={2} my={5} width='100%'>
+            <Skeleton
+              animation='wave'
+              height={250}
+              variant='rect'
+              width='100%'
+            />
+            <Box pt={0.5}>
+              <Skeleton variant='rect' />
             </Box>
-          </Grid>
-        ))}
-      </>
+            <Box pt={0.5}>
+              <Skeleton variant='rect' width='60%' />
+            </Box>
+          </Box>
+        </Grid>
+      ))}
+    </>
   );
 
   return (

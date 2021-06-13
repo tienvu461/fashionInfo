@@ -31,12 +31,14 @@ import { registerAction } from 'src/features/Register/RegisterAction';
 import iconFb from 'src/assets/images/iconFb_Login.png';
 import iconGg from 'src/assets/images/iconfinder_Google_Loginin.png';
 
-import './_register.scss';
+// import './_register.scss';
 import useStyles from './useStyles';
 
 interface FiledFormik {
   email: string,
   username: string,
+  first_name: string,
+  last_name: string,
   password: string,
   re_password: string,
 }
@@ -59,6 +61,8 @@ function RegisterPage(): JSX.Element {
   const initialValues: FiledFormik = {
     email: '',
     username: '',
+    first_name: '',
+    last_name: '',
     password: '',
     re_password: '',
   };
@@ -75,9 +79,21 @@ function RegisterPage(): JSX.Element {
 
   useEffect(() => {
     if (registerStatus === 201) {
-      history.push('/');
+      history.push('/login');
     }
   });
+
+  const createNewUser = (data: FiledFormik) => {
+    const value_username = data.email.split('@')[0];
+    data.username = value_username;
+    dispatch(registerAction(data)).then(((status) => {
+      if (status === 201) {
+        setLoading(false);
+      } else {
+        setLoading(false);
+      }
+    }));
+  };
 
   return (
     <Grid className={clsx(classes.root && 'login-page')} component='main' container item>
@@ -133,25 +149,23 @@ function RegisterPage(): JSX.Element {
               onSubmit={(values) => {
                 setLoading(true);
                 // console.log('values after submit', values);
-                dispatch(registerAction(values)).then(((status) => {
-                  if (status === 201) {
-                    setLoading(false);
-                  }
-                }));
+                createNewUser(values);
               }}
               validationSchema={Yup.object().shape({
                 email: Yup.string()
                   .email('Email không hợp lệ'),
-                  // .required('Vui lòng nhập Email'),
-                username: Yup.string(),
+                // .required('Vui lòng nhập Email'),
+                // username: Yup.string(),
                 // .required('Vui lòng nhập họ tên'),
+                first_name: Yup.string(),
+                last_name: Yup.string(),
                 password: Yup.string()
                   .matches(
                     /^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[!@#$%^&*()]).{7,20}\S$/
                   ),
-                  // .required(
-                  //   'Please valid password. One uppercase, one lowercase, one special character and no spaces'
-                  // ),
+                // .required(
+                //   'Please valid password. One uppercase, one lowercase, one special character and no spaces'
+                // ),
                 re_password: Yup.string().when('password', {
                   is: (val) => (!!(val && val.length > 0)),
                   then: Yup.string().oneOf(
@@ -159,7 +173,7 @@ function RegisterPage(): JSX.Element {
                     'Mật khẩu không trùng khớp'
                   )
                 })
-                  // .required('Vui lòng xác nhận mật khẩu'),
+                // .required('Vui lòng xác nhận mật khẩu'),
               })}
             >
               {(props: FormikProps<FiledFormik>) => {
@@ -173,7 +187,7 @@ function RegisterPage(): JSX.Element {
                 } = props;
                 return (
                   <Form className={classes.form}>
-                    <div className={classes.fontManual}>Họ tên</div>
+                    {/* <div className={classes.fontManual}>Họ tên</div>
                     <TextField
                       autoComplete='username'
                       autoFocus
@@ -194,7 +208,59 @@ function RegisterPage(): JSX.Element {
                       error={!!(errors.username && touched.username)}
                       onChange={handleChange}
                       onBlur={handleBlur}
-                    />
+                    /> */}
+                    <div style={{ display: 'flex' }}>
+                      <div>
+                        <div className={classes.fontManual}>Họ</div>
+                        <TextField
+                          style={{ width: '100px' }}
+                          autoComplete='first_name'
+                          autoFocus
+                          className={classes.field}
+                          fullWidth
+                          margin='normal'
+                          required
+                          variant='outlined'
+                          name='first_name'
+                          id='first_name'
+                          value={values.first_name}
+                          type='text'
+                          helperText={
+                            errors.first_name && touched.first_name
+                              ? errors.first_name
+                              : null
+                          }
+                          error={!!(errors.first_name && touched.first_name)}
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                        />
+                      </div>
+                      <div>
+                        <div className={classes.fontManual} style={{ paddingLeft: '10px' }}>Tên</div>
+                        <TextField
+                          style={{ width: '290px', paddingLeft: '10px' }}
+                          autoComplete='last_name'
+                          autoFocus
+                          className={classes.field}
+                          fullWidth
+                          margin='normal'
+                          required
+                          variant='outlined'
+                          name='last_name'
+                          id='last_name'
+                          value={values.last_name}
+                          type='text'
+                          helperText={
+                            errors.last_name && touched.last_name
+                              ? errors.last_name
+                              : null
+                          }
+                          error={!!(errors.last_name && touched.last_name)}
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                        />
+                      </div>
+                    </div>
                     <div className={classes.fontManual} style={{ paddingTop: '16px' }}>
                       Email
                     </div>

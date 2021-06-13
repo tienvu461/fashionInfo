@@ -8,6 +8,7 @@ import { isEmpty } from 'lodash';
 import { ExpandLess, ExpandMore, Menu } from '@material-ui/icons';
 import { magazineMenu } from 'src/features/Magazine/MagazineSlice';
 import { RootState } from 'src/store/store';
+import Search from '../Search';
 import useStyles from './useStyles';
 
 interface AnchorState {
@@ -43,12 +44,12 @@ function SideDrawer({ navLinks, setActive }: NavLinksType): JSX.Element {
 
   const menuTabMagazine = !isEmpty(categories.results)
     ? categories.results.map((cat, index) => ({
-        menu: cat.cat_name,
-        id: index,
-      }))
+      menu: cat.cat_name,
+      id: index,
+    }))
     : [];
 
-  const handleClickSubMenu = (menu: {menu: string; id: number}, path: string) => {
+  const handleClickSubMenu = (menu: { menu: string; id: number }, path: string) => {
     dispatch(magazineMenu(menu));
     history.push(path);
     setActive('/');
@@ -62,7 +63,7 @@ function SideDrawer({ navLinks, setActive }: NavLinksType): JSX.Element {
       title: string;
       path: string;
     }
-    ) => {
+  ) => {
     if (params.title === 'Magazine') {
       setOpenListItem(!openListItem);
       setAnchorState({
@@ -116,8 +117,8 @@ function SideDrawer({ navLinks, setActive }: NavLinksType): JSX.Element {
   return (
     <>
       <Menu className={classes.menuBtn} fontSize='large' onClick={toggleDrawer('right', true)} />
-
       <Drawer className={classes.drawer} anchor='right' onClose={toggleDrawer('right', false)} open={anchorState.right}>
+        <Search />
         {sideDrawerList('right')}
       </Drawer>
     </>

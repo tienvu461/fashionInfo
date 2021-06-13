@@ -8,7 +8,7 @@ import { registerService } from 'src/services/auth';
 import { registerSucess, registerFail } from './RegisterSlice';
 
 export const registerAction = (payload: {
-    username: string; password: string; re_password: string
+    email: string; password: string; re_password: string
 }) => async (dispatch: Dispatch): Promise<any> => {
     try {
         const response = await registerService(payload);
@@ -17,6 +17,7 @@ export const registerAction = (payload: {
         if (status === 201) {
             dispatch(registerSucess({ status }));
             toast.success('Đăng ký thành công, vui lòng kích hoạt email!');
+            dispatch(registerSucess(0));
         }
     } catch (error) {
         // dispatch(registerFail(error.response.data));

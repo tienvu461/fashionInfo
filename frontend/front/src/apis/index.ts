@@ -3,7 +3,7 @@ export const HOST = 'http://api.tienvv.com';
 // export const HOST = 'http://localhost:8000/';
 
 // USER AUTH
-export const LOGIN_API = `${HOST}/api/jwt/create`;
+export const LOGIN_API = `${HOST}/api/token`;
 export const REFRESH_TOKEN_API = `${HOST}/api/jwt/refresh/`;
 export const REGISTER = `${HOST}/api/users/`;
 // SOCIAL AUTH
