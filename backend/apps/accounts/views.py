@@ -31,7 +31,7 @@ class RedirectSocial(View):
          
         protocol = 'https://' if request.is_secure() else 'http://'
         host = "{0}{1}".format(protocol, settings.HOSTNAME)
-        host = "http://api.tienvv.com"
+        # host = "http://localhost:3001"
         return render(request, 'social_redirect.html', {'host': host, 'code': code, 'state': state})
         return JsonResponse(json_obj)
 

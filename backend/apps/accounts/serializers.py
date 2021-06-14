@@ -10,6 +10,8 @@ from rest_framework_simplejwt.authentication import default_user_authentication_
 from rest_framework import serializers
 from rest_framework import exceptions
 
+from djoser.serializers import UserCreatePasswordRetypeSerializer
+
 # import for email login
 from django.utils.translation import gettext as _
 import logging
@@ -67,7 +69,7 @@ class EmailTokenObtainSerializer(TokenObtainSerializer):
             authenticate_kwargs['request'] = self.context['request']
         except KeyError:
             pass
-        
+
         self.user = authenticate(**authenticate_kwargs)
 
         if not default_user_authentication_rule(self.user):
@@ -104,3 +106,8 @@ class CustomTokenObtainPairSerializer(EmailTokenObtainSerializer):
             'refresh': str(refresh),
             'access': str(refresh.access_token)
         }
+
+# customize serializer that allow create first_name & last_name on creation
+class UserCreateSerializerCustom(UserCreatePasswordRetypeSerializer):
+    class Meta(UserCreatePasswordRetypeSerializer.Meta):
+        fields = ('email', 'username', 'first_name', 'last_name', 'password', )
