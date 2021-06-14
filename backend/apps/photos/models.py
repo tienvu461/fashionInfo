@@ -158,7 +158,7 @@ class PhotoFeature(models.Model):
             return super(PhotoFeature, self).save(*args, **kwargs)
 
 
-class NewsCategory(models.Model):
+class MagazineCategory(models.Model):
     cat_id = models.AutoField(primary_key=True, null=False)
     cat_name = models.CharField(max_length=255)
     description = models.CharField(max_length=255)
@@ -169,7 +169,7 @@ class NewsCategory(models.Model):
     def __str__(self):
         return self.cat_name
 
-class NewsSubCategory(models.Model):
+class MagazineSubCategory(models.Model):
     cat_id = models.AutoField(primary_key=True, null=False)
     cat_name = models.CharField(max_length=255)
     description = models.CharField(max_length=255)
@@ -186,8 +186,8 @@ class NewsSubCategory(models.Model):
 class News(models.Model):
     title = models.CharField(max_length=50)
     slug = models.SlugField(max_length=255, unique=True, null=True)
-    category = models.ForeignKey(NewsCategory, on_delete=models.CASCADE)
-    sub_category = models.ForeignKey(NewsSubCategory, on_delete=models.CASCADE)
+    category = models.ForeignKey(MagazineCategory, on_delete=models.CASCADE)
+    sub_category = models.ForeignKey(MagazineSubCategory, on_delete=models.CASCADE)
     tags = TaggableManager()
     author = models.ForeignKey(
         User, related_name='author', on_delete=models.CASCADE, default="1")
@@ -267,7 +267,7 @@ class MagazineComment(models.Model):
 
 def get_default_news():
     return News.objects.get_or_create(id=1)
-class NewsFeature(models.Model):
+class MagazineFeature(models.Model):
     feature_news = ForeignKey(
         News, related_name='feature', on_delete=models.CASCADE, default=get_default_news)
     in_use = models.BooleanField(choices=modelConst.BINARY, default=True)
@@ -277,7 +277,7 @@ class NewsFeature(models.Model):
     # when updated, there is only 1 config in use = true, others are false
     def save(self, *args, **kwargs):
         if not self.in_use:
-            return super(NewsFeature, self).save(*args, **kwargs)
+            return super(MagazineFeature, self).save(*args, **kwargs)
         with transaction.atomic():
-            NewsFeature.objects.filter(in_use=True).update(in_use=False)
-            return super(NewsFeature, self).save(*args, **kwargs)
+            MagazineFeature.objects.filter(in_use=True).update(in_use=False)
+            return super(MagazineFeature, self).save(*args, **kwargs)

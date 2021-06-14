@@ -16,15 +16,16 @@ photos_urlpatterns = [
     # done
     url(r'api/magazine/like', views.MagazineLikeCreate.as_view()),
     url(r'api/magazine/comment', views.MagazineCommentCreate.as_view()),
-    url(r'api/magazine/category', views.NewsCategoryList.as_view()),
-    url(r'api/magazine/subcategory', views.NewsSubCategoryList.as_view()),
+    url(r'api/magazine/category', views.MagazineCategoryList.as_view()),
+    url(r'api/magazine/subcategory', views.MagazineSubCategoryList.as_view()),
     url(r'api/magazine/(?P<pk>\d+)/', views.MagazineDetail.as_view()),
+    url(r'api/magazine/feature', views.MagazineFeatureDetail.as_view()),
+    url(r'api/magazine/search', views.MagazineSearch.as_view()),
+    url(r'api/magazine/suggest', views.MagazineSuggest.as_view()),
 
     # in-progress
-    url(r'^api/magazine/$', views.NewsList.as_view()),
-    url(r'api/magazine/search', views.NewsSearch.as_view()),
-    url(r'api/magazine/suggest', views.NewsSuggest.as_view()),
-    url(r'api/magazine/feature', views.NewsFeatureDetail.as_view()),
+    url(r'^api/magazine/$', views.MagazineList.as_view()),
+
 ]
 
 if settings.DEBUG:

@@ -11,7 +11,7 @@ import zipfile
 import re
 from datetime import datetime
 
-from .models import NewsCategory, Photo, PhotoFeature, PhotoLike, PhotoComment, News, NewsAttachedPhoto, NewsArchivedFile, MagazineComment, GenericConfig, PhotoCategory, NewsFeature, NewsSubCategory
+from .models import MagazineCategory, Photo, PhotoFeature, PhotoLike, PhotoComment, News, NewsAttachedPhoto, NewsArchivedFile, MagazineComment, GenericConfig, PhotoCategory, MagazineFeature, MagazineSubCategory
 from .consts import adminConst
 
 from django import forms
@@ -192,16 +192,16 @@ class PhotoCategoryAdmin(admin.ModelAdmin):
     list_display = ('cat_name', 'created_at')
 
 
-@admin.register(NewsCategory)
-class NewsCategoryAdmin(admin.ModelAdmin):
+@admin.register(MagazineCategory)
+class MagazineCategoryAdmin(admin.ModelAdmin):
     list_display = ('cat_name', 'created_at')
 
 
-@admin.register(NewsFeature)
-class NewsFeatureAdmin(admin.ModelAdmin):
+@admin.register(MagazineFeature)
+class MagazineFeatureAdmin(admin.ModelAdmin):
     # form = CustomizedConfigForm
     list_display = ('id', 'feature_news', 'in_use', 'created_at')
 
-@admin.register(NewsSubCategory)
-class NewsSubCategoryAdmin(admin.ModelAdmin):
+@admin.register(MagazineSubCategory)
+class MagazineSubCategoryAdmin(admin.ModelAdmin):
     list_display = ('cat_name', 'created_at')

@@ -10,8 +10,8 @@ import logging
 
 from .models import Photo, PhotoLike, PhotoFeature, PhotoComment, GenericConfig
 from .serializers import PhotoSerializer, PhotoDetailSerializer, PhotoFeatureSerializer, PhotoSuggestSerializer, PhotoCommentSerializer, PhotoLikeSerializer
-from .models import News, MagazineLike, NewsFeature, MagazineComment, NewsCategory, NewsSubCategory
-from .serializers import NewsSerializer, MagazineDetailSerializer, NewsFeatureSerializer, NewsSuggestSerializer, MagazineCommentSerializer, MagazineLikeSerializer, NewsCategorySerializer, NewsSubCategorySerializer
+from .models import News, MagazineLike, MagazineFeature, MagazineComment, MagazineCategory, MagazineSubCategory
+from .serializers import NewsSerializer, MagazineDetailSerializer, MagazineFeatureSerializer, MagazineSuggestSerializer, MagazineCommentSerializer, MagazineLikeSerializer, MagazineCategorySerializer, MagazineSubCategorySerializer
 from .consts import photosConst
 from .utils import calc_interactive_pt, striphtml
 
@@ -342,7 +342,7 @@ class PhotoCommentCreate(generics.CreateAPIView):
 # News
 
 
-class NewsList(generics.ListCreateAPIView):
+class MagazineList(generics.ListCreateAPIView):
     queryset = News.objects.all()
     serializer_class = NewsSerializer
     # filter_backends = (filters.DjangoFilterBackend,)
@@ -410,7 +410,7 @@ class MagazineDetail(generics.RetrieveUpdateDestroyAPIView):
         return Response(serializer.data)
 
 
-class NewsSearch(views.APIView, pagination.PageNumberPagination):
+class MagazineSearch(views.APIView, pagination.PageNumberPagination):
 
     def get(self, request):
         searched_tags = request.GET.get('search_text', '').split()
@@ -475,7 +475,7 @@ class MagazineLikeCreate(generics.CreateAPIView):
             return Response({'info': 'you have like this news!'}, status=status.HTTP_200_OK)
 
 
-class NewsSuggest(CustomPaginate):
+class MagazineSuggest(CustomPaginate):
     def get(self, request):
         page = request.GET.get("page")
         magazine_id = request.GET.get('magazine_id')
@@ -525,7 +525,7 @@ class NewsSuggest(CustomPaginate):
                 similar_news_serializer.data, key=lambda k: (-k['interactive_pt']))
             # logger.debug(("ranking list = {}".format(sorted_suggestion_list)))
 
-            similar_news_serializer = NewsSuggestSerializer(
+            similar_news_serializer = MagazineSuggestSerializer(
                 similar_news_queryset, many=True, context={'org_tag_list': org_tag_list, 'org_author ': org_author})
 
             return Response(self.paginate(sorted_suggestion_list, page, 6))
@@ -534,7 +534,7 @@ class NewsSuggest(CustomPaginate):
             #     similar_news_queryset, request, view=self)
             # if page is not None:
             #     logger.debug("page = {}".format(page))
-            #     similar_news_serializer = NewsSuggestSerializer(
+            #     similar_news_serializer = MagazineSuggestSerializer(
             #     page, many=True, context={'org_tag_list': org_tag_list, 'org_author': org_author})
             #     # sorted_suggestion_list = sorted(
             #     # similar_news_serializer.data, key=lambda k: (-k['interactive_pt']))
@@ -564,16 +564,16 @@ class NewsSuggest(CustomPaginate):
 # Get the most trending news
 
 
-class NewsFeatureDetail(views.APIView):
-    # queryset = NewsFeature.objects.all()
-    # serializer_class = NewsFeatureSerializer
+class MagazineFeatureDetail(views.APIView):
+    # queryset = MagazineFeature.objects.all()
+    # serializer_class = MagazineFeatureSerializer
 
     def get(self, request, *args, **kwargs):
-        queryset = NewsFeature.objects.filter(in_use=True)
+        queryset = MagazineFeature.objects.filter(in_use=True)
         if queryset.count() == 0:
             logger.error("Feature news does not exist")
             return Response("Feature news does not exist", status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-        serializer = NewsFeatureSerializer(queryset, many=True)
+        serializer = MagazineFeatureSerializer(queryset, many=True)
         return Response(serializer.data)
 
 # Create comment on photo
@@ -607,10 +607,10 @@ class MagazineCommentCreate(generics.CreateAPIView):
         return Response(serializer.data, status=status.HTTP_200_OK, headers=headers)
 
 
-class NewsCategoryList(generics.ListCreateAPIView):
-    queryset = NewsCategory.objects.all()
-    serializer_class = NewsCategorySerializer
+class MagazineCategoryList(generics.ListCreateAPIView):
+    queryset = MagazineCategory.objects.all()
+    serializer_class = MagazineCategorySerializer
 
-class NewsSubCategoryList(generics.ListCreateAPIView):
-    queryset = NewsSubCategory.objects.all()
-    serializer_class = NewsSubCategorySerializer
+class MagazineSubCategoryList(generics.ListCreateAPIView):
+    queryset = MagazineSubCategory.objects.all()
+    serializer_class = MagazineSubCategorySerializer
