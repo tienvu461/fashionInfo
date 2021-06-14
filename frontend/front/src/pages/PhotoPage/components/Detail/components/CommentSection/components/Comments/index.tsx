@@ -26,6 +26,7 @@ function Comments(): JSX.Element {
   const user = useSelector((state: any) => state.login.loginResponse.userID);
   const firstName = useSelector((state: any) => state.profile.currentUser.user?.first_name);
   const lastName = useSelector((state: any) => state.profile.currentUser.user?.last_name);
+  const avatar = useSelector((state: any) => state.profile.currentUser.profile_photo);
   const userName = `${firstName} ${lastName}`;
 
   const listComments = useMemo(
@@ -89,7 +90,7 @@ function Comments(): JSX.Element {
           <TimelineItem className={classes.timeline}>
             <TimelineSeparator>
               <TimelineDot className={classes.dotAvatar}>
-                <Avatar alt='ava' className={classes.avatar} src={Ava3} />
+                <Avatar alt='ava' className={classes.avatar} src={avatar || Ava3} />
               </TimelineDot>
             </TimelineSeparator>
 

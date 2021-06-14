@@ -16,6 +16,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { commentPhotoAction } from 'src/features/Photo/photoAction';
 import Ava2 from 'src/assets/images/beck.jpeg';
 import { RootState } from 'src/store/store';
+import { HOST } from 'src/apis';
 import CommentChild from '../CommentChild';
 
 import useStyles from '../useStyles';
@@ -36,7 +37,7 @@ function CommentParrent(props: CommentProps): JSX.Element {
   const [textArea, setTextArea] = useState<string>('');
   const [isReply, setisReply] = useState<boolean>(false);
   const loginStatus = useSelector((state: RootState) => state.login.loginResponse.status);
-
+  const avatar = useSelector((state: any) => state.profile.currentUser.profile_photo);
   const formatDate = (time: number) => moment(time * 1000).fromNow();
 
   const renderTimelineConnector = (cmts: number, lastCmt: number) => {
@@ -91,7 +92,7 @@ function CommentParrent(props: CommentProps): JSX.Element {
         <TimelineItem className={classes.timeline}>
           <TimelineSeparator>
             <TimelineDot className={classes.dotAvatar}>
-              <Avatar alt='ava' className={classes.avatar} src={Ava2} />
+              <Avatar alt='ava' className={classes.avatar} src={avatar} />
             </TimelineDot>
           </TimelineSeparator>
 
@@ -127,7 +128,7 @@ function CommentParrent(props: CommentProps): JSX.Element {
     <TimelineItem className={classes.timeline}>
       <TimelineSeparator>
         <TimelineDot className={classes.dotAvatar}>
-          <Avatar alt='ava' className={classes.avatar} src={cmtProps.avatar || Ava2} />
+          <Avatar alt='ava' className={classes.avatar} src={`${HOST}${cmtProps.user_photo}` || Ava2} />
         </TimelineDot>
         {renderTimelineConnector(cmtProps.cmtLength, cmtProps.lastCmt)}
       </TimelineSeparator>
@@ -135,7 +136,7 @@ function CommentParrent(props: CommentProps): JSX.Element {
         <Paper className={classes.paper} elevation={3}>
           <Grid className={loginStatus === 200 ? classes.action : classes.actionWithoutLogin}>
             <Typography className={`${classes.actionName} ${classes.textStyle}`} component='h6' variant='h6'>
-              {cmtProps?.user_id}
+              {cmtProps?.user_fullname}
             </Typography>
             <div className={classes.flex}>
               <Typography className={`${classes.actionTime} ${classes.textStyle}`} component='h6' variant='h6'>
