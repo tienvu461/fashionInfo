@@ -10,6 +10,7 @@ import Ava2 from 'src/assets/images/beck.jpeg';
 
 import { RootState } from 'src/store/store';
 import { commentPhotoAction } from 'src/features/Photo/photoAction';
+import { HOST } from 'src/apis';
 import useStyles from '../useStyles';
 
 interface CmtChild {
@@ -26,9 +27,10 @@ function CommentChild(props: CmtChild): JSX.Element {
   const valueRef = useRef<HTMLInputElement>();
 
   const loginStatus = useSelector((state: RootState) => state.login.loginResponse.status);
+  const avatar = useSelector((state: any) => state.profile.currentUser.profile_photo);
 
   const { renderTimelineConnector, cmtChildProps } = props;
-  const { item, index, cmtProps, userID, userName } = cmtChildProps;
+  const { item, index, cmtProps, userID } = cmtChildProps;
   const formatDate = (time: number) => moment(time * 1000).fromNow();
 
   const onAnswer = (cmtID) => {
@@ -73,14 +75,14 @@ function CommentChild(props: CmtChild): JSX.Element {
         <TimelineItem className={classes.timelineTwo}>
           <TimelineSeparator>
             <TimelineDot className={classes.dotAvatar}>
-              <Avatar alt='ava' className={classes.avatar} src={Ava2} />
+              <Avatar alt='ava' className={classes.avatar} src={avatar || Ava2} />
             </TimelineDot>
           </TimelineSeparator>
 
           <TimelineContent className={classes.content}>
             <Paper className={classes.paper} elevation={3}>
               <Typography className={`${classes.actionName} ${classes.textStyle}`} component='h6' variant='h6'>
-                {userName}
+                {cmtProps?.user_fullname}
               </Typography>
               <TextField
                 className={classes.textArea}
@@ -109,7 +111,7 @@ function CommentChild(props: CmtChild): JSX.Element {
       <TimelineItem key={item.cmt_id} className={classes.nestedTimeline}>
         <TimelineSeparator>
           <TimelineDot className={classes.dotAvatar}>
-            <Avatar alt='ava' className={classes.avatar} src={Ava2} />
+            <Avatar alt='ava' className={classes.avatar} src={`${HOST}${item.user_photo}` || Ava2} />
           </TimelineDot>
           {renderTimelineConnector(cmtProps.reply.length, index)}
         </TimelineSeparator>
@@ -117,7 +119,7 @@ function CommentChild(props: CmtChild): JSX.Element {
           <Paper className={classes.paper} elevation={3}>
             <Grid className={classes.action}>
               <Typography className={`${classes.actionName} ${classes.textStyle}`} component='h6' variant='h6'>
-                {item?.user_id}
+                {item?.user_fullname}
               </Typography>
               <div className={classes.flex}>
                 <Typography className={`${classes.actionTime} ${classes.textStyle}`} component='h6' variant='h6'>

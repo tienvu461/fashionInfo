@@ -169,7 +169,7 @@ function CommentParrent(props: CommentProps): JSX.Element {
                   key={item.cmt_id}
                   renderTimelineConnector={renderTimelineConnector}
                   // isReplies={isReplies}
-                  cmtChildProps={{ item, index, cmtProps, userID, userName }}
+                  cmtChildProps={{ item, index, cmtProps, userID }}
                 />
               </>
             ))}
