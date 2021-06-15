@@ -8,7 +8,7 @@ import {
 import { Link } from 'react-router-dom';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { ROUTE_LOGIN } from 'src/constants';
-import { isLoginToComment } from 'src/features/Photo/photoSlice';
+import { isLoginToComment } from 'src/features/Login/LoginSlice';
 import { RootState } from 'src/store/store';
 import FormDialog from 'src/components/LoginPopup'
 import useStyles from './useStyles';
@@ -34,7 +34,7 @@ function CommentLayout(props: CommentProps): JSX.Element {
     dispatch(
       isLoginToComment({
         isComment: true,
-        photoId: paramsId,
+        paramId: paramsId,
       })
     );
   };
@@ -58,7 +58,7 @@ function CommentLayout(props: CommentProps): JSX.Element {
                     {/* <Link to={ROUTE_LOGIN} onClick={redirectLogin} className={classes.spanText}>
                       Đăng nhập
                     </Link> */}
-                    <FormDialog />
+                    <FormDialog redirectLogin={redirectLogin} />
                     để bình luận
                   </Typography>
                 )}

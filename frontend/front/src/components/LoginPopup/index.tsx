@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable import/no-unresolved */
 import React from 'react';
 import Button from '@material-ui/core/Button';
@@ -11,11 +12,17 @@ import Typography from '@material-ui/core/Typography';
 import LoginPage from 'src/pages/LoginPage';
 import useStyles from './useStyles';
 
-export default function FormDialog() {
+interface FormDialogProps {
+  redirectLogin: any;
+}
+
+export default function FormDialog(props: FormDialogProps) {
   const classes = useStyles();
+  const { redirectLogin } = props;
   const [open, setOpen] = React.useState(false);
   const handleClickOpen = () => {
     setOpen(true);
+    redirectLogin();
   };
 
   const handleClose = () => {
