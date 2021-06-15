@@ -7,6 +7,7 @@ interface InitialStateType {
   isLoginToComment: {
     isComment: boolean;
     paramId: string | null;
+    key: string;
   };
 }
 
@@ -15,6 +16,7 @@ const initialState: InitialStateType = {
   isLoginToComment: {
     isComment: false,
     paramId: null,
+    key: ''
   },
 };
 
@@ -35,6 +37,7 @@ const loginSlice = createSlice({
       state.isLoginToComment = {
         isComment: payload.isComment,
         paramId: payload.paramId,
+        key: payload.key
       };
     },
   },

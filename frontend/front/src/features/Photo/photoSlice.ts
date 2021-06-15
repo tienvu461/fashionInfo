@@ -12,10 +12,6 @@ interface InitialState {
     listPhoto: Array<Record<string, string>>;
     dataOrigin: Record<string, string>;
   };
-  isLoginToComment: {
-    isComment: boolean;
-    photoId: string | null;
-  }
   photoLikes: Record<string, string>
   photoComment: Record<string, string>
 }
@@ -29,10 +25,6 @@ const initialState: InitialState = {
   photoSuggestionList: {
     listPhoto: [],
     dataOrigin: {},
-  },
-  isLoginToComment: {
-    isComment: false,
-    photoId: null
   },
   photoLikes: {},
   photoComment: {}
@@ -61,12 +53,6 @@ const photoSlice = createSlice({
         dataOrigin: { ...payload.data },
       };
     },
-    isLoginToComment: (state, { payload }) => {
-      state.isLoginToComment = {
-        isComment: payload.isComment,
-        photoId: payload.photoId
-      };
-    },
     photoLikes: (state, { payload }) => {
       state.photoLikes = {
         ...payload.data
@@ -81,7 +67,7 @@ const photoSlice = createSlice({
 });
 
 const { actions, reducer } = photoSlice;
-const { getListPhoto, getPhotoDetail, getListPhotoSuggestion, isLoginToComment, photoLikes, photoComment } = actions;
-export { getListPhoto, getPhotoDetail, getListPhotoSuggestion, isLoginToComment, photoLikes, photoComment };
+const { getListPhoto, getPhotoDetail, getListPhotoSuggestion, photoLikes, photoComment } = actions;
+export { getListPhoto, getPhotoDetail, getListPhotoSuggestion, photoLikes, photoComment };
 
 export default reducer;

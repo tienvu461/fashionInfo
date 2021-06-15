@@ -23,6 +23,7 @@ function CommentLayout(props: CommentProps): JSX.Element {
   const classes = useStyles();
   const dispatch = useDispatch<any>();
   const [isClick, setIsClick] = useState<boolean>(true);
+  const path = window.location.pathname;
 
   const loginStatus = useSelector((state: RootState) => state.login.loginResponse.status);
 
@@ -31,10 +32,13 @@ function CommentLayout(props: CommentProps): JSX.Element {
   };
 
   const redirectLogin = () => {
+    const getKey = path.split('/');
+
     dispatch(
       isLoginToComment({
         isComment: true,
         paramId: paramsId,
+        key: getKey[1]
       })
     );
   };
