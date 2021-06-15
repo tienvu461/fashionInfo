@@ -20,6 +20,7 @@ import {
   ROUTE_REGISTER,
   ROUTE_PHOTO,
   ROUTE_PHOTO_SEARCH,
+  ROUTE_MAGAZINE_DETAIL,
 } from './constants';
 import {
   clearStoreFromlocalStorage,
@@ -42,6 +43,7 @@ import DetailPhoto from './pages/PhotoPage/components/Detail';
 import { getUserProfile } from './features/Profile/ProfileAction';
 import { refreshTokenAction } from './features/Login/LoginAction';
 import { RootState } from './store/store';
+import DetailMagazine from './pages/MagaginzePage/components/Detail';
 
 const PhotoPage = lazy(() => import('./pages/PhotoPage'));
 const MagazinePage = lazy(() => import('./pages/MagaginzePage'));
@@ -139,6 +141,7 @@ function App(): JSX.Element {
             <Route component={PhotoSearchPage} exact path={ROUTE_PHOTO_SEARCH} />
             <Route component={DetailPhoto} exact path={`${ROUTE_PHOTO}/:id`} />
             <Route component={MagazinePage} exact path={ROUTE_HOME} />
+            <Route component={DetailMagazine} exact path={`${ROUTE_MAGAZINE_DETAIL}/:id`} />
             <Route component={ForumPage} exact path={ROUTE_FORUM} />
             <Route component={RegisterPage} exact path={ROUTE_REGISTER} />
             <Route component={LoginPage} exact path={ROUTE_LOGIN} />
