@@ -3,7 +3,7 @@ import React, { useEffect, lazy } from 'react';
 import { useDispatch } from 'react-redux';
 import { getListCategoryAction, getListMagazineAction } from 'src/features/Magazine/MagazineAction';
 
-const MagazineHeader = lazy(() => import('./MagazineHeader'));
+const MagazineHeader = lazy(() => import('./components/MagazineHeader'));
 
 function MagazinePage(): JSX.Element {
     const dispatch = useDispatch();
