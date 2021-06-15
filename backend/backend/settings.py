@@ -148,6 +148,7 @@ DJOSER = {
     "SERIALIZERS": {
         "user": "apps.accounts.serializers.UserSerializer", # Custom Serializer to show more user data
         "current_user": "apps.accounts.serializers.UserSerializer", # Custom Serializer to show more user data
+        'user_create_password_retype': 'apps.accounts.serializers.UserCreateSerializerCustom', # Custom Serializer to create first_name last_name
     },
     "SOCIAL_AUTH_ALLOWED_REDIRECT_URIS": SOCIAL_AUTH_WHITELIST, # Redirected URL we listen on google console
     'ACTIVATION_URL': 'api/user/activate/{uid}/{token}',

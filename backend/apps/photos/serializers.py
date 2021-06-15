@@ -76,7 +76,7 @@ class PhotoCommentSerializer(serializers.ModelSerializer):
     user_fullname = serializers.SerializerMethodField() 
     class Meta:
         model = PhotoComment
-        fields = ['cmt_id', 'user_fullname', 'user_photo', 'photo_id', 'content', 'active', 'parent',
+        fields = ['cmt_id', 'user_id', 'user_fullname', 'user_photo', 'photo_id', 'content', 'active', 'parent',
                   'created_at']
 
     # take the current photo comment object from DB, which is a list => append a new comment to that list
