@@ -3,7 +3,12 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import moment from 'moment';
 import { Grid, Button, Typography, Divider, Box } from '@material-ui/core';
+// import FavoriteIcon from '@material-ui/icons/Favorite';
+
 import { RootState } from 'src/store/store';
+import HeartIcon from 'src/assets/images/heart.svg';
+import ShareIcon from 'src/assets/images/share.svg';
+import CommentIcon from 'src/assets/images/comment.svg';
 
 import './_magazineArticle.scss';
 import useStyles from './useStyles';
@@ -16,7 +21,10 @@ function MagazineArticle(): JSX.Element {
   const {
     sub_category: subCategory = '',
     created_at: createAt = 0,
-    title = ''
+    title = '',
+    author = '',
+    likes = 0,
+    comments = []
   } = magazineDetail;
   console.log(magazineDetail)
 
@@ -31,9 +39,27 @@ function MagazineArticle(): JSX.Element {
             {formatDate(createAt)}
           </Typography>
         </div>
-        <Typography className={classes.mainTitle}>
-          {title}
-        </Typography>
+        <Typography className={classes.mainTitle}>{title}</Typography>
+        <div className='article-action'>
+          <Typography className={`${classes.headerText} ${classes.authorArticle}`} component='h6' variant='h6'>
+            bởi {author}
+          </Typography>
+          <div className='action-section'>
+            {/* <FavoriteIcon
+              // onClick={() => likePhoto(id, 'unlike')}
+              className={classes.heartIcon}
+            /> */}
+            <div className={classes.flex}>
+              <img className={classes.heartIcon} alt='heart-icon' src={HeartIcon} />
+              <div className={classes.num}>{likes}</div>
+            </div>
+            <div className={classes.flex}>
+              <img alt='comment-icon' className={classes.heartIcon} src={CommentIcon} />
+              <div className={classes.num}>{comments.length}</div>
+            </div>
+            <img alt='share-icon' className={classes.heartIcon} src={ShareIcon} />
+          </div>
+        </div>
       </>
     );
 }
