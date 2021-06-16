@@ -25,3 +25,4 @@ export const PHOTO_COMMENT_API = `${HOST}/api/photos/comment`;
 // MAGAZINE
 export const MAGAZINE_LIST_CATEGORY_API = `${HOST}/api/magazine/category`;
 export const MAGAZINE_LIST_API = `${HOST}/api/magazine/?category=`;
+export const MAGAZINE_LIST_SUGGEST_API = `${HOST}/api/magazine/suggest`;

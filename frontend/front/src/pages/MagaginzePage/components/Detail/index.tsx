@@ -30,7 +30,7 @@ function DetailMagazine(props: DetailProps): JSX.Element {
             <MagazineComment paramsId={id} />
           </div>
           <div className='magazine-suggestion'>
-            <MagazineSuggestion />
+            <MagazineSuggestion paramsId={id} />
           </div>
         </div>
       </div>
