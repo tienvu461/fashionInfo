@@ -1,0 +1,14 @@
+{% load spirit_tags i18n %}
+
+<div>
+    {% for cate in latest_dict %}
+    <div class="layout__topics__topic js-clickable-area">
+        <div class="topic__title" style="background-color: green;">
+            <a>{{ cate.cate_title }}</a>
+        <div class="topic__title" style="background-color: green;">
+            <a class="topic__link{% if t.is_visited %} is-visited{% endif %} js-clickable-area-target"
+            href="{{ t.get_bookmark_url }}"
+          >{{ cate.topic.title }}</a>
+    </div>
+    {% endfor %}
+</div>
