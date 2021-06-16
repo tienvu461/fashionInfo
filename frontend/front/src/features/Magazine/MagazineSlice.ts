@@ -9,7 +9,7 @@ interface InitialState {
   };
   categories: Record<string, any>;
   magazineList: Record<string, any>;
-  magazineDetail: Record<string, string>;
+  magazineDetail: Record<string, any>;
   magazineListSuggest: Record<string, string>;
 }
 

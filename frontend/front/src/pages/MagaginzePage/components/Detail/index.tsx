@@ -41,7 +41,7 @@ function DetailMagazine(props: DetailProps): JSX.Element {
         <Grid container>
           <Grid className='banner' item xs={12} sm={12} md={12} lg={12} xl={12} />
         </Grid>
-        <div className='article'>
+        <div className='article-section'>
           <div className='magazine-article'>
             <MagazineArticle />
           </div>

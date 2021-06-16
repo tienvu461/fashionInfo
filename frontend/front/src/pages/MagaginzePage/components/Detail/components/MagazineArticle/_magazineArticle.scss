@@ -1,0 +1,21 @@
+@import '../../../../../../styles/styles.scss';
+
+
+
+@media screen and (max-width: 600px) {
+    .subtitle{
+        padding-top: 36px;
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+    }
+}
+
+@media screen and (min-width: 600px) {
+    .subtitle{
+        padding-top: 36px;
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+    }
+}

@@ -5,6 +5,7 @@ import { useSelector } from 'react-redux';
 import { Grid, Avatar, Paper, Typography, TextField } from '@material-ui/core';
 import { Timeline, TimelineContent, TimelineDot, TimelineItem, TimelineSeparator } from '@material-ui/lab';
 import { RootState } from 'src/store/store';
+import CommentBox from 'src/components/CommentBox';
 
 import Ava3 from 'src/assets/images/ava3.svg';
 
@@ -56,36 +57,13 @@ function Comments(): JSX.Element {
         {/* <Timeline className={classes.rootTimeline}>{listComments}</Timeline> */}
         {loginStatus === 200 ? (
           <Timeline className={classes.rootTimeline}>
-            <TimelineItem className={classes.timeline}>
-              <TimelineSeparator>
-                <TimelineDot className={classes.dotAvatar}>
-                  <Avatar alt='ava' className={classes.avatar} src={avatar || Ava3} />
-                </TimelineDot>
-              </TimelineSeparator>
-
-              <TimelineContent className={classes.content}>
-                <Paper className={classes.paper} elevation={3}>
-                  <Typography className={`${classes.actionName} ${classes.textStyle}`} component='h6' variant='h6'>
-                    {userName}
-                  </Typography>
-                  <TextField
-                    className={classes.textArea}
-                    multiline
-                    rows={1}
-                    rowsMax={4}
-                    aria-label='maximum height'
-                    placeholder='Viết bình luận...'
-                    InputProps={{
-                      classes: { input: classes.inputTextArea },
-                    }}
-                    onChange={onTextFieldChange}
-                    onKeyPress={onKeyPress}
-                    inputRef={valueRef}
-                    value={textArea}
-                  />
-                </Paper>
-              </TimelineContent>
-            </TimelineItem>
+            <CommentBox
+              onTextFieldChange={onTextFieldChange}
+              onKeyPress={onKeyPress}
+              valueRef={valueRef}
+              textArea={textArea}
+              keyClassName='timeline'
+            />
           </Timeline>
         ) : null}
       </Grid>

@@ -11,7 +11,7 @@
     @media screen and (min-width: 600px) {
         width: 100%;
         
-        .article {
+        .article-section {
             width: 100%;
             margin: auto;
         }
@@ -20,7 +20,7 @@
     // screen < 960
     @media screen and (max-width: 960px) {
 
-        .article {
+        .article-section {
             width: 100%;
         }
 
@@ -32,7 +32,7 @@
     // screen >= 960
     @media screen and (min-width: 960px) {
 
-        .article {
+        .article-section {
             width: 760px;
         }
 
@@ -45,7 +45,7 @@
     @media screen and (min-width: 1280px) {
         width: 100%;
 
-        .article {
+        .article-section {
             width: 1160px;
         }
 
@@ -59,7 +59,7 @@
     @media screen and (min-width: 1600px) {
         width: 100%;
 
-        .article {
+        .article-section {
             width: 1520px;
         }
         
