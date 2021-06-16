@@ -24,7 +24,8 @@ function MagazineArticle(): JSX.Element {
     title = '',
     author = '',
     likes = 0,
-    comments = []
+    comments = [],
+    thumbnail = '',
   } = magazineDetail;
   console.log(magazineDetail)
 
@@ -59,6 +60,9 @@ function MagazineArticle(): JSX.Element {
             </div>
             <img alt='share-icon' className={classes.heartIcon} src={ShareIcon} />
           </div>
+        </div>
+        <div className='article-thumbnail'>
+          <img alt='article-thumbnail' src={thumbnail} />
         </div>
       </>
     );
