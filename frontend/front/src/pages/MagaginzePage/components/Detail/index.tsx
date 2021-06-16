@@ -1,5 +1,9 @@
-import React from 'react';
+/* eslint-disable import/no-unresolved */
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import React, { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { Grid } from '@material-ui/core';
+import { fetchDetailMagazineAction } from 'src/features/Magazine/MagazineAction';
 
 import MagazineArticle from './components/MagazineArticle';
 import MagazineComment from './components/MagazineComment';
@@ -17,6 +21,21 @@ interface DetailProps {
 
 function DetailMagazine(props: DetailProps): JSX.Element {
     const { match: { params: { id = '' } = {} } = {} } = props;
+    const [loading, setLoading] = useState<boolean>(false);
+    const [like, setLike] = useState<number>(0);
+    const dispatch = useDispatch<any>();
+
+    useEffect(() => {
+      // fetch data detail information
+      dispatch(fetchDetailMagazineAction(+id)).then((res) => {
+        const { status = '', data: { likes = 0 } = {} } = res;
+        if (status === 200) {
+          setLoading(false);
+          setLike(likes);
+        }
+      });
+    }, [dispatch, id]);
+
     return (
       <div className='magazine-detail'>
         <Grid container>

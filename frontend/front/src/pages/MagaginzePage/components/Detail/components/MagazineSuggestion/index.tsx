@@ -23,8 +23,8 @@ function MagazineSuggestion(props: SuggestionProps): JSX.Element {
   const [loading, setLoading] = useState<boolean>(false);
   const [initialLoading, setInitialLoading] = useState<boolean>(false);
 
-  const dataMagazineCard = useSelector((state: RootState) => state.magazine.suggesMagazineList.dataOrigin);
-  const listMagazineCard = useSelector((state: RootState) => state.magazine.suggesMagazineList.listCard);
+  const dataMagazineCard = useSelector((state: RootState) => state.magazine.magazineListSuggest.dataOrigin);
+  const listMagazineCard = useSelector((state: RootState) => state.magazine.magazineListSuggest.listCard);
   const [listCard, setListCard] = useState<Array<any>>([]);
 
   // useEffect(() => {

@@ -2,8 +2,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Dispatch } from '@reduxjs/toolkit';
 import { toast } from 'react-toastify';
-import { getListCategory, getListMagazine, getListSuggestMagazine } from 'src/services/magazine';
-import { categories, magazineList, suggesMagazineList } from './MagazineSlice';
+import { getListCategory, getListMagazine, getListSuggestMagazine, getDetailMagazineCard } from 'src/services/magazine';
+import { categories, magazineDetail, magazineList, magazineListSuggest } from './MagazineSlice';
 
 export const getListCategoryAction = () => async (dispatch: Dispatch): Promise<any> => {
   try {
@@ -33,12 +33,26 @@ export const getListMagazineAction = (cat: string, num: number) => async (dispat
   return 0;
 };
 
+export const fetchDetailMagazineAction = (id: number) => async (dispatch: Dispatch): Promise<any> => {
+  try {
+    const response = await getDetailMagazineCard(id);
+    const { data = {}, status = '' } = response;
+    if (status === 200) {
+      dispatch(magazineDetail(data));
+      return response;
+    }
+  } catch (error) {
+    toast.error(`${error}`);
+  }
+  return 0;
+};
+
 export const getListSuggestMagazineAction = (id: number) => async (dispatch: Dispatch): Promise<any> => {
   try {
     const response = await getListSuggestMagazine(id);
     const { data = {}, status = '' } = response;
     if (status === 200) {
-      dispatch(suggesMagazineList(data));
+      dispatch(magazineListSuggest(data));
       return data;
     }
   } catch (error) {
