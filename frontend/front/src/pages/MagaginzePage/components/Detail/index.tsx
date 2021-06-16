@@ -1,8 +1,8 @@
 /* eslint-disable import/no-unresolved */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { Grid, CircularProgress } from '@material-ui/core';
+import { Grid, CircularProgress, RootRef } from '@material-ui/core';
 import { fetchDetailMagazineAction } from 'src/features/Magazine/MagazineAction';
 
 import MagazineArticle from './components/MagazineArticle';
@@ -22,17 +22,21 @@ interface DetailProps {
 function DetailMagazine(props: DetailProps): JSX.Element {
     const { match: { params: { id = '' } = {} } = {} } = props;
     const [loading, setLoading] = useState<boolean>(true);
-    // const [like, setLike] = useState<number>(0);
+    const valueRef = useRef<HTMLInputElement>(null);
     const dispatch = useDispatch<any>();
 
     useEffect(() => {
+      window.scrollTo({
+        top: 0,
+        left: 0,
+        behavior: 'smooth',
+      });
+
       // fetch data detail information
       dispatch(fetchDetailMagazineAction(+id)).then((res) => {
-        const { status = '', data = {} } = res;
+        const { status = '' } = res;
         if (status === 200) {
           setLoading(false);
-          console.log(data);
-          // setLike(likes);
         }
       });
     }, [dispatch, id]);
@@ -45,6 +49,10 @@ function DetailMagazine(props: DetailProps): JSX.Element {
       );
     }
 
+    const handleScrollToComment = () => {
+      valueRef?.current?.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'center' });
+    };
+
     return (
       <div className='magazine-detail'>
         <Grid container>
@@ -52,10 +60,12 @@ function DetailMagazine(props: DetailProps): JSX.Element {
         </Grid>
         <div className='article-section'>
           <div className='magazine-article'>
-            <MagazineArticle />
+            <MagazineArticle handleScrollToComment={handleScrollToComment} />
           </div>
           <div className='magazine-comment'>
-            <MagazineComment paramsId={id} />
+            <RootRef rootRef={valueRef}>
+              <MagazineComment paramsId={id} />
+            </RootRef>
           </div>
           <div className='magazine-suggestion'>
             <MagazineSuggestion paramsId={id} />

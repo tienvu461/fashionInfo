@@ -17,8 +17,13 @@ import { likeMagazineAction } from 'src/features/Magazine/MagazineAction';
 import './_magazineArticle.scss';
 import useStyles from './useStyles';
 
-function MagazineArticle(): JSX.Element {
+interface MagazineArticleProps {
+  handleScrollToComment: any;
+}
+
+function MagazineArticle(props: MagazineArticleProps): JSX.Element {
   const classes = useStyles();
+  const { handleScrollToComment } = props;
   const dispatch = useDispatch<any>();
   const [likeAction, setLikeAction] = useState<boolean>(false);
 
@@ -36,7 +41,7 @@ function MagazineArticle(): JSX.Element {
     comments = [],
     thumbnail = '',
     user_likes: userLikes = [],
-    id = 0
+    id = 0,
   } = magazineDetail;
   console.log(magazineDetail);
   const [like, setLike] = useState<number>(likes);
@@ -69,52 +74,57 @@ function MagazineArticle(): JSX.Element {
     }
   };
 
-    return (
-      <>
-        <div className='subtitle'>
-          <Typography className={`${classes.headerText} ${classes.subTitleArticle}`} component='h6' variant='h6'>
-            {subCategory}
-          </Typography>
-          <Divider className={classes.divider} />
-          <Typography className={`${classes.headerText} ${classes.time}`} gutterBottom variant='h6' component='h6'>
-            {formatDate(createAt)}
-          </Typography>
-        </div>
-        <Typography className={classes.mainTitle}>{title}</Typography>
-        <div className='article-action'>
-          <Typography className={`${classes.headerText} ${classes.authorArticle}`} component='h6' variant='h6'>
-            bởi {author}
-          </Typography>
-          <div className='action-section'>
-            <div className={classes.flex}>
-              {likeAction ? (
-                <FavoriteIcon
-                  style={{ color: 'red' }}
-                  onClick={() => likePhoto(id, 'unlike')}
-                  className={classes.heartIcon}
-                />
-              ) : (
-                <img
-                  className={classes.heartIcon}
-                  alt='heart-icon'
-                  src={HeartIcon}
-                  onClick={() => likePhoto(id, 'like')}
-                />
-              )}
-              <div className={classes.num}>{like}</div>
-            </div>
-            <div className={classes.flex}>
-              <img alt='comment-icon' className={classes.heartIcon} src={CommentIcon} />
-              <div className={classes.num}>{comments.length}</div>
-            </div>
-            <img alt='share-icon' className={classes.heartIcon} src={ShareIcon} />
+  return (
+    <>
+      <div className='subtitle'>
+        <Typography className={`${classes.headerText} ${classes.subTitleArticle}`} component='h6' variant='h6'>
+          {subCategory}
+        </Typography>
+        <Divider className={classes.divider} />
+        <Typography className={`${classes.headerText} ${classes.time}`} gutterBottom variant='h6' component='h6'>
+          {formatDate(createAt)}
+        </Typography>
+      </div>
+      <Typography className={classes.mainTitle}>{title}</Typography>
+      <div className='article-action'>
+        <Typography className={`${classes.headerText} ${classes.authorArticle}`} component='h6' variant='h6'>
+          bởi {author}
+        </Typography>
+        <div className='action-section'>
+          <div className={classes.flex}>
+            {likeAction ? (
+              <FavoriteIcon
+                style={{ color: 'red' }}
+                onClick={() => likePhoto(id, 'unlike')}
+                className={classes.heartIcon}
+              />
+            ) : (
+              <img
+                className={classes.heartIcon}
+                alt='heart-icon'
+                src={HeartIcon}
+                onClick={() => likePhoto(id, 'like')}
+              />
+            )}
+            <div className={classes.num}>{like}</div>
           </div>
+          <div className={classes.flex}>
+            <img
+              onClick={() => handleScrollToComment()}
+              alt='comment-icon'
+              className={classes.heartIcon}
+              src={CommentIcon}
+            />
+            <div className={classes.num}>{comments.length}</div>
+          </div>
+          <img alt='share-icon' className={classes.heartIcon} src={ShareIcon} />
         </div>
-        <div className='article-thumbnail'>
-          <img alt='article-thumbnail' src={thumbnail} />
-        </div>
-      </>
-    );
+      </div>
+      <div className='article-thumbnail'>
+        <img alt='article-thumbnail' src={thumbnail} />
+      </div>
+    </>
+  );
 }
 
 export default MagazineArticle;
