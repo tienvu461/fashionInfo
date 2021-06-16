@@ -73,3 +73,14 @@
         } 
     }
 }
+
+.loading {
+    height: 100vh;
+    position: relative;
+
+    .loading-icon {
+        position: fixed;
+        left: 50%;
+        top: 50%;
+    }
+}

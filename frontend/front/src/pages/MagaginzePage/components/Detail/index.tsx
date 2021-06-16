@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { Grid } from '@material-ui/core';
+import { Grid, CircularProgress } from '@material-ui/core';
 import { fetchDetailMagazineAction } from 'src/features/Magazine/MagazineAction';
 
 import MagazineArticle from './components/MagazineArticle';
@@ -21,20 +21,29 @@ interface DetailProps {
 
 function DetailMagazine(props: DetailProps): JSX.Element {
     const { match: { params: { id = '' } = {} } = {} } = props;
-    const [loading, setLoading] = useState<boolean>(false);
-    const [like, setLike] = useState<number>(0);
+    const [loading, setLoading] = useState<boolean>(true);
+    // const [like, setLike] = useState<number>(0);
     const dispatch = useDispatch<any>();
 
     useEffect(() => {
       // fetch data detail information
       dispatch(fetchDetailMagazineAction(+id)).then((res) => {
-        const { status = '', data: { likes = 0 } = {} } = res;
+        const { status = '', data = {} } = res;
         if (status === 200) {
           setLoading(false);
-          setLike(likes);
+          console.log(data);
+          // setLike(likes);
         }
       });
     }, [dispatch, id]);
+
+    if (loading) {
+      return (
+        <div className='loading'>
+          <CircularProgress className='loading-icon' />
+        </div>
+      );
+    }
 
     return (
       <div className='magazine-detail'>

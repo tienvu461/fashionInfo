@@ -2,12 +2,10 @@
 /* eslint-disable import/no-unresolved */
 import React, { useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { Grid, Avatar, Paper, Typography, TextField } from '@material-ui/core';
-import { Timeline, TimelineContent, TimelineDot, TimelineItem, TimelineSeparator } from '@material-ui/lab';
+import { Grid } from '@material-ui/core';
+import { Timeline } from '@material-ui/lab';
 import { RootState } from 'src/store/store';
 import CommentBox from 'src/components/CommentBox';
-
-import Ava3 from 'src/assets/images/ava3.svg';
 
 import useStyles from './useStyles';
 
@@ -16,11 +14,6 @@ function Comments(): JSX.Element {
     const [textArea, setTextArea] = useState<string>('');
     const valueRef = useRef<HTMLInputElement>();
     const loginStatus = useSelector((state: RootState) => state.login.loginResponse.status);
-    const firstName = useSelector((state: any) => state.profile.currentUser.user?.first_name);
-    const lastName = useSelector((state: any) => state.profile.currentUser.user?.last_name);
-    const avatar = useSelector((state: any) => state.profile.currentUser.profile_photo);
-
-    const userName = `${firstName} ${lastName}`;
 
     const onTextFieldChange = (e: React.ChangeEvent<HTMLInputElement>) => {
       const text = e.target.value;

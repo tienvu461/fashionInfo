@@ -2,7 +2,7 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import moment from 'moment';
-import { Grid, Button, Typography, Divider, Box } from '@material-ui/core';
+import { Typography, Divider } from '@material-ui/core';
 // import FavoriteIcon from '@material-ui/icons/Favorite';
 
 import { RootState } from 'src/store/store';
@@ -27,7 +27,7 @@ function MagazineArticle(): JSX.Element {
     comments = [],
     thumbnail = '',
   } = magazineDetail;
-  console.log(magazineDetail)
+  console.log(magazineDetail);
 
     return (
       <>
