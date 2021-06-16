@@ -11,10 +11,10 @@ import { RootState } from 'src/store/store';
 import Ava1 from 'src/assets/images/menAva.jpg';
 
 import { commentPhotoAction } from 'src/features/Photo/photoAction';
+import CommentBox from 'src/components/CommentBox';
 
 import useStyles from './useStyles';
 import CommentParrent from './CommentParrent';
-import CommentBox from './CommentBox';
 
 function Comments(): JSX.Element {
   const classes = useStyles();
@@ -26,9 +26,6 @@ function Comments(): JSX.Element {
   const photoId = useSelector((state: RootState) => state.photo.photoDetail.id);
   const loginStatus = useSelector((state: RootState) => state.login.loginResponse.status);
   const user = useSelector((state: any) => state.login.loginResponse.userID);
-  const firstName = useSelector((state: any) => state.profile.currentUser.user?.first_name);
-  const lastName = useSelector((state: any) => state.profile.currentUser.user?.last_name);
-  const userName = `${firstName} ${lastName}`;
 
   const onTextFieldChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const text = e.target.value;
@@ -72,7 +69,6 @@ function Comments(): JSX.Element {
                   key={cmtID}
                   cmtProps={{ ...item, avatar: Ava1, cmtLength: comments.length, lastCmt: index }}
                   userID={user}
-                  userName={userName}
                 />
               );
             })}

@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable import/no-unresolved */
 import React, { useRef, useState } from 'react';
-import { Grid, Paper, Typography, Avatar, TextField } from '@material-ui/core';
+import { Grid, Paper, Typography, Avatar } from '@material-ui/core';
 import {
   TimelineConnector,
   TimelineContent,
@@ -17,20 +17,19 @@ import { commentPhotoAction } from 'src/features/Photo/photoAction';
 import Ava2 from 'src/assets/images/beck.jpeg';
 import { RootState } from 'src/store/store';
 import { HOST } from 'src/apis';
+import CommentBox from 'src/components/CommentBox';
 import CommentChild from '../CommentChild';
-import CommentBox from '../CommentBox';
 
 import useStyles from '../useStyles';
 
 interface CommentProps {
   cmtProps: any;
   userID: any;
-  userName: any;
 }
 
 function CommentParrent(props: CommentProps): JSX.Element {
   const classes = useStyles();
-  const { cmtProps, userID, userName } = props;
+  const { cmtProps, userID } = props;
 
   const dispatch = useDispatch<any>();
   const valueRef = useRef<HTMLInputElement>();
@@ -38,7 +37,6 @@ function CommentParrent(props: CommentProps): JSX.Element {
   const [textArea, setTextArea] = useState<string>('');
   const [isReply, setisReply] = useState<boolean>(false);
   const loginStatus = useSelector((state: RootState) => state.login.loginResponse.status);
-  const avatar = useSelector((state: any) => state.profile.currentUser.profile_photo);
   const formatDate = (time: number) => moment(time * 1000).fromNow();
 
   const renderTimelineConnector = (cmts: number, lastCmt: number) => {
@@ -102,7 +100,6 @@ function CommentParrent(props: CommentProps): JSX.Element {
   );
 
   return (
-    // <Grid>
     <TimelineItem className={classes.timeline}>
       <TimelineSeparator>
         <TimelineDot className={classes.dotAvatar}>
@@ -146,7 +143,6 @@ function CommentParrent(props: CommentProps): JSX.Element {
                 <CommentChild
                   key={item.cmt_id}
                   renderTimelineConnector={renderTimelineConnector}
-                  // isReplies={isReplies}
                   cmtChildProps={{ item, index, cmtProps, userID }}
                 />
               </>
@@ -158,7 +154,6 @@ function CommentParrent(props: CommentProps): JSX.Element {
         )}
       </TimelineContent>
     </TimelineItem>
-    // </Grid>
   );
 }
 

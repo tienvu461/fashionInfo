@@ -2,7 +2,7 @@
 /* eslint-disable import/no-unresolved */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useRef, useState } from 'react';
-import { Grid, Paper, Typography, Avatar, TextField } from '@material-ui/core';
+import { Grid, Paper, Typography, Avatar } from '@material-ui/core';
 import { TimelineContent, TimelineDot, TimelineItem, TimelineSeparator } from '@material-ui/lab';
 import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
@@ -11,7 +11,7 @@ import Ava2 from 'src/assets/images/beck.jpeg';
 import { RootState } from 'src/store/store';
 import { commentPhotoAction } from 'src/features/Photo/photoAction';
 import { HOST } from 'src/apis';
-import CommentBox from '../CommentBox';
+import CommentBox from 'src/components/CommentBox';
 import useStyles from '../useStyles';
 
 interface CmtChild {
@@ -28,7 +28,6 @@ function CommentChild(props: CmtChild): JSX.Element {
   const valueRef = useRef<HTMLInputElement>();
 
   const loginStatus = useSelector((state: RootState) => state.login.loginResponse.status);
-  const avatar = useSelector((state: any) => state.profile.currentUser.profile_photo);
 
   const { renderTimelineConnector, cmtChildProps } = props;
   const { item, index, cmtProps, userID } = cmtChildProps;
