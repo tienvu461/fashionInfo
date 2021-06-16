@@ -1,22 +1,31 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable camelcase */
 /* eslint-disable import/no-unresolved */
-import React from 'react';
-import { useSelector } from 'react-redux';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
+import { toast } from 'react-toastify';
 import { Typography, Divider } from '@material-ui/core';
-// import FavoriteIcon from '@material-ui/icons/Favorite';
+import FavoriteIcon from '@material-ui/icons/Favorite';
 
 import { RootState } from 'src/store/store';
 import HeartIcon from 'src/assets/images/heart.svg';
 import ShareIcon from 'src/assets/images/share.svg';
 import CommentIcon from 'src/assets/images/comment.svg';
+import { likeMagazineAction } from 'src/features/Magazine/MagazineAction';
 
 import './_magazineArticle.scss';
 import useStyles from './useStyles';
 
 function MagazineArticle(): JSX.Element {
   const classes = useStyles();
+  const dispatch = useDispatch<any>();
+  const [likeAction, setLikeAction] = useState<boolean>(false);
 
   const magazineDetail = useSelector((state: RootState) => state.magazine.magazineDetail);
+  const userID = useSelector((state: any) => state.login.loginResponse?.userID);
+  const loginStatus = useSelector((state: any) => state.login.loginResponse?.status);
+
   const formatDate = (time: number) => moment(time * 1000).fromNow();
   const {
     sub_category: subCategory = '',
@@ -26,8 +35,39 @@ function MagazineArticle(): JSX.Element {
     likes = 0,
     comments = [],
     thumbnail = '',
+    user_likes: userLikes = [],
+    id = 0
   } = magazineDetail;
   console.log(magazineDetail);
+  const [like, setLike] = useState<number>(likes);
+
+  useEffect(() => {
+    if (userLikes) {
+      let checkUserLike = userLikes.map((item) => item === userID);
+      checkUserLike = checkUserLike.filter((item) => item === true);
+      if (checkUserLike[0]) {
+        setLikeAction(checkUserLike[0]);
+      } else {
+        setLikeAction(false);
+      }
+    }
+  }, [userLikes, userID]);
+
+  const likePhoto = (news_id: string | number, key: string) => {
+    if (loginStatus === 200) {
+      dispatch(likeMagazineAction({ user_id: userID, news_id })).then(() => {
+        if (key === 'like') {
+          setLikeAction(true);
+          setLike(like + 1);
+        } else {
+          setLikeAction(false);
+          setLike(like - 1);
+        }
+      });
+    } else {
+      toast.warn('Please login your account');
+    }
+  };
 
     return (
       <>
@@ -46,13 +86,22 @@ function MagazineArticle(): JSX.Element {
             bởi {author}
           </Typography>
           <div className='action-section'>
-            {/* <FavoriteIcon
-              // onClick={() => likePhoto(id, 'unlike')}
-              className={classes.heartIcon}
-            /> */}
             <div className={classes.flex}>
-              <img className={classes.heartIcon} alt='heart-icon' src={HeartIcon} />
-              <div className={classes.num}>{likes}</div>
+              {likeAction ? (
+                <FavoriteIcon
+                  style={{ color: 'red' }}
+                  onClick={() => likePhoto(id, 'unlike')}
+                  className={classes.heartIcon}
+                />
+              ) : (
+                <img
+                  className={classes.heartIcon}
+                  alt='heart-icon'
+                  src={HeartIcon}
+                  onClick={() => likePhoto(id, 'like')}
+                />
+              )}
+              <div className={classes.num}>{like}</div>
             </div>
             <div className={classes.flex}>
               <img alt='comment-icon' className={classes.heartIcon} src={CommentIcon} />

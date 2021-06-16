@@ -12,8 +12,8 @@ interface InitialState {
     listPhoto: Array<Record<string, string>>;
     dataOrigin: Record<string, string>;
   };
-  photoLikes: Record<string, string>
-  photoComment: Record<string, string>
+  photoLikes: Record<string, string>;
+  photoComment: Record<string, string>;
 }
 
 const initialState: InitialState = {
