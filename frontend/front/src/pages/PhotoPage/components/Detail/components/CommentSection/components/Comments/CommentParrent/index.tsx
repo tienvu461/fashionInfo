@@ -18,6 +18,7 @@ import Ava2 from 'src/assets/images/beck.jpeg';
 import { RootState } from 'src/store/store';
 import { HOST } from 'src/apis';
 import CommentChild from '../CommentChild';
+import CommentBox from '../CommentBox';
 
 import useStyles from '../useStyles';
 
@@ -89,36 +90,13 @@ function CommentParrent(props: CommentProps): JSX.Element {
   const renderCmtInput = () => (
     <>
       {isReply ? (
-        <TimelineItem className={classes.timeline}>
-          <TimelineSeparator>
-            <TimelineDot className={classes.dotAvatar}>
-              <Avatar alt='ava' className={classes.avatar} src={avatar} />
-            </TimelineDot>
-          </TimelineSeparator>
-
-          <TimelineContent className={classes.content}>
-            <Paper className={classes.paper} elevation={3}>
-              <Typography className={`${classes.actionName} ${classes.textStyle}`} component='h6' variant='h6'>
-                {userName}
-              </Typography>
-              <TextField
-                className={classes.textArea}
-                multiline
-                rows={1}
-                rowsMax={4}
-                aria-label='maximum height'
-                placeholder='Viết bình luận...'
-                InputProps={{
-                  classes: { input: classes.inputTextArea },
-                }}
-                onChange={onTextFieldChange}
-                onKeyPress={onKeyPressReply}
-                inputRef={valueRef}
-                value={textArea}
-              />
-            </Paper>
-          </TimelineContent>
-        </TimelineItem>
+        <CommentBox
+          onTextFieldChange={onTextFieldChange}
+          onKeyPress={onKeyPressReply}
+          valueRef={valueRef}
+          textArea={textArea}
+          keyClassName='timeline'
+        />
       ) : null}
     </>
   );
