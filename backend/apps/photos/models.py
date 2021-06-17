@@ -183,7 +183,7 @@ class MagazineSubCategory(models.Model):
 # Upload news
 
 
-class News(models.Model):
+class Magazine(models.Model):
     title = models.CharField(max_length=50)
     slug = models.SlugField(max_length=255, unique=True, null=True)
     category = models.ForeignKey(MagazineCategory, on_delete=models.CASCADE)
@@ -200,13 +200,13 @@ class News(models.Model):
 
     status = models.IntegerField(choices=modelConst.STATUS, default=0)
     view_count = models.IntegerField(default=0)
-    user_likes = models.ManyToManyField(User, related_name="news_users_like")
+    user_likes = models.ManyToManyField(User, related_name="magazine_users_like")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
-        verbose_name = 'News'
-        verbose_name_plural = 'News'
+        verbose_name = 'Magazine'
+        verbose_name_plural = 'Magazine'
         ordering = ['-created_at']
 
     def __str__(self):
@@ -222,14 +222,14 @@ class News(models.Model):
 
 class NewsAttachedPhoto(models.Model):
     news = models.ForeignKey(
-        News, related_name='news_photo', on_delete=models.CASCADE)
+        Magazine, related_name='news_photo', on_delete=models.CASCADE)
     image = models.ImageField(
         upload_to=adminConst.ATTACH_DIR + datetime.now().strftime('%Y/%m/%d'), max_length=500)
 
 
 class NewsArchivedFile(models.Model):
     news = models.ForeignKey(
-        News, related_name='news_file', on_delete=models.CASCADE)
+        Magazine, related_name='news_file', on_delete=models.CASCADE)
     zip_file = models.FileField(
         upload_to=adminConst.ARCHIVED_DIR + datetime.now().strftime('%Y/%m/%d'), max_length=500)
 
@@ -238,7 +238,7 @@ class MagazineLike(models.Model):
     user_id = models.ForeignKey(
         User, on_delete=models.CASCADE, null=False)
     magazine_id = models.ForeignKey(
-        News, on_delete=models.CASCADE, null=False)
+        Magazine, on_delete=models.CASCADE, null=False)
     is_enabled = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -249,7 +249,7 @@ class MagazineComment(models.Model):
     user_id = models.ForeignKey(
         User, on_delete=models.CASCADE, null=False)
     magazine_id = models.ForeignKey(
-        News, on_delete=models.CASCADE, null=False)
+        Magazine, on_delete=models.CASCADE, null=False)
     content = models.CharField(max_length=255)
     # manually deactivate inappropriate comments from admin site
     active = models.BooleanField(default=True)
@@ -265,19 +265,19 @@ class MagazineComment(models.Model):
     def __str__(self):
         return str(self.cmt_id)
 
-def get_default_news():
-    return News.objects.get_or_create(id=1)
-class MagazineFeature(models.Model):
-    feature_news = ForeignKey(
-        News, related_name='feature', on_delete=models.CASCADE, default=get_default_news)
-    in_use = models.BooleanField(choices=modelConst.BINARY, default=True)
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
+# def get_default_news():
+#     return News.objects.get_or_create(id=1)
+# class MagazineFeature(models.Model):
+#     feature_news = ForeignKey(
+#         News, related_name='feature', on_delete=models.CASCADE, default=get_default_news)
+#     in_use = models.BooleanField(choices=modelConst.BINARY, default=True)
+#     created_at = models.DateTimeField(auto_now_add=True)
+#     updated_at = models.DateTimeField(auto_now=True)
 
-    # when updated, there is only 1 config in use = true, others are false
-    def save(self, *args, **kwargs):
-        if not self.in_use:
-            return super(MagazineFeature, self).save(*args, **kwargs)
-        with transaction.atomic():
-            MagazineFeature.objects.filter(in_use=True).update(in_use=False)
-            return super(MagazineFeature, self).save(*args, **kwargs)
+#     # when updated, there is only 1 config in use = true, others are false
+#     def save(self, *args, **kwargs):
+#         if not self.in_use:
+#             return super(MagazineFeature, self).save(*args, **kwargs)
+#         with transaction.atomic():
+#             MagazineFeature.objects.filter(in_use=True).update(in_use=False)
+#             return super(MagazineFeature, self).save(*args, **kwargs)

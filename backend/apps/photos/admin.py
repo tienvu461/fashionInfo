@@ -11,7 +11,7 @@ import zipfile
 import re
 from datetime import datetime
 
-from .models import MagazineCategory, Photo, PhotoFeature, PhotoLike, PhotoComment, News, NewsAttachedPhoto, NewsArchivedFile, MagazineComment, GenericConfig, PhotoCategory, MagazineFeature, MagazineSubCategory
+from .models import MagazineCategory, Photo, PhotoFeature, PhotoLike, PhotoComment, Magazine, NewsAttachedPhoto, NewsArchivedFile, MagazineComment, GenericConfig, PhotoCategory, MagazineSubCategory #MagazineFeature
 from .consts import adminConst
 
 from django import forms
@@ -122,7 +122,7 @@ class FileInline(admin.TabularInline):
         logger.debug("archived_all = {}".format(archived_all))
 
 
-@admin.register(News)
+@admin.register(Magazine)
 class NewsAdmin(MarkdownxModelAdmin):
     list_display = ('title',  'status', 'summary', 'tag_list', 'created_at',
                     'updated_at')
@@ -197,10 +197,10 @@ class MagazineCategoryAdmin(admin.ModelAdmin):
     list_display = ('cat_name', 'created_at')
 
 
-@admin.register(MagazineFeature)
-class MagazineFeatureAdmin(admin.ModelAdmin):
-    # form = CustomizedConfigForm
-    list_display = ('id', 'feature_news', 'in_use', 'created_at')
+# @admin.register(MagazineFeature)
+# class MagazineFeatureAdmin(admin.ModelAdmin):
+#     # form = CustomizedConfigForm
+#     list_display = ('id', 'feature_news', 'in_use', 'created_at')
 
 @admin.register(MagazineSubCategory)
 class MagazineSubCategoryAdmin(admin.ModelAdmin):

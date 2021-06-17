@@ -10,8 +10,8 @@ import logging
 
 from .models import Photo, PhotoLike, PhotoFeature, PhotoComment, GenericConfig
 from .serializers import PhotoSerializer, PhotoDetailSerializer, PhotoFeatureSerializer, PhotoSuggestSerializer, PhotoCommentSerializer, PhotoLikeSerializer
-from .models import News, MagazineLike, MagazineFeature, MagazineComment, MagazineCategory, MagazineSubCategory
-from .serializers import NewsSerializer, MagazineDetailSerializer, MagazineFeatureSerializer, MagazineSuggestSerializer, MagazineCommentSerializer, MagazineLikeSerializer, MagazineCategorySerializer, MagazineSubCategorySerializer
+from .models import Magazine, MagazineLike, MagazineComment, MagazineCategory, MagazineSubCategory # MagazineFeature
+from .serializers import MagazineSerializer, MagazineDetailSerializer, MagazineSuggestSerializer, MagazineCommentSerializer, MagazineLikeSerializer, MagazineCategorySerializer, MagazineSubCategorySerializer #MagazineFeatureSerializer
 from .consts import photosConst
 from .utils import calc_interactive_pt, striphtml
 
@@ -339,12 +339,12 @@ class PhotoCommentCreate(generics.CreateAPIView):
 
         return Response(serializer.data, status=status.HTTP_200_OK, headers=headers)
 
-# News
+# Magazine
 
 
 class MagazineList(generics.ListCreateAPIView):
-    queryset = News.objects.all()
-    serializer_class = NewsSerializer
+    queryset = Magazine.objects.all()
+    serializer_class = MagazineSerializer
     # filter_backends = (filters.DjangoFilterBackend,)
     # filter_class = NewsFilter
 
@@ -362,7 +362,7 @@ class MagazineList(generics.ListCreateAPIView):
             logger.error("Cannot get config\nException: {}".format(e))
             show_activities = True
 
-        queryset = News.objects.filter(category__cat_name__iexact=category)
+        queryset = Magazine.objects.filter(category__cat_name__iexact=category)
         # queryset = queryset.order_by('-created_at')
 
         page = self.paginate_queryset(queryset)
@@ -384,7 +384,7 @@ class MagazineList(generics.ListCreateAPIView):
 
 
 class MagazineDetail(generics.RetrieveUpdateDestroyAPIView):
-    queryset = News.objects.all()
+    queryset = Magazine.objects.all()
     serializer_class = MagazineDetailSerializer
 
     def get(self, request, *args, **kwargs):
@@ -416,15 +416,15 @@ class MagazineSearch(views.APIView, pagination.PageNumberPagination):
         searched_tags = request.GET.get('search_text', '').split()
         logger.debug(searched_tags)
 
-        queryset = News.objects.filter(tags__name__in=searched_tags).distinct()
+        queryset = Magazine.objects.filter(tags__name__in=searched_tags).distinct()
         queryset = queryset.order_by('-created_at')
         page = self.paginate_queryset(queryset, request, view=self)
         if page is not None:
-            serializer = NewsSerializer(queryset, many=True)
+            serializer = MagazineSerializer(queryset, many=True)
             return self.get_paginated_response(serializer.data)
 
         logger.debug(queryset)
-        serializer = NewsSerializer(queryset, many=True)
+        serializer = MagazineSerializer(queryset, many=True)
         return Response(serializer.data)
 
 
@@ -435,7 +435,7 @@ class MagazineLikeCreate(generics.CreateAPIView):
     def post(self, request, *args, **kwargs):
         # query photolike object from DB
 
-        news = News.objects.get(id=self.request.data['magazine_id'])
+        news = Magazine.objects.get(id=self.request.data['magazine_id'])
         try:
             news_like = MagazineLike.objects.get(user_id=self.request.data['user_id'],
                                              magazine_id=self.request.data['magazine_id'])
@@ -490,7 +490,7 @@ class MagazineSuggest(CustomPaginate):
         #     return Response(status=status.HTTP_400_BAD_REQUEST,)
 
         try:
-            org_queryset = News.objects.filter(id=magazine_id).distinct()
+            org_queryset = Magazine.objects.filter(id=magazine_id).distinct()
             org_serializer = MagazineDetailSerializer(org_queryset, many=True)
             # logger.debug(
             #     ("org_queryset data = {}".format(org_serializer.data[0])))
@@ -504,15 +504,15 @@ class MagazineSuggest(CustomPaginate):
 
             clauses = ((Q(tags__name__iexact=tag) for tag in org_tag_list))
             query = reduce(operator.or_, clauses)
-            similar_news_queryset = News.objects.filter(
+            similar_news_queryset = Magazine.objects.filter(
                 query | Q(author=org_author)).distinct()
 
-            # similar_news_queryset = News.objects.filter(tags__name__in=org_tag_list).distinct()
-            # similar_news_queryset = News.objects.filter(Q(tags__icontains='candy')|Q(body__icontains='candy'))
+            # similar_news_queryset = Magazine.objects.filter(tags__name__in=org_tag_list).distinct()
+            # similar_news_queryset = Magazine.objects.filter(Q(tags__icontains='candy')|Q(body__icontains='candy'))
 
             similar_news_queryset = similar_news_queryset.exclude(
                 id=magazine_id)
-            similar_news_serializer = NewsSerializer(
+            similar_news_serializer = MagazineSerializer(
                 similar_news_queryset, many=True)
             # logger.debug(("similar_news_serializer data = {}".format(
             # similar_news_serializer.data)))
@@ -549,32 +549,32 @@ class MagazineSuggest(CustomPaginate):
             return Response(status=status.HTTP_400_BAD_REQUEST,)
 
         # Food.objects.filter(tags__name__in=["delicious"])
-        # queryset = News.objects.filter(tags__name__in=searched_tags).distinct()
+        # queryset = Magazine.objects.filter(tags__name__in=searched_tags).distinct()
         # queryset = queryset.order_by('-created_at')
         # # page = pagination.PageNumberPagination.paginate_queryset(queryset=queryset, request=request)
         # page = self.paginate_queryset(queryset, request, view=self)
         # if page is not None:
-        #     serializer = NewsSerializer(queryset, many=True)
+        #     serializer = MagazineSerializer(queryset, many=True)
         #     return self.get_paginated_response(serializer.data)
 
         # logger.debug(queryset)
-        # serializer = NewsSerializer(queryset, many=True)
+        # serializer = MagazineSerializer(queryset, many=True)
         # return Response(status=status.HTTP_200_OK,)
 
 # Get the most trending news
 
 
-class MagazineFeatureDetail(views.APIView):
-    # queryset = MagazineFeature.objects.all()
-    # serializer_class = MagazineFeatureSerializer
+# class MagazineFeatureDetail(views.APIView):
+#     # queryset = MagazineFeature.objects.all()
+#     # serializer_class = MagazineFeatureSerializer
 
-    def get(self, request, *args, **kwargs):
-        queryset = MagazineFeature.objects.filter(in_use=True)
-        if queryset.count() == 0:
-            logger.error("Feature news does not exist")
-            return Response("Feature news does not exist", status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-        serializer = MagazineFeatureSerializer(queryset, many=True)
-        return Response(serializer.data)
+#     def get(self, request, *args, **kwargs):
+#         queryset = MagazineFeature.objects.filter(in_use=True)
+#         if queryset.count() == 0:
+#             logger.error("Feature news does not exist")
+#             return Response("Feature news does not exist", status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+#         serializer = MagazineFeatureSerializer(queryset, many=True)
+#         return Response(serializer.data)
 
 # Create comment on photo
 
