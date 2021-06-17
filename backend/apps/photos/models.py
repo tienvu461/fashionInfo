@@ -180,7 +180,7 @@ class MagazineSubCategory(models.Model):
     def __str__(self):
         return self.cat_name
 
-# Upload news
+# Upload magazine
 
 
 class Magazine(models.Model):
@@ -220,16 +220,16 @@ class Magazine(models.Model):
         return striphtml(markdownify(summary))
     summary.short_description = "Description"
 
-class NewsAttachedPhoto(models.Model):
-    news = models.ForeignKey(
-        Magazine, related_name='news_photo', on_delete=models.CASCADE)
+class MagazineAttachedPhoto(models.Model):
+    magazine = models.ForeignKey(
+        Magazine, related_name='magazine_photo', on_delete=models.CASCADE)
     image = models.ImageField(
         upload_to=adminConst.ATTACH_DIR + datetime.now().strftime('%Y/%m/%d'), max_length=500)
 
 
-class NewsArchivedFile(models.Model):
-    news = models.ForeignKey(
-        Magazine, related_name='news_file', on_delete=models.CASCADE)
+class MagazineArchivedFile(models.Model):
+    magazine = models.ForeignKey(
+        Magazine, related_name='magazine_file', on_delete=models.CASCADE)
     zip_file = models.FileField(
         upload_to=adminConst.ARCHIVED_DIR + datetime.now().strftime('%Y/%m/%d'), max_length=500)
 
@@ -265,19 +265,19 @@ class MagazineComment(models.Model):
     def __str__(self):
         return str(self.cmt_id)
 
-# def get_default_news():
-#     return News.objects.get_or_create(id=1)
-# class MagazineFeature(models.Model):
-#     feature_news = ForeignKey(
-#         News, related_name='feature', on_delete=models.CASCADE, default=get_default_news)
-#     in_use = models.BooleanField(choices=modelConst.BINARY, default=True)
-#     created_at = models.DateTimeField(auto_now_add=True)
-#     updated_at = models.DateTimeField(auto_now=True)
+def get_default_magazine():
+    return Magazine.objects.get_or_create(id=1)
+class MagazineFeature(models.Model):
+    feature_magazine = ForeignKey(
+        Magazine, related_name='feature', on_delete=models.CASCADE, default=get_default_magazine)
+    in_use = models.BooleanField(choices=modelConst.BINARY, default=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
-#     # when updated, there is only 1 config in use = true, others are false
-#     def save(self, *args, **kwargs):
-#         if not self.in_use:
-#             return super(MagazineFeature, self).save(*args, **kwargs)
-#         with transaction.atomic():
-#             MagazineFeature.objects.filter(in_use=True).update(in_use=False)
-#             return super(MagazineFeature, self).save(*args, **kwargs)
+    # when updated, there is only 1 config in use = true, others are false
+    def save(self, *args, **kwargs):
+        if not self.in_use:
+            return super(MagazineFeature, self).save(*args, **kwargs)
+        with transaction.atomic():
+            MagazineFeature.objects.filter(in_use=True).update(in_use=False)
+            return super(MagazineFeature, self).save(*args, **kwargs)

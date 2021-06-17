@@ -10,8 +10,8 @@ import logging
 
 from .models import Photo, PhotoLike, PhotoFeature, PhotoComment, GenericConfig
 from .serializers import PhotoSerializer, PhotoDetailSerializer, PhotoFeatureSerializer, PhotoSuggestSerializer, PhotoCommentSerializer, PhotoLikeSerializer
-from .models import Magazine, MagazineLike, MagazineComment, MagazineCategory, MagazineSubCategory # MagazineFeature
-from .serializers import MagazineSerializer, MagazineDetailSerializer, MagazineSuggestSerializer, MagazineCommentSerializer, MagazineLikeSerializer, MagazineCategorySerializer, MagazineSubCategorySerializer #MagazineFeatureSerializer
+from .models import Magazine, MagazineLike, MagazineComment, MagazineCategory, MagazineSubCategory, MagazineFeature
+from .serializers import MagazineSerializer, MagazineDetailSerializer, MagazineSuggestSerializer, MagazineCommentSerializer, MagazineLikeSerializer, MagazineCategorySerializer, MagazineSubCategorySerializer, MagazineFeatureSerializer
 from .consts import photosConst
 from .utils import calc_interactive_pt, striphtml
 
@@ -346,7 +346,7 @@ class MagazineList(generics.ListCreateAPIView):
     queryset = Magazine.objects.all()
     serializer_class = MagazineSerializer
     # filter_backends = (filters.DjangoFilterBackend,)
-    # filter_class = NewsFilter
+    # filter_class = magazineFilter
 
     def list(self, request, *args, **kwargs):
         category = request.GET.get('category', '')
@@ -435,15 +435,15 @@ class MagazineLikeCreate(generics.CreateAPIView):
     def post(self, request, *args, **kwargs):
         # query photolike object from DB
 
-        news = Magazine.objects.get(id=self.request.data['magazine_id'])
+        magazine = Magazine.objects.get(id=self.request.data['magazine_id'])
         try:
-            news_like = MagazineLike.objects.get(user_id=self.request.data['user_id'],
+            magazine_like = MagazineLike.objects.get(user_id=self.request.data['user_id'],
                                              magazine_id=self.request.data['magazine_id'])
         except Exception as e:
             logger.info("Like has not been created")
             logger.info(e)
-            news_like = None
-        if not news_like:
+            magazine_like = None
+        if not magazine_like:
             # if there is no MagazineLike object with above condition => create one
             serializer = self.get_serializer(data=request.data)
             logger.debug(serializer)
@@ -451,28 +451,28 @@ class MagazineLikeCreate(generics.CreateAPIView):
             self.perform_create(serializer)
             headers = self.get_success_headers(serializer.data)
             # add user to likes list
-            news.user_likes.add(self.request.data['user_id'])
-            news.save()
+            magazine.user_likes.add(self.request.data['user_id'])
+            magazine.save()
 
             return Response(serializer.data, status=status.HTTP_200_OK, headers=headers)
 
-        elif True == news_like.is_enabled:
+        elif True == magazine_like.is_enabled:
             # if there is MagazineLike object with above condition => disable it
-            news_like.is_enabled = False
-            news_like.save()
+            magazine_like.is_enabled = False
+            magazine_like.save()
             # remove user to likes list
-            news.user_likes.remove(self.request.data['user_id'])
-            news.save()
+            magazine.user_likes.remove(self.request.data['user_id'])
+            magazine.save()
 
-            return Response({'info': 'you have unlike this news!'}, status=status.HTTP_200_OK)
+            return Response({'info': 'you have unlike this magazine!'}, status=status.HTTP_200_OK)
         else:
             # if there is MagazineLike object with above condition => re-enable it
-            news_like.is_enabled = True
-            news_like.save()
+            magazine_like.is_enabled = True
+            magazine_like.save()
             # add user to likes list
-            news.user_likes.add(self.request.data['user_id'])
-            news.save()
-            return Response({'info': 'you have like this news!'}, status=status.HTTP_200_OK)
+            magazine.user_likes.add(self.request.data['user_id'])
+            magazine.save()
+            return Response({'info': 'you have like this magazine!'}, status=status.HTTP_200_OK)
 
 
 class MagazineSuggest(CustomPaginate):
@@ -495,7 +495,7 @@ class MagazineSuggest(CustomPaginate):
             # logger.debug(
             #     ("org_queryset data = {}".format(org_serializer.data[0])))
 
-            # get tags list, filter and sort news having matched tags
+            # get tags list, filter and sort magazine having matched tags
             org_tag_list = org_serializer.data[0]["tags"]
             org_author = org_serializer.data[0]["author"]
             logger.debug(("tag_list = {}".format(org_tag_list)))
@@ -504,41 +504,41 @@ class MagazineSuggest(CustomPaginate):
 
             clauses = ((Q(tags__name__iexact=tag) for tag in org_tag_list))
             query = reduce(operator.or_, clauses)
-            similar_news_queryset = Magazine.objects.filter(
+            similar_magazine_queryset = Magazine.objects.filter(
                 query | Q(author=org_author)).distinct()
 
-            # similar_news_queryset = Magazine.objects.filter(tags__name__in=org_tag_list).distinct()
-            # similar_news_queryset = Magazine.objects.filter(Q(tags__icontains='candy')|Q(body__icontains='candy'))
+            # similar_magazine_queryset = Magazine.objects.filter(tags__name__in=org_tag_list).distinct()
+            # similar_magazine_queryset = Magazine.objects.filter(Q(tags__icontains='candy')|Q(body__icontains='candy'))
 
-            similar_news_queryset = similar_news_queryset.exclude(
+            similar_magazine_queryset = similar_magazine_queryset.exclude(
                 id=magazine_id)
-            similar_news_serializer = MagazineSerializer(
-                similar_news_queryset, many=True)
-            # logger.debug(("similar_news_serializer data = {}".format(
-            # similar_news_serializer.data)))
+            similar_magazine_serializer = MagazineSerializer(
+                similar_magazine_queryset, many=True)
+            # logger.debug(("similar_magazine_serializer data = {}".format(
+            # similar_magazine_serializer.data)))
 
-            for news in similar_news_serializer.data:
-                news['interactive_pt'] = calc_interactive_pt(
-                    org_tag_list, news['tags'], org_author, news['author'])
+            for magazine in similar_magazine_serializer.data:
+                magazine['interactive_pt'] = calc_interactive_pt(
+                    org_tag_list, magazine['tags'], org_author, magazine['author'])
 
             sorted_suggestion_list = sorted(
-                similar_news_serializer.data, key=lambda k: (-k['interactive_pt']))
+                similar_magazine_serializer.data, key=lambda k: (-k['interactive_pt']))
             # logger.debug(("ranking list = {}".format(sorted_suggestion_list)))
 
-            similar_news_serializer = MagazineSuggestSerializer(
-                similar_news_queryset, many=True, context={'org_tag_list': org_tag_list, 'org_author ': org_author})
+            similar_magazine_serializer = MagazineSuggestSerializer(
+                similar_magazine_queryset, many=True, context={'org_tag_list': org_tag_list, 'org_author ': org_author})
 
             return Response(self.paginate(sorted_suggestion_list, page, 6))
 
             # page = self.paginate_queryset(
-            #     similar_news_queryset, request, view=self)
+            #     similar_magazine_queryset, request, view=self)
             # if page is not None:
             #     logger.debug("page = {}".format(page))
-            #     similar_news_serializer = MagazineSuggestSerializer(
+            #     similar_magazine_serializer = MagazineSuggestSerializer(
             #     page, many=True, context={'org_tag_list': org_tag_list, 'org_author': org_author})
             #     # sorted_suggestion_list = sorted(
-            #     # similar_news_serializer.data, key=lambda k: (-k['interactive_pt']))
-            #     return self.get_paginated_response(similar_news_serializer.data)
+            #     # similar_magazine_serializer.data, key=lambda k: (-k['interactive_pt']))
+            #     return self.get_paginated_response(similar_magazine_serializer.data)
 
             # return Response(sorted_suggestion_list)
 
@@ -561,20 +561,20 @@ class MagazineSuggest(CustomPaginate):
         # serializer = MagazineSerializer(queryset, many=True)
         # return Response(status=status.HTTP_200_OK,)
 
-# Get the most trending news
+# Get the most trending magazine
 
 
-# class MagazineFeatureDetail(views.APIView):
-#     # queryset = MagazineFeature.objects.all()
-#     # serializer_class = MagazineFeatureSerializer
+class MagazineFeatureDetail(views.APIView):
+    # queryset = MagazineFeature.objects.all()
+    # serializer_class = MagazineFeatureSerializer
 
-#     def get(self, request, *args, **kwargs):
-#         queryset = MagazineFeature.objects.filter(in_use=True)
-#         if queryset.count() == 0:
-#             logger.error("Feature news does not exist")
-#             return Response("Feature news does not exist", status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-#         serializer = MagazineFeatureSerializer(queryset, many=True)
-#         return Response(serializer.data)
+    def get(self, request, *args, **kwargs):
+        queryset = MagazineFeature.objects.filter(in_use=True)
+        if queryset.count() == 0:
+            logger.error("Feature magazine does not exist")
+            return Response("Feature magazine does not exist", status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        serializer = MagazineFeatureSerializer(queryset, many=True)
+        return Response(serializer.data)
 
 # Create comment on photo
 

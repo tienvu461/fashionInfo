@@ -19,7 +19,7 @@ photos_urlpatterns = [
     url(r'api/magazine/category', views.MagazineCategoryList.as_view()),
     url(r'api/magazine/subcategory', views.MagazineSubCategoryList.as_view()),
     url(r'api/magazine/(?P<pk>\d+)/', views.MagazineDetail.as_view()),
-    # url(r'api/magazine/feature', views.MagazineFeatureDetail.as_view()),
+    url(r'api/magazine/feature', views.MagazineFeatureDetail.as_view()),
     url(r'api/magazine/search', views.MagazineSearch.as_view()),
     url(r'api/magazine/suggest', views.MagazineSuggest.as_view()),
 

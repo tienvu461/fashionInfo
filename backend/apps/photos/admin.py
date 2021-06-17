@@ -11,7 +11,7 @@ import zipfile
 import re
 from datetime import datetime
 
-from .models import MagazineCategory, Photo, PhotoFeature, PhotoLike, PhotoComment, Magazine, NewsAttachedPhoto, NewsArchivedFile, MagazineComment, GenericConfig, PhotoCategory, MagazineSubCategory #MagazineFeature
+from .models import MagazineCategory, Photo, PhotoFeature, PhotoLike, PhotoComment, Magazine, MagazineAttachedPhoto, MagazineArchivedFile, MagazineComment, GenericConfig, PhotoCategory, MagazineSubCategory, MagazineFeature
 from .consts import adminConst
 
 from django import forms
@@ -107,23 +107,23 @@ class PhotoCommentAdmin(admin.ModelAdmin):
 
 
 class ImageInline(admin.TabularInline):
-    model = NewsAttachedPhoto
+    model = MagazineAttachedPhoto
     extra = 3
 
 
 class FileInline(admin.TabularInline):
-    model = NewsArchivedFile
+    model = MagazineArchivedFile
     max_num = 1
 
     def save_model(self, request, obj, form, change):
         super().save_model(request, obj, form, change)
         logger.debug("id = {}".format(obj.id))
-        archived_all = NewsArchivedFile.objects.all().count()
+        archived_all = MagazineArchivedFile.objects.all().count()
         logger.debug("archived_all = {}".format(archived_all))
 
 
 @admin.register(Magazine)
-class NewsAdmin(MarkdownxModelAdmin):
+class MagazineAdmin(MarkdownxModelAdmin):
     list_display = ('title',  'status', 'summary', 'tag_list', 'created_at',
                     'updated_at')
     list_filter = ('created_at', 'updated_at', "status",)
@@ -146,10 +146,10 @@ class NewsAdmin(MarkdownxModelAdmin):
         # obj.content = "overriden"
         super().save_model(request, obj, form, change)
         logger.debug("id = {}".format(obj.id))
-        # archived_all = NewsArchivedFile.objects.all().count()
+        # archived_all = MagazineArchivedFile.objects.all().count()
         # logger.debug("archived_all = {}".format(archived_all))
         try:
-            archived = NewsArchivedFile.objects.get(magazine_id=obj.id)
+            archived = MagazineArchivedFile.objects.get(magazine_id=obj.id)
         except Exception as e:
             logger.error("Cannot get archived file")
             logger.error(e)
@@ -170,13 +170,13 @@ class NewsAdmin(MarkdownxModelAdmin):
 
                     if '.jpg' in f_name:
                         with f_list.open(f_name, "r") as jpg_file:
-                            NewsAttachedPhoto.objects.create(
+                            MagazineAttachedPhoto.objects.create(
                                 magazine_id=obj.id, image=ImageFile(jpg_file))
             # delete zipfile after extracted
             file_path = archived.zip_file
             logger.debug(file_path)
-            result = NewsArchivedFile.objects.filter(magazine_id=obj.id).delete()
-            logger.debug("NewsArchivedFile delete result = {}".format(result))
+            result = MagazineArchivedFile.objects.filter(magazine_id=obj.id).delete()
+            logger.debug("MagazineArchivedFile delete result = {}".format(result))
         obj.save()
 
 @admin.register(MagazineComment)
@@ -197,10 +197,10 @@ class MagazineCategoryAdmin(admin.ModelAdmin):
     list_display = ('cat_name', 'created_at')
 
 
-# @admin.register(MagazineFeature)
-# class MagazineFeatureAdmin(admin.ModelAdmin):
-#     # form = CustomizedConfigForm
-#     list_display = ('id', 'feature_news', 'in_use', 'created_at')
+@admin.register(MagazineFeature)
+class MagazineFeatureAdmin(admin.ModelAdmin):
+    # form = CustomizedConfigForm
+    list_display = ('id', 'feature_magazine', 'in_use', 'created_at')
 
 @admin.register(MagazineSubCategory)
 class MagazineSubCategoryAdmin(admin.ModelAdmin):

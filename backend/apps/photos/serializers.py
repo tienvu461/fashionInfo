@@ -11,7 +11,7 @@ import logging
 import json
 
 from .models import Photo, PhotoFeature, PhotoLike, PhotoComment, GenericConfig
-from .models import Magazine, MagazineComment, MagazineLike, MagazineCategory, MagazineSubCategory #MagazineFeature
+from .models import Magazine, MagazineComment, MagazineLike, MagazineCategory, MagazineSubCategory, MagazineFeature
 from .consts import modelConst, postTypeEnum
 from .utils import calc_interactive_pt, nested_comment
 logger = logging.getLogger('photos')
@@ -235,7 +235,7 @@ class MagazineCommentSerializer(serializers.ModelSerializer):
         fields = ['cmt_id', 'user_id', 'magazine_id', 'content', 'active', 'parent',
                   'created_at']
 
-    # take the current news comment object from DB, which is a list => append a new comment to that list
+    # take the current magazine comment object from DB, which is a list => append a new comment to that list
     def to_representation(self, instance):
         data_fields = super(MagazineCommentSerializer,
                             self).to_representation(instance)
@@ -317,18 +317,18 @@ class MagazineSuggestSerializer(MagazineSerializer):
                     org_tag_list, tags_list, org_author, author)
         return interactive_pt
 
-# class MagazineFeatureSerializer(serializers.ModelSerializer):
-#     class Meta:
-#         model = MagazineFeature
-#         fields = ['id', 'feature_news', 'in_use', 'created_at']
+class MagazineFeatureSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = MagazineFeature
+        fields = ['id', 'feature_magazine', 'in_use', 'created_at']
 
-#     def to_representation(self, instance):
-#         data_fields = super(MagazineFeatureSerializer, self).to_representation(instance)
-#         queryset = Magazine.objects.values_list('image_path', flat=True)
-#         data_fields['feature_news'] = settings.MEDIA_URL + queryset.get(id=data_fields['feature_news'])
-#         data_fields['created_at'] = int(instance.created_at.timestamp())
+    def to_representation(self, instance):
+        data_fields = super(MagazineFeatureSerializer, self).to_representation(instance)
+        queryset = Magazine.objects.values_list('image_path', flat=True)
+        data_fields['feature_magazine'] = settings.MEDIA_URL + queryset.get(id=data_fields['feature_magazine'])
+        data_fields['created_at'] = int(instance.created_at.timestamp())
 
-#         return data_fields
+        return data_fields
 
 class MagazineCategorySerializer(serializers.ModelSerializer):
 
