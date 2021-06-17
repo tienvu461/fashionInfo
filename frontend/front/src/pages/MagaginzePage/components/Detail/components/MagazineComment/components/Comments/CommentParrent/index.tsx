@@ -30,7 +30,6 @@ function CommentParrent(props: CommentProps): JSX.Element {
     const [isReply, setisReply] = useState<boolean>(false);
     const loginStatus = useSelector((state: RootState) => state.login.loginResponse.status);
     const formatDate = (time: number) => moment(time * 1000).fromNow();
-    console.log(cmtProps)
 
     const renderTimelineConnector = (cmts: number, lastCmt: number) => {
       if (cmts > 0) {

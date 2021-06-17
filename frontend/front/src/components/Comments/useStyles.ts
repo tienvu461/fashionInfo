@@ -56,16 +56,6 @@ const useStyles: () => Record<
     padding: 0,
     marginTop: '-15px',
   },
-  timeline: {
-    padding: 0,
-    paddingTop: '15px',
-    paddingLeft: 0,
-  },
-  timelineTwo: {
-    padding: 0,
-    paddingTop: '15px',
-    paddingLeft: '15px',
-  },
   dotAvatar: {
     width: '86px',
     height: '86px',
@@ -101,8 +91,16 @@ const useStyles: () => Record<
       paddingLeft: '20px',
     },
   },
+  timeline: {
+    marginBottom: '15px',
+    paddingTop: '15px',
+  },
   nestedTimeline: {
     paddingTop: '15px',
+  },
+  timelineTwo: {
+    paddingTop: '15px',
+    paddingLeft: '15px',
   },
   action: {
     display: 'flex',

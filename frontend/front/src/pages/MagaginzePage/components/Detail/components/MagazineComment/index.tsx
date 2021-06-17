@@ -2,7 +2,7 @@
 import React from 'react';
 import { Divider, Grid } from '@material-ui/core';
 import CommentLayout from 'src/components/CommentLayout';
-import Comments from './components/Comments';
+import Comments from 'src/components/Comments';
 
 import useStyles from './useStyles';
 
@@ -20,7 +20,7 @@ function MagazineComment(props: CommentProps): JSX.Element {
         <Grid className={classes.container} container>
           <Grid item lg={12} md={12} sm={12} xl={12} xs={12}>
             <CommentLayout paramsId={paramsId}>
-              <Comments />
+              <Comments keyItem='magazine' />
             </CommentLayout>
           </Grid>
         </Grid>

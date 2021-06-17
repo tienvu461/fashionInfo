@@ -13,6 +13,7 @@ import {
 import moment from 'moment';
 import { useDispatch, useSelector } from 'react-redux';
 
+import { commentMagazineAction } from 'src/features/Magazine/MagazineAction';
 import { commentPhotoAction } from 'src/features/Photo/photoAction';
 import Ava2 from 'src/assets/images/beck.jpeg';
 import { RootState } from 'src/store/store';
@@ -25,11 +26,12 @@ import useStyles from '../useStyles';
 interface CommentProps {
   cmtProps: any;
   userID: any;
+  keyItem: string;
 }
 
 function CommentParrent(props: CommentProps): JSX.Element {
   const classes = useStyles();
-  const { cmtProps, userID } = props;
+  const { cmtProps, userID, keyItem } = props;
 
   const dispatch = useDispatch<any>();
   const valueRef = useRef<HTMLInputElement>();
@@ -54,21 +56,44 @@ function CommentParrent(props: CommentProps): JSX.Element {
     setisReply(!isReply);
   };
 
+  const handleCmtMagazine = () => {
+    const payload: {
+      user_id: string;
+      news_id: string | number;
+      content: string;
+      parent: null | number;
+    } = {
+      user_id: userID,
+      news_id: cmtProps?.news_id,
+      content: textArea,
+      parent,
+    };
+    dispatch(commentMagazineAction(payload));
+  };
+
+  const handleCmtPhoto = () => {
+    const payload: {
+      user_id: string;
+      photo_id: string | number;
+      content: string;
+      parent: null | number;
+    } = {
+      user_id: userID,
+      photo_id: cmtProps?.photo_id,
+      content: textArea,
+      parent,
+    };
+    dispatch(commentPhotoAction(payload));
+  };
+
   const onKeyPressReply = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter') {
       valueRef.current?.blur();
-      const payload: {
-        user_id: string;
-        photo_id: string | number;
-        content: string;
-        parent: null | number;
-      } = {
-        user_id: userID,
-        photo_id: cmtProps?.photo_id,
-        content: textArea,
-        parent,
-      };
-      dispatch(commentPhotoAction(payload));
+      if (keyItem === 'magazine') {
+        handleCmtMagazine();
+      } else {
+        handleCmtPhoto();
+      }
       setTextArea('');
       setisReply(false);
     }
@@ -144,6 +169,7 @@ function CommentParrent(props: CommentProps): JSX.Element {
                   key={item.cmt_id}
                   renderTimelineConnector={renderTimelineConnector}
                   cmtChildProps={{ item, index, cmtProps, userID }}
+                  keyItem={keyItem}
                 />
               </>
             ))}

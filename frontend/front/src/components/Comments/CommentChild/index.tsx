@@ -9,6 +9,8 @@ import moment from 'moment';
 import Ava2 from 'src/assets/images/beck.jpeg';
 
 import { RootState } from 'src/store/store';
+// import { commentPhotoAction } from 'src/features/Photo/photoAction';
+import { commentMagazineAction } from 'src/features/Magazine/MagazineAction';
 import { commentPhotoAction } from 'src/features/Photo/photoAction';
 import { HOST } from 'src/apis';
 import CommentBox from 'src/components/CommentBox';
@@ -17,6 +19,7 @@ import useStyles from '../useStyles';
 interface CmtChild {
   renderTimelineConnector: any;
   cmtChildProps: any;
+  keyItem: string;
 }
 
 function CommentChild(props: CmtChild): JSX.Element {
@@ -29,7 +32,7 @@ function CommentChild(props: CmtChild): JSX.Element {
 
   const loginStatus = useSelector((state: RootState) => state.login.loginResponse.status);
 
-  const { renderTimelineConnector, cmtChildProps } = props;
+  const { renderTimelineConnector, cmtChildProps, keyItem } = props;
   const { item, index, cmtProps, userID } = cmtChildProps;
   const formatDate = (time: number) => moment(time * 1000).fromNow();
 
@@ -49,21 +52,44 @@ function CommentChild(props: CmtChild): JSX.Element {
     setTextArea(newText);
   };
 
+  const handleCmtMagazine = () => {
+    const payload: {
+      user_id: string;
+      news_id: string | number;
+      content: string;
+      parent: null | number;
+    } = {
+      user_id: userID,
+      news_id: cmtProps?.news_id,
+      content: textArea,
+      parent,
+    };
+    dispatch(commentMagazineAction(payload));
+  };
+
+  const handleCmtPhoto = () => {
+    const payload: {
+      user_id: string;
+      photo_id: string | number;
+      content: string;
+      parent: null | number;
+    } = {
+      user_id: userID,
+      photo_id: cmtProps?.photo_id,
+      content: textArea,
+      parent,
+    };
+    dispatch(commentPhotoAction(payload));
+  };
+
   const onKeyPressReply = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter') {
       valueRef.current?.blur();
-      const payload: {
-        user_id: string;
-        photo_id: string | number;
-        content: string;
-        parent: null | number;
-      } = {
-        user_id: userID,
-        photo_id: cmtProps?.photo_id,
-        content: textArea,
-        parent,
-      };
-      dispatch(commentPhotoAction(payload));
+      if (keyItem === 'magazine') {
+        handleCmtMagazine();
+      } else {
+        handleCmtPhoto();
+      }
       setTextArea('');
       setisReply(false);
     }
