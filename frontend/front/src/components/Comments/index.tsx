@@ -111,7 +111,7 @@ function Comments(props: CommentProps): JSX.Element {
           )}
         </>
       ),
-      [magazineComments]
+      [magazineComments, userID]
     );
 
     const listPhotoComments = useMemo(
@@ -134,7 +134,7 @@ function Comments(props: CommentProps): JSX.Element {
           )}
         </>
       ),
-      [photoComments]
+      [photoComments, userID]
     );
 
     return (
