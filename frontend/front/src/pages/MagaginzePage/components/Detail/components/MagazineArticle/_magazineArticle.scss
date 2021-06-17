@@ -1,6 +1,15 @@
 @import '../../../../../../styles/styles.scss';
 
+.article-content {
+    text-align: left;
+    font-size: 20px;
+    // width: 870px;
+    margin: auto;
 
+    img {
+        width: 100%;
+    }
+}
 
 @media screen and (max-width: 600px) {
     .subtitle{
@@ -46,7 +55,7 @@
         }
     }
 
-    .article-thumbnail{
+    .article-banner{
         width: 100%;
         padding-top: 39px;
 
@@ -55,4 +64,11 @@
             height: 100%;
         }
     }
+}
+
+@media screen and (min-width: 1280px) {
+    .article-content {
+    width: 870px;
+    margin: auto;
+}
 }
