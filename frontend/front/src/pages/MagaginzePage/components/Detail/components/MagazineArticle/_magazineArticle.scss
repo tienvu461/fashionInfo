@@ -3,6 +3,12 @@
 .article-content {
     text-align: left;
     font-size: 20px;
+    // width: 870px;
+    margin: auto;
+
+    img {
+        width: 100%;
+    }
 }
 
 @media screen and (max-width: 600px) {
@@ -58,4 +64,11 @@
             height: 100%;
         }
     }
+}
+
+@media screen and (min-width: 1280px) {
+    .article-content {
+    width: 870px;
+    margin: auto;
+}
 }
