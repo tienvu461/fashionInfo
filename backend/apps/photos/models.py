@@ -131,7 +131,7 @@ class PhotoComment(models.Model):
 
 
 def get_default_photo():
-    return Photo.objects.get_or_create(id=1)
+    return Photo.objects.last()
 
 
 class PhotoFeature(models.Model):

@@ -308,7 +308,7 @@ class NewsDetailSerializer(NewsSerializer):
 
     class Meta:
         model = News
-        fields = ['id', 'title', 'formatted_markdown', 'status', 'thumbnail', 'author',
+        fields = ['id', 'title', 'formatted_markdown', 'status', 'thumbnail', 'banner', 'author',
                   'created_at', 'likes', 'comments', 'user_likes', 'tags', 'view_count', 'category', 'sub_category']
         removed_fields = []
 
