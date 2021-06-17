@@ -276,8 +276,8 @@ class NewsCommentSerializer(serializers.ModelSerializer):
         data_fields = super(NewsCommentSerializer,
                             self).to_representation(instance)
         data_fields['created_at'] = int(instance.created_at.timestamp())
-        data_fields['user_id'] = instance.user_id.first_name + \
-            ' ' + instance.user_id.last_name
+        # data_fields['user_id'] = instance.user_id.first_name + \
+            # ' ' + instance.user_id.last_name
 
         return data_fields
 
@@ -325,7 +325,13 @@ class NewsDetailSerializer(NewsSerializer):
             existing = set(self.fields)
             for field_name in removed:
                 self.fields.pop(field_name)
-
+    def to_representation(self, instance):
+        data_fields = super(NewsSerializer, self).to_representation(instance)
+        data_fields['created_at'] = int(instance.created_at.timestamp())
+        data_fields['author'] = instance.author.get_full_name()
+        
+        return data_fields
+        
     def get_likes(self, instance):
         return NewsLike.objects.filter(news_id=instance.id, is_enabled=True).count()
 
