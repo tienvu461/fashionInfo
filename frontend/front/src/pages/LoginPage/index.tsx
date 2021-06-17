@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable import/no-unresolved */
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import clsx from 'clsx';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
@@ -27,6 +27,7 @@ import { loginAction, getUrlSocialAction } from 'src/features/Login/LoginAction'
 
 import iconFb from 'src/assets/images/iconFb_Login.png';
 import iconGg from 'src/assets/images/iconfinder_Google_Loginin.png';
+import { ROUTE_HOME } from 'src/constants';
 
 import './_loginpage.scss';
 import useStyles from './useStyles';
@@ -48,6 +49,9 @@ function LoginPage(): JSX.Element {
     password: '',
     showPassword: false,
   });
+  const loginStatus = useSelector((state: RootState) => state.login.loginResponse.status);
+  const cmtPhotoId = useSelector((state: RootState) => state.login.isLoginToComment.paramId);
+  const keyToRedirect = useSelector((state: RootState) => state.login.isLoginToComment.key);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setfield({
@@ -62,6 +66,15 @@ function LoginPage(): JSX.Element {
     dispatch(loginAction(field)).then((status) => {
       if (status === 200) {
         setLoading(false);
+        const fetchProfile = async () => {
+          await dispatch(getUserProfile());
+          if (cmtPhotoId) {
+            history.replace(`/${keyToRedirect}/${cmtPhotoId}`);
+          } else {
+            history.push(`${ROUTE_HOME}`);
+          }
+        };
+        fetchProfile();
       } else {
         setLoading(false);
       }
@@ -71,29 +84,6 @@ function LoginPage(): JSX.Element {
   const handleClickShowPassword = () => {
     setfield({ ...field, showPassword: !field.showPassword });
   };
-
-  const loginStatus = useSelector((state: RootState) => state.login.loginResponse.status);
-  const cmtPhotoId = useSelector((state: RootState) => state.photo.isLoginToComment.photoId);
-
-  useEffect(() => {
-    if (loginStatus === 200) {
-      const fetchProfile = async () => {
-        await dispatch(getUserProfile());
-        history.push('/');
-      };
-      fetchProfile();
-    }
-  });
-
-  useEffect(() => {
-    if (loginStatus === 200 && cmtPhotoId) {
-      const fetchProfile = async () => {
-        await dispatch(getUserProfile());
-        history.replace(`/photo/${cmtPhotoId}`);
-      };
-      fetchProfile();
-    }
-  }, [dispatch, cmtPhotoId, loginStatus, history]);
 
   function handleError() {
     if (loginStatus === 400) {

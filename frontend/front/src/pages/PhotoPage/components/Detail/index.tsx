@@ -15,7 +15,7 @@ import HeartIcon from 'src/assets/images/heart.svg';
 import ShareIcon from 'src/assets/images/share.svg';
 import { getDetailAction, likePhotoAction } from 'src/features/Photo/photoAction';
 
-import CommentComponent from './components/CommentSection';
+import PhotoComment from './components/PhotoComment';
 import SuggestionComponent from './components/Suggestion';
 
 import useStyles from './useStyles';
@@ -256,7 +256,7 @@ function DetaiPhoto(props: DetailProps): JSX.Element {
           <>
             <div className='photoDetail'>{renderDetailPhoto()}</div>
             <Divider />
-            <CommentComponent paramsId={id} />
+            <PhotoComment paramsId={id} />
           </>
         )}
       </div>

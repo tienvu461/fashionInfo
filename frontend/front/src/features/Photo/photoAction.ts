@@ -84,5 +84,5 @@ export const commentPhotoAction = (payload: {
     } catch (error) {
       toast.error(`${error}`);
     }
-    return 0;
-  };
+  return 0;
+};
