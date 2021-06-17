@@ -167,13 +167,14 @@ class NewsAdmin(MarkdownxModelAdmin):
         else:
             logger.debug(type(archived))
 
+            protocol = 'https://' if request.is_secure() else 'http://'
             with zipfile.ZipFile(archived.zip_file, 'r') as f_list:
                 for f_name in f_list.namelist():
                     if '.md' in f_name:
                         with f_list.open(f_name) as md_file:
                             img_ptn = re.compile(r"\]\((.*.jpg)\)")
                             content = md_file.read().decode('utf8')
-                            prefix = "{0}{1}".format(
+                            prefix = "{0}{1}{2}{3}".format(protocol, settings.HOSTNAME,
                                 settings.MEDIA_URL, adminConst.ATTACH_DIR)+datetime.now().strftime('%Y/%m/%d/')
                             content = re.sub(
                                 img_ptn, rf"]({prefix}\1)", content)
