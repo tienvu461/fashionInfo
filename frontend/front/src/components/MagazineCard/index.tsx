@@ -1,12 +1,14 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable import/no-unresolved */
 import React from 'react';
+import { useHistory } from 'react-router-dom';
 import moment from 'moment';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 import { Card, CardActionArea, CardContent, Divider, Typography, useMediaQuery } from '@material-ui/core';
 
 import cardImg from 'src/assets/images/magazine/magazineCard.png';
 import { HOST } from 'src/apis';
+import { ROUTE_MAGAZINE_DETAIL } from 'src/constants';
 import useStyles from './useStyles';
 import './_magazineCard.scss';
 
@@ -16,15 +18,17 @@ interface MagazineCardProps {
 
 function MagazineCard(props: MagazineCardProps): JSX.Element {
   const classes = useStyles();
+  const history = useHistory();
   const { cardProps } = props;
   const {
-    // id = '',
+    id = '',
     sub_category: subCategory = '',
     title = '',
     summary = '',
     created_at: createAt = '',
     thumbnail = '',
   } = cardProps;
+
   const screenMin = useMediaQuery('(min-width:1280px)');
   const screenMax = useMediaQuery('(max-width:1920px)');
   const matches = useMediaQuery('(min-width:1600px)');
@@ -80,7 +84,7 @@ function MagazineCard(props: MagazineCardProps): JSX.Element {
     return (
       <>
         <Card className={`${classes.root} root-card`}>
-          <CardActionArea>
+          <CardActionArea onClick={() => history.push(`${ROUTE_MAGAZINE_DETAIL}/${id}`)}>
             <LazyLoadImage
               alt='Contemplative Reptile'
               className={`${classes.cardMagazine} card-magazine`}

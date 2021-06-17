@@ -7,42 +7,44 @@ import { Menu, MenuItem, Typography } from '@material-ui/core';
 import { toast } from 'react-toastify';
 import { clearStoreFromlocalStorage } from 'src/utils/localStorage';
 import { ROUTE_HOME } from 'src/constants';
+import { getListCategoryAction, getListMagazineAction } from 'src/features/Magazine/MagazineAction';
 import LogoutIcon from 'src/assets/images/iconLogout.svg';
 import { RootState } from 'src/store/store';
+import { logoutSuccess } from 'src/features/Login/LoginSlice';
 import useStyles from './useStyles';
 
 type MenuProps = {
   menuId: string;
   anchorEl: any;
   handleMenuClose: any;
+  setActive: any;
 };
 
-const MenuDesktop: FunctionComponent<MenuProps> = ({
-  menuId,
-  anchorEl,
-  handleMenuClose,
-}) => {
+const MenuDesktop: FunctionComponent<MenuProps> = ({ menuId, anchorEl, handleMenuClose, setActive }) => {
   const isMenuOpen = Boolean(anchorEl);
   const classes = useStyles();
   const dispatch = useDispatch();
   const history = useHistory();
-  const loginStatus = useSelector(
-    (state: RootState) => state.login.loginResponse.status
-  );
+  const loginStatus = useSelector((state: RootState) => state.login.loginResponse.status);
   function logOut() {
     return {
-      type: 'CLEAR_STORE'
+      type: 'CLEAR_STORE',
     };
   }
 
   const onClickLogout = (e: React.MouseEvent) => {
     e.preventDefault();
     dispatch(logOut());
+    dispatch(logoutSuccess({ status: 0, logout: 'Logout success' }));
+    dispatch(getListCategoryAction());
+    dispatch(getListMagazineAction('Business', 1));
     clearStoreFromlocalStorage();
     toast.success('Đăng xuất thành công');
 
     setTimeout(() => {
+      setActive(ROUTE_HOME);
       history.push(ROUTE_HOME);
+      dispatch(logoutSuccess({}));
     }, 2000);
     handleMenuClose();
   };
@@ -65,7 +67,7 @@ const MenuDesktop: FunctionComponent<MenuProps> = ({
             Đăng xuất
           </Typography>
         </MenuItem>
-      ) : null }
+      ) : null}
     </Menu>
   );
 };

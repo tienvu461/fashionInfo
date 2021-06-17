@@ -2,19 +2,24 @@
 /* eslint-disable import/no-unresolved */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useRef, useState } from 'react';
-import { Grid, Paper, Typography, Avatar, TextField } from '@material-ui/core';
+import { Grid, Paper, Typography, Avatar } from '@material-ui/core';
 import { TimelineContent, TimelineDot, TimelineItem, TimelineSeparator } from '@material-ui/lab';
 import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
 import Ava2 from 'src/assets/images/beck.jpeg';
 
 import { RootState } from 'src/store/store';
+// import { commentPhotoAction } from 'src/features/Photo/photoAction';
+import { commentMagazineAction } from 'src/features/Magazine/MagazineAction';
 import { commentPhotoAction } from 'src/features/Photo/photoAction';
+import { HOST } from 'src/apis';
+import CommentBox from 'src/components/CommentBox';
 import useStyles from '../useStyles';
 
 interface CmtChild {
   renderTimelineConnector: any;
   cmtChildProps: any;
+  keyItem: string;
 }
 
 function CommentChild(props: CmtChild): JSX.Element {
@@ -27,8 +32,8 @@ function CommentChild(props: CmtChild): JSX.Element {
 
   const loginStatus = useSelector((state: RootState) => state.login.loginResponse.status);
 
-  const { renderTimelineConnector, cmtChildProps } = props;
-  const { item, index, cmtProps, userID, userName } = cmtChildProps;
+  const { renderTimelineConnector, cmtChildProps, keyItem } = props;
+  const { item, index, cmtProps, userID } = cmtChildProps;
   const formatDate = (time: number) => moment(time * 1000).fromNow();
 
   const onAnswer = (cmtID) => {
@@ -47,21 +52,44 @@ function CommentChild(props: CmtChild): JSX.Element {
     setTextArea(newText);
   };
 
+  const handleCmtMagazine = () => {
+    const payload: {
+      user_id: string;
+      news_id: string | number;
+      content: string;
+      parent: null | number;
+    } = {
+      user_id: userID,
+      news_id: cmtProps?.news_id,
+      content: textArea,
+      parent,
+    };
+    dispatch(commentMagazineAction(payload));
+  };
+
+  const handleCmtPhoto = () => {
+    const payload: {
+      user_id: string;
+      photo_id: string | number;
+      content: string;
+      parent: null | number;
+    } = {
+      user_id: userID,
+      photo_id: cmtProps?.photo_id,
+      content: textArea,
+      parent,
+    };
+    dispatch(commentPhotoAction(payload));
+  };
+
   const onKeyPressReply = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter') {
       valueRef.current?.blur();
-      const payload: {
-        user_id: string;
-        photo_id: string | number;
-        content: string;
-        parent: null | number;
-      } = {
-        user_id: userID,
-        photo_id: cmtProps?.photo_id,
-        content: textArea,
-        parent,
-      };
-      dispatch(commentPhotoAction(payload));
+      if (keyItem === 'magazine') {
+        handleCmtMagazine();
+      } else {
+        handleCmtPhoto();
+      }
       setTextArea('');
       setisReply(false);
     }
@@ -70,36 +98,13 @@ function CommentChild(props: CmtChild): JSX.Element {
   const renderCmtInput = () => (
     <>
       {isReply ? (
-        <TimelineItem className={classes.timelineTwo}>
-          <TimelineSeparator>
-            <TimelineDot className={classes.dotAvatar}>
-              <Avatar alt='ava' className={classes.avatar} src={Ava2} />
-            </TimelineDot>
-          </TimelineSeparator>
-
-          <TimelineContent className={classes.content}>
-            <Paper className={classes.paper} elevation={3}>
-              <Typography className={`${classes.actionName} ${classes.textStyle}`} component='h6' variant='h6'>
-                {userName}
-              </Typography>
-              <TextField
-                className={classes.textArea}
-                multiline
-                rows={1}
-                rowsMax={4}
-                aria-label='maximum height'
-                placeholder='Viết bình luận...'
-                InputProps={{
-                  classes: { input: classes.inputTextArea },
-                }}
-                onChange={onTextFieldChange}
-                onKeyPress={onKeyPressReply}
-                inputRef={valueRef}
-                value={textArea}
-              />
-            </Paper>
-          </TimelineContent>
-        </TimelineItem>
+        <CommentBox
+          onTextFieldChange={onTextFieldChange}
+          onKeyPress={onKeyPressReply}
+          valueRef={valueRef}
+          textArea={textArea}
+          keyClassName='timelineTwo'
+        />
       ) : null}
     </>
   );
@@ -109,7 +114,7 @@ function CommentChild(props: CmtChild): JSX.Element {
       <TimelineItem key={item.cmt_id} className={classes.nestedTimeline}>
         <TimelineSeparator>
           <TimelineDot className={classes.dotAvatar}>
-            <Avatar alt='ava' className={classes.avatar} src={Ava2} />
+            <Avatar alt='ava' className={classes.avatar} src={`${HOST}${item.user_photo}` || Ava2} />
           </TimelineDot>
           {renderTimelineConnector(cmtProps.reply.length, index)}
         </TimelineSeparator>
@@ -117,7 +122,7 @@ function CommentChild(props: CmtChild): JSX.Element {
           <Paper className={classes.paper} elevation={3}>
             <Grid className={classes.action}>
               <Typography className={`${classes.actionName} ${classes.textStyle}`} component='h6' variant='h6'>
-                {item?.user_id}
+                {item?.user_fullname}
               </Typography>
               <div className={classes.flex}>
                 <Typography className={`${classes.actionTime} ${classes.textStyle}`} component='h6' variant='h6'>

@@ -61,7 +61,7 @@ const useStyles: () => Record<
     justifyContent: 'space-between',
     alignItems: 'center',
     margin: 'auto',
-    height: '80px'
+    height: '80px',
   },
   logo: {
     height: '35px',

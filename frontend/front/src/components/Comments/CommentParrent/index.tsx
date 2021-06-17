@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable import/no-unresolved */
 import React, { useRef, useState } from 'react';
-import { Grid, Paper, Typography, Avatar, TextField } from '@material-ui/core';
+import { Grid, Paper, Typography, Avatar } from '@material-ui/core';
 import {
   TimelineConnector,
   TimelineContent,
@@ -13,9 +13,12 @@ import {
 import moment from 'moment';
 import { useDispatch, useSelector } from 'react-redux';
 
+import { commentMagazineAction } from 'src/features/Magazine/MagazineAction';
 import { commentPhotoAction } from 'src/features/Photo/photoAction';
 import Ava2 from 'src/assets/images/beck.jpeg';
 import { RootState } from 'src/store/store';
+import { HOST } from 'src/apis';
+import CommentBox from 'src/components/CommentBox';
 import CommentChild from '../CommentChild';
 
 import useStyles from '../useStyles';
@@ -23,12 +26,12 @@ import useStyles from '../useStyles';
 interface CommentProps {
   cmtProps: any;
   userID: any;
-  userName: any;
+  keyItem: string;
 }
 
 function CommentParrent(props: CommentProps): JSX.Element {
   const classes = useStyles();
-  const { cmtProps, userID, userName } = props;
+  const { cmtProps, userID, keyItem } = props;
 
   const dispatch = useDispatch<any>();
   const valueRef = useRef<HTMLInputElement>();
@@ -36,7 +39,6 @@ function CommentParrent(props: CommentProps): JSX.Element {
   const [textArea, setTextArea] = useState<string>('');
   const [isReply, setisReply] = useState<boolean>(false);
   const loginStatus = useSelector((state: RootState) => state.login.loginResponse.status);
-
   const formatDate = (time: number) => moment(time * 1000).fromNow();
 
   const renderTimelineConnector = (cmts: number, lastCmt: number) => {
@@ -54,21 +56,44 @@ function CommentParrent(props: CommentProps): JSX.Element {
     setisReply(!isReply);
   };
 
+  const handleCmtMagazine = () => {
+    const payload: {
+      user_id: string;
+      news_id: string | number;
+      content: string;
+      parent: null | number;
+    } = {
+      user_id: userID,
+      news_id: cmtProps?.news_id,
+      content: textArea,
+      parent,
+    };
+    dispatch(commentMagazineAction(payload));
+  };
+
+  const handleCmtPhoto = () => {
+    const payload: {
+      user_id: string;
+      photo_id: string | number;
+      content: string;
+      parent: null | number;
+    } = {
+      user_id: userID,
+      photo_id: cmtProps?.photo_id,
+      content: textArea,
+      parent,
+    };
+    dispatch(commentPhotoAction(payload));
+  };
+
   const onKeyPressReply = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter') {
       valueRef.current?.blur();
-      const payload: {
-        user_id: string;
-        photo_id: string | number;
-        content: string;
-        parent: null | number;
-      } = {
-        user_id: userID,
-        photo_id: cmtProps?.photo_id,
-        content: textArea,
-        parent,
-      };
-      dispatch(commentPhotoAction(payload));
+      if (keyItem === 'magazine') {
+        handleCmtMagazine();
+      } else {
+        handleCmtPhoto();
+      }
       setTextArea('');
       setisReply(false);
     }
@@ -88,46 +113,22 @@ function CommentParrent(props: CommentProps): JSX.Element {
   const renderCmtInput = () => (
     <>
       {isReply ? (
-        <TimelineItem className={classes.timeline}>
-          <TimelineSeparator>
-            <TimelineDot className={classes.dotAvatar}>
-              <Avatar alt='ava' className={classes.avatar} src={Ava2} />
-            </TimelineDot>
-          </TimelineSeparator>
-
-          <TimelineContent className={classes.content}>
-            <Paper className={classes.paper} elevation={3}>
-              <Typography className={`${classes.actionName} ${classes.textStyle}`} component='h6' variant='h6'>
-                {userName}
-              </Typography>
-              <TextField
-                className={classes.textArea}
-                multiline
-                rows={1}
-                rowsMax={4}
-                aria-label='maximum height'
-                placeholder='Viết bình luận...'
-                InputProps={{
-                  classes: { input: classes.inputTextArea },
-                }}
-                onChange={onTextFieldChange}
-                onKeyPress={onKeyPressReply}
-                inputRef={valueRef}
-                value={textArea}
-              />
-            </Paper>
-          </TimelineContent>
-        </TimelineItem>
+        <CommentBox
+          onTextFieldChange={onTextFieldChange}
+          onKeyPress={onKeyPressReply}
+          valueRef={valueRef}
+          textArea={textArea}
+          keyClassName='timeline'
+        />
       ) : null}
     </>
   );
 
   return (
-    // <Grid>
     <TimelineItem className={classes.timeline}>
       <TimelineSeparator>
         <TimelineDot className={classes.dotAvatar}>
-          <Avatar alt='ava' className={classes.avatar} src={cmtProps.avatar || Ava2} />
+          <Avatar alt='ava' className={classes.avatar} src={`${HOST}${cmtProps.user_photo}` || Ava2} />
         </TimelineDot>
         {renderTimelineConnector(cmtProps.cmtLength, cmtProps.lastCmt)}
       </TimelineSeparator>
@@ -135,7 +136,7 @@ function CommentParrent(props: CommentProps): JSX.Element {
         <Paper className={classes.paper} elevation={3}>
           <Grid className={loginStatus === 200 ? classes.action : classes.actionWithoutLogin}>
             <Typography className={`${classes.actionName} ${classes.textStyle}`} component='h6' variant='h6'>
-              {cmtProps?.user_id}
+              {cmtProps?.user_fullname}
             </Typography>
             <div className={classes.flex}>
               <Typography className={`${classes.actionTime} ${classes.textStyle}`} component='h6' variant='h6'>
@@ -167,8 +168,8 @@ function CommentParrent(props: CommentProps): JSX.Element {
                 <CommentChild
                   key={item.cmt_id}
                   renderTimelineConnector={renderTimelineConnector}
-                  // isReplies={isReplies}
-                  cmtChildProps={{ item, index, cmtProps, userID, userName }}
+                  cmtChildProps={{ item, index, cmtProps, userID }}
+                  keyItem={keyItem}
                 />
               </>
             ))}
@@ -179,7 +180,6 @@ function CommentParrent(props: CommentProps): JSX.Element {
         )}
       </TimelineContent>
     </TimelineItem>
-    // </Grid>
   );
 }
 

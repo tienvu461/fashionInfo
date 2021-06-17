@@ -3,7 +3,7 @@
 /* eslint-disable import/no-unresolved */
 /* eslint-disable react/jsx-props-no-spreading */
 /* eslint-disable react/require-default-props */
-import React, { ReactChildren, ReactChild, useState } from 'react';
+import React, { ReactChildren, ReactChild, useState, useEffect } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import {
@@ -16,6 +16,7 @@ import {
   CssBaseline,
   IconButton,
   Toolbar,
+  CircularProgress,
 } from '@material-ui/core';
 import logo from 'src/assets/images/logoLucete.svg';
 import icon from 'src/assets/images/user.svg';
@@ -55,6 +56,10 @@ function HeaderMenu(props: AuxProps): JSX.Element {
   const handleMenuClose = () => {
     setAnchorEl(null);
   };
+
+  useEffect(() => {
+    setActive(location.pathname);
+  }, [location.pathname]);
 
   const navLinks: Array<NavLinksType> = [
     { title: 'Magazine', path: ROUTE_HOME },
@@ -150,7 +155,12 @@ function HeaderMenu(props: AuxProps): JSX.Element {
                   {handleIconLogIn()}
                 </Grid>
               </Hidden>
-              <MenuDesktop menuId={menuId} anchorEl={anchorEl} handleMenuClose={handleMenuClose} />
+              <MenuDesktop
+                setActive={setActive}
+                menuId={menuId}
+                anchorEl={anchorEl}
+                handleMenuClose={handleMenuClose}
+              />
               <Hidden mdUp>
                 <Grid className={classes.actions}>
                   {/* <Search /> */}
