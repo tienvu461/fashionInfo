@@ -51,7 +51,12 @@ function MagazineHeader(): JSX.Element {
 
   // fetch menu tab when click item menu in Drawer sidebar at mobile screen mode
   useEffect(() => {
-    if (magazineMenu.id || magazineMenu.id === 0) {
+    if (magazineMenu.id || magazineMenu.menu) {
+      window.scrollTo({
+        top: 100,
+        left: 0,
+        behavior: 'smooth',
+      });
       setValue(magazineMenu.id);
       getMagazineList(magazineMenu.id);
     }
