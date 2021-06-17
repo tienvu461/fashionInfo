@@ -8,6 +8,7 @@ import {
   MAGAZINE_LIST_SUGGEST_API,
   MAGAZINE_DETAIL_API,
   MAGAZINE_LIKE_API,
+  MAGAZINE_COMMENT_API,
 } from 'src/apis';
 import request from 'src/configs';
 
@@ -22,3 +23,10 @@ export const getDetailMagazineCard = (id: number): any => request(`${MAGAZINE_DE
 export const likeMagazineService = (payload: { user_id: string; news_id: string | number }): Promise<any> => {
   return request(MAGAZINE_LIKE_API, 'POST', payload);
 };
+
+export const commentMagazineService = (payload: {
+  user_id: string;
+  news_id: string | number;
+  content: string;
+  parent: null | number;
+}): Promise<any> => request(MAGAZINE_COMMENT_API, 'POST', payload);

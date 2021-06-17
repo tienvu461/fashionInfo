@@ -43,7 +43,7 @@ function MagazineArticle(props: MagazineArticleProps): JSX.Element {
     user_likes: userLikes = [],
     id = 0,
   } = magazineDetail;
-  console.log(magazineDetail);
+  // console.log(magazineDetail);
   const [like, setLike] = useState<number>(likes);
 
   useEffect(() => {
