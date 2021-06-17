@@ -121,9 +121,20 @@ class FileInline(admin.TabularInline):
         archived_all = NewsArchivedFile.objects.all().count()
         logger.debug("archived_all = {}".format(archived_all))
 
+from django import forms
+
+class HelpTextForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super(HelpTextForm, self).__init__(*args, **kwargs)
+        self.fields['title'].help_text = 'Maximum 70 characters'
+
+    class Meta:
+        model = News
+        exclude = ()
 
 @admin.register(News)
 class NewsAdmin(MarkdownxModelAdmin):
+    form = HelpTextForm
     list_display = ('title',  'status', 'summary', 'tag_list', 'created_at',
                     'updated_at')
     list_filter = ('created_at', 'updated_at', "status",)

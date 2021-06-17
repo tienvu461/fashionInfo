@@ -6,6 +6,8 @@ from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework import serializers, views, status, mixins, generics, pagination
 import logging
+import operator
+from functools import reduce
 
 from .models import Photo, PhotoLike, PhotoFeature, PhotoComment, GenericConfig
 from .serializers import PhotoSerializer, PhotoDetailSerializer, PhotoFeatureSerializer, PhotoSuggestSerializer, PhotoCommentSerializer, PhotoLikeSerializer
@@ -180,8 +182,6 @@ class PhotoSuggest(CustomPaginate):
             org_tag_list = org_serializer.data[0]["tags"]
             org_photographer = org_serializer.data[0]["detail_info"]["photographer"]
             logger.debug(("tag_list = {}".format(org_tag_list)))
-            import operator
-            from functools import reduce
 
             clauses = ((Q(tags__name__iexact=tag) for tag in org_tag_list))
             query = reduce(operator.or_, clauses)
@@ -475,8 +475,8 @@ class NewsLikeCreate(generics.CreateAPIView):
 class NewsSuggest(CustomPaginate):
     def get(self, request):
         page = request.GET.get("page")
-        news_id = request.GET.get('news_id')
-        logger.debug(news_id)
+        magazine_id = request.GET.get('magazine_id')
+        logger.debug(magazine_id)
 
         # # getting interactive ratio from Generic Config tbl
         # config_obj = GenericConfig.objects.filter(in_use=True)
@@ -487,7 +487,7 @@ class NewsSuggest(CustomPaginate):
         #     return Response(status=status.HTTP_400_BAD_REQUEST,)
 
         try:
-            org_queryset = News.objects.filter(id=news_id).distinct()
+            org_queryset = News.objects.filter(id=magazine_id).distinct()
             org_serializer = NewsDetailSerializer(org_queryset, many=True)
             # logger.debug(
             #     ("org_queryset data = {}".format(org_serializer.data[0])))
@@ -496,9 +496,6 @@ class NewsSuggest(CustomPaginate):
             org_tag_list = org_serializer.data[0]["tags"]
             org_author = org_serializer.data[0]["author"]
             logger.debug(("tag_list = {}".format(org_tag_list)))
-            import operator
-            from functools import reduce
-
             clauses = ((Q(tags__name__iexact=tag) for tag in org_tag_list))
             query = reduce(operator.or_, clauses)
             similar_news_queryset = News.objects.filter(
@@ -508,7 +505,7 @@ class NewsSuggest(CustomPaginate):
             # similar_news_queryset = News.objects.filter(Q(tags__icontains='candy')|Q(body__icontains='candy'))
 
             similar_news_queryset = similar_news_queryset.exclude(
-                id=news_id)
+                id=magazine_id)
             similar_news_serializer = NewsSerializer(
                 similar_news_queryset, many=True)
             # logger.debug(("similar_news_serializer data = {}".format(

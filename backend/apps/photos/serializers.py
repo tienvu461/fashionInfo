@@ -21,7 +21,7 @@ logger = logging.getLogger('photos')
 class PhotoSerializer(serializers.ModelSerializer):
     activities = serializers.SerializerMethodField()
     tags = TagListSerializerField()
-    
+
     class Meta:
         model = Photo
         fields = ['id', 'title', 'image_path', 'user_likes',
@@ -48,10 +48,12 @@ class PhotoSerializer(serializers.ModelSerializer):
         # data_fields['image_path'] = instance.image_path.remove()
 
         return data_fields
-    
+
     def get_activities(self, instance):
-        like_num = PhotoLike.objects.filter(photo_id=instance.id, is_enabled=True).count()
-        comment_num = PhotoComment.objects.filter(photo_id=instance.id, active=True).count()
+        like_num = PhotoLike.objects.filter(
+            photo_id=instance.id, is_enabled=True).count()
+        comment_num = PhotoComment.objects.filter(
+            photo_id=instance.id, active=True).count()
         view_count = getattr(instance, 'view_count')
         return {
             'likes': like_num,
@@ -73,7 +75,8 @@ class PhotoSerializer(serializers.ModelSerializer):
 
 class PhotoCommentSerializer(serializers.ModelSerializer):
     user_photo = serializers.SerializerMethodField()
-    user_fullname = serializers.SerializerMethodField() 
+    user_fullname = serializers.SerializerMethodField()
+
     class Meta:
         model = PhotoComment
         fields = ['cmt_id', 'user_id', 'user_fullname', 'user_photo', 'photo_id', 'content', 'active', 'parent',
@@ -87,10 +90,11 @@ class PhotoCommentSerializer(serializers.ModelSerializer):
         # data_fields['user_id'] = instance.user_id.first_name + ' ' + instance.user_id.last_name
 
         return data_fields
+
     def get_user_fullname(self, instance):
-       return instance.user_id.get_full_name()
-        
-    def get_user_photo(self, instance): 
+        return instance.user_id.get_full_name()
+
+    def get_user_photo(self, instance):
         user_id = getattr(instance, 'user_id')
         user_photo = UserProfile.objects.get(user=user_id)
         return getattr(user_photo, "profile_photo").url
@@ -102,10 +106,12 @@ class PhotoLikeSerializer(serializers.ModelSerializer):
         fields = ['like_id', 'user_id', 'photo_id', 'created_at']
 
     def to_representation(self, instance):
-        data_fields = super(PhotoLikeSerializer, self).to_representation(instance)
+        data_fields = super(PhotoLikeSerializer,
+                            self).to_representation(instance)
         data_fields['created_at'] = int(instance.created_at.timestamp())
 
         return data_fields
+
 
 class PhotoDetailSerializer(PhotoSerializer):
     likes = serializers.SerializerMethodField()
@@ -162,22 +168,26 @@ class PhotoDetailSerializer(PhotoSerializer):
         return PhotoLike.objects.filter(photo_id=instance.id, is_enabled=True).count()
 
     def get_comments(self, instance):
-        comment_queryset = PhotoComment.objects.filter(photo_id=instance.id, parent__isnull=True)
-        reply_queryset = PhotoComment.objects.filter(photo_id=instance.id, parent__isnull=False)
+        comment_queryset = PhotoComment.objects.filter(
+            photo_id=instance.id, parent__isnull=True)
+        reply_queryset = PhotoComment.objects.filter(
+            photo_id=instance.id, parent__isnull=False)
 
         # data = serializers.serialize('json', query)
-        comment_data =  PhotoCommentSerializer(comment_queryset, many=True).data
-        reply_data =  PhotoCommentSerializer(reply_queryset, many=True).data
+        comment_data = PhotoCommentSerializer(comment_queryset, many=True).data
+        reply_data = PhotoCommentSerializer(reply_queryset, many=True).data
         nested_comment(comment_data, reply_data)
         return comment_data
 
 
 class PhotoSuggestSerializer(PhotoSerializer):
     interactive_pt = serializers.SerializerMethodField()
+
     class Meta:
         model = Photo
         fields = ['id', 'title', 'author', 'image_path',
                   'status', 'created_at', 'activities', 'tags', 'photographer', 'interactive_pt']
+
     def get_interactive_pt(self, instance):
         org_tag_list = self.context.get("org_tag_list")
         org_photographer = self.context.get("org_photographer")
@@ -188,8 +198,9 @@ class PhotoSuggestSerializer(PhotoSerializer):
         logger.debug(photographer)
 
         interactive_pt = calc_interactive_pt(
-                    org_tag_list, tags_list, org_photographer, photographer)
+            org_tag_list, tags_list, org_photographer, photographer)
         return interactive_pt
+
 
 class PhotoFeatureSerializer(serializers.ModelSerializer):
     class Meta:
@@ -198,13 +209,19 @@ class PhotoFeatureSerializer(serializers.ModelSerializer):
                   'popup_photo', 'subscribe_photo', 'in_use', 'created_at']
 
     def to_representation(self, instance):
-        data_fields = super(PhotoFeatureSerializer, self).to_representation(instance)
+        data_fields = super(PhotoFeatureSerializer,
+                            self).to_representation(instance)
         queryset = Photo.objects.values_list('image_path', flat=True)
-        data_fields['feature_photo'] = settings.MEDIA_URL + queryset.get(id=data_fields['feature_photo'])
-        data_fields['login_photo'] = settings.MEDIA_URL + queryset.get(id=data_fields['login_photo'])
-        data_fields['signup_photo'] = settings.MEDIA_URL + queryset.get(id=data_fields['signup_photo'])
-        data_fields['popup_photo'] = settings.MEDIA_URL + queryset.get(id=data_fields['popup_photo'])
-        data_fields['subscribe_photo'] = settings.MEDIA_URL + queryset.get(id=data_fields['subscribe_photo'])
+        data_fields['feature_photo'] = settings.MEDIA_URL + \
+            queryset.get(id=data_fields['feature_photo'])
+        data_fields['login_photo'] = settings.MEDIA_URL + \
+            queryset.get(id=data_fields['login_photo'])
+        data_fields['signup_photo'] = settings.MEDIA_URL + \
+            queryset.get(id=data_fields['signup_photo'])
+        data_fields['popup_photo'] = settings.MEDIA_URL + \
+            queryset.get(id=data_fields['popup_photo'])
+        data_fields['subscribe_photo'] = settings.MEDIA_URL + \
+            queryset.get(id=data_fields['subscribe_photo'])
         data_fields['created_at'] = int(instance.created_at.timestamp())
 
         return data_fields
@@ -213,23 +230,30 @@ class PhotoFeatureSerializer(serializers.ModelSerializer):
 class NewsSerializer(serializers.ModelSerializer):
     activities = serializers.SerializerMethodField()
     tags = TagListSerializerField()
-    sub_category = serializers.SlugRelatedField(read_only=True, slug_field='cat_name')
-    category = serializers.SlugRelatedField(read_only=True, slug_field='cat_name')
+    sub_category = serializers.SlugRelatedField(
+        read_only=True, slug_field='cat_name')
+    category = serializers.SlugRelatedField(
+        read_only=True, slug_field='cat_name')
+    author_fullname = serializers.SerializerMethodField()
 
     class Meta:
         model = News
-        fields = ['id', 'title', 'author', 'summary', 'thumbnail',
+        fields = ['id', 'title', 'author', 'author_fullname', 'summary', 'thumbnail',
                   'status', 'created_at', 'activities', 'tags', 'category', 'sub_category']
 
     def to_representation(self, instance):
         data_fields = super(NewsSerializer, self).to_representation(instance)
         data_fields['created_at'] = int(instance.created_at.timestamp())
-        data_fields['author'] = instance.author.first_name + ' ' + instance.author.last_name
         return data_fields
 
+    def get_author_fullname(self, instance):
+        return instance.author.get_full_name()
+
     def get_activities(self, instance):
-        like_num = NewsLike.objects.filter(news_id=instance.id, is_enabled=True).count()
-        comment_num = NewsComment.objects.filter(news_id=instance.id, active=True).count()
+        like_num = NewsLike.objects.filter(
+            news_id=instance.id, is_enabled=True).count()
+        comment_num = NewsComment.objects.filter(
+            news_id=instance.id, active=True).count()
         view_count = getattr(instance, 'view_count')
         return {
             'likes': like_num,
@@ -238,11 +262,13 @@ class NewsSerializer(serializers.ModelSerializer):
         }
 
 
-
 class NewsCommentSerializer(serializers.ModelSerializer):
+    user_photo = serializers.SerializerMethodField()
+    user_fullname = serializers.SerializerMethodField()
+
     class Meta:
         model = NewsComment
-        fields = ['cmt_id', 'user_id', 'news_id', 'content', 'active', 'parent',
+        fields = ['cmt_id', 'user_id', 'user_fullname', 'user_photo', 'news_id', 'content', 'active', 'parent',
                   'created_at']
 
     # take the current news comment object from DB, which is a list => append a new comment to that list
@@ -250,10 +276,18 @@ class NewsCommentSerializer(serializers.ModelSerializer):
         data_fields = super(NewsCommentSerializer,
                             self).to_representation(instance)
         data_fields['created_at'] = int(instance.created_at.timestamp())
-        data_fields['user_id'] = instance.user_id.first_name + ' ' + instance.user_id.last_name
+        data_fields['user_id'] = instance.user_id.first_name + \
+            ' ' + instance.user_id.last_name
 
         return data_fields
 
+    def get_user_fullname(self, instance):
+        return instance.user_id.get_full_name()
+
+    def get_user_photo(self, instance):
+        user_id = getattr(instance, 'user_id')
+        user_photo = UserProfile.objects.get(user=user_id)
+        return getattr(user_photo, "profile_photo").url
 
 class NewsLikeSerializer(serializers.ModelSerializer):
     class Meta:
@@ -261,10 +295,12 @@ class NewsLikeSerializer(serializers.ModelSerializer):
         fields = ['like_id', 'user_id', 'news_id', 'created_at']
 
     def to_representation(self, instance):
-        data_fields = super(NewsLikeSerializer, self).to_representation(instance)
+        data_fields = super(NewsLikeSerializer,
+                            self).to_representation(instance)
         data_fields['created_at'] = int(instance.created_at.timestamp())
 
         return data_fields
+
 
 class NewsDetailSerializer(NewsSerializer):
     likes = serializers.SerializerMethodField()
@@ -295,14 +331,16 @@ class NewsDetailSerializer(NewsSerializer):
 
     def get_comments(self, instance):
         # get all comment with parent field is null
-        comment_queryset = NewsComment.objects.filter(news_id=instance.id, parent__isnull=True)
+        comment_queryset = NewsComment.objects.filter(
+            news_id=instance.id, parent__isnull=True)
         # get all comment with parent field is not null
-        reply_queryset = NewsComment.objects.filter(news_id=instance.id, parent__isnull=False)
+        reply_queryset = NewsComment.objects.filter(
+            news_id=instance.id, parent__isnull=False)
 
         # data = serializers.serialize('json', query)
         # get json of comment and reply
-        comment_data =  NewsCommentSerializer(comment_queryset, many=True).data
-        reply_data =  NewsCommentSerializer(reply_queryset, many=True).data
+        comment_data = NewsCommentSerializer(comment_queryset, many=True).data
+        reply_data = NewsCommentSerializer(reply_queryset, many=True).data
         # update "reply" feild if needed
         nested_comment(comment_data, reply_data)
         return comment_data
@@ -310,10 +348,12 @@ class NewsDetailSerializer(NewsSerializer):
 
 class NewsSuggestSerializer(NewsSerializer):
     interactive_pt = serializers.SerializerMethodField()
+
     class Meta:
         model = News
         fields = ['id', 'title', 'author', 'content',
                   'status', 'created_at', 'activities', 'tags', 'interactive_pt']
+
     def get_interactive_pt(self, instance):
         org_tag_list = self.context.get("org_tag_list")
         org_author = self.context.get("org_author")
@@ -324,8 +364,9 @@ class NewsSuggestSerializer(NewsSerializer):
         logger.debug(author)
 
         interactive_pt = calc_interactive_pt(
-                    org_tag_list, tags_list, org_author, author)
+            org_tag_list, tags_list, org_author, author)
         return interactive_pt
+
 
 class NewsFeatureSerializer(serializers.ModelSerializer):
     class Meta:
@@ -333,12 +374,15 @@ class NewsFeatureSerializer(serializers.ModelSerializer):
         fields = ['id', 'feature_news', 'in_use', 'created_at']
 
     def to_representation(self, instance):
-        data_fields = super(NewsFeatureSerializer, self).to_representation(instance)
+        data_fields = super(NewsFeatureSerializer,
+                            self).to_representation(instance)
         queryset = News.objects.values_list('image_path', flat=True)
-        data_fields['feature_news'] = settings.MEDIA_URL + queryset.get(id=data_fields['feature_news'])
+        data_fields['feature_news'] = settings.MEDIA_URL + \
+            queryset.get(id=data_fields['feature_news'])
         data_fields['created_at'] = int(instance.created_at.timestamp())
 
         return data_fields
+
 
 class NewsCategorySerializer(serializers.ModelSerializer):
 
@@ -347,10 +391,12 @@ class NewsCategorySerializer(serializers.ModelSerializer):
         fields = ['cat_id', 'cat_name', 'description', 'created_at', 'order']
 
     def to_representation(self, instance):
-        data_fields = super(NewsCategorySerializer, self).to_representation(instance)
+        data_fields = super(NewsCategorySerializer,
+                            self).to_representation(instance)
         data_fields['created_at'] = int(instance.created_at.timestamp())
 
         return data_fields
+
 
 class NewsSubCategorySerializer(serializers.ModelSerializer):
 
@@ -359,7 +405,8 @@ class NewsSubCategorySerializer(serializers.ModelSerializer):
         fields = ['cat_id', 'cat_name', 'description', 'created_at', 'order']
 
     def to_representation(self, instance):
-        data_fields = super(NewsSubCategorySerializer, self).to_representation(instance)
+        data_fields = super(NewsSubCategorySerializer,
+                            self).to_representation(instance)
         data_fields['created_at'] = int(instance.created_at.timestamp())
 
         return data_fields
