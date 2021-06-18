@@ -27,7 +27,7 @@ import {
   setDataFromLocalStorage
 } from './utils/localStorage';
 
-import { routes } from './configs/route';
+import { routes } from './configs/routes';
 import Footer from './components/Footer';
 import { RootState } from './store/store';
 import HeaderMenu from './components/HeaderMenu';
