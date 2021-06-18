@@ -4,7 +4,6 @@ import { makeStyles } from '@material-ui/core/styles';
 const useStyles: () => Record<
   | 'root'
   | 'leftFooter'
-  | 'rightFooter'
   | 'field'
   | 'emailInput'
   | 'header'
@@ -26,9 +25,6 @@ const useStyles: () => Record<
   },
   leftFooter: {
     // padding: '151px 0 52px 0',
-  },
-  rightFooter: {
-    padding: '176px 0 52px 0',
   },
   header: {
     color: '#FFFFFF',
