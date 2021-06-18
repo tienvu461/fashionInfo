@@ -5,12 +5,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import {
  Accordion, AccordionDetails, AccordionSummary, Grid, Typography
 } from '@material-ui/core';
-import { Link } from 'react-router-dom';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import { ROUTE_LOGIN } from 'src/constants';
-import { isLoginToComment } from 'src/features/Photo/photoSlice';
+import { isLoginToComment } from 'src/features/Login/LoginSlice';
 import { RootState } from 'src/store/store';
-import FormDialog from 'src/components/LoginPopup'
+import FormDialog from 'src/components/LoginPopup';
 import useStyles from './useStyles';
 
 interface CommentProps {
@@ -23,6 +21,7 @@ function CommentLayout(props: CommentProps): JSX.Element {
   const classes = useStyles();
   const dispatch = useDispatch<any>();
   const [isClick, setIsClick] = useState<boolean>(true);
+  const path = window.location.pathname;
 
   const loginStatus = useSelector((state: RootState) => state.login.loginResponse.status);
 
@@ -31,10 +30,13 @@ function CommentLayout(props: CommentProps): JSX.Element {
   };
 
   const redirectLogin = () => {
+    const getKey = path.split('/');
+
     dispatch(
       isLoginToComment({
         isComment: true,
-        photoId: paramsId,
+        paramId: paramsId,
+        key: getKey[1]
       })
     );
   };
@@ -55,10 +57,7 @@ function CommentLayout(props: CommentProps): JSX.Element {
               <div>
                 {loginStatus ? null : (
                   <Typography className={classes.subText}>
-                    {/* <Link to={ROUTE_LOGIN} onClick={redirectLogin} className={classes.spanText}>
-                      Đăng nhập
-                    </Link> */}
-                    <FormDialog />
+                    <FormDialog redirectLogin={redirectLogin} />
                     để bình luận
                   </Typography>
                 )}

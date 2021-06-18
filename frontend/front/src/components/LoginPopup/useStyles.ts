@@ -1,10 +1,10 @@
-import { makeStyles, Theme } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles: () => Record<
     | 'spanText'
     | 'field',
     string
-> = makeStyles((theme: Theme) => ({
+> = makeStyles(() => ({
     spanText: {
         lineHeight: '19px',
         fontFamily: 'Roboto',

@@ -29,15 +29,9 @@ function MagazineContent(props: MangazineContentProps): JSX.Element {
   const valueRef = useRef<HTMLInputElement>(null);
   const magazineList = useSelector((state: RootState) => state.magazine.magazineList);
 
-  const filterListMagazine = (arr: Array<any>) => {
-    let filterArr = arr.map((item) => (item.category === category ? item : null));
-    filterArr = filterArr.filter((item) => item !== null);
-    return filterArr;
-  };
-
   const listMagazineByCategory = useMemo(() => {
     if (!isEmpty(magazineList?.results)) {
-      return filterListMagazine(magazineList?.results);
+      return magazineList?.results;
     }
     return [];
   }, [magazineList?.results]);

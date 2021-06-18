@@ -85,8 +85,8 @@ function Footer(): JSX.Element {
             <img alt='logo-footer' src={logoFooter} />
           </Grid>
         </Grid>
-        <Grid item lg={6} md={6} sm={6} xs={6} className={classes.rightFooter}>
-          <Grid className={classes.links}>
+        <Grid item lg={6} md={6} sm={6} xs={6} className='rightFooter'>
+          <Grid className={`${classes.links} links`}>
             <MenuList className={`${classes.menuList} menuList`}>
               {menu.map((item) => {
                 const { id = '', title = '', firstSubTitle = '', secondSubTitle = '' } = item;
@@ -106,7 +106,7 @@ function Footer(): JSX.Element {
                 );
               })}
             </MenuList>
-            <Grid className={classes.listIcons}>
+            <Grid className='listIcons'>
               {iconList.map((item) => {
                 const { name = '', src = '' } = item;
                 return (
