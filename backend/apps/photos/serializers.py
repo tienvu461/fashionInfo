@@ -11,7 +11,6 @@ import logging
 import json
 
 from .models import Photo, PhotoFeature, PhotoLike, PhotoComment, GenericConfig
-from .models import 
 from .models import Magazine,MagazineComment, MagazineLike, MagazineCategory, MagazineSubCategory, MagazineFeature
 from apps.accounts.models import UserProfile
 from .consts import modelConst, postTypeEnum

@@ -266,7 +266,9 @@ class MagazineComment(models.Model):
 
     def __str__(self):
         return str(self.cmt_id)
-
+def get_default_news():
+    True
+    
 def get_default_magazine():
     return Magazine.objects.get_or_create(id=1)
 class MagazineFeature(models.Model):
