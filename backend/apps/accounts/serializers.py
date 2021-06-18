@@ -63,6 +63,7 @@ class EmailTokenObtainSerializer(TokenObtainSerializer):
     def validate(self, attrs):
         authenticate_kwargs = {
             self.username_field: attrs[self.username_field],
+            'username': attrs['username'],
             'password': attrs['password'],
         }
         try:
@@ -88,15 +89,15 @@ class CustomTokenObtainPairSerializer(EmailTokenObtainSerializer):
         return RefreshToken.for_user(user)
 
     def validate(self, attrs):
-
-        data = super().validate(attrs)
         # validate user from POST request
 
         user = User.objects.get(
             Q(username=attrs['email']) | Q(email=attrs['email'])
         )
+        is_active = True if user is not None and user.is_active else False
+
         is_password_valid = user.check_password(attrs['password'])
-        if not user or not is_password_valid:
+        if not user or not is_password_valid or not is_active:
             # in case fail to authenticate, manipulate validate method from TokenObtainSerializer to create auth fail response
             return super().validate(attrs)
         # generate JWT
