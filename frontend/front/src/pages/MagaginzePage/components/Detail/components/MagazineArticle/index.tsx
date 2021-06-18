@@ -60,9 +60,9 @@ function MagazineArticle(props: MagazineArticleProps): JSX.Element {
     }
   }, [userLikes, userID]);
 
-  const likePhoto = (news_id: string | number, key: string) => {
+  const likePhoto = (magazine_id: string | number, key: string) => {
     if (loginStatus === 200) {
-      dispatch(likeMagazineAction({ user_id: userID, news_id })).then(() => {
+      dispatch(likeMagazineAction({ user_id: userID, magazine_id })).then(() => {
         if (key === 'like') {
           setLikeAction(true);
           setLike(like + 1);
