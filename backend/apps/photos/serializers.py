@@ -267,8 +267,8 @@ class NewsCommentSerializer(serializers.ModelSerializer):
     user_fullname = serializers.SerializerMethodField()
 
     class Meta:
-        model = NewsComment
-        fields = ['cmt_id', 'user_id', 'user_fullname', 'user_photo', 'news_id', 'content', 'active', 'parent',
+        model = MagazineComment
+        fields = ['cmt_id', 'user_id', 'user_fullname', 'user_photo', 'magazine_id', 'content', 'active', 'parent',
                   'created_at']
 
     # take the current news comment object from DB, which is a list => append a new comment to that list
@@ -326,7 +326,7 @@ class NewsDetailSerializer(NewsSerializer):
             for field_name in removed:
                 self.fields.pop(field_name)
     def to_representation(self, instance):
-        data_fields = super(NewsSerializer, self).to_representation(instance)
+        data_fields = super(MagazineSerializer, self).to_representation(instance)
         data_fields['created_at'] = int(instance.created_at.timestamp())
         data_fields['author'] = instance.author.get_full_name()
         
