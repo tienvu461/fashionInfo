@@ -98,7 +98,6 @@ function MagazineCard(props: MagazineCardProps): JSX.Element {
               <div className='sub-category-magazine'>
                 <Typography
                   className={`${classes.headerText} ${classes.subCategory}`}
-                  gutterBottom
                   variant='h6'
                   component='h6'
                 >
@@ -107,7 +106,6 @@ function MagazineCard(props: MagazineCardProps): JSX.Element {
                 <Divider className={classes.divider} />
                 <Typography
                   className={`${classes.headerText} ${classes.time}`}
-                  gutterBottom
                   variant='h6'
                   component='h6'
                 >
