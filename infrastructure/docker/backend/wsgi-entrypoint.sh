@@ -23,12 +23,14 @@ else
     ./manage.py makemigrations photos
 fi
 
+# ./manage.py makemigrations
+
 until ./manage.py migrate
 do
     echo "Waiting for db to be ready..."
     sleep 2
 done
-
+# python manage.py spiritinstall
 cat <<EOF | python manage.py shell
 from django.contrib.auth import get_user_model
 import os

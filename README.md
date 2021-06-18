@@ -179,3 +179,7 @@ Use alternative key
 ssh-add ~/.ssh/personal_rsa
 ssh-add -l
 https://www.freecodecamp.org/news/manage-multiple-github-accounts-the-ssh-way-2dadc30ccaca/
+
+
+INSERT INTO spirit_user_userprofile(slug,location,last_seen,last_ip,timezone,is_administrator,is_moderator,is_verified,topic_count,comment_count,user_id,last_post_hash,last_post_on,nickname,avatar,notify)
+VALUES ('admin','',NOW(),'','UTC',true,true,false,0,0,1 ,'',NOW(),'admin','',1);
