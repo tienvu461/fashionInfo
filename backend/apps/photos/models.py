@@ -184,7 +184,7 @@ class MagazineSubCategory(models.Model):
 
 
 class Magazine(models.Model):
-    title = models.CharField(max_length=50)
+    title = models.CharField(max_length=70)
     slug = models.SlugField(max_length=255, unique=True, null=True)
     category = models.ForeignKey(MagazineCategory, on_delete=models.CASCADE)
     sub_category = models.ForeignKey(MagazineSubCategory, on_delete=models.CASCADE)

@@ -140,7 +140,7 @@ class MagazineAdmin(MarkdownxModelAdmin):
     search_fields = ('title',)
     prepopulated_fields = {'slug': ('title',)}
     exclude = ('user_likes',)
-
+    form = HelpTextForm
     # show tags in list
     def get_queryset(self, request):
         return super().get_queryset(request).prefetch_related('tags')
