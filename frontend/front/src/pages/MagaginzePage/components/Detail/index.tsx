@@ -47,7 +47,7 @@ function DetailMagazine(props: DetailProps): JSX.Element {
   // Fecch detail page again after comment to get the newest comment list
   useEffect(() => {
     if (magazineComment.cmt_id) {
-      dispatch(fetchDetailMagazineAction(+magazineComment.news_id)).then((res) => {
+      dispatch(fetchDetailMagazineAction(+magazineComment.magazine_id)).then((res) => {
         const { status = '' } = res;
         if (status === 200) {
           setLoading(false);

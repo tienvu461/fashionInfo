@@ -69,7 +69,7 @@ export const getListSuggestMagazineAction = (id: number) => async (dispatch: Dis
   return 0;
 };
 
-export const likeMagazineAction = (payload: { user_id: string; news_id: string | number }) => async (dispatch: Dispatch): Promise<any> => {
+export const likeMagazineAction = (payload: { user_id: string; magazine_id: string | number }) => async (dispatch: Dispatch): Promise<any> => {
   try {
     const response = await likeMagazineService(payload);
     const { data = {}, status = '' } = response;
@@ -85,7 +85,7 @@ export const likeMagazineAction = (payload: { user_id: string; news_id: string |
 
 export const commentMagazineAction = (payload: {
   user_id: string;
-  news_id: string | number;
+  magazine_id: string | number;
   content: string;
   parent: null | number }) => async (dispatch: Dispatch): Promise<any> => {
     try {

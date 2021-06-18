@@ -55,12 +55,12 @@ function CommentChild(props: CmtChild): JSX.Element {
   const handleCmtMagazine = () => {
     const payload: {
       user_id: string;
-      news_id: string | number;
+      magazine_id: string | number;
       content: string;
       parent: null | number;
     } = {
       user_id: userID,
-      news_id: cmtProps?.news_id,
+      magazine_id: cmtProps?.magazine_id,
       content: textArea,
       parent,
     };
