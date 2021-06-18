@@ -66,7 +66,7 @@ function MagazineCard(props: MagazineCardProps): JSX.Element {
     }
     if (matches2) return 480;
 
-    return 480;
+    return '100%';
   };
 
   const controlHeithImg = () => {
@@ -78,7 +78,7 @@ function MagazineCard(props: MagazineCardProps): JSX.Element {
     }
     if (matches2) return 350;
 
-    return 350;
+    return '100%';
   };
 
     return (
