@@ -318,6 +318,7 @@ if DEBUG:
     STATICFILES_DIRS = [
         os.path.join(BASE_DIR, 'backend_static'),
     ]
+    
     MEDIA_ROOT = os.path.join(BASE_DIR, 'backend_media')
 else:
     STATIC_URL = '/backend_static/'

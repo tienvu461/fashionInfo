@@ -131,7 +131,7 @@ class PhotoComment(models.Model):
 
 
 def get_default_photo():
-    return Photo.objects.get_or_create(id=1)
+    return Photo.objects.last()
 
 
 class PhotoFeature(models.Model):
@@ -158,7 +158,7 @@ class PhotoFeature(models.Model):
             return super(PhotoFeature, self).save(*args, **kwargs)
 
 
-class NewsCategory(models.Model):
+class MagazineCategory(models.Model):
     cat_id = models.AutoField(primary_key=True, null=False)
     cat_name = models.CharField(max_length=255)
     description = models.CharField(max_length=255)
@@ -169,7 +169,7 @@ class NewsCategory(models.Model):
     def __str__(self):
         return self.cat_name
 
-class NewsSubCategory(models.Model):
+class MagazineSubCategory(models.Model):
     cat_id = models.AutoField(primary_key=True, null=False)
     cat_name = models.CharField(max_length=255)
     description = models.CharField(max_length=255)
@@ -180,14 +180,14 @@ class NewsSubCategory(models.Model):
     def __str__(self):
         return self.cat_name
 
-# Upload news
+# Upload magazine
 
 
-class News(models.Model):
-    title = models.CharField(max_length=70)
+class Magazine(models.Model):
+    title = models.CharField(max_length=50)
     slug = models.SlugField(max_length=255, unique=True, null=True)
-    category = models.ForeignKey(NewsCategory, on_delete=models.CASCADE)
-    sub_category = models.ForeignKey(NewsSubCategory, on_delete=models.CASCADE)
+    category = models.ForeignKey(MagazineCategory, on_delete=models.CASCADE)
+    sub_category = models.ForeignKey(MagazineSubCategory, on_delete=models.CASCADE)
     tags = TaggableManager()
     author = models.ForeignKey(
         User, related_name='author', on_delete=models.CASCADE, default="1")
@@ -202,13 +202,13 @@ class News(models.Model):
 
     status = models.IntegerField(choices=modelConst.STATUS, default=0)
     view_count = models.IntegerField(default=0)
-    user_likes = models.ManyToManyField(User, related_name="news_users_like")
+    user_likes = models.ManyToManyField(User, related_name="magazine_users_like")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
-        verbose_name = 'News'
-        verbose_name_plural = 'News'
+        verbose_name = 'Magazine'
+        verbose_name_plural = 'Magazine'
         ordering = ['-created_at']
 
     def __str__(self):
@@ -222,36 +222,36 @@ class News(models.Model):
         return striphtml(markdownify(summary))
     summary.short_description = "Description"
 
-class NewsAttachedPhoto(models.Model):
-    news = models.ForeignKey(
-        News, related_name='news_photo', on_delete=models.CASCADE)
+class MagazineAttachedPhoto(models.Model):
+    magazine = models.ForeignKey(
+        Magazine, related_name='magazine_photo', on_delete=models.CASCADE)
     image = models.ImageField(
         upload_to=adminConst.ATTACH_DIR + datetime.now().strftime('%Y/%m/%d'), max_length=500)
 
 
-class NewsArchivedFile(models.Model):
-    news = models.ForeignKey(
-        News, related_name='news_file', on_delete=models.CASCADE)
+class MagazineArchivedFile(models.Model):
+    magazine = models.ForeignKey(
+        Magazine, related_name='magazine_file', on_delete=models.CASCADE)
     zip_file = models.FileField(
         upload_to=adminConst.ARCHIVED_DIR + datetime.now().strftime('%Y/%m/%d'), max_length=500)
 
-class NewsLike(models.Model):
+class MagazineLike(models.Model):
     like_id = models.AutoField(primary_key=True, null=False)
     user_id = models.ForeignKey(
         User, on_delete=models.CASCADE, null=False)
-    news_id = models.ForeignKey(
-        News, on_delete=models.CASCADE, null=False)
+    magazine_id = models.ForeignKey(
+        Magazine, on_delete=models.CASCADE, null=False)
     is_enabled = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
 
-class NewsComment(models.Model):
+class MagazineComment(models.Model):
     cmt_id = models.AutoField(primary_key=True, null=False)
     user_id = models.ForeignKey(
         User, on_delete=models.CASCADE, null=False)
-    news_id = models.ForeignKey(
-        News, on_delete=models.CASCADE, null=False)
+    magazine_id = models.ForeignKey(
+        Magazine, on_delete=models.CASCADE, null=False)
     content = models.CharField(max_length=255)
     # manually deactivate inappropriate comments from admin site
     active = models.BooleanField(default=True)
@@ -266,12 +266,14 @@ class NewsComment(models.Model):
 
     def __str__(self):
         return str(self.cmt_id)
-
 def get_default_news():
-    return News.objects.get_or_create(id=1)
-class NewsFeature(models.Model):
-    feature_news = ForeignKey(
-        News, related_name='feature', on_delete=models.CASCADE, default=get_default_news)
+    True
+    
+def get_default_magazine():
+    return Magazine.objects.get_or_create(id=1)
+class MagazineFeature(models.Model):
+    feature_magazine = ForeignKey(
+        Magazine, related_name='feature', on_delete=models.CASCADE, default=get_default_magazine)
     in_use = models.BooleanField(choices=modelConst.BINARY, default=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -279,7 +281,7 @@ class NewsFeature(models.Model):
     # when updated, there is only 1 config in use = true, others are false
     def save(self, *args, **kwargs):
         if not self.in_use:
-            return super(NewsFeature, self).save(*args, **kwargs)
+            return super(MagazineFeature, self).save(*args, **kwargs)
         with transaction.atomic():
-            NewsFeature.objects.filter(in_use=True).update(in_use=False)
-            return super(NewsFeature, self).save(*args, **kwargs)
+            MagazineFeature.objects.filter(in_use=True).update(in_use=False)
+            return super(MagazineFeature, self).save(*args, **kwargs)
