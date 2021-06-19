@@ -29,7 +29,7 @@ interface CommentProps {
   keyItem: string;
 }
 
-function CommentParrent(props: CommentProps): JSX.Element {
+const CommentParrent: React.FunctionComponent<CommentProps> = (props) => {
   const classes = useStyles();
   const { cmtProps, userID, keyItem } = props;
 
@@ -181,6 +181,6 @@ function CommentParrent(props: CommentProps): JSX.Element {
       </TimelineContent>
     </TimelineItem>
   );
-}
+};
 
 export default CommentParrent;

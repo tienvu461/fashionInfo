@@ -22,7 +22,7 @@ interface MagazineArticleProps {
   handleScrollToComment: any;
 }
 
-function MagazineArticle(props: MagazineArticleProps): JSX.Element {
+const MagazineArticle: React.FunctionComponent<MagazineArticleProps> = (props) => {
   const classes = useStyles();
   const { handleScrollToComment } = props;
   const dispatch = useDispatch<any>();
@@ -128,6 +128,6 @@ function MagazineArticle(props: MagazineArticleProps): JSX.Element {
       <div className='article-content'>{ReactHtmlParser(content)}</div>
     </>
   );
-}
+};
 
 export default MagazineArticle;

@@ -42,7 +42,7 @@ interface NavLinksType {
   path: string;
 }
 
-function HeaderMenu(props: AuxProps): JSX.Element {
+const HeaderMenu: React.FunctionComponent<AuxProps> = (props) => {
   const { children } = props;
   const classes = useStyles();
   const history = useHistory();
@@ -179,6 +179,6 @@ function HeaderMenu(props: AuxProps): JSX.Element {
       </div>
     </div>
   );
-}
+};
 
 export default HeaderMenu;

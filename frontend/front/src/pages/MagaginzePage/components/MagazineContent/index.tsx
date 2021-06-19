@@ -19,7 +19,7 @@ interface MangazineContentProps {
   category: string;
 }
 
-function MagazineContent(props: MangazineContentProps): JSX.Element {
+const MagazineContent: React.FunctionComponent<MangazineContentProps> = (props) => {
   const classes = useStyles();
   const { title = '', category = '' } = props;
   const dispatch = useDispatch<any>();
@@ -76,57 +76,57 @@ function MagazineContent(props: MangazineContentProps): JSX.Element {
     valueRef?.current?.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'center' });
   };
 
-    if (initialLoading) return <CircularProgress />;
+  if (initialLoading) return <CircularProgress />;
 
-    return (
-      <div className='magazine'>
-        <div className={`magazine-container ${classes.container}`}>
-          <div className='magazine-img'>
-            <img alt='magazine-header' src={HeaderImg} />
-          </div>
-          <div className={classes.magazineHeader}>
-            <div className='magazine-title '>
-              <Typography variant='h3' component='h3' className={`${classes.magazineTitle} ${classes.headerTitle}`}>
-                {title}
+  return (
+    <div className='magazine'>
+      <div className={`magazine-container ${classes.container}`}>
+        <div className='magazine-img'>
+          <img alt='magazine-header' src={HeaderImg} />
+        </div>
+        <div className={classes.magazineHeader}>
+          <div className='magazine-title '>
+            <Typography variant='h3' component='h3' className={`${classes.magazineTitle} ${classes.headerTitle}`}>
+              {title}
+            </Typography>
+            <Typography className={`${classes.magazineTitle} ${classes.headerSubTitle}`}>
+              Dép xỏ ngón là món đồ rất thông dụng. Nhưng nó hoàn toàn có thể trở thành một phụ kiện thời trang
+              &quot;hợp mốt&quot; nếu bạn biết cách lựa chọn trang phục. Bạn có biết, gia tăng năng lượng tích cực và
+              thu hút những điều tốt đẹp trong cuộc sống?
+            </Typography>
+            <div className={classes.author}>
+              <Typography variant='h6' component='h6' className={classes.authorName}>
+                Lucete
               </Typography>
-              <Typography className={`${classes.magazineTitle} ${classes.headerSubTitle}`}>
-                Dép xỏ ngón là món đồ rất thông dụng. Nhưng nó hoàn toàn có thể trở thành một phụ kiện thời trang
-                &quot;hợp mốt&quot; nếu bạn biết cách lựa chọn trang phục. Bạn có biết, gia tăng năng lượng tích cực và
-                thu hút những điều tốt đẹp trong cuộc sống?
-              </Typography>
-              <div className={classes.author}>
-                <Typography variant='h6' component='h6' className={classes.authorName}>
-                  Lucete
-                </Typography>
-                <Divider className={classes.divide} />
-                <Typography className={classes.authorTime}>2 giờ trước</Typography>
-              </div>
+              <Divider className={classes.divide} />
+              <Typography className={classes.authorTime}>2 giờ trước</Typography>
             </div>
           </div>
         </div>
-        <div className='magazine-topic'>
-          <Typography className={classes.topic}>Chủ đề xu hướng</Typography>
-
-          <div className='magazine-list'>{renderMagazineList()}</div>
-          <Grid className={classes.btn} item lg={12} md={12} sm={12} xs={12}>
-            <Grid>
-              {magazineList?.next === null ? null : (
-                <Button
-                  className={classes.nextBtn}
-                  endIcon={loading ? <CircularProgress /> : null}
-                  onClick={() => handleClick('next')}
-                  variant='contained'
-                >
-                  <Typography className={classes.textBtn} component='h4' variant='h4'>
-                    Xem thêm
-                  </Typography>
-                </Button>
-              )}
-            </Grid>
-          </Grid>
-        </div>
       </div>
-    );
-}
+      <div className='magazine-topic'>
+        <Typography className={classes.topic}>Chủ đề xu hướng</Typography>
+
+        <div className='magazine-list'>{renderMagazineList()}</div>
+        <Grid className={classes.btn} item lg={12} md={12} sm={12} xs={12}>
+          <Grid>
+            {magazineList?.next === null ? null : (
+              <Button
+                className={classes.nextBtn}
+                endIcon={loading ? <CircularProgress /> : null}
+                onClick={() => handleClick('next')}
+                variant='contained'
+              >
+                <Typography className={classes.textBtn} component='h4' variant='h4'>
+                  Xem thêm
+                </Typography>
+              </Button>
+            )}
+          </Grid>
+        </Grid>
+      </div>
+    </div>
+  );
+};
 
 export default MagazineContent;

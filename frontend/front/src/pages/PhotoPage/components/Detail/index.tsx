@@ -29,7 +29,7 @@ interface DetailProps {
   };
 }
 
-function DetaiPhoto(props: DetailProps): JSX.Element {
+const DetaiPhoto: React.FunctionComponent<DetailProps> = (props) => {
   const { match: { params: { id = '' } = {} } = {} } = props;
 
   const classes = useStyles();
@@ -263,6 +263,6 @@ function DetaiPhoto(props: DetailProps): JSX.Element {
       <SuggestionComponent paramsId={id} />
     </div>
   );
-}
+};
 
 export default DetaiPhoto;
