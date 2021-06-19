@@ -82,6 +82,9 @@ class PhotoList(generics.ListCreateAPIView):
     # filter_class = PhotoFilter
 
     def list(self, request, *args, **kwargs):
+        # getting current user type
+        user=self.request.user
+
         # getting show/hide setting from Generic Config tbl
         config_obj = GenericConfig.objects.filter(in_use=True)
         try:
@@ -91,7 +94,12 @@ class PhotoList(generics.ListCreateAPIView):
             logger.error("Cannot get config\nException: {}".format(e))
             show_activities = True
 
-        queryset = Photo.objects.all()
+        # if current user is admin => query all photos from DB, if not only query "Publish" photos
+        if str(user) == "admin":
+            queryset = Photo.objects.all()
+        else:
+            queryset = Photo.objects.filter(status=1)
+            
         # queryset = queryset.order_by('-created_at')
 
         page = self.paginate_queryset(queryset)
@@ -117,8 +125,15 @@ class PhotoDetail(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = PhotoDetailSerializer
 
     def get(self, request, *args, **kwargs):
-        # view increment
+        # getting current user type and photo
+        user=self.request.user
         instance = self.get_object()
+
+        # if current user not is admin and current photo status is "Draft" => raise error 
+        if str(user) != "admin" and instance.status == 0:
+            return Response({'error':'Only admin can access this photo!'}, status=status.HTTP_400_BAD_REQUEST,)
+
+        # view increment
         instance.view_count = instance.view_count + 1
         instance.save(update_fields=("view_count", ))
 
