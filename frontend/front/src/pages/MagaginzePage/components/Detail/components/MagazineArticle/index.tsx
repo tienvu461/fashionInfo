@@ -14,6 +14,7 @@ import HeartIcon from 'src/assets/images/heart.svg';
 import ShareIcon from 'src/assets/images/share.svg';
 import CommentIcon from 'src/assets/images/comment.svg';
 import { likeMagazineAction } from 'src/features/Magazine/MagazineAction';
+import Tags from 'src/components/Tags';
 
 import './_magazineArticle.scss';
 import useStyles from './useStyles';
@@ -109,20 +110,6 @@ const MagazineArticle: React.FunctionComponent<MagazineArticleProps> = (props) =
     </div>
   );
 
-  const renderTags = () => (
-    <div className='article-tags'>
-      <Grid item lg={12} md={12} sm={12} xl={12} xs={12}>
-        <div className={classes.tags}>
-          {tags.map((item: string, index: number) => (
-            <Grid key={`${index + 1}`} className={classes.tag}>
-              <Typography className={classes.tagText}>#{item}</Typography>
-            </Grid>
-          ))}
-        </div>
-      </Grid>
-    </div>
-  );
-
   return (
     <>
       <div className='subtitle'>
@@ -140,7 +127,7 @@ const MagazineArticle: React.FunctionComponent<MagazineArticleProps> = (props) =
         <img alt='article-banner' src={banner} />
       </div>
       <div className='article-content'>{ReactHtmlParser(content)}</div>
-      {renderTags()}
+      <Tags listTags={tags} />
     </>
   );
 };
