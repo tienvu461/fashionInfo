@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
 import { toast } from 'react-toastify';
 import ReactHtmlParser from 'react-html-parser';
-import { Typography, Divider } from '@material-ui/core';
+import { Typography, Divider, Grid } from '@material-ui/core';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 
 import { RootState } from 'src/store/store';
@@ -44,6 +44,7 @@ const MagazineArticle: React.FunctionComponent<MagazineArticleProps> = (props) =
     user_likes: userLikes = [],
     id = 0,
     formatted_markdown: content = '',
+    tags = []
   } = magazineDetail;
   console.log(magazineDetail);
   const [like, setLike] = useState<number>(likes);
@@ -76,6 +77,52 @@ const MagazineArticle: React.FunctionComponent<MagazineArticleProps> = (props) =
     }
   };
 
+  const renderAction = () => (
+    <div className='article-action'>
+      <Typography className={`${classes.headerText} ${classes.authorArticle}`} component='h6' variant='h6'>
+        bởi {author}
+      </Typography>
+      <div className='action-section'>
+        <div className={classes.flex}>
+          {likeAction ? (
+            <FavoriteIcon
+              style={{ color: 'red' }}
+              onClick={() => likePhoto(id, 'unlike')}
+              className={classes.heartIcon}
+            />
+          ) : (
+            <img className={classes.heartIcon} alt='heart-icon' src={HeartIcon} onClick={() => likePhoto(id, 'like')} />
+          )}
+          <div className={classes.num}>{like}</div>
+        </div>
+        <div className={classes.flex}>
+          <img
+            onClick={() => handleScrollToComment()}
+            alt='comment-icon'
+            className={classes.heartIcon}
+            src={CommentIcon}
+          />
+          <div className={classes.num}>{comments.length}</div>
+        </div>
+        <img alt='share-icon' className={classes.heartIcon} src={ShareIcon} />
+      </div>
+    </div>
+  );
+
+  const renderTags = () => (
+    <div className='article-tags'>
+      <Grid item lg={12} md={12} sm={12} xl={12} xs={12}>
+        <div className={classes.tags}>
+          {tags.map((item: string, index: number) => (
+            <Grid key={`${index + 1}`} className={classes.tag}>
+              <Typography className={classes.tagText}>#{item}</Typography>
+            </Grid>
+          ))}
+        </div>
+      </Grid>
+    </div>
+  );
+
   return (
     <>
       <div className='subtitle'>
@@ -88,44 +135,12 @@ const MagazineArticle: React.FunctionComponent<MagazineArticleProps> = (props) =
         </Typography>
       </div>
       <Typography className={classes.mainTitle}>{title}</Typography>
-      <div className='article-action'>
-        <Typography className={`${classes.headerText} ${classes.authorArticle}`} component='h6' variant='h6'>
-          bởi {author}
-        </Typography>
-        <div className='action-section'>
-          <div className={classes.flex}>
-            {likeAction ? (
-              <FavoriteIcon
-                style={{ color: 'red' }}
-                onClick={() => likePhoto(id, 'unlike')}
-                className={classes.heartIcon}
-              />
-            ) : (
-              <img
-                className={classes.heartIcon}
-                alt='heart-icon'
-                src={HeartIcon}
-                onClick={() => likePhoto(id, 'like')}
-              />
-            )}
-            <div className={classes.num}>{like}</div>
-          </div>
-          <div className={classes.flex}>
-            <img
-              onClick={() => handleScrollToComment()}
-              alt='comment-icon'
-              className={classes.heartIcon}
-              src={CommentIcon}
-            />
-            <div className={classes.num}>{comments.length}</div>
-          </div>
-          <img alt='share-icon' className={classes.heartIcon} src={ShareIcon} />
-        </div>
-      </div>
+      {renderAction()}
       <div className='article-banner'>
         <img alt='article-banner' src={banner} />
       </div>
       <div className='article-content'>{ReactHtmlParser(content)}</div>
+      {renderTags()}
     </>
   );
 };
