@@ -2,7 +2,9 @@
 import React, { useState, useRef } from 'react';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { Grid, InputBase } from '@material-ui/core';
+import { CircularProgress, Grid, InputBase } from '@material-ui/core';
+import { debounce } from 'lodash';
+
 import searchIcon from 'src/assets/images/searchIcon.svg';
 import { searchAction } from 'src/features/Search/searchAction';
 import useStyles from './useStyles';
@@ -11,23 +13,38 @@ function Search(): JSX.Element {
   const classes = useStyles();
   const history = useHistory();
   const [value, setValue] = useState<string>('');
+  const [loading, setLoading] = useState<boolean>(false);
   const valueRef = useRef<HTMLInputElement>();
   const dispatch = useDispatch();
   const onChange = (event) => {
     const textSearch = event.target.value;
     setValue(textSearch);
-    };
+  };
+
+  const search = debounce(() => {
+    dispatch(searchAction(1, value));
+    history.push(`/photo/search/${value}`);
+    setValue('');
+    setLoading(false);
+    valueRef.current?.blur();
+  }, 1000);
 
   const handleKeyDown = (event: React.KeyboardEvent) => {
     if (value !== '') {
       if (event.key === 'Enter') {
-      dispatch(searchAction(1, value));
-      history.push(`/photo/search/${value}`);
-      setValue('');
-      valueRef.current?.blur();
-    }
+        setLoading(true);
+        search();
+      }
     }
   };
+
+  const loadingSearch = () => (
+    <>
+      {
+        loading ? <CircularProgress size={20} /> : null
+      }
+    </>
+  );
 
   return (
     <Grid className={classes.search}>
@@ -47,6 +64,7 @@ function Search(): JSX.Element {
         inputRef={valueRef}
         onKeyDown={handleKeyDown}
         style={{ fontFamily: 'Roboto', fontSize: '24' }}
+        endAdornment={loadingSearch()}
       />
     </Grid>
   );
