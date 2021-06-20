@@ -95,7 +95,7 @@ class PhotoList(generics.ListCreateAPIView):
             show_activities = True
 
         # if current user is admin => query all photos from DB, if not only query "Publish" photos
-        if str(user) == "admin":
+        if user.is_superuser == True:
             queryset = Photo.objects.all()
         else:
             queryset = Photo.objects.filter(status=1)
@@ -130,7 +130,7 @@ class PhotoDetail(generics.RetrieveUpdateDestroyAPIView):
         instance = self.get_object()
 
         # if current user not is admin and current photo status is "Draft" => raise error 
-        if str(user) != "admin" and instance.status == 0:
+        if user.is_superuser == False and instance.status == 0:
             return Response({'error':'Only admin can access this photo!'}, status=status.HTTP_400_BAD_REQUEST,)
 
         # view increment
