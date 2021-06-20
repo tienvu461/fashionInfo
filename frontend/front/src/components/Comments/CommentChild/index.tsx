@@ -22,7 +22,7 @@ interface CmtChild {
   keyItem: string;
 }
 
-function CommentChild(props: CmtChild): JSX.Element {
+const CommentChild: React.FunctionComponent<CmtChild> = (props) => {
   const classes = useStyles();
   const dispatch = useDispatch<any>();
   const [isReply, setisReply] = useState<boolean>(false);
@@ -149,6 +149,6 @@ function CommentChild(props: CmtChild): JSX.Element {
       {renderCmtInput()}
     </>
   );
-}
+};
 
 export default CommentChild;

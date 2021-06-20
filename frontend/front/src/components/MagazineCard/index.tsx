@@ -16,7 +16,7 @@ interface MagazineCardProps {
   cardProps: any;
 }
 
-function MagazineCard(props: MagazineCardProps): JSX.Element {
+const MagazineCard: React.FunctionComponent<MagazineCardProps> = (props) => {
   const classes = useStyles();
   const history = useHistory();
   const { cardProps } = props;
@@ -43,9 +43,9 @@ function MagazineCard(props: MagazineCardProps): JSX.Element {
         return `${newText}...`;
       }
     } else if (screenMin && screenMax && text.length >= 30) {
-        const newText = text.replace(/^(.{60}[^\s]*).*/, '$1');
-        return `${newText}...`;
-      }
+      const newText = text.replace(/^(.{60}[^\s]*).*/, '$1');
+      return `${newText}...`;
+    }
     return text;
   };
 
@@ -81,55 +81,42 @@ function MagazineCard(props: MagazineCardProps): JSX.Element {
     return '100%';
   };
 
-    return (
-      <>
-        <Card className={`${classes.root} root-card`}>
-          <CardActionArea onClick={() => history.push(`${ROUTE_MAGAZINE_DETAIL}/${id}`)}>
-            <LazyLoadImage
-              alt='Contemplative Reptile'
-              className={`${classes.cardMagazine} card-magazine`}
-              src={checkPathImg(thumbnail || cardImg)}
-              effect='blur'
-              height={controlHeithImg()}
-              width={controlWidthImg()}
-              delayMethod
-            />
-            <CardContent className='card-magazine-content'>
-              <div className='sub-category-magazine'>
-                <Typography
-                  className={`${classes.headerText} ${classes.subCategory}`}
-                  variant='h6'
-                  component='h6'
-                >
-                  {subCategory}
-                </Typography>
-                <Divider className={classes.divider} />
-                <Typography
-                  className={`${classes.headerText} ${classes.time}`}
-                  variant='h6'
-                  component='h6'
-                >
-                  {formatDate(createAt)}
-                </Typography>
-              </div>
-              <Typography
-                className={`${classes.titleCard} titleCard`}
-                variant='h4'
-                color='textSecondary'
-                component='h4'
-              >
-                {formatText(title, 'title')}
-                {/* {title} */}
+  return (
+    <>
+      <Card className={`${classes.root} root-card`}>
+        <CardActionArea onClick={() => history.push(`${ROUTE_MAGAZINE_DETAIL}/${id}`)}>
+          <LazyLoadImage
+            alt='Contemplative Reptile'
+            className={`${classes.cardMagazine} card-magazine`}
+            src={checkPathImg(thumbnail || cardImg)}
+            effect='blur'
+            height={controlHeithImg()}
+            width={controlWidthImg()}
+            delayMethod
+          />
+          <CardContent className='card-magazine-content'>
+            <div className='sub-category-magazine'>
+              <Typography className={`${classes.headerText} ${classes.subCategory}`} variant='h6' component='h6'>
+                {subCategory}
               </Typography>
-              <Typography className={`${classes.summary} summary`} variant='h6' color='textSecondary' component='h6'>
-                {formatText(summary, 'summary')}
-                {/* {summary} */}
+              <Divider className={classes.divider} />
+              <Typography className={`${classes.headerText} ${classes.time}`} variant='h6' component='h6'>
+                {formatDate(createAt)}
               </Typography>
-            </CardContent>
-          </CardActionArea>
-        </Card>
-      </>
-    );
-}
+            </div>
+            <Typography className={`${classes.titleCard} titleCard`} variant='h4' color='textSecondary' component='h4'>
+              {formatText(title, 'title')}
+              {/* {title} */}
+            </Typography>
+            <Typography className={`${classes.summary} summary`} variant='h6' color='textSecondary' component='h6'>
+              {formatText(summary, 'summary')}
+              {/* {summary} */}
+            </Typography>
+          </CardContent>
+        </CardActionArea>
+      </Card>
+    </>
+  );
+};
 
 export default MagazineCard;

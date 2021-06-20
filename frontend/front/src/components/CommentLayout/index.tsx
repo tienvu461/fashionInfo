@@ -16,7 +16,7 @@ interface CommentProps {
   paramsId: string;
 }
 
-function CommentLayout(props: CommentProps): JSX.Element {
+const CommentLayout: React.FunctionComponent<CommentProps> = (props) => {
   const { children, paramsId } = props;
   const classes = useStyles();
   const dispatch = useDispatch<any>();
@@ -36,7 +36,7 @@ function CommentLayout(props: CommentProps): JSX.Element {
       isLoginToComment({
         isComment: true,
         paramId: paramsId,
-        key: getKey[1]
+        key: getKey[1],
       })
     );
   };
@@ -70,6 +70,6 @@ function CommentLayout(props: CommentProps): JSX.Element {
       </Grid>
     </Grid>
   );
-}
+};
 
 export default CommentLayout;

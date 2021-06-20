@@ -27,7 +27,7 @@ interface PropsType {
   userLikes: Array<number>;
 }
 
-function Photo(props: PropsType): JSX.Element {
+const Photo: React.FunctionComponent<PropsType> = (props) => {
   const classes = useStyles();
   const { pathImg, id, activities: { likes = 0, comments } = {}, userLikes = [] } = props;
   const dispatch = useDispatch<any>();
@@ -53,13 +53,13 @@ function Photo(props: PropsType): JSX.Element {
     if (loginStatus === 200) {
       const credentials = JSON.parse(getCredentialsFromLocalStorage());
       dispatch(likePhotoAction({ user_id: credentials.userID, photo_id })).then(() => {
-      if (key === 'like') {
-        setLikeAction(true);
-        setLike(like + 1);
-      } else {
-        setLikeAction(false);
-        setLike(like - 1);
-      }
+        if (key === 'like') {
+          setLikeAction(true);
+          setLike(like + 1);
+        } else {
+          setLikeAction(false);
+          setLike(like - 1);
+        }
       });
     } else {
       toast.warn('Please login your account');
@@ -77,9 +77,11 @@ function Photo(props: PropsType): JSX.Element {
   const controlWidthImg = () => {
     if (matches) {
       return 480;
-    } if (matches1) {
+    }
+    if (matches1) {
       return 360;
-    } if (matches2) return 480;
+    }
+    if (matches2) return 480;
 
     return 480;
   };
@@ -87,9 +89,11 @@ function Photo(props: PropsType): JSX.Element {
   const controlHeithImg = () => {
     if (matches) {
       return 600;
-    } if (matches1) {
+    }
+    if (matches1) {
       return 450;
-    } if (matches2) return 600;
+    }
+    if (matches2) return 600;
 
     return 600;
   };
@@ -137,6 +141,6 @@ function Photo(props: PropsType): JSX.Element {
       </Card>
     </>
   );
-}
+};
 
 export default Photo;

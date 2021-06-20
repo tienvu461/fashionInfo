@@ -11,7 +11,7 @@ interface FormDialogProps {
   redirectLogin: any;
 }
 
-export default function FormDialog(props: FormDialogProps): JSX.Element {
+const FormDialog: React.FunctionComponent<FormDialogProps> = (props) => {
   const classes = useStyles();
   const { redirectLogin } = props;
 
@@ -46,4 +46,6 @@ export default function FormDialog(props: FormDialogProps): JSX.Element {
       </Dialog>
     </div>
   );
-}
+};
+
+export default FormDialog;
