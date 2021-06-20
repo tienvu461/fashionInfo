@@ -9,7 +9,7 @@ interface ScrollProps {
   children: ReactChild | ReactChildren;
 }
 
-function ScrollToTop({ children, window }: ScrollProps): JSX.Element {
+const ScrollToTop: React.FunctionComponent<ScrollProps> = ({ children, window }) => {
   const classes = useStyles();
   const trigger = useScrollTrigger({
     target: window ? window() : undefined,
@@ -18,9 +18,7 @@ function ScrollToTop({ children, window }: ScrollProps): JSX.Element {
   });
 
   const handleClick = (event: React.MouseEvent<HTMLDivElement>) => {
-    const anchor = (
-      (event.target as HTMLDivElement).ownerDocument || document
-    ).querySelector('#back-to-top-anchor');
+    const anchor = ((event.target as HTMLDivElement).ownerDocument || document).querySelector('#back-to-top-anchor');
 
     if (anchor) {
       anchor.scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -34,6 +32,6 @@ function ScrollToTop({ children, window }: ScrollProps): JSX.Element {
       </Grid>
     </Zoom>
   );
-}
+};
 
 export default ScrollToTop;

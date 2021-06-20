@@ -16,7 +16,7 @@ interface CommentProps {
   paramsId: string;
 }
 
-function CommentLayout(props: CommentProps): JSX.Element {
+const CommentLayout: React.FunctionComponent<CommentProps> = (props) => {
   const { children, paramsId } = props;
   const classes = useStyles();
   const dispatch = useDispatch<any>();
@@ -36,38 +36,38 @@ function CommentLayout(props: CommentProps): JSX.Element {
       isLoginToComment({
         isComment: true,
         paramId: paramsId,
-        key: getKey[1]
+        key: getKey[1],
       })
     );
   };
 
-    return (
-      <Grid className={classes.root} container>
-        <Grid item lg={12} md={12} sm={12} xl={12} xs={12}>
-          <Accordion className={classes.accordion} expanded={isClick}>
-            <div className={classes.accordionHeader}>
-              <AccordionSummary aria-controls='panel1a-content' id='panel1a-header' onClick={handleClick}>
-                <div className={classes.header}>
-                  <Typography className={classes.headerText} component='h4' variant='h4'>
-                    Bình luận
-                  </Typography>
-                  <ExpandMoreIcon className={isClick ? classes.expandMore : classes.expandLess} />
-                </div>
-              </AccordionSummary>
-              <div>
-                {loginStatus ? null : (
-                  <Typography className={classes.subText}>
-                    <FormDialog redirectLogin={redirectLogin} />
-                    để bình luận
-                  </Typography>
-                )}
+  return (
+    <Grid className={classes.root} container>
+      <Grid item lg={12} md={12} sm={12} xl={12} xs={12}>
+        <Accordion className={classes.accordion} expanded={isClick}>
+          <div className={classes.accordionHeader}>
+            <AccordionSummary aria-controls='panel1a-content' id='panel1a-header' onClick={handleClick}>
+              <div className={classes.header}>
+                <Typography className={classes.headerText} component='h4' variant='h4'>
+                  Bình luận
+                </Typography>
+                <ExpandMoreIcon className={isClick ? classes.expandMore : classes.expandLess} />
               </div>
+            </AccordionSummary>
+            <div>
+              {loginStatus ? null : (
+                <Typography className={classes.subText}>
+                  <FormDialog redirectLogin={redirectLogin} />
+                  để bình luận
+                </Typography>
+              )}
             </div>
-            <AccordionDetails className={classes.accordionDetails}>{children}</AccordionDetails>
-          </Accordion>
-        </Grid>
+          </div>
+          <AccordionDetails className={classes.accordionDetails}>{children}</AccordionDetails>
+        </Accordion>
       </Grid>
-    );
-}
+    </Grid>
+  );
+};
 
 export default CommentLayout;

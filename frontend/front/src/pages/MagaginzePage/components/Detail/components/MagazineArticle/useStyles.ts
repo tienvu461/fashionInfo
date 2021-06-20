@@ -1,9 +1,20 @@
 /* eslint-disable import/no-unresolved */
 import { makeStyles } from '@material-ui/core/styles';
-import { black } from 'src/styles/theme';
+import { black, blackThin, gray1, theme } from 'src/styles/theme';
 
 const useStyles: () => Record<
-  'subTitleArticle' | 'divider' | 'headerText' | 'time' | 'mainTitle' | 'heartIcon' | 'authorArticle' | 'num' | 'flex',
+  | 'subTitleArticle'
+  | 'divider'
+  | 'headerText'
+  | 'time'
+  | 'mainTitle'
+  | 'heartIcon'
+  | 'authorArticle'
+  | 'num'
+  | 'flex'
+  | 'tag'
+  | 'tags'
+  | 'tagText',
   string
 > = makeStyles(() => ({
   subTitleArticle: {
@@ -36,6 +47,11 @@ const useStyles: () => Record<
     letterSpacing: '3.7px',
     textAlign: 'left',
     paddingTop: '22px',
+    // responsive
+    [theme.breakpoints.down('xs')]: {
+      fontSize: '40px',
+      lineHeight: '50px',
+    },
   },
   heartIcon: {
     cursor: 'pointer',
@@ -51,13 +67,40 @@ const useStyles: () => Record<
     fontSize: '18px',
     lineHeight: '24px',
     color: black,
-    paddingLeft: '8px'
+    paddingLeft: '8px',
   },
   flex: {
     display: 'flex',
     justifyContent: 'center',
-    alignItems: 'center'
-  }
+    alignItems: 'center',
+  },
+  tag: {
+    width: 'fit-content',
+    background: gray1,
+    padding: '3px 15px',
+    marginRight: '4px',
+
+    // responsive
+    [theme.breakpoints.down('xs')]: {
+      marginBottom: '4px',
+    },
+  },
+  tags: {
+    display: 'flex',
+    flexWrap: 'wrap',
+    // paddingTop: '80px',
+  },
+  tagText: {
+    fontFamily: 'Roboto',
+    fontStyle: 'normal',
+    fontWeight: 'normal',
+    fontSize: '12px',
+    lineHeight: '36px',
+
+    alignItems: 'center',
+    letterSpacing: '1px',
+    color: blackThin,
+  },
 }));
 
 export { useStyles as default };

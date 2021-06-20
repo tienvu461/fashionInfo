@@ -4,16 +4,16 @@
 import { LOGIN_API, REGISTER, GET_AUTHEN_URL, REFRESH_TOKEN_API, USER_PROFILE_API } from '../apis/index';
 import request from '../configs/index';
 
-type PayloadProps = {
+type PayloadType = {
   email: string;
   password: string;
   re_password?: string;
   showPassword?: boolean;
 };
 
-export const loginService = async (payload: PayloadProps): Promise<any> => request(LOGIN_API, 'POST', payload);
+export const loginService = async (payload: PayloadType): Promise<any> => request(LOGIN_API, 'POST', payload);
 
-export const registerService = async (payload: PayloadProps): Promise<any> => request(REGISTER, 'POST', payload);
+export const registerService = async (payload: PayloadType): Promise<any> => request(REGISTER, 'POST', payload);
 
 export const profileService = async (): Promise<any> => request(USER_PROFILE_API, 'GET');
 

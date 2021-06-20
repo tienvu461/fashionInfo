@@ -21,7 +21,7 @@ interface DetailProps {
   };
 }
 
-function DetailMagazine(props: DetailProps): JSX.Element {
+const DetailMagazine: React.FunctionComponent<DetailProps> = (props) => {
   const { match: { params: { id = '' } = {} } = {} } = props;
   const [loading, setLoading] = useState<boolean>(true);
   const valueRef = useRef<HTMLInputElement>(null);
@@ -88,6 +88,6 @@ function DetailMagazine(props: DetailProps): JSX.Element {
       </div>
     </div>
   );
-}
+};
 
 export default DetailMagazine;

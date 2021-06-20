@@ -20,10 +20,14 @@ const a11yProps = (index: any) => ({
   'aria-controls': `simple-tabpanel-${index}`,
 });
 
-function MagazineHeader(): JSX.Element {
+interface IProps {
+  categoryName: string;
+}
+
+const MagazineHeader: React.FunctionComponent<IProps> = ({ categoryName }) => {
   const classes = useStyles();
   const [value, setValue] = useState<number>(0);
-  const [caterogyName, setCategoryName] = useState<string>('Business');
+  const [caterogyName, setCategoryName] = useState<string>(categoryName);
   const dispatch = useDispatch();
   const matches = useMediaQuery('(max-width:1080px)');
   const matchToRenderTab = useMediaQuery('(max-width:1280px)');
@@ -110,6 +114,6 @@ function MagazineHeader(): JSX.Element {
       ))}
     </div>
   );
-}
+};
 
 export default MagazineHeader;

@@ -10,7 +10,7 @@ interface PhotoCommentProps {
   paramsId: string;
 }
 
-function PhotoComment(props: PhotoCommentProps): JSX.Element {
+const PhotoComment: React.FunctionComponent<PhotoCommentProps> = (props) => {
   const { paramsId } = props;
   const classes = useStyles();
   const matches = useMediaQuery('(min-width:600px)');
@@ -37,6 +37,6 @@ function PhotoComment(props: PhotoCommentProps): JSX.Element {
       <Divider />
     </div>
   );
-}
+};
 
 export default PhotoComment;

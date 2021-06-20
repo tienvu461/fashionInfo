@@ -13,6 +13,7 @@ import FavoriteIcon from '@material-ui/icons/Favorite';
 import { RootState } from 'src/store/store';
 import HeartIcon from 'src/assets/images/heart.svg';
 import ShareIcon from 'src/assets/images/share.svg';
+import Tags from 'src/components/Tags';
 import { getDetailAction, likePhotoAction } from 'src/features/Photo/photoAction';
 
 import PhotoComment from './components/PhotoComment';
@@ -29,7 +30,7 @@ interface DetailProps {
   };
 }
 
-function DetaiPhoto(props: DetailProps): JSX.Element {
+const DetaiPhoto: React.FunctionComponent<DetailProps> = (props) => {
   const { match: { params: { id = '' } = {} } = {} } = props;
 
   const classes = useStyles();
@@ -155,40 +156,24 @@ function DetaiPhoto(props: DetailProps): JSX.Element {
     </>
   );
 
-  const renderTags = () => {
-    const { tags: listTags = [] } = photoDetail;
-
-    return (
-      <Grid item lg={12} md={12} sm={12} xl={12} xs={12}>
-        <div className={classes.tags}>
-          {listTags.map((item: string, index: number) => (
-            <Grid key={`${index + 1}`} className={classes.tag}>
-              <Typography className={classes.tagText}>#{item}</Typography>
-            </Grid>
-          ))}
-        </div>
-      </Grid>
-    );
+  const likePhoto = (photo_id: string | number, key: string) => {
+    if (loginStatus === 200) {
+      dispatch(likePhotoAction({ user_id: userID, photo_id })).then(() => {
+        if (key === 'like') {
+          setLikeAction(true);
+          setLike(like + 1);
+        } else {
+          setLikeAction(false);
+          setLike(like - 1);
+        }
+      });
+    } else {
+      toast.warn('Please login your account');
+    }
   };
 
-   const likePhoto = (photo_id: string | number, key: string) => {
-     if (loginStatus === 200) {
-       dispatch(likePhotoAction({ user_id: userID, photo_id })).then(() => {
-         if (key === 'like') {
-           setLikeAction(true);
-           setLike(like + 1);
-         } else {
-           setLikeAction(false);
-           setLike(like - 1);
-         }
-       });
-     } else {
-       toast.warn('Please login your account');
-     }
-   };
-
   const renderDetailPhoto = () => {
-    const { image_path: pathImg = '' } = photoDetail;
+    const { image_path: pathImg = '', tags: listTags = [] } = photoDetail;
 
     return (
       <>
@@ -236,9 +221,8 @@ function DetaiPhoto(props: DetailProps): JSX.Element {
                 Thông tin
               </Typography>
             </Grid>
-
             {renderInformation()}
-            {renderTags()}
+            <Tags listTags={listTags} />;
           </Grid>
         </div>
       </>
@@ -263,6 +247,6 @@ function DetaiPhoto(props: DetailProps): JSX.Element {
       <SuggestionComponent paramsId={id} />
     </div>
   );
-}
+};
 
 export default DetaiPhoto;

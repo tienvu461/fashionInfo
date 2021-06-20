@@ -10,23 +10,23 @@ interface CommentProps {
   paramsId: string;
 }
 
-function MagazineComment(props: CommentProps): JSX.Element {
-    const { paramsId } = props;
+const MagazineComment: React.FunctionComponent<CommentProps> = (props) => {
+  const { paramsId } = props;
 
-    const classes = useStyles();
-    return (
-      <div className={classes.root}>
-        <Divider className={classes.divider} />
-        <Grid className={classes.container} container>
-          <Grid item lg={12} md={12} sm={12} xl={12} xs={12}>
-            <CommentLayout paramsId={paramsId}>
-              <Comments keyItem='magazine' />
-            </CommentLayout>
-          </Grid>
+  const classes = useStyles();
+  return (
+    <div className={classes.root}>
+      <Divider className={classes.divider} />
+      <Grid className={classes.container} container>
+        <Grid item lg={12} md={12} sm={12} xl={12} xs={12}>
+          <CommentLayout paramsId={paramsId}>
+            <Comments keyItem='magazine' />
+          </CommentLayout>
         </Grid>
-        <Divider />
-      </div>
-    );
-}
+      </Grid>
+      <Divider />
+    </div>
+  );
+};
 
 export default MagazineComment;
