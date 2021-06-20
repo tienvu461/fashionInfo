@@ -66,7 +66,7 @@ function MagazineCard(props: MagazineCardProps): JSX.Element {
     }
     if (matches2) return 480;
 
-    return 480;
+    return '100%';
   };
 
   const controlHeithImg = () => {
@@ -78,7 +78,7 @@ function MagazineCard(props: MagazineCardProps): JSX.Element {
     }
     if (matches2) return 350;
 
-    return 350;
+    return '100%';
   };
 
     return (
@@ -98,7 +98,6 @@ function MagazineCard(props: MagazineCardProps): JSX.Element {
               <div className='sub-category-magazine'>
                 <Typography
                   className={`${classes.headerText} ${classes.subCategory}`}
-                  gutterBottom
                   variant='h6'
                   component='h6'
                 >
@@ -107,7 +106,6 @@ function MagazineCard(props: MagazineCardProps): JSX.Element {
                 <Divider className={classes.divider} />
                 <Typography
                   className={`${classes.headerText} ${classes.time}`}
-                  gutterBottom
                   variant='h6'
                   component='h6'
                 >

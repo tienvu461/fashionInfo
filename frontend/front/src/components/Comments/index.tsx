@@ -53,12 +53,12 @@ function Comments(props: CommentProps): JSX.Element {
     const handleCmtMagazine = () => {
       const payload: {
         user_id: string;
-        news_id: string | number;
+        magazine_id: string | number;
         content: string;
         parent: null;
       } = {
         user_id: userID,
-        news_id: magazineCardId,
+        magazine_id: magazineCardId,
         content: textArea,
         parent: null,
       };

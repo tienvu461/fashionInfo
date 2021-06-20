@@ -16,7 +16,7 @@ class modelConst:
     POST_TYPES = (
         (0, "None"),
         (1, "Photo"),
-        (2, "News"),
+        (2, "Magazine"),
         (3, "Comment")
     )
     BINARY = (
@@ -27,7 +27,7 @@ class modelConst:
 class postTypeEnum(Enum):
     NoType = 1
     Photo = 2
-    News = 3
+    Magazine = 3
     Comment = 4
     
 class photosConst:

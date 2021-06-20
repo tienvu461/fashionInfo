@@ -11,7 +11,7 @@ import zipfile
 import re
 from datetime import datetime
 
-from .models import NewsCategory, Photo, PhotoFeature, PhotoLike, PhotoComment, News, NewsAttachedPhoto, NewsArchivedFile, NewsLike, NewsComment, GenericConfig, PhotoCategory, NewsFeature, NewsSubCategory
+from .models import MagazineCategory, Photo, PhotoFeature, PhotoLike, PhotoComment, Magazine, MagazineAttachedPhoto, MagazineArchivedFile, MagazineComment, GenericConfig, PhotoCategory, MagazineSubCategory, MagazineFeature
 from .consts import adminConst
 
 from django import forms
@@ -107,18 +107,18 @@ class PhotoCommentAdmin(admin.ModelAdmin):
 
 
 class ImageInline(admin.TabularInline):
-    model = NewsAttachedPhoto
+    model = MagazineAttachedPhoto
     extra = 3
 
 
 class FileInline(admin.TabularInline):
-    model = NewsArchivedFile
+    model = MagazineArchivedFile
     max_num = 1
 
     def save_model(self, request, obj, form, change):
         super().save_model(request, obj, form, change)
         logger.debug("id = {}".format(obj.id))
-        archived_all = NewsArchivedFile.objects.all().count()
+        archived_all = MagazineArchivedFile.objects.all().count()
         logger.debug("archived_all = {}".format(archived_all))
 
 from django import forms
@@ -129,19 +129,18 @@ class HelpTextForm(forms.ModelForm):
         self.fields['title'].help_text = 'Maximum 70 characters'
 
     class Meta:
-        model = News
+        model = Magazine
         exclude = ()
 
-@admin.register(News)
-class NewsAdmin(MarkdownxModelAdmin):
-    form = HelpTextForm
+@admin.register(Magazine)
+class MagazineAdmin(MarkdownxModelAdmin):
     list_display = ('title',  'status', 'summary', 'tag_list', 'created_at',
                     'updated_at')
     list_filter = ('created_at', 'updated_at', "status",)
     search_fields = ('title',)
     prepopulated_fields = {'slug': ('title',)}
     exclude = ('user_likes',)
-
+    form = HelpTextForm
     # show tags in list
     def get_queryset(self, request):
         return super().get_queryset(request).prefetch_related('tags')
@@ -157,23 +156,24 @@ class NewsAdmin(MarkdownxModelAdmin):
         # obj.content = "overriden"
         super().save_model(request, obj, form, change)
         logger.debug("id = {}".format(obj.id))
-        # archived_all = NewsArchivedFile.objects.all().count()
+        # archived_all = MagazineArchivedFile.objects.all().count()
         # logger.debug("archived_all = {}".format(archived_all))
         try:
-            archived = NewsArchivedFile.objects.get(news_id=obj.id)
+            archived = MagazineArchivedFile.objects.get(magazine_id=obj.id)
         except Exception as e:
             logger.error("Cannot get archived file")
             logger.error(e)
         else:
             logger.debug(type(archived))
 
+            protocol = 'https://' if request.is_secure() else 'http://'
             with zipfile.ZipFile(archived.zip_file, 'r') as f_list:
                 for f_name in f_list.namelist():
                     if '.md' in f_name:
                         with f_list.open(f_name) as md_file:
                             img_ptn = re.compile(r"\]\((.*.jpg)\)")
                             content = md_file.read().decode('utf8')
-                            prefix = "{0}{1}".format(
+                            prefix = "{0}{1}{2}{3}".format(protocol, settings.HOSTNAME,
                                 settings.MEDIA_URL, adminConst.ATTACH_DIR)+datetime.now().strftime('%Y/%m/%d/')
                             content = re.sub(
                                 img_ptn, rf"]({prefix}\1)", content)
@@ -181,18 +181,18 @@ class NewsAdmin(MarkdownxModelAdmin):
 
                     if '.jpg' in f_name:
                         with f_list.open(f_name, "r") as jpg_file:
-                            NewsAttachedPhoto.objects.create(
-                                news_id=obj.id, image=ImageFile(jpg_file))
+                            MagazineAttachedPhoto.objects.create(
+                                magazine_id=obj.id, image=ImageFile(jpg_file))
             # delete zipfile after extracted
             file_path = archived.zip_file
             logger.debug(file_path)
-            result = NewsArchivedFile.objects.filter(news_id=obj.id).delete()
-            logger.debug("NewsArchivedFile delete result = {}".format(result))
+            result = MagazineArchivedFile.objects.filter(magazine_id=obj.id).delete()
+            logger.debug("MagazineArchivedFile delete result = {}".format(result))
         obj.save()
 
-@admin.register(NewsComment)
-class NewsCommentAdmin(admin.ModelAdmin):
-    list_display = ('news_id', 'user_id', 'content',
+@admin.register(MagazineComment)
+class MagazineCommentAdmin(admin.ModelAdmin):
+    list_display = ('magazine_id', 'user_id', 'content',
                     'active', 'parent', 'created_at',)
     list_filter = ('created_at', 'active',)
     search_fields = ('content',)
@@ -203,16 +203,16 @@ class PhotoCategoryAdmin(admin.ModelAdmin):
     list_display = ('cat_name', 'created_at')
 
 
-@admin.register(NewsCategory)
-class NewsCategoryAdmin(admin.ModelAdmin):
+@admin.register(MagazineCategory)
+class MagazineCategoryAdmin(admin.ModelAdmin):
     list_display = ('cat_name', 'created_at')
 
 
-@admin.register(NewsFeature)
-class NewsFeatureAdmin(admin.ModelAdmin):
+@admin.register(MagazineFeature)
+class MagazineFeatureAdmin(admin.ModelAdmin):
     # form = CustomizedConfigForm
-    list_display = ('id', 'feature_news', 'in_use', 'created_at')
+    list_display = ('id', 'feature_magazine', 'in_use', 'created_at')
 
-@admin.register(NewsSubCategory)
-class NewsSubCategoryAdmin(admin.ModelAdmin):
+@admin.register(MagazineSubCategory)
+class MagazineSubCategoryAdmin(admin.ModelAdmin):
     list_display = ('cat_name', 'created_at')

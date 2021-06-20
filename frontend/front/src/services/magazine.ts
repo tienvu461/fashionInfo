@@ -20,13 +20,13 @@ export const getListSuggestMagazine = (id: number): any => request(`${MAGAZINE_L
 
 export const getDetailMagazineCard = (id: number): any => request(`${MAGAZINE_DETAIL_API}/${id}`, 'GET');
 
-export const likeMagazineService = (payload: { user_id: string; news_id: string | number }): Promise<any> => {
+export const likeMagazineService = (payload: { user_id: string; magazine_id: string | number }): Promise<any> => {
   return request(MAGAZINE_LIKE_API, 'POST', payload);
 };
 
 export const commentMagazineService = (payload: {
   user_id: string;
-  news_id: string | number;
+  magazine_id: string | number;
   content: string;
   parent: null | number;
 }): Promise<any> => request(MAGAZINE_COMMENT_API, 'POST', payload);

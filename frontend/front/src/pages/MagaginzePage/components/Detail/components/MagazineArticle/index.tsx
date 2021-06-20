@@ -5,6 +5,7 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
 import { toast } from 'react-toastify';
+import ReactHtmlParser from 'react-html-parser';
 import { Typography, Divider } from '@material-ui/core';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 
@@ -39,11 +40,12 @@ function MagazineArticle(props: MagazineArticleProps): JSX.Element {
     author = '',
     likes = 0,
     comments = [],
-    thumbnail = '',
+    banner = '',
     user_likes: userLikes = [],
     id = 0,
+    formatted_markdown: content = '',
   } = magazineDetail;
-  // console.log(magazineDetail);
+  console.log(magazineDetail);
   const [like, setLike] = useState<number>(likes);
 
   useEffect(() => {
@@ -58,9 +60,9 @@ function MagazineArticle(props: MagazineArticleProps): JSX.Element {
     }
   }, [userLikes, userID]);
 
-  const likePhoto = (news_id: string | number, key: string) => {
+  const likePhoto = (magazine_id: string | number, key: string) => {
     if (loginStatus === 200) {
-      dispatch(likeMagazineAction({ user_id: userID, news_id })).then(() => {
+      dispatch(likeMagazineAction({ user_id: userID, magazine_id })).then(() => {
         if (key === 'like') {
           setLikeAction(true);
           setLike(like + 1);
@@ -120,9 +122,10 @@ function MagazineArticle(props: MagazineArticleProps): JSX.Element {
           <img alt='share-icon' className={classes.heartIcon} src={ShareIcon} />
         </div>
       </div>
-      <div className='article-thumbnail'>
-        <img alt='article-thumbnail' src={thumbnail} />
+      <div className='article-banner'>
+        <img alt='article-banner' src={banner} />
       </div>
+      <div className='article-content'>{ReactHtmlParser(content)}</div>
     </>
   );
 }
