@@ -22,7 +22,6 @@ export const registerAction = (payload: {
     } catch (error) {
         // dispatch(registerFail(error.response.data));
         toast.error(`${error.response.data.email}`);
-        toast.error(`${error.response.data.username}`);
     }
     return 0;
 };

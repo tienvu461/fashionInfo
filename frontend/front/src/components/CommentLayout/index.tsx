@@ -3,7 +3,7 @@
 import React, { ReactChildren, ReactChild, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
- Accordion, AccordionDetails, AccordionSummary, Grid, Typography
+  Accordion, AccordionDetails, AccordionSummary, Grid, Typography
 } from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { isLoginToComment } from 'src/features/Login/LoginSlice';
@@ -55,12 +55,14 @@ const CommentLayout: React.FunctionComponent<CommentProps> = (props) => {
               </div>
             </AccordionSummary>
             <div>
-              {loginStatus ? null : (
-                <Typography className={classes.subText}>
-                  <FormDialog redirectLogin={redirectLogin} />
-                  để bình luận
-                </Typography>
-              )}
+              {
+                loginStatus === 200 ? null : (
+                  <Typography className={classes.subText}>
+                    <FormDialog redirectLogin={redirectLogin} />
+                    để bình luận
+                  </Typography>
+                )
+              }
             </div>
           </div>
           <AccordionDetails className={classes.accordionDetails}>{children}</AccordionDetails>

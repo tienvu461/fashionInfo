@@ -15,14 +15,8 @@ import {
   Avatar,
   Button,
   TextField,
-  FormControlLabel,
-  Checkbox,
-  InputAdornment,
-  IconButton,
   CircularProgress,
 } from '@material-ui/core';
-import Visibility from '@material-ui/icons/Visibility';
-import VisibilityOff from '@material-ui/icons/VisibilityOff';
 
 import { RootState } from 'src/store/store';
 import { getUrlSocialAction } from 'src/features/Login/LoginAction';
@@ -49,14 +43,6 @@ function RegisterPage(): JSX.Element {
   const history = useHistory();
 
   const [loading, setLoading] = useState<boolean>(false);
-  type FieldStates = {
-    showPassword: boolean;
-    re_showPassword: boolean;
-  };
-  const [field, setfield] = useState<FieldStates>({
-    showPassword: false,
-    re_showPassword: false,
-  });
 
   const initialValues: FiledFormik = {
     email: '',
@@ -65,14 +51,6 @@ function RegisterPage(): JSX.Element {
     last_name: '',
     password: '',
     re_password: '',
-  };
-
-  const handleClickShowPassword = () => {
-    setfield({ ...field, showPassword: !field.showPassword });
-  };
-
-  const handleClickre_ShowPassword = () => {
-    setfield({ ...field, re_showPassword: !field.re_showPassword });
   };
 
   const registerStatus = useSelector((state: RootState) => state.register.registerResponse.status);
@@ -187,28 +165,6 @@ function RegisterPage(): JSX.Element {
                 } = props;
                 return (
                   <Form className={classes.form}>
-                    {/* <div className={classes.fontManual}>Họ tên</div>
-                    <TextField
-                      autoComplete='username'
-                      autoFocus
-                      className={classes.field}
-                      fullWidth
-                      margin='normal'
-                      required
-                      variant='outlined'
-                      name='username'
-                      id='username'
-                      value={values.username}
-                      type='text'
-                      helperText={
-                        errors.username && touched.username
-                          ? errors.username
-                          : null
-                      }
-                      error={!!(errors.username && touched.username)}
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                    /> */}
                     <div style={{ display: 'flex' }}>
                       <div>
                         <div className={classes.fontManual}>Họ</div>
@@ -302,21 +258,12 @@ function RegisterPage(): JSX.Element {
                       error={!!(errors.password && touched.password)}
                       onChange={handleChange}
                       onBlur={handleBlur}
-                      InputProps={{
-                        endAdornment: (
-                          <InputAdornment position='end'>
-                            <IconButton aria-label='toggle password visibility' onClick={handleClickShowPassword}>
-                              {field.showPassword ? <Visibility /> : <VisibilityOff />}
-                            </IconButton>
-                          </InputAdornment>
-                        ),
-                      }}
                       margin='normal'
                       required
-                      type={field.showPassword ? 'text' : 'password'}
+                      type='password'
                       variant='outlined'
                     />
-                    <div className={classes.fontManual} style={{ paddingTop: '40px' }}>
+                    <div className={classes.fontManual} style={{ paddingTop: '16px' }}>
                       Nhập lại mật khẩu
                     </div>
                     <TextField
@@ -334,28 +281,11 @@ function RegisterPage(): JSX.Element {
                       error={!!(errors.re_password && touched.re_password)}
                       onChange={handleChange}
                       onBlur={handleBlur}
-                      InputProps={{
-                        endAdornment: (
-                          <InputAdornment position='end'>
-                            <IconButton aria-label='toggle password visibility' onClick={handleClickre_ShowPassword}>
-                              {field.re_showPassword ? <Visibility /> : <VisibilityOff />}
-                            </IconButton>
-                          </InputAdornment>
-                        ),
-                      }}
                       margin='normal'
                       required
-                      type={field.re_showPassword ? 'text' : 'password'}
+                      type='password'
                       variant='outlined'
                     />
-                    <div className={classes.savepassword}>
-                      <div>
-                        <FormControlLabel
-                          control={<Checkbox color='secondary' value='remember' />}
-                          label={<span style={{ fontFamily: 'Roboto', fontSize: '14' }}>Ghi nhớ mật khẩu</span>}
-                        />
-                      </div>
-                    </div>
                     <Button
                       className={classes.submit}
                       fullWidth
