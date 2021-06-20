@@ -2,7 +2,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { CircularProgress, Grid, IconButton, InputBase, TextField, InputAdornment } from '@material-ui/core';
+import { CircularProgress, Grid, TextField } from '@material-ui/core';
 import { debounce } from 'lodash';
 
 import searchIcon from 'src/assets/images/searchIcon.svg';
@@ -92,7 +92,7 @@ function Search(): JSX.Element {
   const clearSearch = (e) => {
     e.preventDefault();
     // [3] clear text
-    console.log('clear');
+    setValue('');
   };
 
   useEffect(() => {

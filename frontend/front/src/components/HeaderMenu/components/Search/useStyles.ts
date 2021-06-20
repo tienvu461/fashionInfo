@@ -27,7 +27,7 @@ const useStyles: () => Record<'search' | 'not' | 'placeHolderInput' | 'searchIco
       color: '#474747',
     },
     inputInput: {
-      paddingLeft: '30px',
+      paddingLeft: '53px',
       width: '50vh',
       transition: theme.transitions.create('width'),
       '&.Mui-focused': {
@@ -40,7 +40,7 @@ const useStyles: () => Record<'search' | 'not' | 'placeHolderInput' | 'searchIco
     not: {
       position: 'relative',
       width: 0,
-      paddingLeft: '30px',
+      paddingLeft: '53px',
       transition: theme.transitions.create('width'),
       '&.MuiInput-underline:before': {
         display: 'none',
