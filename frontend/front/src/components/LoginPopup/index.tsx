@@ -1,10 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable import/no-unresolved */
-import React from 'react';
+import React, { useState, useCallback } from 'react';
 import Dialog from '@material-ui/core/Dialog';
 import DialogContent from '@material-ui/core/DialogContent';
 import Typography from '@material-ui/core/Typography';
-import LoginPage from 'src/pages/LoginPage';
+import LoginPopup from 'src/components/LoginPopup/components';
 import useStyles from './useStyles';
 
 interface FormDialogProps {
@@ -14,7 +14,9 @@ interface FormDialogProps {
 export default function FormDialog(props: FormDialogProps): JSX.Element {
   const classes = useStyles();
   const { redirectLogin } = props;
-  const [open, setOpen] = React.useState(false);
+
+  const [open, setOpen] = useState<boolean>(false);
+
   const handleClickOpen = () => {
     setOpen(true);
     redirectLogin();
@@ -24,40 +26,23 @@ export default function FormDialog(props: FormDialogProps): JSX.Element {
     setOpen(false);
   };
 
+  const callback = useCallback((close) => {
+    setOpen(close);
+  }, []);
+
   return (
     <div>
       <Typography onClick={handleClickOpen} className={classes.spanText}>
         Đăng nhập
       </Typography>
-      <Dialog open={open} onClose={handleClose} aria-labelledby='form-dialog-title'>
-        <DialogContent className={classes.field}>
-          <div style={{ width: '1000px' }}>
-            <LoginPage />
+      <Dialog maxWidth={false} open={open} onClose={handleClose} aria-labelledby='form-dialog-title'>
+        <DialogContent className={classes.field} style={{ paddingTop: '0px' }}>
+          <div className='dialogContent'>
+            <div className='dialog-container'>
+              <LoginPopup closePopup={callback} />
+            </div>
           </div>
         </DialogContent>
-        {/* <DialogTitle id='form-dialog-title'>Subscribe</DialogTitle>
-        <DialogContent>
-          <DialogContentText>
-            To subscribe to this website, please enter your email address here. We will send updates
-            occasionally.
-          </DialogContentText>
-          <TextField
-            autoFocus
-            margin='dense'
-            id='name'
-            label='Email Address'
-            type='email'
-            fullWidth
-          />
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose} color='primary'>
-            Cancel
-          </Button>
-          <Button onClick={handleClose} color='primary'>
-            Subscribe
-          </Button>
-        </DialogActions> */}
       </Dialog>
     </div>
   );

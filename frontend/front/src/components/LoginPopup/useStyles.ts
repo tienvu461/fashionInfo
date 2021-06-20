@@ -15,11 +15,8 @@ const useStyles: () => Record<
         paddingRight: '4px',
     },
     field: {
-        '&. .MuiDialog-paperWidthSm': {
-            maxWidth: 'false',
-            backgroundColor: '#000000'
-        }
-    }
+        padding: '0px',
+    },
 }));
 
 export { useStyles as default };
