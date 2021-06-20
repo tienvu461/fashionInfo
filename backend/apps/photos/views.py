@@ -349,6 +349,9 @@ class MagazineList(generics.ListCreateAPIView):
     # filter_class = magazineFilter
 
     def list(self, request, *args, **kwargs):
+        # getting current user type
+        user=self.request.user 
+
         category = request.GET.get('category', '')
         logger.debug(category)
         if not category:
@@ -362,7 +365,13 @@ class MagazineList(generics.ListCreateAPIView):
             logger.error("Cannot get config\nException: {}".format(e))
             show_activities = True
 
-        queryset = Magazine.objects.filter(category__cat_name__iexact=category)
+        # if current user is admin => query all magazines from DB, if not only query "Publish" photos
+        if user.is_superuser == True:
+            queryset = Magazine.objects.filter(category__cat_name__iexact=category)
+        else:
+            queryset = Magazine.objects.filter(category__cat_name__iexact=category, status=1)
+
+        # queryset = Magazine.objects.filter(category__cat_name__iexact=category)
         # queryset = queryset.order_by('-created_at')
 
         page = self.paginate_queryset(queryset)
@@ -388,8 +397,15 @@ class MagazineDetail(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = MagazineDetailSerializer
 
     def get(self, request, *args, **kwargs):
-        # view increment
+        # getting current user type and magazine
+        user=self.request.user
         instance = self.get_object()
+
+        # if current user not is admin and current magazine status is "Draft" => raise error 
+        if user.is_superuser == False and instance.status == 0:
+            return Response({'error':'Only admin can access this magazine!'}, status=status.HTTP_400_BAD_REQUEST,)
+
+        # view increment
         instance.view_count = instance.view_count + 1
         instance.save(update_fields=("view_count", ))
 
