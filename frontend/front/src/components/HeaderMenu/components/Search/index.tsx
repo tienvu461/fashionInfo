@@ -117,7 +117,6 @@ function Search(): JSX.Element {
               value={value}
               inputRef={valueRef}
               onKeyDown={handleKeyDown}
-              style={{ fontFamily: 'Roboto', fontSize: '24' }}
               InputProps={{
                 className: focused ? classes.inputInput : classes.not,
                 classes: { input: classes.placeHolderInput },

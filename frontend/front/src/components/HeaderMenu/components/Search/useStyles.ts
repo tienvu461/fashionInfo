@@ -22,13 +22,15 @@ const useStyles: () => Record<'search' | 'not' | 'placeHolderInput' | 'searchIco
       position: 'absolute',
       display: 'flex',
       alignItems: 'flex-end',
-      marginBottom: '5px',
+      marginBottom: '8px',
       pointerEvents: 'none',
       color: '#474747',
     },
     inputInput: {
       paddingLeft: '53px',
       width: '50vh',
+      fontSize: '18px',
+      fontFamily: 'Roboto',
       transition: theme.transitions.create('width'),
       '&.Mui-focused': {
         width: '50vh',
