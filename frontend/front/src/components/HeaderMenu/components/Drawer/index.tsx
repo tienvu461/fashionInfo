@@ -22,7 +22,7 @@ interface NavLinksType {
   setActive: any;
 }
 
-function SideDrawer({ navLinks, setActive }: NavLinksType): JSX.Element {
+const SideDrawer: React.FunctionComponent<NavLinksType> = ({ navLinks, setActive }) => {
   const classes = useStyles();
   const history = useHistory();
   const dispatch = useDispatch<any>();
@@ -44,9 +44,9 @@ function SideDrawer({ navLinks, setActive }: NavLinksType): JSX.Element {
 
   const menuTabMagazine = !isEmpty(categories.results)
     ? categories.results.map((cat, index) => ({
-      menu: cat.cat_name,
-      id: index,
-    }))
+        menu: cat.cat_name,
+        id: index,
+      }))
     : [];
 
   const handleClickSubMenu = (menu: { menu: string; id: number }, path: string) => {
@@ -58,12 +58,7 @@ function SideDrawer({ navLinks, setActive }: NavLinksType): JSX.Element {
     });
   };
 
-  const handleClickListItem = (
-    params: {
-      title: string;
-      path: string;
-    }
-  ) => {
+  const handleClickListItem = (params: { title: string; path: string }) => {
     if (params.title === 'Magazine') {
       setOpenListItem(!openListItem);
       setAnchorState({
@@ -123,6 +118,6 @@ function SideDrawer({ navLinks, setActive }: NavLinksType): JSX.Element {
       </Drawer>
     </>
   );
-}
+};
 
 export default SideDrawer;

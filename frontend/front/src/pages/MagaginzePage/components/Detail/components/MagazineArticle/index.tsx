@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
 import { toast } from 'react-toastify';
 import ReactHtmlParser from 'react-html-parser';
-import { Typography, Divider } from '@material-ui/core';
+import { Typography, Divider, Grid } from '@material-ui/core';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 
 import { RootState } from 'src/store/store';
@@ -14,6 +14,7 @@ import HeartIcon from 'src/assets/images/heart.svg';
 import ShareIcon from 'src/assets/images/share.svg';
 import CommentIcon from 'src/assets/images/comment.svg';
 import { likeMagazineAction } from 'src/features/Magazine/MagazineAction';
+import Tags from 'src/components/Tags';
 
 import './_magazineArticle.scss';
 import useStyles from './useStyles';
@@ -22,7 +23,7 @@ interface MagazineArticleProps {
   handleScrollToComment: any;
 }
 
-function MagazineArticle(props: MagazineArticleProps): JSX.Element {
+const MagazineArticle: React.FunctionComponent<MagazineArticleProps> = (props) => {
   const classes = useStyles();
   const { handleScrollToComment } = props;
   const dispatch = useDispatch<any>();
@@ -44,6 +45,7 @@ function MagazineArticle(props: MagazineArticleProps): JSX.Element {
     user_likes: userLikes = [],
     id = 0,
     formatted_markdown: content = '',
+    tags = []
   } = magazineDetail;
   console.log(magazineDetail);
   const [like, setLike] = useState<number>(likes);
@@ -76,6 +78,38 @@ function MagazineArticle(props: MagazineArticleProps): JSX.Element {
     }
   };
 
+  const renderAction = () => (
+    <div className='article-action'>
+      <Typography className={`${classes.headerText} ${classes.authorArticle}`} component='h6' variant='h6'>
+        bởi {author}
+      </Typography>
+      <div className='action-section'>
+        <div className={classes.flex}>
+          {likeAction ? (
+            <FavoriteIcon
+              style={{ color: 'red' }}
+              onClick={() => likePhoto(id, 'unlike')}
+              className={classes.heartIcon}
+            />
+          ) : (
+            <img className={classes.heartIcon} alt='heart-icon' src={HeartIcon} onClick={() => likePhoto(id, 'like')} />
+          )}
+          <div className={classes.num}>{like}</div>
+        </div>
+        <div className={classes.flex}>
+          <img
+            onClick={() => handleScrollToComment()}
+            alt='comment-icon'
+            className={classes.heartIcon}
+            src={CommentIcon}
+          />
+          <div className={classes.num}>{comments.length}</div>
+        </div>
+        <img alt='share-icon' className={classes.heartIcon} src={ShareIcon} />
+      </div>
+    </div>
+  );
+
   return (
     <>
       <div className='subtitle'>
@@ -88,46 +122,14 @@ function MagazineArticle(props: MagazineArticleProps): JSX.Element {
         </Typography>
       </div>
       <Typography className={classes.mainTitle}>{title}</Typography>
-      <div className='article-action'>
-        <Typography className={`${classes.headerText} ${classes.authorArticle}`} component='h6' variant='h6'>
-          bởi {author}
-        </Typography>
-        <div className='action-section'>
-          <div className={classes.flex}>
-            {likeAction ? (
-              <FavoriteIcon
-                style={{ color: 'red' }}
-                onClick={() => likePhoto(id, 'unlike')}
-                className={classes.heartIcon}
-              />
-            ) : (
-              <img
-                className={classes.heartIcon}
-                alt='heart-icon'
-                src={HeartIcon}
-                onClick={() => likePhoto(id, 'like')}
-              />
-            )}
-            <div className={classes.num}>{like}</div>
-          </div>
-          <div className={classes.flex}>
-            <img
-              onClick={() => handleScrollToComment()}
-              alt='comment-icon'
-              className={classes.heartIcon}
-              src={CommentIcon}
-            />
-            <div className={classes.num}>{comments.length}</div>
-          </div>
-          <img alt='share-icon' className={classes.heartIcon} src={ShareIcon} />
-        </div>
-      </div>
+      {renderAction()}
       <div className='article-banner'>
         <img alt='article-banner' src={banner} />
       </div>
       <div className='article-content'>{ReactHtmlParser(content)}</div>
+      <Tags listTags={tags} />
     </>
   );
-}
+};
 
 export default MagazineArticle;

@@ -10,7 +10,7 @@ interface TabPanelProps {
   value: any;
 }
 
-function TabPanel(props: TabPanelProps): JSX.Element {
+const TabPanel: React.FunctionComponent<TabPanelProps> = (props) => {
   const { children, value, index, ...other } = props;
   const matches = useMediaQuery('(max-width:1280px)');
 
@@ -29,6 +29,6 @@ function TabPanel(props: TabPanelProps): JSX.Element {
       )}
     </div>
   );
-}
+};
 
 export default TabPanel;

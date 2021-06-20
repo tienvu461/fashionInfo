@@ -15,13 +15,10 @@ import { loginService, getUrlSocialService, refreshTokenService } from 'src/serv
 import { loginSucess, loginFail, logoutSuccess } from './LoginSlice';
 
 export const loginAction = (payload: {
-  email: string; password: string, showPassword: boolean
+  email: string; password: string
 }) => async (dispatch: Dispatch): Promise<any> => {
   try {
     const response = await loginService(payload);
-    /**
-     * TO DO ENOCODE JWT
-     */
     type CustomJwtPayload = JwtPayload & { user_id: string };
     const dataEncodeJwt = jwtDecode<CustomJwtPayload>(response.data.access);
     const { user_id: userID } = dataEncodeJwt;
@@ -31,7 +28,6 @@ export const loginAction = (payload: {
       setDataFromLocalStorage(JSON.stringify({ status, userID }));
       setTokenToLocalStorage(data.access);
       setRefreshTokenToLocalStorage(data.refresh);
-
       toast.success('Đăng nhập thành công !');
     }
     return status;
@@ -49,7 +45,7 @@ export const logoutAction = () => async (dispatch: Dispatch): Promise<any> => {
     clearStoreFromlocalStorage();
     dispatch(logoutSuccess);
   } catch (e) {
-    //    console.log(e);
+    // console.log(e);
   }
 };
 

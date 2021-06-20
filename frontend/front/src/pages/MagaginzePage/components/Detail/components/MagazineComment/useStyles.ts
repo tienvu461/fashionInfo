@@ -9,6 +9,11 @@ const useStyles: () => Record<'root' | 'container' | 'divider', string> = makeSt
     color: black,
 
     // responsive
+    [theme.breakpoints.down('sm')]: {
+      // padding: pdSM,
+      paddingTop: '61px',
+    },
+    // responsive
     [theme.breakpoints.up('sm')]: {
       // padding: pdSM,
       paddingTop: '61px',

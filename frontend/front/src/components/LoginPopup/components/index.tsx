@@ -14,9 +14,11 @@ import {
   TextField,
   FormControlLabel,
   Checkbox,
+  IconButton,
   CircularProgress,
 } from '@material-ui/core';
-
+import CloseIcon from '@material-ui/icons/Close';
+import ImagePopup from 'src/assets/images/login_popup.png';
 import { RootState } from 'src/store/store';
 import { getUserProfile } from 'src/features/Profile/ProfileAction';
 import { loginAction, getUrlSocialAction } from 'src/features/Login/LoginAction';
@@ -25,7 +27,7 @@ import iconFb from 'src/assets/images/iconFb_Login.png';
 import iconGg from 'src/assets/images/iconfinder_Google_Loginin.png';
 import { ROUTE_HOME } from 'src/constants';
 
-import './_loginpage.scss';
+import './_loginpopup.scss';
 import useStyles from './useStyles';
 
 type FieldStates = {
@@ -33,7 +35,7 @@ type FieldStates = {
   password: string;
 };
 
-function LoginPage(): JSX.Element {
+function LoginPopup({ closePopup }): JSX.Element {
   const classes = useStyles();
   const dispatch = useDispatch<any>();
   const history = useHistory();
@@ -43,6 +45,7 @@ function LoginPage(): JSX.Element {
     email: '',
     password: '',
   });
+  const [isEmpty, setEmpty] = useState<boolean>(false);
   const loginStatus = useSelector((state: RootState) => state.login.loginResponse.status);
   const cmtPhotoId = useSelector((state: RootState) => state.login.isLoginToComment.paramId);
   const keyToRedirect = useSelector((state: RootState) => state.login.isLoginToComment.key);
@@ -55,28 +58,34 @@ function LoginPage(): JSX.Element {
   };
 
   const handleSubmit = (event: React.ChangeEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    setLoading(true);
-    dispatch(loginAction(field)).then((status) => {
-      if (status === 200) {
-        setLoading(false);
-        const fetchProfile = async () => {
-          await dispatch(getUserProfile());
-          if (cmtPhotoId) {
-            history.replace(`/${keyToRedirect}/${cmtPhotoId}`);
-          } else {
-            history.push(`${ROUTE_HOME}`);
-          }
-        };
-        fetchProfile();
-      } else {
-        setLoading(false);
-      }
-    });
+    if (field.email === '' && field.password === '') {
+      event.preventDefault();
+      setEmpty(true);
+    } else {
+      event.preventDefault();
+      setEmpty(false);
+      setLoading(true);
+      dispatch(loginAction(field)).then((status) => {
+        if (status === 200) {
+          setLoading(false);
+          const fetchProfile = async () => {
+            await dispatch(getUserProfile());
+            if (cmtPhotoId) {
+              history.replace(`/${keyToRedirect}/${cmtPhotoId}`);
+            } else {
+              history.push(`${ROUTE_HOME}`);
+            }
+          };
+          fetchProfile();
+        } else {
+          setLoading(false);
+        }
+      });
+    }
   };
 
   function handleError() {
-    if (loginStatus === 400) {
+    if (loginStatus === 400 || isEmpty) {
       return <span className={classes.errorText}>Vui lòng nhập tài khoản/email và mật khẩu</span>;
     }
     if (loginStatus === 401 || loginStatus === 500) {
@@ -85,11 +94,21 @@ function LoginPage(): JSX.Element {
     return null;
   }
 
+  const handleClose = () => {
+    closePopup(false);
+  };
+
   return (
     <Grid className={clsx(classes.root && 'login-page')} component='main' container item>
-      <Grid className='imageBannerLogin' item md={6} sm={12} xs={12} />
-      <Grid item md={6} sm={12} xs={12}>
-        <div className={clsx(classes.paper && 'paper')}>
+      {/* <Grid className='imageBannerLoginPopup' item md={6} sm={12} xs={12} /> */}
+      <Grid item md={6} sm={12} xs={12} className='dialog-img'>
+        <img alt='dialog-logo' src={ImagePopup} />
+      </Grid>
+      <Grid item md={6} sm={12} xs={12} style={{ position: 'relative' }} className='textField'>
+        <IconButton aria-label='close' style={{ position: 'absolute', right: 0 }} onClick={handleClose}>
+          <CloseIcon />
+        </IconButton>
+        <div className={clsx(classes.paper && 'paperPopup')}>
           <Box textAlign='left'>
             <Typography component='span'>
               <Box className={classes.header}>Welcome back!</Box>
@@ -207,4 +226,4 @@ function LoginPage(): JSX.Element {
   );
 }
 
-export default LoginPage;
+export default LoginPopup;

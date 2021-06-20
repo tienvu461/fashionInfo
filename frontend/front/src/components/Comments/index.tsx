@@ -20,7 +20,7 @@ interface CommentProps {
   keyItem: string;
 }
 
-function Comments(props: CommentProps): JSX.Element {
+const Comments: React.FunctionComponent<CommentProps> = (props) => {
     const { keyItem } = props;
     const classes = useStyles();
     const dispatch = useDispatch<any>();
@@ -155,6 +155,6 @@ function Comments(props: CommentProps): JSX.Element {
         ) : null}
       </Grid>
     );
-}
+};
 
 export default Comments;

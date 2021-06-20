@@ -20,7 +20,7 @@ interface SuggestionProps {
   paramsId: string;
 }
 
-function SuggestionComponent(props: SuggestionProps): JSX.Element {
+const SuggestionComponent: React.FunctionComponent<SuggestionProps> = (props) => {
   const { paramsId } = props;
   const classes = useStyles();
   const dispatch = useDispatch<any>();
@@ -139,6 +139,6 @@ function SuggestionComponent(props: SuggestionProps): JSX.Element {
       </div>
     </>
   );
-}
+};
 
 export default SuggestionComponent;
