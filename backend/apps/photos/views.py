@@ -366,7 +366,7 @@ class MagazineList(generics.ListCreateAPIView):
             show_activities = True
 
         # if current user is admin => query all magazines from DB, if not only query "Publish" photos
-        if str(user) == "admin":
+        if user.is_superuser == True:
             queryset = Magazine.objects.filter(category__cat_name__iexact=category)
         else:
             queryset = Magazine.objects.filter(category__cat_name__iexact=category, status=1)
@@ -402,7 +402,7 @@ class MagazineDetail(generics.RetrieveUpdateDestroyAPIView):
         instance = self.get_object()
 
         # if current user not is admin and current magazine status is "Draft" => raise error 
-        if str(user) != "admin" and instance.status == 0:
+        if user.is_superuser == False and instance.status == 0:
             return Response({'error':'Only admin can access this magazine!'}, status=status.HTTP_400_BAD_REQUEST,)
 
         # view increment
