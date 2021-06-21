@@ -3,6 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import {
   white,
   black,
+  gray2,
   theme
 } from 'src/styles/theme';
 
@@ -25,7 +26,7 @@ const useStyles: () => Record<
 > = makeStyles(() => ({
   root: {
     height: 'auto',
-    backgroundColor: white,
+    backgroundColor: gray2,
   },
   actions: {
     display: 'flex',
@@ -67,8 +68,8 @@ const useStyles: () => Record<
     textTransform: 'initial',
     paddingBottom: '6px',
     [theme.breakpoints.down('md')]: {
-      fontSize: '30px !important'
-    }
+      fontSize: '30px !important',
+    },
   },
   backDrop: {
     width: '100%',

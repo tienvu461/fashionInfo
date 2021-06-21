@@ -8,6 +8,7 @@ import { RootState } from 'src/store/store';
 import { HOST } from 'src/apis';
 
 import useStyles from './useStyles';
+import './_photoHeader.scss';
 
 function PhotoHeader(): JSX.Element {
   const classes = useStyles();
@@ -54,40 +55,37 @@ function PhotoHeader(): JSX.Element {
       return 755;
     }
     if (matches2) {
-      return 453;
+      return '100%';
     }
-    if (matches3) return 755;
+    if (matches3) return '100%';
 
     return 755;
   };
 
   return (
-    <Grid className={classes.root} container>
-      <Grid className={matches ? classes.leftSectionMatches : classes.leftSection} item sm={matches ? 12 : 6} xs={12}>
-        <Typography className={classes.subline} component='h6' variant='h6'>
-          {bannerInfo.subTitle}
-        </Typography>
-        <Typography className={classes.headline} component='h1' variant='h1'>
-          {bannerInfo.headTitle}
-        </Typography>
-      </Grid>
-      <Grid className={classes.rightSection} item sm={6} style={matches ? { marginBottom: '80px' } : {}} xs={12}>
-        {/* <img
-          alt='banner-pic'
-          className={classes.imgBanner}
-          src={bannerInfo.image}
-        /> */}
-        <LazyLoadImage
-          alt='Feature Photo'
-          className={classes.imgBanner}
-          src={checkPathImg(featurePhoto[0]?.feature_photo)}
-          effect='blur'
-          height={controlHeithImg()}
-          width={controlWidthImg()}
-          delayMethod
-        />
-      </Grid>
-    </Grid>
+    <div className='photoHeaderRoot'>
+      <div className='photoHeader'>
+        <div className={matches ? classes.leftSectionMatches : 'left-section'}>
+          <Typography className={`${classes.subline} line-title`} component='h6' variant='h6'>
+            {bannerInfo.subTitle}
+          </Typography>
+          <Typography className={`${classes.headline} line-title headTitle`} component='h1' variant='h1'>
+            {bannerInfo.headTitle}
+          </Typography>
+        </div>
+        <div className='right-section' style={matches ? { marginBottom: '80px' } : {}}>
+          <LazyLoadImage
+            alt='Feature Photo'
+            className={classes.imgBanner}
+            src={checkPathImg(featurePhoto[0]?.feature_photo)}
+            effect='blur'
+            height={controlHeithImg()}
+            width={controlWidthImg()}
+            delayMethod
+          />
+        </div>
+      </div>
+    </div>
   );
 }
 

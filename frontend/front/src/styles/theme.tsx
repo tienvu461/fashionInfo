@@ -9,7 +9,7 @@ export const blackBlue = '#2E4A90';
 export const grayPrimary = '#C4C4C4';
 export const gray = '#EEEEEE';
 export const gray1 = '#EFEFEF';
-export const gray2 = '#E5E5E5;';
+export const gray2 = '#E5E5E5';
 export const textColor = '#373F41';
 
 // padding (view + responsive)
