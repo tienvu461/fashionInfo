@@ -3,7 +3,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 interface InitialState {
-  featureList: Record<string, string>;
+  featureList: Record<any, any>;
 }
 
 const initialState: InitialState = {

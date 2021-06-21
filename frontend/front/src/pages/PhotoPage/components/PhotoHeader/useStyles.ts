@@ -8,7 +8,7 @@ const useStyles: () => Record<
 > = makeStyles(() => ({
   root: {
     width: '100%',
-    height: 'auto',
+    height: '755px',
   },
   leftSection: {
     display: 'flex',
@@ -32,7 +32,7 @@ const useStyles: () => Record<
   headline: {
     fontStyle: 'normal',
     fontWeight: 900,
-    marginBottom: '-20px', // fix straight line
+    // marginBottom: '-20px', // fix straight line
     lineHeight: '115px',
     // letterSpacing: '3.2px',
     color: '#000000',
