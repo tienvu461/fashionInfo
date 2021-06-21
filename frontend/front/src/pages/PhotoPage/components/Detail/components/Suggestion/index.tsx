@@ -122,7 +122,7 @@ const SuggestionComponent: React.FunctionComponent<SuggestionProps> = (props) =>
                   {dataPhoto.next ? (
                     <Button
                       className={classes.nextBtn}
-                      endIcon={loading ? <CircularProgress /> : null}
+                      endIcon={loading ? <CircularProgress className={classes.loading} /> : null}
                       onClick={() => handleClick('next')}
                       variant='contained'
                     >
