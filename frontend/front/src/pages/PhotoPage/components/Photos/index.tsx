@@ -5,11 +5,11 @@
 
 import React, { useEffect, useState, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Button, Grid, Typography, Box, RootRef } from '@material-ui/core';
+import { Grid, Box, RootRef } from '@material-ui/core';
 import Skeleton from '@material-ui/lab/Skeleton';
-import CircularProgress from '@material-ui/core/CircularProgress';
 
 import { listPhotoAction } from 'src/features/Photo/photoAction';
+import BtnViewMore from 'src/components/Buttons/ButtonViewMore';
 import { RootState } from 'src/store/store';
 import Photo from 'src/components/Photo';
 
@@ -128,20 +128,7 @@ function Photos(): JSX.Element {
             >
               <>
                 {dataPhoto.next ? (
-                  <Button
-                    className={classes.nextBtn}
-                    endIcon={loading ? <CircularProgress /> : null}
-                    onClick={() => handleClick('next')}
-                    variant='contained'
-                  >
-                    <Typography
-                      className={classes.textBtn}
-                      component='h4'
-                      variant='h4'
-                    >
-                      Xem thêm
-                    </Typography>
-                  </Button>
+                  <BtnViewMore handleClick={handleClick} loading={loading} />
                 ) : null}
               </>
             </Grid>

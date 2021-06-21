@@ -3,12 +3,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 import React, { useEffect, useState, useRef } from 'react';
-import { Button, Grid, Typography, Box, RootRef } from '@material-ui/core';
-import CircularProgress from '@material-ui/core/CircularProgress';
+import { Grid, Typography, Box, RootRef } from '@material-ui/core';
 import Skeleton from '@material-ui/lab/Skeleton';
 import { useDispatch, useSelector } from 'react-redux';
 import { searchAction } from 'src/features/Search/searchAction';
 import Photo from 'src/components/Photo';
+import BtnViewMore from 'src/components/Buttons/ButtonViewMore';
 
 import useStyles from '../PhotoPage/components/Photos/useStyles';
 import '../PhotoPage/components/Photos/_photos.scss';
@@ -142,32 +142,8 @@ function PhotoSearchPage(): JSX.Element {
           ) : (
             <>
               {renderPhoto()}
-              <Grid
-                className={classes.btn}
-                item
-                lg={12}
-                md={12}
-                sm={12}
-                xs={12}
-              >
-                <>
-                  {dataPhoto.next ? (
-                    <Button
-                      className={classes.nextBtn}
-                      endIcon={loading ? <CircularProgress /> : null}
-                      onClick={() => handleClick('next')}
-                      variant='contained'
-                    >
-                      <Typography
-                        className={classes.textBtn}
-                        component='h5'
-                        variant='h5'
-                      >
-                        Xem thêm
-                      </Typography>
-                    </Button>
-                  ) : null}
-                </>
+              <Grid className={classes.btn} item lg={12} md={12} sm={12} xs={12}>
+                <>{dataPhoto.next ? <BtnViewMore handleClick={handleClick} loading={loading} /> : null}</>
               </Grid>
             </>
           )}
