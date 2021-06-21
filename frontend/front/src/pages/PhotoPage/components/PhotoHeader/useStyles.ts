@@ -8,7 +8,16 @@ const useStyles: () => Record<
 > = makeStyles(() => ({
   root: {
     width: '100%',
-    height: '755px',
+    height: 'auto',
+    '@media (min-width:960px)': {
+      height: '453px',
+    },
+    '@media (min-width:1600px)': {
+      height: '755px',
+    },
+    '@media (max-width:960px)': {
+      height: '755px',
+    },
   },
   leftSection: {
     display: 'flex',
@@ -28,6 +37,15 @@ const useStyles: () => Record<
     [theme.breakpoints.up('xl')]: {
       paddingLeft: pdLeftXL,
     },
+    '@media (min-width:960px)': {
+      height: '453px',
+    },
+    '@media (min-width:1600px)': {
+      height: '755px',
+    },
+    '@media (max-width:960px)': {
+      height: '755px',
+    },
   },
   headline: {
     fontStyle: 'normal',
@@ -38,14 +56,14 @@ const useStyles: () => Record<
     color: '#000000',
     textAlign: 'left',
     '@media (max-width:1302px)': {
-      lineHeight: '80px',
+      lineHeight: '96px',
     },
     '@media (max-width:960px)': {
       lineHeight: '60px',
       letterSpacing: 0,
     },
     '@media (max-width:600px)': {
-      lineHeight: '80px',
+      lineHeight: '96px',
       marginBottom: '20px',
     },
   },
@@ -58,7 +76,15 @@ const useStyles: () => Record<
     textAlign: 'left',
   },
   rightSection: {
-    height: 'fit-content',
+    '@media (min-width:960px)': {
+      height: '453px',
+    },
+    '@media (min-width:1600px)': {
+      height: '755px',
+    },
+    '@media (max-width:960px)': {
+      height: '755px',
+    },
   },
   imgBanner: {
     width: '100%',

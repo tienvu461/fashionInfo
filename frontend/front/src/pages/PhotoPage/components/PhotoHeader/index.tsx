@@ -29,7 +29,8 @@ function PhotoHeader(): JSX.Element {
   };
 
   const checkPathImg = (path) => {
-    if (path.includes(HOST)) {
+    console.log(path);
+    if (path?.includes(HOST)) {
       return path;
     }
 
@@ -55,7 +56,7 @@ function PhotoHeader(): JSX.Element {
     if (matches2) {
       return 453;
     }
-    if (matches2) return 755;
+    if (matches3) return 755;
 
     return 755;
   };
