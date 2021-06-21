@@ -2,7 +2,7 @@
 import { makeStyles } from '@material-ui/core/styles';
 import { theme, black } from 'src/styles/theme';
 
-const useStyles: () => Record<'root' | 'titleSuggestion' | 'btn' | 'nextBtn' | 'textBtn' | 'loading', string> = makeStyles(() => ({
+const useStyles: () => Record<'root' | 'titleSuggestion' | 'btn', string> = makeStyles(() => ({
     root: {
       height: 'auto',
       backgroundColor: '#E5E5E5',
@@ -26,26 +26,6 @@ const useStyles: () => Record<'root' | 'titleSuggestion' | 'btn' | 'nextBtn' | '
     },
     btn: {
       padding: '40px 0 80px',
-    },
-    nextBtn: {
-      height: '60px',
-      width: 'auto',
-      borderRadius: 0,
-      padding: '17px 33px',
-    },
-    textBtn: {
-      textTransform: 'initial',
-      [theme.breakpoints.down('md')]: {
-        fontSize: '30px !important',
-      },
-      lineHeight: '25px',
-      letterSpacing: '2.2px',
-      fontWeight: 'normal',
-      fontFamily: 'Roboto',
-      fontStyle: 'normal',
-    },
-    loading: {
-      marginLeft: '16px',
     },
   }));
 

@@ -3,7 +3,7 @@
 /* eslint-disable import/no-unresolved */
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Button, CircularProgress, Divider, Grid, RootRef, Typography, useMediaQuery } from '@material-ui/core';
+import { CircularProgress, Divider, Grid, RootRef, Typography, useMediaQuery } from '@material-ui/core';
 import { isEmpty } from 'lodash';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 
@@ -13,6 +13,7 @@ import HeaderImg2 from 'src/assets/images/magazine/entertaimentTab.jpg';
 import HeaderImg3 from 'src/assets/images/magazine/fashionTab.jpg';
 import MagazineCard from 'src/components/MagazineCard';
 import { getListMagazineAction } from 'src/features/Magazine/MagazineAction';
+import BtnViewMore from 'src/components/Buttons/ButtonViewMore';
 import { RootState } from 'src/store/store';
 
 import useStyles from './useStyles';
@@ -167,18 +168,7 @@ const MagazineContent: React.FunctionComponent<MangazineContentProps> = (props) 
         <div className='magazine-list'>{renderMagazineList()}</div>
         <Grid className={classes.btn} item lg={12} md={12} sm={12} xs={12}>
           <Grid>
-            {magazineList?.next === null ? null : (
-              <Button
-                className={classes.nextBtn}
-                endIcon={loading ? <CircularProgress className={classes.loading} /> : null}
-                onClick={() => handleClick('next')}
-                variant='contained'
-              >
-                <Typography className={classes.textBtn} component='h4' variant='h4'>
-                  Xem thêm
-                </Typography>
-              </Button>
-            )}
+            {magazineList?.next === null ? null : <BtnViewMore handleClick={handleClick} loading={loading} />}
           </Grid>
         </Grid>
       </div>

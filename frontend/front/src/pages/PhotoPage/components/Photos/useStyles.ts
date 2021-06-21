@@ -4,7 +4,6 @@ import {
   white,
   black,
   gray2,
-  theme
 } from 'src/styles/theme';
 
 const useStyles: () => Record<
@@ -17,11 +16,8 @@ const useStyles: () => Record<
   | 'num'
   | 'icon'
   | 'btn'
-  | 'nextBtn'
-  | 'textBtn'
   | 'loadingPhoto'
   | 'textSearch'
-  | 'loading'
   | 'skeleton',
   string
 > = makeStyles(() => ({
@@ -61,23 +57,6 @@ const useStyles: () => Record<
   btn: {
     padding: '40px 0 80px',
   },
-  nextBtn: {
-    height: '60px',
-    width: 'auto',
-    borderRadius: 0,
-    padding: '17px 33px',
-  },
-  textBtn: {
-    textTransform: 'initial',
-    [theme.breakpoints.down('md')]: {
-      fontSize: '30px !important',
-    },
-    lineHeight: '25px',
-    letterSpacing: '2.2px',
-    fontWeight: 'normal',
-    fontFamily: 'Roboto',
-    fontStyle: 'normal',
-  },
   backDrop: {
     width: '100%',
     zIndex: 1,
@@ -95,9 +74,6 @@ const useStyles: () => Record<
     fontWeight: 'bold',
     backgroundColor: '#FFFFFF',
   },
-  loading: {
-    marginLeft: '16px'
-  }
 }));
 
 export { useStyles as default };

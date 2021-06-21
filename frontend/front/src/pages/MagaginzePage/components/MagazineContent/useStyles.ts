@@ -13,10 +13,7 @@ const useStyles: () => Record<
   | 'authorTime'
   | 'topic'
   | 'divide'
-  | 'btn'
-  | 'nextBtn'
-  | 'loading'
-  | 'textBtn',
+  | 'btn',
   string
 > = makeStyles(() => ({
   container: {
@@ -121,26 +118,6 @@ const useStyles: () => Record<
   },
   btn: {
     padding: '40px 0 80px',
-  },
-  nextBtn: {
-    height: '60px',
-    width: 'auto',
-    borderRadius: 0,
-    padding: '17px 33px',
-  },
-  textBtn: {
-    textTransform: 'initial',
-    [theme.breakpoints.down('md')]: {
-      fontSize: '30px !important',
-    },
-    lineHeight: '25px',
-    letterSpacing: '2.2px',
-    fontWeight: 'normal',
-    fontFamily: 'Roboto',
-    fontStyle: 'normal',
-  },
-  loading: {
-    marginLeft: '16px',
   },
 }));
 
