@@ -21,6 +21,7 @@ const useStyles: () => Record<
   | 'textBtn'
   | 'loadingPhoto'
   | 'textSearch'
+  | 'loading'
   | 'skeleton',
   string
 > = makeStyles(() => ({
@@ -62,14 +63,20 @@ const useStyles: () => Record<
   },
   nextBtn: {
     height: '60px',
-    width: '220px',
+    width: 'auto',
+    borderRadius: 0,
+    padding: '17px 33px',
   },
   textBtn: {
     textTransform: 'initial',
-    paddingBottom: '6px',
     [theme.breakpoints.down('md')]: {
       fontSize: '30px !important',
     },
+    lineHeight: '25px',
+    letterSpacing: '2.2px',
+    fontWeight: 'normal',
+    fontFamily: 'Roboto',
+    fontStyle: 'normal',
   },
   backDrop: {
     width: '100%',
@@ -88,6 +95,9 @@ const useStyles: () => Record<
     fontWeight: 'bold',
     backgroundColor: '#FFFFFF',
   },
+  loading: {
+    marginLeft: '16px'
+  }
 }));
 
 export { useStyles as default };

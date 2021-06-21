@@ -130,7 +130,7 @@ function Photos(): JSX.Element {
                 {dataPhoto.next ? (
                   <Button
                     className={classes.nextBtn}
-                    endIcon={loading ? <CircularProgress /> : null}
+                    endIcon={loading ? <CircularProgress className={classes.loading} /> : null}
                     onClick={() => handleClick('next')}
                     variant='contained'
                   >

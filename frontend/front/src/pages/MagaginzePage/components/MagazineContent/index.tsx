@@ -170,7 +170,7 @@ const MagazineContent: React.FunctionComponent<MangazineContentProps> = (props) 
             {magazineList?.next === null ? null : (
               <Button
                 className={classes.nextBtn}
-                endIcon={loading ? <CircularProgress /> : null}
+                endIcon={loading ? <CircularProgress className={classes.loading} /> : null}
                 onClick={() => handleClick('next')}
                 variant='contained'
               >
