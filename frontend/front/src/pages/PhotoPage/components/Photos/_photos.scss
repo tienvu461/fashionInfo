@@ -2,18 +2,11 @@
 
 .photoRoot {
     display: flex;
-    padding-top: 77px;
 
     // screen < 600
     @media screen and (max-width: 600px) {
         width: 100%;
         justify-content: center;
-
-        // .container{
-        //     width: 100%;
-        //     flex-wrap: wrap;
-        //     gap: 40px;
-        // }
 
         .gridItem {
             // screen < 600, img (100% x fit-content)
@@ -22,10 +15,16 @@
         }
     }
 
+    // screen >= 600
+    @media screen and (min-width: 600px) {
+        width: 100%;
+        padding-top: 77px;
+    }
     // screen >= 960
     @media screen and (min-width: 960px) {
         width: 100%;
         justify-content: center;
+        padding-top: 77px;
     }
 
     .container{
