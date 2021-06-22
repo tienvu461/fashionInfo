@@ -190,11 +190,26 @@ class PhotoFeatureSerializer(serializers.ModelSerializer):
     def to_representation(self, instance):
         data_fields = super(PhotoFeatureSerializer, self).to_representation(instance)
         queryset = Photo.objects.values_list('image_path', flat=True)
-        data_fields['feature_photo'] = settings.MEDIA_URL + queryset.get(id=data_fields['feature_photo'])
-        data_fields['login_photo'] = settings.MEDIA_URL + queryset.get(id=data_fields['login_photo'])
-        data_fields['signup_photo'] = settings.MEDIA_URL + queryset.get(id=data_fields['signup_photo'])
-        data_fields['popup_photo'] = settings.MEDIA_URL + queryset.get(id=data_fields['popup_photo'])
-        data_fields['subscribe_photo'] = settings.MEDIA_URL + queryset.get(id=data_fields['subscribe_photo'])
+        data_fields['feature_photo'] = {
+            "photo_id": data_fields['feature_photo'],
+            "image_path": settings.MEDIA_URL + queryset.get(id=data_fields['feature_photo'])
+            }
+        data_fields['login_photo'] = {
+            "photo_id": data_fields['login_photo'],
+            "image_path": settings.MEDIA_URL + queryset.get(id=data_fields['login_photo'])
+            }
+        data_fields['signup_photo'] = {
+            "photo_id": data_fields['signup_photo'],
+            "image_path": settings.MEDIA_URL + queryset.get(id=data_fields['signup_photo'])
+            }
+        data_fields['popup_photo'] = {
+            "photo_id": data_fields['popup_photo'],
+            "image_path": settings.MEDIA_URL + queryset.get(id=data_fields['popup_photo'])
+            }
+        data_fields['subscribe_photo'] = {
+            "photo_id": data_fields['subscribe_photo'],
+            "image_path": settings.MEDIA_URL + queryset.get(id=data_fields['subscribe_photo'])
+            }
         data_fields['created_at'] = int(instance.created_at.timestamp())
 
         return data_fields
@@ -324,9 +339,9 @@ class MagazineFeatureSerializer(serializers.ModelSerializer):
 
     def to_representation(self, instance):
         data_fields = super(MagazineFeatureSerializer, self).to_representation(instance)
-        queryset = Magazine.objects.values_list('image_path', flat=True)
-        data_fields['feature_magazine'] = settings.MEDIA_URL + queryset.get(id=data_fields['feature_magazine'])
-        data_fields['created_at'] = int(instance.created_at.timestamp())
+        result = Magazine.objects.filter(id=data_fields['feature_magazine']).first()
+        result = MagazineSerializer(result).data
+        data_fields['feature_magazine'] = result
 
         return data_fields
 
