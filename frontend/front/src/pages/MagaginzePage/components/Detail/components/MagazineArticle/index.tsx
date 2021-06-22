@@ -41,16 +41,16 @@ const MagazineArticle: React.FunctionComponent<MagazineArticleProps> = (props) =
     sub_category: subCategory = '',
     created_at: createAt = 0,
     title = '',
-    author = '',
+    author_fullname: authorName = '',
     likes = 0,
     comments = [],
     banner = '',
     user_likes: userLikes = [],
     id = 0,
     formatted_markdown: content = '',
-    tags = []
+    tags = [],
   } = magazineDetail;
-  console.log('banner: ', banner);
+
   const [like, setLike] = useState<number>(likes);
 
   useEffect(() => {
@@ -84,7 +84,7 @@ const MagazineArticle: React.FunctionComponent<MagazineArticleProps> = (props) =
   const renderAction = () => (
     <div className='article-action'>
       <Typography className={`${classes.headerText} ${classes.authorArticle}`} component='h6' variant='h6'>
-        bởi {author}
+        bởi {authorName}
       </Typography>
       <div className='action-section'>
         <div className={classes.flex}>
