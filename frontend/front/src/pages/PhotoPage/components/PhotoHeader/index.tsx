@@ -20,7 +20,7 @@ function PhotoHeader(): JSX.Element {
   const matches2 = useMediaQuery('(min-width:960px)');
   const matches3 = useMediaQuery('(max-width:960px)');
 
-  const featurePhoto = useSelector((state: RootState) => state.featurePhoto.featureList);
+  const featurePhoto = useSelector((state: RootState) => state.featurePhoto.featureListPhoto);
   const id = featurePhoto[0]?.feature_photo.photo_id;
 
   const bannerInfo: {
