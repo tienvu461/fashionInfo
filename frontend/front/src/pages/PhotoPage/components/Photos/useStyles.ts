@@ -72,7 +72,7 @@ const useStyles: () => Record<
     textAlign: 'left',
     fontFamily: 'Darker Grotesque',
     fontWeight: 'bold',
-    backgroundColor: '#FFFFFF',
+    backgroundColor: 'transparent',
   },
 }));
 
