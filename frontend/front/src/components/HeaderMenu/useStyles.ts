@@ -61,14 +61,14 @@ const useStyles: () => Record<
     justifyContent: 'space-between',
     alignItems: 'center',
     margin: 'auto',
-    height: '80px'
+    height: '80px',
   },
   logo: {
     height: '35px',
     cursor: 'pointer',
   },
   links: {
-    width: '374px',
+    width: '411px',
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
@@ -77,7 +77,7 @@ const useStyles: () => Record<
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
-    width: '374px',
+    width: '411px',
     '&:active': {
       backgroundColor: 'transparent',
     },
@@ -94,7 +94,7 @@ const useStyles: () => Record<
   },
   textActive: {
     color: textColor,
-    fontWeight: 'bold',
+    fontWeight: 900,
     fontSize: '24px',
     fontFamily: 'Roboto',
     letterSpacing: '0.2px',

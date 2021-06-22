@@ -1,0 +1,45 @@
+{% extends "spirit/_base.html" %}
+<head>
+    <link
+    href="https://fonts.googleapis.com/css?family=Roboto:400,700"
+    rel="stylesheet"
+    />
+    <meta name="google" content="notranslate" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link
+    rel="stylesheet"
+    href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+    integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+    crossorigin="anonymous"
+    />
+</head>
+{% load spirit_tags i18n %}
+
+{% block title %}{% trans "Latest active topics" %}{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-8">
+            <div class="layout__article">
+                {% include "spirit/topic/_top_bar.html" with category=None categories=categories %}
+            
+                {% include "spirit/topic/_render_list.html" %}
+            
+                {% render_paginator topics %}
+              </div>
+        </div>
+        <div class="col-4">
+            <div class="" style="background-color: yellow;">
+                {% include "spirit/topic/_render_pinned_cate.html" %}
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        {% include "spirit/topic/_render_all_cate.html" %}
+    </div>
+</div>
+    
+{% endblock %}
+

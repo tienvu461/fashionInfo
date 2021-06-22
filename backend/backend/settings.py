@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.humanize',
     # authentication
     'rest_framework',
     'social_django',          # Not needed to add but pip install required. Adding it here will create additional acces to social user via admin
@@ -63,6 +64,39 @@ INSTALLED_APPS = [
     # dev apps
     'apps.accounts',
     'apps.photos',
+    'apps.forum',
+    # spirit
+
+    'spirit.core',
+    'spirit.admin',
+    'spirit.search',
+
+    'spirit.user',
+    'spirit.user.admin',
+    'spirit.user.auth',
+
+    'spirit.category',
+    'spirit.category.admin',
+
+    'spirit.topic',
+    'spirit.topic.admin',
+    'spirit.topic.favorite',
+    'spirit.topic.moderate',
+    'spirit.topic.notification',
+    'spirit.topic.private',
+    'spirit.topic.unread',
+
+    'spirit.comment',
+    'spirit.comment.bookmark',
+    'spirit.comment.flag',
+    'spirit.comment.flag.admin',
+    'spirit.comment.history',
+    'spirit.comment.like',
+    'spirit.comment.poll',
+
+
+    'djconfig',
+    'haystack',
 ]
 
 # configure DRF
@@ -114,6 +148,7 @@ DJOSER = {
     "SERIALIZERS": {
         "user": "apps.accounts.serializers.UserSerializer", # Custom Serializer to show more user data
         "current_user": "apps.accounts.serializers.UserSerializer", # Custom Serializer to show more user data
+        'user_create_password_retype': 'apps.accounts.serializers.UserCreateSerializerCustom', # Custom Serializer to create first_name last_name
     },
     "SOCIAL_AUTH_ALLOWED_REDIRECT_URIS": SOCIAL_AUTH_WHITELIST, # Redirected URL we listen on google console
     'ACTIVATION_URL': 'api/user/activate/{uid}/{token}',
@@ -147,6 +182,13 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     # IMPORTANT: Essential when using django_social
     'social_django.middleware.SocialAuthExceptionMiddleware',
+    # SPIRIT
+    'spirit.user.middleware.TimezoneMiddleware',
+    'spirit.user.middleware.LastIPMiddleware',
+    'spirit.user.middleware.LastSeenMiddleware',
+    'spirit.user.middleware.ActiveUserMiddleware',
+    'spirit.core.middleware.PrivateForumMiddleware',
+    'djconfig.middleware.DjConfigMiddleware',
 ]
 
 ROOT_URLCONF = 'backend.urls'
@@ -276,6 +318,7 @@ if DEBUG:
     STATICFILES_DIRS = [
         os.path.join(BASE_DIR, 'backend_static'),
     ]
+    
     MEDIA_ROOT = os.path.join(BASE_DIR, 'backend_media')
 else:
     STATIC_URL = '/backend_static/'
@@ -320,6 +363,39 @@ DEFAULT_FROM_EMAIL = 'fashion_info'
 PROTOCOL = os.environ.get("ACTIVATION_PROTOCOL", "http")
 DOMAIN = HOSTNAME
 
+    
+SITE_NAME = ('lucete.com')
+
+# SPIRIT
+ST_SITE_URL = HOSTNAME
+
+HAYSTACK_CONNECTIONS = {
+    'default': {
+        'ENGINE': 'haystack.backends.whoosh_backend.WhooshEngine',
+        'PATH': os.path.join(BASE_DIR, 'st_search'),
+    },
+}
+
+
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.db.DatabaseCache',
+        'LOCATION': 'spirit_cache',
+    },
+    'st_rate_limit': {
+        'BACKEND': 'django.core.cache.backends.db.DatabaseCache',
+        'LOCATION': 'spirit_rl_cache',
+        'TIMEOUT': None
+    }
+}
+
+
+HAYSTACK_SIGNAL_PROCESSOR = 'spirit.search.signals.RealtimeSignalProcessor'
+
+DEFAULT_FILE_STORAGE = 'spirit.core.storage.OverwriteFileSystemStorage'
+
+
+
 # debug_toolbar settings
 if DEBUG:
     INTERNAL_IPS = ('127.0.0.1',)
@@ -356,5 +432,14 @@ if DEBUG:
     DEBUG_TOOLBAR_CONFIG = {
     "SHOW_TOOLBAR_CALLBACK" : show_toolbar,
     }
-    
-SITE_NAME = ('lucete.com') 
+
+    CACHES.update({
+        'default': {
+            'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+        },
+        'st_rate_limit': {
+            'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+            'LOCATION': 'spirit_rl_cache',
+            'TIMEOUT': None
+        }
+    })

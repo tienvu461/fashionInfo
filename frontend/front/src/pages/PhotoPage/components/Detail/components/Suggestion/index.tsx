@@ -5,13 +5,13 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { Grid, Button, Typography, RootRef, Box } from '@material-ui/core';
+import { Grid, Typography, RootRef, Box } from '@material-ui/core';
 import Skeleton from '@material-ui/lab/Skeleton';
-import CircularProgress from '@material-ui/core/CircularProgress';
 
 import Photo from 'src/components/Photo';
 import { RootState } from 'src/store/store';
 import { getPhotoSuggestAction } from 'src/features/Photo/photoAction';
+import BtnViewMore from 'src/components/Buttons/ButtonViewMore';
 
 import useStyles from './useStyles';
 import './_suggestion.scss';
@@ -20,7 +20,7 @@ interface SuggestionProps {
   paramsId: string;
 }
 
-function SuggestionComponent(props: SuggestionProps): JSX.Element {
+const SuggestionComponent: React.FunctionComponent<SuggestionProps> = (props) => {
   const { paramsId } = props;
   const classes = useStyles();
   const dispatch = useDispatch<any>();
@@ -118,20 +118,7 @@ function SuggestionComponent(props: SuggestionProps): JSX.Element {
             <>
               {renderPhoto()}
               <Grid className={classes.btn} item lg={12} md={12} sm={12} xs={12}>
-                <>
-                  {dataPhoto.next ? (
-                    <Button
-                      className={classes.nextBtn}
-                      endIcon={loading ? <CircularProgress /> : null}
-                      onClick={() => handleClick('next')}
-                      variant='contained'
-                    >
-                      <Typography className={classes.textBtn} component='h4' variant='h4'>
-                        Xem thêm
-                      </Typography>
-                    </Button>
-                  ) : null}
-                </>
+                <>{dataPhoto.next ? <BtnViewMore handleClick={handleClick} loading={loading} /> : null}</>
               </Grid>
             </>
           )}
@@ -139,6 +126,6 @@ function SuggestionComponent(props: SuggestionProps): JSX.Element {
       </div>
     </>
   );
-}
+};
 
 export default SuggestionComponent;

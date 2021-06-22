@@ -10,6 +10,7 @@ const useStyles: () => Record<
     width: '100%',
     boxShadow: 'none !important',
     borderRadius: '0 !important',
+    background: 'transparent'
   },
   picture: {
     height: '100%',

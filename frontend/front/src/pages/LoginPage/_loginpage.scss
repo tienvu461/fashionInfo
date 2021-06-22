@@ -12,26 +12,46 @@
   width: 850px;
   height: 1000px;
   background-repeat: no-repeat;
+
   // background-position: center;
   // background-size: contain;
+  // screen < 1080
+  @media screen and (max-width: 1080px) {
+    display: none;
+  }
 }
 
-.logingg{
-  background-image: url('../../assets/images/iconfinder_Google_Loginin.png');
-    background-repeat: no-repeat;
-    background-position: left; 
+.line {
+  height: 1px;
+  width: 52px;
+  border-width: 0;
+  color: gray;
+  background-color: gray;
+  margin: 0;
+}
+
+.paper {
+  width: 390px;
+  margin: 64px 32px;
+
+  @media screen and (max-width: 1080px) {
+    margin-left: 360px !important;
   }
 
-.loginfb{
-  background-image: url('../../assets/images/iconFb_Login.png');
-  background-repeat: no-repeat;
-}
+  // screen < 960
+  @media screen and (max-width: 960px) {
+    margin-left: 280px !important;
+  }
 
-.line{ 
-  height:1px;
-  width: 52px;
-  border-width:0;
-  color:gray; 
-  background-color:gray;
-  margin: 0;
+  @media screen and (max-width: 760px) {
+    margin-left: 140px !important;
+  }
+
+  @media screen and (max-width: 600px) {
+    margin-left: 120px !important;
+  }
+
+  @media screen and (max-width: 500px) {
+    margin: 0 !important;
+  }
 }

@@ -131,7 +131,7 @@ class PhotoComment(models.Model):
 
 
 def get_default_photo():
-    return Photo.objects.get_or_create(id=1)
+    return Photo.objects.last()
 
 
 class PhotoFeature(models.Model):
@@ -184,7 +184,7 @@ class MagazineSubCategory(models.Model):
 
 
 class Magazine(models.Model):
-    title = models.CharField(max_length=50)
+    title = models.CharField(max_length=70)
     slug = models.SlugField(max_length=255, unique=True, null=True)
     category = models.ForeignKey(MagazineCategory, on_delete=models.CASCADE)
     sub_category = models.ForeignKey(MagazineSubCategory, on_delete=models.CASCADE)
@@ -193,6 +193,8 @@ class Magazine(models.Model):
         User, related_name='author', on_delete=models.CASCADE, default="1")
     thumbnail = models.ImageField(
         upload_to=datetime.now().strftime('%Y/%m/%d'), default='logos/default.png')
+    banner = models.ImageField(
+        upload_to=datetime.now().strftime('%Y/%m/%d'), default='logos/default.png') 
     content = MarkdownxField(default="Your content goes here")
 
     def formatted_markdown(self):
@@ -264,7 +266,9 @@ class MagazineComment(models.Model):
 
     def __str__(self):
         return str(self.cmt_id)
-
+def get_default_news():
+    True
+    
 def get_default_magazine():
     return Magazine.objects.get_or_create(id=1)
 class MagazineFeature(models.Model):

@@ -1,22 +1,23 @@
+/* eslint-disable react/jsx-props-no-spreading */
+/* eslint-disable react/destructuring-assignment */
 /* eslint-disable camelcase */
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable import/no-unresolved */
-import React, { useEffect, useMemo } from 'react';
+import React, { useEffect, useMemo, Suspense } from 'react';
 import { toast } from 'react-toastify';
-import { useDispatch } from 'react-redux';
-import { Route, Switch } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { Route, Switch, useLocation } from 'react-router-dom';
+import { CircularProgress } from '@material-ui/core';
 import jwtDecode, { JwtPayload } from 'jwt-decode';
 
 import './App.scss';
+import 'react-lazy-load-image-component/src/effects/blur.css';
 import 'react-toastify/dist/ReactToastify.css';
 
 import {
-  ROUTE_FORUM,
-  ROUTE_HOME,
   ROUTE_LOGIN,
-  ROUTE_PHOTO,
-  ROUTE_PHOTO_SEARCH,
+  ROUTE_REGISTER,
 } from './constants';
 import {
   clearStoreFromlocalStorage,
@@ -26,18 +27,14 @@ import {
   setDataFromLocalStorage
 } from './utils/localStorage';
 
-import NotFound from './pages/NotFound';
+import { routes } from './configs/routes';
 import Footer from './components/Footer';
-import ForumPage from './pages/ForumPage';
-import PhotoPage from './pages/PhotoPage';
-import LoginPage from './pages/LoginPage';
-import MagazinePage from './pages/MagaginzePage';
+import { RootState } from './store/store';
 import HeaderMenu from './components/HeaderMenu';
-import PhotoSearchPage from './pages/PhotoSearchPage';
 import { loginSucess } from './features/Login/LoginSlice';
-import DetailPhoto from './pages/PhotoPage/components/Detail';
 import { getUserProfile } from './features/Profile/ProfileAction';
 import { refreshTokenAction } from './features/Login/LoginAction';
+import { getFeaturePhotoAction } from './features/FeaturePhotos/FeaturePhotoAction';
 
 toast.configure({
   autoClose: 2000
@@ -59,6 +56,8 @@ const logOut = () => ({
 
 function App(): JSX.Element {
   const dispatch = useDispatch<any>();
+  const logoutStatus = useSelector((state: RootState) => state.login.loginResponse?.status);
+  const location = useLocation();
 
   const getCredentials = getCredentialsFromLocalStorage();
   const getToken = getTokenFromLocalStorage();
@@ -73,9 +72,10 @@ function App(): JSX.Element {
       const encodeToken = jwtDecode<CustomJwtPayload>(getToken);
       const { user_id: userID } = encodeToken;
       setDataFromLocalStorage(JSON.stringify({ status: 200, userID }));
+      dispatch(loginSucess({ status: 200, userID }));
       dispatch(getUserProfile());
     }
-  }, []);
+  }, [getToken]);
 
   // handle token (login web)
   const handleExpired = () => {
@@ -98,6 +98,15 @@ function App(): JSX.Element {
       toast.error('Phiên đăng nhập đã hết hạn. Vui lòng đăng nhập lại !');
     }
   };
+  // handle footer
+  function handleFoooter() {
+    if (!(location.pathname === ROUTE_REGISTER || location.pathname === ROUTE_LOGIN)) {
+      return (
+        <Footer />
+      );
+    }
+    return null;
+  }
 
   useEffect(() => {
     if (credentials) {
@@ -105,25 +114,44 @@ function App(): JSX.Element {
       dispatch(getUserProfile());
       handleExpired();
     }
-  }, []);
+  }, [credentials]);
 
-  useEffect(() => getInfoBySocialLogin, []);
+  useEffect(() => getInfoBySocialLogin, [getToken]);
+
+  useEffect(() => {
+    // get list feature photo
+    dispatch(getFeaturePhotoAction());
+  }, [dispatch]);
+
+  if (logoutStatus === 0) return <CircularProgress className='main-loading' />;
 
   return (
     <div className='App'>
-      <HeaderMenu>
-        <Switch>
-          <Route component={PhotoPage} exact path={ROUTE_PHOTO} />
-          <Route component={PhotoSearchPage} exact path={ROUTE_PHOTO_SEARCH} />
-          <Route component={DetailPhoto} exact path={`${ROUTE_PHOTO}/:id`} />
-          <Route component={MagazinePage} exact path={ROUTE_HOME} />
-          <Route component={ForumPage} exact path={ROUTE_FORUM} />
-          <Route component={LoginPage} exact path={ROUTE_LOGIN} />
-          <Route component={NotFound} />
-        </Switch>
-      </HeaderMenu>
-      <Footer />
+      <Suspense fallback={<CircularProgress className='main-loading' />}>
+        <HeaderMenu>
+          <>
+            <Switch>
+              {routes.map((route) => (
+                <RouteWithSubRoutes key={route.path} {...route} />
+              ))}
+            </Switch>
+            {handleFoooter()}
+          </>
+        </HeaderMenu>
+      </Suspense>
     </div>
+  );
+}
+
+function RouteWithSubRoutes(route) {
+  return (
+    <Route
+      path={route.path}
+      exact={route.exact}
+      render={(props) => (
+        <route.component {...props} routes={route.routes} />
+      )}
+    />
   );
 }
 

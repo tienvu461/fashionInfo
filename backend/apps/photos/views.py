@@ -7,6 +7,8 @@ from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework import serializers, views, status, mixins, generics, pagination
 from rest_framework.exceptions import ValidationError
 import logging
+import operator
+from functools import reduce
 
 from .models import Photo, PhotoLike, PhotoFeature, PhotoComment, GenericConfig
 from .serializers import PhotoSerializer, PhotoDetailSerializer, PhotoFeatureSerializer, PhotoSuggestSerializer, PhotoCommentSerializer, PhotoLikeSerializer
@@ -80,6 +82,9 @@ class PhotoList(generics.ListCreateAPIView):
     # filter_class = PhotoFilter
 
     def list(self, request, *args, **kwargs):
+        # getting current user type
+        user=self.request.user
+
         # getting show/hide setting from Generic Config tbl
         config_obj = GenericConfig.objects.filter(in_use=True)
         try:
@@ -89,7 +94,12 @@ class PhotoList(generics.ListCreateAPIView):
             logger.error("Cannot get config\nException: {}".format(e))
             show_activities = True
 
-        queryset = Photo.objects.all()
+        # if current user is admin => query all photos from DB, if not only query "Publish" photos
+        if user.is_superuser == True:
+            queryset = Photo.objects.all()
+        else:
+            queryset = Photo.objects.filter(status=1)
+            
         # queryset = queryset.order_by('-created_at')
 
         page = self.paginate_queryset(queryset)
@@ -115,8 +125,15 @@ class PhotoDetail(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = PhotoDetailSerializer
 
     def get(self, request, *args, **kwargs):
-        # view increment
+        # getting current user type and photo
+        user=self.request.user
         instance = self.get_object()
+
+        # if current user not is admin and current photo status is "Draft" => raise error 
+        if user.is_superuser == False and instance.status == 0:
+            return Response({'error':'Only admin can access this photo!'}, status=status.HTTP_400_BAD_REQUEST,)
+
+        # view increment
         instance.view_count = instance.view_count + 1
         instance.save(update_fields=("view_count", ))
 
@@ -181,8 +198,6 @@ class PhotoSuggest(CustomPaginate):
             org_tag_list = org_serializer.data[0]["tags"]
             org_photographer = org_serializer.data[0]["detail_info"]["photographer"]
             logger.debug(("tag_list = {}".format(org_tag_list)))
-            import operator
-            from functools import reduce
 
             clauses = ((Q(tags__name__iexact=tag) for tag in org_tag_list))
             query = reduce(operator.or_, clauses)
@@ -515,9 +530,6 @@ class MagazineSuggest(CustomPaginate):
             org_tag_list = org_serializer.data[0]["tags"]
             org_author = org_serializer.data[0]["author"]
             logger.debug(("tag_list = {}".format(org_tag_list)))
-            import operator
-            from functools import reduce
-
             clauses = ((Q(tags__name__iexact=tag) for tag in org_tag_list))
             query = reduce(operator.or_, clauses)
             similar_magazine_queryset = Magazine.objects.filter(

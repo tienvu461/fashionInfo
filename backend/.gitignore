@@ -1,4 +1,6 @@
 *.pyc
+__init__.py
+*.TOC
 backend_env/*
 media/*
 static/*

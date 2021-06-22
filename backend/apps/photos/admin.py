@@ -121,6 +121,16 @@ class FileInline(admin.TabularInline):
         archived_all = MagazineArchivedFile.objects.all().count()
         logger.debug("archived_all = {}".format(archived_all))
 
+from django import forms
+
+class HelpTextForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super(HelpTextForm, self).__init__(*args, **kwargs)
+        self.fields['title'].help_text = 'Maximum 70 characters'
+
+    class Meta:
+        model = Magazine
+        exclude = ()
 
 @admin.register(Magazine)
 class MagazineAdmin(MarkdownxModelAdmin):
@@ -130,7 +140,7 @@ class MagazineAdmin(MarkdownxModelAdmin):
     search_fields = ('title',)
     prepopulated_fields = {'slug': ('title',)}
     exclude = ('user_likes',)
-
+    form = HelpTextForm
     # show tags in list
     def get_queryset(self, request):
         return super().get_queryset(request).prefetch_related('tags')
@@ -156,13 +166,14 @@ class MagazineAdmin(MarkdownxModelAdmin):
         else:
             logger.debug(type(archived))
 
+            protocol = 'https://' if request.is_secure() else 'http://'
             with zipfile.ZipFile(archived.zip_file, 'r') as f_list:
                 for f_name in f_list.namelist():
                     if '.md' in f_name:
                         with f_list.open(f_name) as md_file:
                             img_ptn = re.compile(r"\]\((.*.jpg)\)")
                             content = md_file.read().decode('utf8')
-                            prefix = "{0}{1}".format(
+                            prefix = "{0}{1}{2}{3}".format(protocol, settings.HOSTNAME,
                                 settings.MEDIA_URL, adminConst.ATTACH_DIR)+datetime.now().strftime('%Y/%m/%d/')
                             content = re.sub(
                                 img_ptn, rf"]({prefix}\1)", content)

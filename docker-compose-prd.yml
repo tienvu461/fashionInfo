@@ -7,21 +7,40 @@ networks:
             driver: default
             config:
                 - subnet: 172.32.1.0/16
-
+                
 services:
-    nginx:
-        container_name: nginx_server
-        build: ./docker_compose/nginx
-        depends_on:
-          - django
+    front: 
+        restart: unless-stopped
+        build:
+            args:
+              SRC_DIR: ./frontend/front
+            context: .
+            dockerfile: ./infrastructure/docker/front/Dockerfile.prd
+        # expose:
+        #     - 3000
         ports:
-          - "0.0.0.0:80:80"
+            - 80:80
         volumes:
-            - media_volume:/app/backend/media
-            - static_volume:/app/backend/server/django_static
-            - ./infrastructure/docker/front/development:/etc/nginx/conf.d
+            - media_volume:/app/backend/backend_media
+            - static_volume:/app/backend/backend_static
+            - ./infrastructure/docker/front/staging:/etc/nginx/conf.d
             - ./frontend/front:/app/frontend
             - /app/frontend/node_modules
+        depends_on: 
+            - backend
+        networks:
+            - fashion_info_nw
+
+    nginx:
+        build:
+            args:
+              SRC_DIR: ./infrastructure/docker/nginx/staging
+            context: .
+            dockerfile: ./infrastructure/docker/nginx/staging/Dockerfile
+        ports:
+            - "0.0.0.0:80:80"
+        volumes:
+            - ./infrastructure/docker/nginx/staging:/etc/nginx/conf.d
         depends_on: 
             - backend
         networks:
@@ -33,14 +52,14 @@ services:
             args:
               SRC_DIR: ./backend
             context: .
-            dockerfile: ./infrastructure/docker/backend/Dockerfile            
+            dockerfile: ./infrastructure/docker/backend/Dockerfile
         entrypoint: /app/docker/backend/wsgi-entrypoint.sh
         env_file:
-            - ./infrastructure/docker/config/dev/.env.backend
+            - ./infrastructure/docker/config/prd/.env.backend
         volumes:
-            - static_volume:/app/backend/server/django_static
+            - static_volume:/app/backend/backend_static
             - ./backend:/app/backend
-            - media_volume:/app/backend/media
+            - media_volume:/app/backend/backend_media
         expose:
             - 8000
         ports:
@@ -61,7 +80,7 @@ services:
         ports:
             - "5432:5432"
         env_file:
-            - ./infrastructure/docker/config/dev/.env.psql
+            - ./infrastructure/docker/config/stg/.env.psql
         networks:
             fashion_info_nw:
                 ipv4_address: 172.32.1.2
