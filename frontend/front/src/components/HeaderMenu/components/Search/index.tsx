@@ -1,8 +1,9 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable import/no-unresolved */
 import React, { useState, useRef, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { CircularProgress, Grid, TextField } from '@material-ui/core';
+import { CircularProgress, Grid, InputBase, TextField } from '@material-ui/core';
 import { debounce } from 'lodash';
 
 import searchIcon from 'src/assets/images/searchIcon.svg';
@@ -10,7 +11,13 @@ import clearIcon from 'src/assets/images/clearIcon.png';
 import { searchAction } from 'src/features/Search/searchAction';
 import useStyles from './useStyles';
 
-function Search(): JSX.Element {
+interface SearchProps {
+  screen: string;
+  toggleDrawer: any;
+}
+
+const Search: React.FunctionComponent<SearchProps> = (props) => {
+  const { screen, toggleDrawer } = props;
   const classes = useStyles();
   const history = useHistory();
   const [value, setValue] = useState<string>('');
@@ -38,6 +45,9 @@ function Search(): JSX.Element {
       if (event.key === 'Enter') {
         setLoading(true);
         search();
+        if (screen === 'mobile') {
+          toggleDrawer('right', false);
+        }
       }
     }
   };
@@ -73,8 +83,8 @@ function Search(): JSX.Element {
     setFocused(true);
   };
 
-  const onMouse = (key: string) => {
-    if (key === 'hover') { // [2.1]: USER HOVER A X ICON, THEN SET STATE TO HOLDING THE INPUT ALWAYS OPEN. AND THE useEffect does not run.
+  const onMouse = (param: string) => {
+    if (param === 'hover') { // [2.1]: USER HOVER A X ICON, THEN SET STATE TO HOLDING THE INPUT ALWAYS OPEN. AND THE useEffect does not run.
       setClear(true);
     } else { // [2.2]: USER LEAVE THE MOUSE POINTER OUT OF THE X ICON, SET STATE CLEAR = FALSE TO RUN THE FUNCTION onBlur().
       setClear(false);
@@ -101,35 +111,60 @@ function Search(): JSX.Element {
     }
   }, [focused]);
 
-  return (
-    <>
-      <Grid className={classes.search}>
-        <Grid container spacing={1} alignItems='flex-end'>
-          <Grid item className={classes.searchIcon}>
-            <img alt='Search' src={searchIcon} />
-          </Grid>
-          <Grid item>
-            <TextField
-              onBlur={onBlur}
-              onFocus={onFocus}
-              onClick={(e) => triggerClick(e)}
-              onChange={onChange}
-              value={value}
-              inputRef={valueRef}
-              onKeyDown={handleKeyDown}
-              InputProps={{
-                className: focused ? classes.inputInput : classes.not,
-                classes: { input: classes.placeHolderInput },
-                endAdornment: loadingIcon(),
-              }}
-              id='input-with-icon-grid'
-              placeholder='Search...'
-            />
-          </Grid>
+  const desktopSearch = () => (
+    <Grid className={classes.search}>
+      <Grid container spacing={1} alignItems='flex-end'>
+        <Grid item className={classes.searchIcon}>
+          <img alt='Search' src={searchIcon} />
+        </Grid>
+        <Grid item>
+          <TextField
+            onBlur={onBlur}
+            onFocus={onFocus}
+            onClick={(e) => triggerClick(e)}
+            onChange={onChange}
+            value={value}
+            inputRef={valueRef}
+            onKeyDown={handleKeyDown}
+            InputProps={{
+              className: focused ? classes.inputDesktop : classes.not,
+              classes: { input: classes.placeHolderInput },
+              endAdornment: loadingIcon(),
+            }}
+            id='input-with-icon-grid'
+            placeholder='Search...'
+          />
         </Grid>
       </Grid>
+    </Grid>
+  );
+
+  const mobileSearch = () => (
+    <div className={classes.mobile}>
+      <div className={classes.searchMobile}>
+        <div className={classes.searchIconMobile}>
+          <img alt='Search' src={searchIcon} />
+        </div>
+        <InputBase
+          placeholder='Search…'
+          type='search'
+          value={value}
+          inputRef={valueRef}
+          onChange={onChange}
+          onKeyDown={handleKeyDown}
+          classes={{ input: classes.inputMobile }}
+        />
+      </div>
+    </div>
+  );
+
+  return (
+    <>
+      {
+        screen === 'mobile' ? mobileSearch() : desktopSearch()
+      }
     </>
   );
-}
+};
 
 export default Search;
