@@ -1,8 +1,9 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable import/no-unresolved */
 import React, { useState, useRef, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { CircularProgress, Grid, TextField } from '@material-ui/core';
+import { CircularProgress, Grid, InputBase, TextField } from '@material-ui/core';
 import { debounce } from 'lodash';
 
 import searchIcon from 'src/assets/images/searchIcon.svg';
@@ -10,7 +11,13 @@ import clearIcon from 'src/assets/images/clearIcon.png';
 import { searchAction } from 'src/features/Search/searchAction';
 import useStyles from './useStyles';
 
-function Search(): JSX.Element {
+interface SearchProps {
+  screen: string;
+  toggleDrawer: any;
+}
+
+const Search: React.FunctionComponent<SearchProps> = (props) => {
+  const { screen, toggleDrawer } = props;
   const classes = useStyles();
   const history = useHistory();
   const [value, setValue] = useState<string>('');
@@ -26,7 +33,11 @@ function Search(): JSX.Element {
   };
 
   const search = debounce(() => {
-    dispatch(searchAction(1, value));
+    dispatch(searchAction(1, value)).then(() => {
+      if (screen === 'mobile') {
+        toggleDrawer('right', false);
+      }
+    });
     history.push(`/photo/search/${value}`);
     setValue('');
     setLoading(false);
@@ -45,7 +56,9 @@ function Search(): JSX.Element {
   const loadingIcon = () => (
     <>
       {loading ? (
-        <CircularProgress size={20} /> // loading icon
+        <div className={classes.loadingIcon} style={screen === 'mobile' ? { paddingRight: '16px' } : { paddingBottom: '4px' }}>
+          <CircularProgress size={24} />
+        </div>
       ) : (
         <>
           {click ? (
@@ -56,6 +69,7 @@ function Search(): JSX.Element {
               src={clearIcon}
               onClick={(e) => clearSearch(e)}
               style={{ cursor: 'pointer' }}
+              className={screen === 'mobile' ? classes.clearMobileSearch : classes.clearDesktopSearch}
             />
           ) : null}
         </>
@@ -73,8 +87,8 @@ function Search(): JSX.Element {
     setFocused(true);
   };
 
-  const onMouse = (key: string) => {
-    if (key === 'hover') { // [2.1]: USER HOVER A X ICON, THEN SET STATE TO HOLDING THE INPUT ALWAYS OPEN. AND THE useEffect does not run.
+  const onMouse = (param: string) => {
+    if (param === 'hover') { // [2.1]: USER HOVER A X ICON, THEN SET STATE TO HOLDING THE INPUT ALWAYS OPEN. AND THE useEffect does not run.
       setClear(true);
     } else { // [2.2]: USER LEAVE THE MOUSE POINTER OUT OF THE X ICON, SET STATE CLEAR = FALSE TO RUN THE FUNCTION onBlur().
       setClear(false);
@@ -101,35 +115,66 @@ function Search(): JSX.Element {
     }
   }, [focused]);
 
-  return (
-    <>
-      <Grid className={classes.search}>
-        <Grid container spacing={1} alignItems='flex-end'>
-          <Grid item className={classes.searchIcon}>
-            <img alt='Search' src={searchIcon} />
-          </Grid>
-          <Grid item>
-            <TextField
-              onBlur={onBlur}
-              onFocus={onFocus}
-              onClick={(e) => triggerClick(e)}
-              onChange={onChange}
-              value={value}
-              inputRef={valueRef}
-              onKeyDown={handleKeyDown}
-              InputProps={{
-                className: focused ? classes.inputInput : classes.not,
-                classes: { input: classes.placeHolderInput },
-                endAdornment: loadingIcon(),
-              }}
-              id='input-with-icon-grid'
-              placeholder='Search...'
-            />
-          </Grid>
+  const desktopSearch = () => (
+    <Grid className={classes.search}>
+      <Grid container alignItems='flex-end'>
+        <Grid item className={classes.searchIcon}>
+          <img alt='Search' src={searchIcon} />
+        </Grid>
+        <Grid item>
+          <TextField
+            onBlur={onBlur}
+            onFocus={onFocus}
+            onClick={(e) => triggerClick(e)}
+            onChange={onChange}
+            value={value}
+            inputRef={valueRef}
+            onKeyDown={handleKeyDown}
+            InputProps={{
+              className: focused ? classes.inputDesktop : classes.not,
+              classes: { input: classes.placeHolderInput },
+              endAdornment: loadingIcon(),
+            }}
+            id='input-with-icon-grid'
+            placeholder='Search...'
+          />
         </Grid>
       </Grid>
+    </Grid>
+  );
+
+  const mobileSearch = () => (
+    <div className={classes.mobile}>
+      <div className={classes.searchMobile}>
+        <div className={classes.searchIconMobile}>
+          <img alt='Search' src={searchIcon} />
+        </div>
+        <InputBase
+          placeholder='Search…'
+          onClick={(e) => triggerClick(e)}
+          onFocus={onFocus}
+          onBlur={onBlur}
+          onMouseEnter={() => onMouse('hover')}
+          onMouseLeave={() => onMouse('leave')}
+          value={value}
+          inputRef={valueRef}
+          onChange={onChange}
+          onKeyDown={handleKeyDown}
+          classes={{ input: classes.inputMobile }}
+          endAdornment={loadingIcon()}
+          fullWidth
+        />
+      </div>
+    </div>
+  );
+
+  return (
+    <>
+      {
+        screen === 'mobile' ? mobileSearch() : desktopSearch()
+      }
     </>
   );
-}
+};
 
 export default Search;

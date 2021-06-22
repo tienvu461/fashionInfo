@@ -6,7 +6,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
 import { toast } from 'react-toastify';
 import ReactHtmlParser from 'react-html-parser';
-import { Typography, Divider, Grid } from '@material-ui/core';
+import { Typography, Divider } from '@material-ui/core';
+import { LazyLoadImage } from 'react-lazy-load-image-component';
+
 import FavoriteIcon from '@material-ui/icons/Favorite';
 
 import { RootState } from 'src/store/store';
@@ -15,6 +17,7 @@ import ShareIcon from 'src/assets/images/share.svg';
 import CommentIcon from 'src/assets/images/comment.svg';
 import { likeMagazineAction } from 'src/features/Magazine/MagazineAction';
 import Tags from 'src/components/Tags';
+import { HOST } from 'src/apis';
 
 import './_magazineArticle.scss';
 import useStyles from './useStyles';
@@ -38,16 +41,16 @@ const MagazineArticle: React.FunctionComponent<MagazineArticleProps> = (props) =
     sub_category: subCategory = '',
     created_at: createAt = 0,
     title = '',
-    author = '',
+    author_fullname: authorName = '',
     likes = 0,
     comments = [],
     banner = '',
     user_likes: userLikes = [],
     id = 0,
     formatted_markdown: content = '',
-    tags = []
+    tags = [],
   } = magazineDetail;
-  console.log(magazineDetail);
+
   const [like, setLike] = useState<number>(likes);
 
   useEffect(() => {
@@ -81,7 +84,7 @@ const MagazineArticle: React.FunctionComponent<MagazineArticleProps> = (props) =
   const renderAction = () => (
     <div className='article-action'>
       <Typography className={`${classes.headerText} ${classes.authorArticle}`} component='h6' variant='h6'>
-        bởi {author}
+        bởi {authorName}
       </Typography>
       <div className='action-section'>
         <div className={classes.flex}>
@@ -110,6 +113,14 @@ const MagazineArticle: React.FunctionComponent<MagazineArticleProps> = (props) =
     </div>
   );
 
+  const checkPathImg = (path) => {
+    if (path.includes(HOST)) {
+      return path;
+    }
+
+    return `${HOST}${path}`;
+  };
+
   return (
     <>
       <div className='subtitle'>
@@ -124,7 +135,14 @@ const MagazineArticle: React.FunctionComponent<MagazineArticleProps> = (props) =
       <Typography className={classes.mainTitle}>{title}</Typography>
       {renderAction()}
       <div className='article-banner'>
-        <img alt='article-banner' src={banner} />
+        <LazyLoadImage
+          alt='Contemplative Reptile'
+          src={checkPathImg(banner)}
+          effect='blur'
+          height='100%'
+          width='100%'
+          delayMethod
+        />
       </div>
       <div className='article-content'>{ReactHtmlParser(content)}</div>
       <Tags listTags={tags} />

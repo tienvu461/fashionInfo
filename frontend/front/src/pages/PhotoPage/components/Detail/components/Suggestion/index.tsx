@@ -47,7 +47,7 @@ const SuggestionComponent: React.FunctionComponent<SuggestionProps> = (props) =>
 
   const renderPhoto = () => (
     <>
-      {listImg.map((item, index: number) => {
+      {listImg.map((item) => {
         const { id = 0, image_path: pathImgs = '', activities, user_likes: userLikes = [] } = item;
 
         return (
