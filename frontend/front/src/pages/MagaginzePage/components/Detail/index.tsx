@@ -29,17 +29,16 @@ const DetailMagazine: React.FunctionComponent<DetailProps> = (props) => {
   const magazineComment = useSelector((state: RootState) => state.magazine.magazineComment);
 
   useEffect(() => {
-    window.scrollTo({
-      top: 0,
-      left: 0,
-      behavior: 'smooth',
-    });
-
     // fetch data detail information
     dispatch(fetchDetailMagazineAction(+id)).then((res) => {
       const { status = '' } = res;
       if (status === 200) {
         setLoading(false);
+         window.scrollTo({
+           top: 0,
+           left: 0,
+           behavior: 'smooth',
+         });
       }
     });
   }, [dispatch, id]);

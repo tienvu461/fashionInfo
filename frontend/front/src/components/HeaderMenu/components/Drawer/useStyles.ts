@@ -6,10 +6,10 @@ import { makeStyles, Theme } from '@material-ui/core/styles';
 import { black } from 'src/styles/theme';
 
 const useStyles: () => Record<
-  'menuBtn' | 'drawer' | 'list' | 'subList' | 'linkText' | 'icon' | 'listItemIcon',
+  'menuBtn' | 'drawer' | 'search' | 'list' | 'subList' | 'linkText' | 'icon' | 'listItemIcon',
   string
 > = makeStyles((theme: Theme) => ({
-  list: { width: '200px' },
+  list: { width: '250px' },
   subList: { paddingLeft: '20px' },
   linkText: {
     textDecoration: 'none',
@@ -26,8 +26,11 @@ const useStyles: () => Record<
     width: '100%',
   },
   listItemIcon: {
-    minWidth: 'auto'
+    minWidth: 'auto',
   },
+  search: {
+    // width: '200px'
+  }
 }));
 
 export { useStyles as default };

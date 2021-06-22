@@ -16,7 +16,7 @@ export const getListCategory = (): any => request(MAGAZINE_LIST_CATEGORY_API, 'G
 
 export const getListMagazine = (cat: string, num: number): any => request(`${MAGAZINE_LIST_API}${cat}&page=${num}`, 'GET');
 
-export const getListSuggestMagazine = (id: number): any => request(`${MAGAZINE_LIST_SUGGEST_API}/${id}`, 'GET');
+export const getListSuggestMagazine = (num: number, id: number): any => request(`${MAGAZINE_LIST_SUGGEST_API}${num}&magazine_id=${id}`, 'GET');
 
 export const getDetailMagazineCard = (id: number): any => request(`${MAGAZINE_DETAIL_API}/${id}`, 'GET');
 
