@@ -300,10 +300,11 @@ class MagazineLikeSerializer(serializers.ModelSerializer):
 class MagazineDetailSerializer(MagazineSerializer):
     likes = serializers.SerializerMethodField()
     comments = serializers.SerializerMethodField()
-
+    author_fullname = serializers.SerializerMethodField()
+    
     class Meta:
         model = Magazine
-        fields = ['id', 'title', 'formatted_markdown', 'status', 'thumbnail', 'banner', 'author',
+        fields = ['id', 'title', 'formatted_markdown', 'status', 'thumbnail', 'banner', 'author', 'author_fullname',
                   'created_at', 'likes', 'comments', 'user_likes', 'tags', 'view_count', 'category', 'sub_category']
         removed_fields = []
 
@@ -320,13 +321,16 @@ class MagazineDetailSerializer(MagazineSerializer):
             existing = set(self.fields)
             for field_name in removed:
                 self.fields.pop(field_name)
+
     def to_representation(self, instance):
         data_fields = super(MagazineSerializer, self).to_representation(instance)
         data_fields['created_at'] = int(instance.created_at.timestamp())
         # data_fields['author'] = instance.author.get_full_name()
-        
         return data_fields
-        
+
+    def get_author_fullname(self, instance):
+        return instance.author.get_full_name()
+
     def get_likes(self, instance):
         return MagazineLike.objects.filter(magazine_id=instance.id, is_enabled=True).count()
 
@@ -335,7 +339,6 @@ class MagazineDetailSerializer(MagazineSerializer):
         comment_queryset = MagazineComment.objects.filter(magazine_id=instance.id, parent__isnull=True)
         # get all comment with parent field is not null
         reply_queryset = MagazineComment.objects.filter(magazine_id=instance.id, parent__isnull=False)
-
         # data = serializers.serialize('json', query)
         # get json of comment and reply
         comment_data =  MagazineCommentSerializer(comment_queryset, many=True).data
