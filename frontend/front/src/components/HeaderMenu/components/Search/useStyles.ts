@@ -9,6 +9,9 @@ const useStyles: () => Record<
   | 'mobile'
   | 'inputMobile'
   | 'searchIconMobile'
+  | 'clearMobileSearch'
+  | 'clearDesktopSearch'
+  | 'loadingIcon'
   | 'searchMobile',
   string
 > = makeStyles((theme: Theme) => ({
@@ -67,6 +70,7 @@ const useStyles: () => Record<
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
+    padding: '0 12px',
   },
   searchMobile: {
     position: 'relative',
@@ -76,31 +80,41 @@ const useStyles: () => Record<
       backgroundColor: 'rgb(145 145 145 / 25%);',
     },
     marginTop: '12px',
+    padding: '4px 0',
     width: '100%',
     [theme.breakpoints.up('sm')]: {
-      width: '200px',
+      width: '100%',
     },
   },
   searchIconMobile: {
     padding: theme.spacing(0, 2),
     height: '100%',
     position: 'absolute',
+    top: 0,
     pointerEvents: 'none',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
   },
   inputMobile: {
-    padding: theme.spacing(1, 1, 1, 1),
-    paddingBottom: '12px',
-    // vertical padding + font size from searchIcon
+    // paddingBottom: '12px',
     paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
-    transition: theme.transitions.create('width'),
-    width: '100%',
     [theme.breakpoints.up('md')]: {
       width: '20ch',
     },
   },
+  clearDesktopSearch: {
+    cursor: 'pointer',
+  },
+  clearMobileSearch: {
+    cursor: 'pointer',
+    width: '12px',
+    height: '12px',
+    marginRight: '16px',
+  },
+  loadingIcon: {
+    display: 'flex'
+  }
 }));
 
 export { useStyles as default };

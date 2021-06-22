@@ -33,7 +33,11 @@ const Search: React.FunctionComponent<SearchProps> = (props) => {
   };
 
   const search = debounce(() => {
-    dispatch(searchAction(1, value));
+    dispatch(searchAction(1, value)).then(() => {
+      if (screen === 'mobile') {
+        toggleDrawer('right', false);
+      }
+    });
     history.push(`/photo/search/${value}`);
     setValue('');
     setLoading(false);
@@ -45,9 +49,6 @@ const Search: React.FunctionComponent<SearchProps> = (props) => {
       if (event.key === 'Enter') {
         setLoading(true);
         search();
-        if (screen === 'mobile') {
-          toggleDrawer('right', false);
-        }
       }
     }
   };
@@ -55,7 +56,9 @@ const Search: React.FunctionComponent<SearchProps> = (props) => {
   const loadingIcon = () => (
     <>
       {loading ? (
-        <CircularProgress size={20} /> // loading icon
+        <div className={classes.loadingIcon} style={screen === 'mobile' ? { paddingRight: '16px' } : { paddingBottom: '4px' }}>
+          <CircularProgress size={24} />
+        </div>
       ) : (
         <>
           {click ? (
@@ -66,6 +69,7 @@ const Search: React.FunctionComponent<SearchProps> = (props) => {
               src={clearIcon}
               onClick={(e) => clearSearch(e)}
               style={{ cursor: 'pointer' }}
+              className={screen === 'mobile' ? classes.clearMobileSearch : classes.clearDesktopSearch}
             />
           ) : null}
         </>
@@ -113,7 +117,7 @@ const Search: React.FunctionComponent<SearchProps> = (props) => {
 
   const desktopSearch = () => (
     <Grid className={classes.search}>
-      <Grid container spacing={1} alignItems='flex-end'>
+      <Grid container alignItems='flex-end'>
         <Grid item className={classes.searchIcon}>
           <img alt='Search' src={searchIcon} />
         </Grid>
@@ -147,12 +151,18 @@ const Search: React.FunctionComponent<SearchProps> = (props) => {
         </div>
         <InputBase
           placeholder='Search…'
-          type='search'
+          onClick={(e) => triggerClick(e)}
+          onFocus={onFocus}
+          onBlur={onBlur}
+          onMouseEnter={() => onMouse('hover')}
+          onMouseLeave={() => onMouse('leave')}
           value={value}
           inputRef={valueRef}
           onChange={onChange}
           onKeyDown={handleKeyDown}
           classes={{ input: classes.inputMobile }}
+          endAdornment={loadingIcon()}
+          fullWidth
         />
       </div>
     </div>
