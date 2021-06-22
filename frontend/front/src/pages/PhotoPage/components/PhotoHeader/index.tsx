@@ -2,7 +2,7 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
-import { Grid, Typography, useMediaQuery } from '@material-ui/core';
+import { Typography, useMediaQuery } from '@material-ui/core';
 import BannerPic from 'src/assets/images/photos/hotPic.jpg';
 import { RootState } from 'src/store/store';
 import { HOST } from 'src/apis';
@@ -30,7 +30,6 @@ function PhotoHeader(): JSX.Element {
   };
 
   const checkPathImg = (path) => {
-    console.log(path);
     if (path?.includes(HOST)) {
       return path;
     }
@@ -40,7 +39,7 @@ function PhotoHeader(): JSX.Element {
 
   const controlWidthImg = () => {
     if (matches1) {
-      return '100%';
+      return '985.69px';
     }
     if (matches2) {
       return '100%';
