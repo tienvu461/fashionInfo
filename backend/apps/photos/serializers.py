@@ -323,7 +323,7 @@ class MagazineDetailSerializer(MagazineSerializer):
     def to_representation(self, instance):
         data_fields = super(MagazineSerializer, self).to_representation(instance)
         data_fields['created_at'] = int(instance.created_at.timestamp())
-        data_fields['author'] = instance.author.get_full_name()
+        # data_fields['author'] = instance.author.get_full_name()
         
         return data_fields
         

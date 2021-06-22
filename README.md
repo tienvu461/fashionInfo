@@ -169,7 +169,7 @@ cat init_psql.sql | docker exec -i info_postgresql_1 psql -U fashio_info
 ## 6. Backup db
 ```
 docker exec -u fashion_info fashion-info_postgresql_1 pg_dump -Fc fasion_info_db
-docker exec -t b1b873af3554 pg_dumpall -c -U fashion_info > dump_`date +%d-%m-%Y"_"%H_%M_%S`.sql
+docker exec -t 165c6774ebbf pg_dumpall -c -U fashion_info > dump_`date +%d-%m-%Y"_"%H_%M_%S`.sql
 
 ```
 
@@ -182,4 +182,4 @@ https://www.freecodecamp.org/news/manage-multiple-github-accounts-the-ssh-way-2d
 
 
 INSERT INTO spirit_user_userprofile(slug,location,last_seen,last_ip,timezone,is_administrator,is_moderator,is_verified,topic_count,comment_count,user_id,last_post_hash,last_post_on,nickname,avatar,notify)
-VALUES ('admin','',NOW(),'','UTC',true,true,false,0,0,1 ,'',NOW(),'admin','',1);
+VALUES ('admin','',NOW(),'0.0.0.0','UTC',true,true,false,0,0,1 ,'',NOW(),'admin','',1);
