@@ -28,6 +28,7 @@ const MagazineCard: React.FunctionComponent<MagazineCardProps> = (props) => {
     created_at: createAt = '',
     thumbnail = '',
   } = cardProps;
+  // console.log(cardProps)
 
   const screenMin = useMediaQuery('(min-width:1280px)');
   const screenMax = useMediaQuery('(max-width:1920px)');
