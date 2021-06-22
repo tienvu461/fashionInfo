@@ -1,51 +1,42 @@
 /* eslint-disable import/no-unresolved */
 import { makeStyles } from '@material-ui/core/styles';
-import { textColor, pdLeftXL, pdLeftLG, pdLeftSM, theme } from 'src/styles/theme';
+import { textColor, pdLeftSM, gray2 } from 'src/styles/theme';
 
 const useStyles: () => Record<
-  'root' | 'leftSection' | 'leftSectionMatches' | 'rightSection' | 'imgBanner' | 'headline' | 'subline',
+  'root' | 'leftSectionMatches' | 'imgBanner' | 'headline' | 'subline',
   string
 > = makeStyles(() => ({
   root: {
     width: '100%',
     height: 'auto',
-  },
-  leftSection: {
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'flex-end',
-
-    // responsive
-    [theme.breakpoints.up('sm')]: {
-      paddingLeft: pdLeftSM,
+    backgroundColor: gray2,
+    '@media (min-width:960px)': {
+      height: '453px',
     },
-    [theme.breakpoints.up('md')]: {
-      // padding: pdLeftMD,
+    '@media (min-width:1600px)': {
+      height: '755px',
+      // width: '1720px'
     },
-    [theme.breakpoints.up('lg')]: {
-      paddingLeft: pdLeftLG,
-    },
-    [theme.breakpoints.up('xl')]: {
-      paddingLeft: pdLeftXL,
+    '@media (max-width:960px)': {
+      height: '755px',
     },
   },
   headline: {
     fontStyle: 'normal',
     fontWeight: 900,
-    marginBottom: '-20px', // fix straight line
     lineHeight: '115px',
     // letterSpacing: '3.2px',
     color: '#000000',
     textAlign: 'left',
     '@media (max-width:1302px)': {
-      lineHeight: '80px',
+      lineHeight: '96px',
     },
     '@media (max-width:960px)': {
       lineHeight: '60px',
       letterSpacing: 0,
     },
     '@media (max-width:600px)': {
-      lineHeight: '80px',
+      lineHeight: '96px',
       marginBottom: '20px',
     },
   },
@@ -56,9 +47,6 @@ const useStyles: () => Record<
     letterSpacing: '1.7px',
     color: textColor,
     textAlign: 'left',
-  },
-  rightSection: {
-    height: 'fit-content',
   },
   imgBanner: {
     width: '100%',

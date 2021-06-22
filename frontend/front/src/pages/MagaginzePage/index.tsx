@@ -1,10 +1,10 @@
 /* eslint-disable import/no-unresolved */
 import React, { useEffect, lazy } from 'react';
+import { CircularProgress } from '@material-ui/core';
 import { useDispatch, useSelector } from 'react-redux';
 import { isEmpty } from 'lodash';
 import { getListCategoryAction, getListMagazineAction } from 'src/features/Magazine/MagazineAction';
 import { RootState } from 'src/store/store';
-import { CircularProgress } from '@material-ui/core';
 
 const MagazineHeader = lazy(() => import('./components/MagazineHeader'));
 

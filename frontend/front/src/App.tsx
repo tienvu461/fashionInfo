@@ -34,6 +34,7 @@ import HeaderMenu from './components/HeaderMenu';
 import { loginSucess } from './features/Login/LoginSlice';
 import { getUserProfile } from './features/Profile/ProfileAction';
 import { refreshTokenAction } from './features/Login/LoginAction';
+import { getFeaturePhotoAction } from './features/FeaturePhotos/FeaturePhotoAction';
 
 toast.configure({
   autoClose: 2000
@@ -116,6 +117,11 @@ function App(): JSX.Element {
   }, [credentials]);
 
   useEffect(() => getInfoBySocialLogin, [getToken]);
+
+  useEffect(() => {
+    // get list feature photo
+    dispatch(getFeaturePhotoAction());
+  }, [dispatch]);
 
   if (logoutStatus === 0) return <CircularProgress className='main-loading' />;
 
