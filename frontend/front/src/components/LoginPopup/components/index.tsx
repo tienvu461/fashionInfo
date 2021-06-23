@@ -194,7 +194,7 @@ function LoginPopup({ closePopup }): JSX.Element {
                   />
                 </div>
                 <div>
-                  <Link className={classes.link}>
+                  <Link to='/fogot-password' className={classes.link}>
                     <span className={classes.fontManual}>Quên mật khẩu?</span>
                   </Link>
                 </div>
