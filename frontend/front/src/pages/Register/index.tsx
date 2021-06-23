@@ -25,6 +25,7 @@ import imgRegister from 'src/assets/images/Mask_Group_Login.png';
 import iconFb from 'src/assets/images/iconFb_Login.png';
 import iconGg from 'src/assets/images/iconfinder_Google_Loginin.png';
 import './_register.scss';
+import { HOST } from 'src/apis';
 import useStyles from './useStyles';
 
 interface FiledFormik {
@@ -42,7 +43,7 @@ function RegisterPage(): JSX.Element {
   const history = useHistory();
 
   const [loading, setLoading] = useState<boolean>(false);
-
+  const featurePhoto = useSelector((state: RootState) => state.featurePhoto.featureListPhoto);
   const initialValues: FiledFormik = {
     email: '',
     username: '',
@@ -72,6 +73,14 @@ function RegisterPage(): JSX.Element {
     }));
   };
 
+  const checkPathImg = (path) => {
+    if (path?.includes(HOST)) {
+      return path;
+    }
+
+    return `${HOST}${path}`;
+  };
+
   return (
     <Grid className={classes.root} container>
       <Grid
@@ -86,7 +95,7 @@ function RegisterPage(): JSX.Element {
         <img
           alt='register'
           className={classes.registerImage}
-          src={imgRegister}
+          src={checkPathImg(featurePhoto[0]?.signup_photo.image_path)}
         />
       </Grid>
       <Grid

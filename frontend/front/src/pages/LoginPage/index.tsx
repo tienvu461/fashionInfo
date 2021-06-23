@@ -26,6 +26,7 @@ import { loginAction, getUrlSocialAction } from 'src/features/Login/LoginAction'
 import imgLogin from 'src/assets/images/Mask_Group_Login.png';
 import iconFb from 'src/assets/images/iconFb_Login.png';
 import iconGg from 'src/assets/images/iconfinder_Google_Loginin.png';
+import { HOST } from 'src/apis';
 import { ROUTE_HOME, ROUTE_LOGIN } from 'src/constants';
 import './_loginpage.scss';
 import useStyles from './useStyles';
@@ -50,6 +51,7 @@ function LoginPage({ closePopup }): JSX.Element {
   const loginStatus = useSelector((state: RootState) => state.login.loginResponse.status);
   const cmtPhotoId = useSelector((state: RootState) => state.login.isLoginToComment.paramId);
   const keyToRedirect = useSelector((state: RootState) => state.login.isLoginToComment.key);
+  const featurePhoto = useSelector((state: RootState) => state.featurePhoto.featureListPhoto);
   // Prevent re-login when login successful
   useEffect(() => {
     if (loginStatus === 200) {
@@ -113,6 +115,14 @@ function LoginPage({ closePopup }): JSX.Element {
     return null;
   }
 
+  const checkPathImg = (path) => {
+    if (path?.includes(HOST)) {
+      return path;
+    }
+
+    return `${HOST}${path}`;
+  };
+
   const loginInfo: {
     image: string;
   } = {
@@ -133,7 +143,7 @@ function LoginPage({ closePopup }): JSX.Element {
         <img
           alt='login'
           className={classes.loginImage}
-          src={loginInfo.image}
+          src={popUp ? checkPathImg(featurePhoto[0]?.popup_photo.image_path) : checkPathImg(featurePhoto[0]?.login_photo.image_path)}
         />
       </Grid>
       {handleCloseLoginPopup()}
