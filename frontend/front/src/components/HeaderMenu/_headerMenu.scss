@@ -39,18 +39,11 @@
 }
 
 .logo {
-
     // screen < 1080
     @media screen and (max-width: 1080px) {
         position: absolute;
-        top: 28%;
-        left: 44%;
-    }
-
-    // screen < 960
-    @media screen and (max-width: 960px) {
-        position: absolute;
-        top: 28%;
-        left: 38%;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
     }
 }

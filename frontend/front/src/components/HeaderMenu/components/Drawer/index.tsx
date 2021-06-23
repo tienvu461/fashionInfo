@@ -77,8 +77,8 @@ const SideDrawer: React.FunctionComponent<NavLinksType> = ({ navLinks, setActive
   const sideDrawerList = (anchor: string) => (
     <div className={classes.list} role='presentation'>
       <List component='nav'>
-        {navLinks.map(({ title, path }) => (
-          <>
+        {navLinks.map(({ title, path }, index) => (
+          <div key={`${index + 0}`}>
             <ListItem
               button
               key={title}
@@ -103,7 +103,7 @@ const SideDrawer: React.FunctionComponent<NavLinksType> = ({ navLinks, setActive
                 </List>
               </Collapse>
             ) : null}
-          </>
+          </div>
         ))}
       </List>
     </div>
