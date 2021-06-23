@@ -26,9 +26,10 @@ export const PHOTO_COMMENT_API = `${HOST}/api/photos/comment`;
 export const MAGAZINE_LIST_CATEGORY_API = `${HOST}/api/magazine/category`;
 export const MAGAZINE_LIST_API = `${HOST}/api/magazine/?category=`;
 export const MAGAZINE_DETAIL_API = `${HOST}/api/magazine`;
-export const MAGAZINE_LIST_SUGGEST_API = `${HOST}/api/magazine/suggest`;
+export const MAGAZINE_LIST_SUGGEST_API = `${HOST}/api/magazine/suggest?page=`;
 export const MAGAZINE_LIKE_API = `${HOST}/api/magazine/like`;
 export const MAGAZINE_COMMENT_API = `${HOST}/api/magazine/comment`;
 
-// FEATURE PHOTO
+// FEATURE PHOTO + MAGAZINE
 export const FEARTURE_PHOTO_API = `${HOST}/api/photos/feature`;
+export const FEARTURE_MAGAZINE_API = `${HOST}/api/magazine/feature`;

@@ -151,7 +151,7 @@ const HeaderMenu: React.FunctionComponent<AuxProps> = (props) => {
                   </List>
                 </Grid>
                 <Grid className={classes.actions}>
-                  <Search />
+                  <Search screen='desktop' toggleDrawer={null} />
                   {handleIconLogIn()}
                 </Grid>
               </Hidden>
@@ -162,10 +162,7 @@ const HeaderMenu: React.FunctionComponent<AuxProps> = (props) => {
                 handleMenuClose={handleMenuClose}
               />
               <Hidden mdUp>
-                <Grid className={classes.actions}>
-                  {/* <Search /> */}
-                  {handleIconLogIn()}
-                </Grid>
+                <Grid className={classes.actions}>{handleIconLogIn()}</Grid>
                 <SideDrawer setActive={setActive} navLinks={navLinks} />
               </Hidden>
             </div>

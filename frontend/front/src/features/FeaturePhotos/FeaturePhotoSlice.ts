@@ -3,25 +3,30 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 interface InitialState {
-  featureList: Record<any, any>;
+  featureListPhoto: Record<any, any>;
+  featureListMagazine: Record<any, any>;
 }
 
 const initialState: InitialState = {
-  featureList: {},
+  featureListPhoto: {},
+  featureListMagazine: {},
 };
 
 const featurePhotoSlice = createSlice({
   name: 'MAGAZINE_REDUCER',
   initialState,
   reducers: {
-    featureList: (state, { payload }) => {
-      state.featureList = payload;
+    featureListPhoto: (state, { payload }) => {
+      state.featureListPhoto = payload;
+    },
+    featureListMagazine: (state, { payload }) => {
+      state.featureListMagazine = payload;
     },
   },
 });
 
 const { actions, reducer } = featurePhotoSlice;
-const { featureList } = actions;
+const { featureListPhoto, featureListMagazine } = actions;
 
-export { featureList };
+export { featureListPhoto, featureListMagazine };
 export default reducer;

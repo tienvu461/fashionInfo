@@ -55,9 +55,9 @@ export const fetchDetailMagazineAction = (id: number) => async (dispatch: Dispat
   return 0;
 };
 
-export const getListSuggestMagazineAction = (id: number) => async (dispatch: Dispatch): Promise<any> => {
+export const getListSuggestMagazineAction = (num: number, id: number) => async (dispatch: Dispatch): Promise<any> => {
   try {
-    const response = await getListSuggestMagazine(id);
+    const response = await getListSuggestMagazine(num, id);
     const { data = {}, status = '' } = response;
     if (status === 200) {
       dispatch(magazineListSuggest(data));

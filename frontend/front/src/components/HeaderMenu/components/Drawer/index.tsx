@@ -113,7 +113,9 @@ const SideDrawer: React.FunctionComponent<NavLinksType> = ({ navLinks, setActive
     <>
       <Menu className={classes.menuBtn} fontSize='large' onClick={toggleDrawer('right', true)} />
       <Drawer className={classes.drawer} anchor='right' onClose={toggleDrawer('right', false)} open={anchorState.right}>
-        <Search />
+        <div className={classes.search}>
+          <Search screen='mobile' toggleDrawer={toggleDrawer('right', false)} />
+        </div>
         {sideDrawerList('right')}
       </Drawer>
     </>
