@@ -2,9 +2,9 @@
 /* eslint-disable import/no-unresolved */
 import React, { useState } from 'react';
 import clsx from 'clsx';
-import { useHistory } from 'react-router-dom';
+import { useHistory, Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import Link from 'react-router-dom/Link';
+
 import {
   Typography,
   Box,
