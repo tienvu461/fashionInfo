@@ -175,7 +175,7 @@ function LoginPage(): JSX.Element {
                   />
                 </div>
                 <div>
-                  <Link className={classes.link}>
+                  <Link to='/forgot-password' className={classes.link}>
                     <span className={classes.fontManual}>Quên mật khẩu?</span>
                   </Link>
                 </div>
