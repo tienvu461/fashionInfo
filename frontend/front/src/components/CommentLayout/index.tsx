@@ -8,7 +8,7 @@ import {
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { isLoginToComment } from 'src/features/Login/LoginSlice';
 import { RootState } from 'src/store/store';
-import FormDialog from 'src/components/LoginPopup';
+import FormDialog from 'src/components/FormDialog';
 import useStyles from './useStyles';
 
 interface CommentProps {

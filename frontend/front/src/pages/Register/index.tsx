@@ -21,11 +21,11 @@ import {
 import { RootState } from 'src/store/store';
 import { getUrlSocialAction } from 'src/features/Login/LoginAction';
 import { registerAction } from 'src/features/Register/RegisterAction';
-
+import imgRegister from 'src/assets/images/Mask_Group_Login.png';
 import iconFb from 'src/assets/images/iconFb_Login.png';
 import iconGg from 'src/assets/images/iconfinder_Google_Loginin.png';
-
-// import './_register.scss';
+import './_register.scss';
+import { HOST } from 'src/apis';
 import useStyles from './useStyles';
 
 interface FiledFormik {
@@ -43,7 +43,7 @@ function RegisterPage(): JSX.Element {
   const history = useHistory();
 
   const [loading, setLoading] = useState<boolean>(false);
-
+  const featurePhoto = useSelector((state: RootState) => state.featurePhoto.featureListPhoto);
   const initialValues: FiledFormik = {
     email: '',
     username: '',
@@ -73,246 +73,274 @@ function RegisterPage(): JSX.Element {
     }));
   };
 
+  const checkPathImg = (path) => {
+    if (path?.includes(HOST)) {
+      return path;
+    }
+
+    return `${HOST}${path}`;
+  };
+
   return (
-    <Grid className={clsx(classes.root && 'login-page')} component='main' container item>
-      <Grid className='imageBannerLogin' item md={6} sm={12} xs={12} />
-      <Grid item md={6} sm={12} xs={12}>
-        <div className={clsx(classes.paper && 'paper')}>
-          <Box textAlign='left'>
-            <Typography component='span'>
-              <Box className={classes.titleLogin} fontWeight='fontWeightBold'>
-                Đăng ký
-              </Box>
-            </Typography>
-            <div className={classes.savepassword}>
-              <Button
-                className={classes.button}
-                onClick={() => {
-                  dispatch(getUrlSocialAction());
-                }}
-                startIcon={<Avatar alt='goole-icon' className={classes.small} src={iconGg} />}
-              >
-                <Typography component='span'>
-                  <Box className={classes.socialButton} color='#000000' fontSize={16} fontWeight='fontWeightBold'>
-                    Qua Google
-                  </Box>
-                </Typography>
-              </Button>
-              <Button
-                className={classes.button}
-                startIcon={<Avatar alt='goole-icon' className={classes.small} src={iconFb} />}
-              >
-                <Typography component='span'>
-                  <Box className={classes.socialButton} color='#000000' fontSize={16} fontWeight='fontWeightBold'>
-                    Qua Facebook
-                  </Box>
-                </Typography>
-              </Button>
-            </div>
-            {/* <div> */}
-            <div
-              style={{
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-                padding: '4px 0 4px 0',
-              }}
-            >
-              <hr className='line' />
-              <span className={classes.title}>hoặc</span>
-              <hr className='line' />
-            </div>
-            <Formik
-              initialValues={initialValues}
-              onSubmit={(values) => {
-                setLoading(true);
-                // console.log('values after submit', values);
-                createNewUser(values);
-              }}
-              validationSchema={Yup.object().shape({
-                email: Yup.string()
-                  .email('Email không hợp lệ'),
-                // .required('Vui lòng nhập Email'),
-                // username: Yup.string(),
-                // .required('Vui lòng nhập họ tên'),
-                first_name: Yup.string(),
-                last_name: Yup.string(),
-                password: Yup.string()
-                  .matches(
-                    /^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[!@#$%^&*()]).{7,20}\S$/
-                  ),
-                // .required(
-                //   'Please valid password. One uppercase, one lowercase, one special character and no spaces'
-                // ),
-                re_password: Yup.string().when('password', {
-                  is: (val) => (!!(val && val.length > 0)),
-                  then: Yup.string().oneOf(
-                    [Yup.ref('password')],
-                    'Mật khẩu không trùng khớp'
-                  )
-                })
-                // .required('Vui lòng xác nhận mật khẩu'),
-              })}
-            >
-              {(props: FormikProps<FiledFormik>) => {
-                const {
-                  values,
-                  touched,
-                  errors,
-                  handleBlur,
-                  handleChange,
-                  isSubmitting,
-                } = props;
-                return (
-                  <Form className={classes.form}>
-                    <div style={{ display: 'flex' }}>
-                      <div>
-                        <div className={classes.fontManual}>Họ</div>
-                        <TextField
-                          style={{ width: '100px' }}
-                          autoComplete='first_name'
-                          autoFocus
-                          className={classes.field}
-                          fullWidth
-                          margin='normal'
-                          required
-                          variant='outlined'
-                          name='first_name'
-                          id='first_name'
-                          value={values.first_name}
-                          type='text'
-                          helperText={
-                            errors.first_name && touched.first_name
-                              ? errors.first_name
-                              : null
-                          }
-                          error={!!(errors.first_name && touched.first_name)}
-                          onChange={handleChange}
-                          onBlur={handleBlur}
-                        />
-                      </div>
-                      <div>
-                        <div className={classes.fontManual} style={{ paddingLeft: '10px' }}>Tên</div>
-                        <TextField
-                          style={{ width: '290px', paddingLeft: '10px' }}
-                          autoComplete='last_name'
-                          autoFocus
-                          className={classes.field}
-                          fullWidth
-                          margin='normal'
-                          required
-                          variant='outlined'
-                          name='last_name'
-                          id='last_name'
-                          value={values.last_name}
-                          type='text'
-                          helperText={
-                            errors.last_name && touched.last_name
-                              ? errors.last_name
-                              : null
-                          }
-                          error={!!(errors.last_name && touched.last_name)}
-                          onChange={handleChange}
-                          onBlur={handleBlur}
-                        />
-                      </div>
-                    </div>
-                    <div className={classes.fontManual} style={{ paddingTop: '16px' }}>
-                      Email
-                    </div>
-                    <TextField
-                      autoComplete='email'
-                      // autoFocus
-                      className={classes.field}
-                      fullWidth
-                      margin='normal'
-                      required
-                      variant='outlined'
-                      id='email'
-                      name='email'
-                      type='email'
-                      helperText={
-                        errors.email && touched.email
-                          ? errors.email
-                          : null
-                      }
-                      error={!!(errors.email && touched.email)}
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                    />
-                    <div className={classes.fontManual} style={{ paddingTop: '16px' }}>
-                      Mật khẩu
-                    </div>
-                    <TextField
-                      autoComplete='password'
-                      className={classes.field}
-                      fullWidth
-                      id='password'
-                      name='password'
-                      value={values.password}
-                      helperText={
-                        errors.password && touched.password
-                          ? 'Mật khẩu hợp lệ tối thiểu 8 kí tự gồm 1 chữ viết hoa, viết thường, số'
-                          : null
-                      }
-                      error={!!(errors.password && touched.password)}
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                      margin='normal'
-                      required
-                      type='password'
-                      variant='outlined'
-                    />
-                    <div className={classes.fontManual} style={{ paddingTop: '16px' }}>
-                      Nhập lại mật khẩu
-                    </div>
-                    <TextField
-                      autoComplete='re_password'
-                      className={classes.field}
-                      fullWidth
-                      id='re_password'
-                      name='re_password'
-                      value={values.re_password}
-                      helperText={
-                        errors.re_password && touched.re_password
-                          ? errors.re_password
-                          : null
-                      }
-                      error={!!(errors.re_password && touched.re_password)}
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                      margin='normal'
-                      required
-                      type='password'
-                      variant='outlined'
-                    />
-                    <Button
-                      className={classes.submit}
-                      fullWidth
-                      type='submit'
-                    // disabled={isSubmitting}
-                    // onClick={() => {
-                    //   console.log('show filled fields', values);
-                    // }}
-                    >
-                      {loading ? (
-                        <CircularProgress />
-                      ) : (
-                        <Typography component='h6' className={classes.socialButton}>
-                          Đăng ký
-                        </Typography>
-                      )}
-                    </Button>
-                  </Form>
-                );
-              }}
-            </Formik>
-            <Box textAlign='center'>
-              <span className={classes.fontManual}>Đã có tài khoản?</span>
-              <Link className={classes.link} to='/login'>
-                <span className={classes.fontManual} style={{ cursor: 'pointer' }}> Đăng nhập</span>
-              </Link>
+    <Grid className={classes.root} container>
+      <Grid
+        item
+        xs={12}
+        sm={12}
+        md={6}
+        lg={6}
+        xl={6}
+        className={classes.leftRegister}
+      >
+        <img
+          alt='register'
+          className={classes.registerImage}
+          src={checkPathImg(featurePhoto[0]?.signup_photo.image_path)}
+        />
+      </Grid>
+      <Grid
+        item
+        xs={12}
+        sm={12}
+        md={6}
+        lg={6}
+        xl={6}
+        className={classes.rightRegister}
+        style={{ display: 'flex', justifyContent: 'center' }}
+      >
+        <div className={classes.setWidthField}>
+          <Typography component='span'>
+            <Box className={classes.titleLogin} fontWeight='fontWeightBold'>
+              Đăng ký
             </Box>
+          </Typography>
+          <div className={classes.savepassword}>
+            <Button
+              className={classes.button}
+              onClick={() => {
+                dispatch(getUrlSocialAction());
+              }}
+              startIcon={<Avatar alt='goole-icon' className={classes.small} src={iconGg} />}
+            >
+              <Typography component='span'>
+                <Box className={classes.socialButton} color='#000000' fontSize={16} fontWeight='fontWeightBold'>
+                  Qua Google
+                </Box>
+              </Typography>
+            </Button>
+            <Button
+              className={classes.button}
+              startIcon={<Avatar alt='goole-icon' className={classes.small} src={iconFb} />}
+            >
+              <Typography component='span'>
+                <Box className={classes.socialButton} color='#000000' fontSize={16} fontWeight='fontWeightBold'>
+                  Qua Facebook
+                </Box>
+              </Typography>
+            </Button>
+          </div>
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              padding: '4px 0 4px 0',
+            }}
+          >
+            <hr className={classes.line} />
+            <span className={classes.title}>hoặc</span>
+            <hr className={classes.line} />
+          </div>
+          <Formik
+            initialValues={initialValues}
+            onSubmit={(values) => {
+              setLoading(true);
+              // console.log('values after submit', values);
+              createNewUser(values);
+            }}
+            validationSchema={Yup.object().shape({
+              email: Yup.string()
+                .email('Email không hợp lệ'),
+              // .required('Vui lòng nhập Email'),
+              // username: Yup.string(),
+              // .required('Vui lòng nhập họ tên'),
+              first_name: Yup.string(),
+              last_name: Yup.string(),
+              password: Yup.string()
+                .matches(
+                  /^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[!@#$%^&*()]).{7,20}\S$/
+                ),
+              // .required(
+              //   'Please valid password. One uppercase, one lowercase, one special character and no spaces'
+              // ),
+              re_password: Yup.string().when('password', {
+                is: (val) => (!!(val && val.length > 0)),
+                then: Yup.string().oneOf(
+                  [Yup.ref('password')],
+                  'Mật khẩu không trùng khớp'
+                )
+              })
+              // .required('Vui lòng xác nhận mật khẩu'),
+            })}
+          >
+            {(props: FormikProps<FiledFormik>) => {
+              const {
+                values,
+                touched,
+                errors,
+                handleBlur,
+                handleChange,
+                isSubmitting,
+              } = props;
+              return (
+                <Form className={classes.form}>
+                  <div style={{ display: 'flex' }}>
+                    <div style={{ width: '40%' }}>
+                      <div className={classes.fontManual}>Họ</div>
+                      <TextField
+                        style={{ width: '100%' }}
+                        autoComplete='first_name'
+                        // autoFocus
+                        className={classes.field}
+                        fullWidth
+                        margin='normal'
+                        required
+                        variant='outlined'
+                        name='first_name'
+                        id='first_name'
+                        value={values.first_name}
+                        type='text'
+                        helperText={
+                          errors.first_name && touched.first_name
+                            ? errors.first_name
+                            : null
+                        }
+                        error={!!(errors.first_name && touched.first_name)}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                      />
+                    </div>
+                    <div>
+                      <div className={classes.fontManual} style={{ paddingLeft: '10px' }}>Tên</div>
+                      <TextField
+                        style={{ width: '100%', paddingLeft: '10px' }}
+                        autoComplete='last_name'
+                        // autoFocus
+                        className={classes.field}
+                        fullWidth
+                        margin='normal'
+                        required
+                        variant='outlined'
+                        name='last_name'
+                        id='last_name'
+                        value={values.last_name}
+                        type='text'
+                        helperText={
+                          errors.last_name && touched.last_name
+                            ? errors.last_name
+                            : null
+                        }
+                        error={!!(errors.last_name && touched.last_name)}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                      />
+                    </div>
+                  </div>
+                  <div className={classes.fontManual} style={{ paddingTop: '16px' }}>
+                    Email
+                  </div>
+                  <TextField
+                    autoComplete='email'
+                    // autoFocus
+                    className={classes.field}
+                    fullWidth
+                    margin='normal'
+                    required
+                    variant='outlined'
+                    id='email'
+                    name='email'
+                    type='email'
+                    helperText={
+                      errors.email && touched.email
+                        ? errors.email
+                        : null
+                    }
+                    error={!!(errors.email && touched.email)}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                  />
+                  <div className={classes.fontManual} style={{ paddingTop: '16px' }}>
+                    Mật khẩu
+                  </div>
+                  <TextField
+                    autoComplete='password'
+                    className={classes.field}
+                    fullWidth
+                    id='password'
+                    name='password'
+                    value={values.password}
+                    helperText={
+                      errors.password && touched.password
+                        ? 'Mật khẩu hợp lệ tối thiểu 8 kí tự gồm 1 chữ viết hoa, viết thường, số'
+                        : null
+                    }
+                    error={!!(errors.password && touched.password)}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    margin='normal'
+                    required
+                    type='password'
+                    variant='outlined'
+                  />
+                  <div className={classes.fontManual} style={{ paddingTop: '35px' }}>
+                    Nhập lại mật khẩu
+                  </div>
+                  <TextField
+                    autoComplete='re_password'
+                    className={classes.field}
+                    fullWidth
+                    id='re_password'
+                    name='re_password'
+                    value={values.re_password}
+                    helperText={
+                      errors.re_password && touched.re_password
+                        ? errors.re_password
+                        : null
+                    }
+                    error={!!(errors.re_password && touched.re_password)}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    margin='normal'
+                    required
+                    type='password'
+                    variant='outlined'
+                  />
+                  <Button
+                    className={classes.submit}
+                    fullWidth
+                    type='submit'
+                  // disabled={isSubmitting}
+                  // onClick={() => {
+                  //   console.log('show filled fields', values);
+                  // }}
+                  >
+                    {loading ? (
+                      <CircularProgress />
+                    ) : (
+                      <Typography component='h6' className={classes.socialButton}>
+                        Đăng ký
+                      </Typography>
+                    )}
+                  </Button>
+                </Form>
+              );
+            }}
+          </Formik>
+          <Box textAlign='center'>
+            <span className={classes.fontManual}>Đã có tài khoản?</span>
+            <Link className={classes.link} to='/login'>
+              <span className={classes.fontManual} style={{ cursor: 'pointer' }}> Đăng nhập</span>
+            </Link>
           </Box>
         </div>
       </Grid>

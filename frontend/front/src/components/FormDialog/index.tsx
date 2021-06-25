@@ -2,9 +2,10 @@
 /* eslint-disable import/no-unresolved */
 import React, { useState, useCallback } from 'react';
 import { Dialog, DialogContent, Typography } from '@material-ui/core';
+import LoginPage from 'src/pages/LoginPage';
 
-import LoginPopup from 'src/components/LoginPopup/components';
 import useStyles from './useStyles';
+// import LoginPopup from 'src/components/LoginPopup/components';
 
 interface FormDialogProps {
   redirectLogin: any;
@@ -38,7 +39,7 @@ const FormDialog: React.FunctionComponent<FormDialogProps> = (props) => {
         <DialogContent className={classes.field} style={{ paddingTop: '0px' }}>
           <div className='dialogContent'>
             <div className='dialog-container'>
-              <LoginPopup closePopup={callback} />
+              <LoginPage closePopup={callback} />
             </div>
           </div>
         </DialogContent>
