@@ -4,7 +4,7 @@ import React, { useState, useCallback } from 'react';
 import Dialog from '@material-ui/core/Dialog';
 import DialogContent from '@material-ui/core/DialogContent';
 import Typography from '@material-ui/core/Typography';
-import LoginPopup from 'src/components/LoginPopup/components';
+import LoginPage from 'src/pages/LoginPage';
 import useStyles from './useStyles';
 
 interface FormDialogProps {
@@ -39,7 +39,7 @@ const FormDialog: React.FunctionComponent<FormDialogProps> = (props) => {
         <DialogContent className={classes.field} style={{ paddingTop: '0px' }}>
           <div className='dialogContent'>
             <div className='dialog-container'>
-              <LoginPopup closePopup={callback} />
+              <LoginPage closePopup={callback} />
             </div>
           </div>
         </DialogContent>
