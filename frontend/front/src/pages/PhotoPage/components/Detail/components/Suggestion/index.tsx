@@ -71,12 +71,8 @@ const SuggestionComponent: React.FunctionComponent<SuggestionProps> = (props) =>
         const { results = [] } = data;
         results.forEach((item) => newListImg.push(item));
         setLoading(false);
-        setTimeout(() => {
-          window.scrollBy({
-            behavior: 'smooth',
-            top: 720,
-          });
-        }, 200);
+
+        valueRef?.current?.scrollIntoView({ behavior: 'smooth' });
       });
     } else {
       await dispatch(getPhotoSuggestAction(+previousPage, paramsId));

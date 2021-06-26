@@ -69,7 +69,7 @@ function Photos(): JSX.Element {
         results.forEach((item) => newListImg.push(item));
         setLoading(false);
 
-        valueRef?.current?.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'center' });
+        valueRef?.current?.scrollIntoView({ behavior: 'smooth' });
       });
     } else {
       const exist = previousPage.includes('?page=');

@@ -50,6 +50,7 @@ function MagazineSuggestion(props: SuggestionProps): JSX.Element {
         results.forEach((item) => newListCard.push(item));
 
         setLoading(false);
+        valueRef?.current?.scrollIntoView({ behavior: 'smooth' });
       });
     } else {
       // handle previous page
