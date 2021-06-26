@@ -10,7 +10,7 @@ interface InitialState {
   categories: Record<string, any>;
   magazineList: Record<string, any>;
   magazineDetail: Record<string, any>;
-  magazineListSuggest: Record<string, string>;
+  magazineListSuggest: Record<string, any>;
   magazineLikes: Record<string, string>;
   magazineComment: Record<string, string>;
 }

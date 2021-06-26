@@ -57,8 +57,8 @@ const MagazineContent: React.FunctionComponent<MangazineContentProps> = (props) 
 
   const renderMagazineList = () => (
     <>
-      {listCard.map((item) => (
-        <RootRef rootRef={valueRef} key={`${item}`}>
+      {listCard.map((item, index) => (
+        <RootRef rootRef={valueRef} key={`${index + 0}`}>
           <div className='magazine-grid-list'>
             <MagazineCard cardProps={item} />
           </div>

@@ -109,7 +109,7 @@ const useStyles: () => Record<
     width: '40px',
     borderRadius: '25px',
   },
-  icon: { marginLeft: '38px', cursor: 'pointer' },
+  icon: { cursor: 'pointer' },
 }));
 
 export { useStyles as default };

@@ -1,11 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable import/no-unresolved */
 import React, { useState, useCallback } from 'react';
-import Dialog from '@material-ui/core/Dialog';
-import DialogContent from '@material-ui/core/DialogContent';
-import Typography from '@material-ui/core/Typography';
+import { Dialog, DialogContent, Typography } from '@material-ui/core';
 import LoginPage from 'src/pages/LoginPage';
+
 import useStyles from './useStyles';
+// import LoginPopup from 'src/components/LoginPopup/components';
 
 interface FormDialogProps {
   redirectLogin: any;
@@ -31,8 +31,8 @@ const FormDialog: React.FunctionComponent<FormDialogProps> = (props) => {
   }, []);
 
   return (
-    <div>
-      <Typography onClick={handleClickOpen} className={classes.spanText}>
+    <>
+      <Typography component='span' onClick={handleClickOpen} className={classes.spanText}>
         Đăng nhập
       </Typography>
       <Dialog maxWidth={false} open={open} onClose={handleClose} aria-labelledby='form-dialog-title'>
@@ -44,7 +44,7 @@ const FormDialog: React.FunctionComponent<FormDialogProps> = (props) => {
           </div>
         </DialogContent>
       </Dialog>
-    </div>
+    </>
   );
 };
 

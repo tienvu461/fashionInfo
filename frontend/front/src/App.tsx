@@ -132,8 +132,8 @@ function App(): JSX.Element {
         <HeaderMenu>
           <>
             <Switch>
-              {routes.map((route) => (
-                <RouteWithSubRoutes key={route.path} {...route} />
+              {routes.map((route, index) => (
+                <RouteWithSubRoutes key={`${index + 0}`} {...route} />
               ))}
             </Switch>
             {handleFoooter()}
