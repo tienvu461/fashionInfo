@@ -1,11 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable import/no-unresolved */
 import React, { useState, useEffect } from 'react';
-import clsx from 'clsx';
-import { useHistory } from 'react-router-dom';
+import { useHistory, Link, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { useLocation } from 'react-router-dom';
-import Link from 'react-router-dom/Link';
 import {
   Typography,
   Box,
@@ -23,7 +20,6 @@ import { RootState } from 'src/store/store';
 import { getUserProfile } from 'src/features/Profile/ProfileAction';
 import { loginAction, getUrlSocialAction } from 'src/features/Login/LoginAction';
 
-import imgLogin from 'src/assets/images/Mask_Group_Login.png';
 import iconFb from 'src/assets/images/iconFb_Login.png';
 import iconGg from 'src/assets/images/iconfinder_Google_Loginin.png';
 import { HOST } from 'src/apis';
@@ -36,7 +32,11 @@ type FieldStates = {
   password: string;
 };
 
-function LoginPage({ closePopup }): JSX.Element {
+interface LoginProps {
+  closePopup: any;
+}
+
+const LoginPage: React.FunctionComponent<LoginProps> = ({ closePopup }) => {
   const classes = useStyles();
   const dispatch = useDispatch<any>();
   const history = useHistory();
@@ -58,9 +58,9 @@ function LoginPage({ closePopup }): JSX.Element {
       history.push(`${ROUTE_HOME}`);
     }
     if (!(location.pathname === ROUTE_LOGIN)) {
-      setPopUp(true)
+      setPopUp(true);
     }
-  });
+  }, [loginStatus, history, location]);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setfield({
@@ -123,27 +123,23 @@ function LoginPage({ closePopup }): JSX.Element {
     return `${HOST}${path}`;
   };
 
-  const loginInfo: {
-    image: string;
-  } = {
-    image: imgLogin,
-  }
+  // const loginInfo: {
+  //   image: string;
+  // } = {
+  //   image: imgLogin,
+  // }
 
   return (
     <Grid className={classes.root} container>
-      <Grid
-        item
-        xs={12}
-        sm={12}
-        md={6}
-        lg={6}
-        xl={6}
-        className={classes.leftLoginPage}
-      >
+      <Grid item xs={12} sm={12} md={6} lg={6} xl={6} className={classes.leftLoginPage}>
         <img
           alt='login'
           className={classes.loginImage}
-          src={popUp ? checkPathImg(featurePhoto[0]?.popup_photo.image_path) : checkPathImg(featurePhoto[0]?.login_photo.image_path)}
+          src={
+            popUp
+              ? checkPathImg(featurePhoto[0]?.popup_photo.image_path)
+              : checkPathImg(featurePhoto[0]?.login_photo.image_path)
+          }
         />
       </Grid>
       {handleCloseLoginPopup()}
@@ -246,11 +242,7 @@ function LoginPage({ closePopup }): JSX.Element {
                 </Link>
               </div>
             </div>
-            <Button
-              className={classes.submit}
-              fullWidth
-              type='submit'
-            >
+            <Button className={classes.submit} fullWidth type='submit'>
               {loading ? (
                 <CircularProgress />
               ) : (
@@ -263,14 +255,16 @@ function LoginPage({ closePopup }): JSX.Element {
           <Box textAlign='center'>
             <span className={classes.fontManual}>Chưa có tài khoản?</span>
             <Link className={classes.link} to='/register'>
-              <span className={classes.fontManual} style={{ cursor: 'pointer' }}> Đăng ký ngay</span>
+              <span className={classes.fontManual} style={{ cursor: 'pointer' }}>
+                {' '}
+                Đăng ký ngay
+              </span>
             </Link>
           </Box>
-
         </div>
       </Grid>
     </Grid>
   );
-}
+};
 
 export default LoginPage;

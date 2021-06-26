@@ -40,13 +40,12 @@ function MagazineSuggestion(props: SuggestionProps): JSX.Element {
   }, [dispatch, paramsId]);
 
   const handleClick = async (key: string) => {
-    const { next: nextPage = '' } = dataMagazineCard;
+    const { next: nextPage = 0 } = dataMagazineCard;
     const newListCard = [...listCard];
     setLoading(true);
 
     if (key === 'next') {
-      const nextNum = nextPage.split('&page=').pop();
-      await dispatch(getListSuggestMagazineAction(+`${nextNum}`, +`${paramsId}`)).then((data) => {
+      await dispatch(getListSuggestMagazineAction(nextPage, +`${paramsId}`)).then((data) => {
         const { results = [] } = data;
         results.forEach((item) => newListCard.push(item));
 

@@ -3,10 +3,10 @@
 /* eslint-disable camelcase */
 import React, { useState, useEffect } from 'react';
 import clsx from 'clsx';
-import { useHistory } from 'react-router-dom';
+import { useHistory, Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { Formik, FormikProps, Form } from 'formik';
-import Link from 'react-router-dom/Link';
+
 import * as Yup from 'yup';
 import {
   Typography,
