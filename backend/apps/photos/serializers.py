@@ -389,6 +389,7 @@ class MagazineFeatureSerializer(serializers.ModelSerializer):
         result = Magazine.objects.filter(id=data_fields['feature_magazine']).first()
         result = MagazineSerializer(result).data
         data_fields['feature_magazine'] = result
+        data_fields['created_at'] = int(instance.created_at.timestamp())
 
         return data_fields
 
