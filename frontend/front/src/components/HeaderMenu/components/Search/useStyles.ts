@@ -35,7 +35,7 @@ const useStyles: () => Record<
     position: 'absolute',
     display: 'flex',
     alignItems: 'flex-end',
-    marginBottom: '8px',
+    // marginBottom: '2px',
     pointerEvents: 'none',
     color: '#474747',
   },
@@ -64,6 +64,7 @@ const useStyles: () => Record<
   placeHolderInput: {
     '&::placeholder': {
       fontSize: '24px',
+      paddingTop: '20px',
     },
   },
   mobile: {
@@ -105,6 +106,7 @@ const useStyles: () => Record<
   },
   clearDesktopSearch: {
     cursor: 'pointer',
+    paddingRight: '20px',
   },
   clearMobileSearch: {
     cursor: 'pointer',
@@ -113,8 +115,9 @@ const useStyles: () => Record<
     marginRight: '16px',
   },
   loadingIcon: {
-    display: 'flex'
-  }
+    display: 'flex',
+    paddingRight: '20px',
+  },
 }));
 
 export { useStyles as default };
