@@ -135,6 +135,11 @@ export const theme = createMuiTheme({
         },
       },
     },
+    MuiInputBase: {
+      input: {
+        padding: 0
+      }
+    }
   },
 });
 

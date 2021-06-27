@@ -9,6 +9,7 @@ import { isEmpty } from 'lodash';
 import { RootState } from 'src/store/store';
 import banner from 'src/assets/images/magazine/banner.png';
 import { getListMagazineAction } from 'src/features/Magazine/MagazineAction';
+import { getFeatureMagazineAction } from 'src/features/FeaturePhotos/FeaturePhotoAction';
 import TabPanel from './component/TabPanel';
 import useStyles from './useStyles';
 import MagazineContent from '../MagazineContent';
@@ -45,12 +46,10 @@ const MagazineHeader: React.FunctionComponent<IProps> = ({ categoryName }) => {
     return [];
   }, [categories.results]);
 
-  const getMagazineList = (id) => {
-    let getCategoryName = arrMenu.map((item, index) => (index === id ? item.label : null));
-    getCategoryName = getCategoryName.filter((item) => item !== null);
-
-    setCategoryName(getCategoryName[0]);
-    dispatch(getListMagazineAction(getCategoryName[0], 1));
+  const getMagazineList = (getCategoryName) => {
+    setCategoryName(getCategoryName);
+    dispatch(getFeatureMagazineAction(getCategoryName));
+    dispatch(getListMagazineAction(getCategoryName, 1));
   };
 
   // fetch menu tab when click item menu in Drawer sidebar at mobile screen mode
@@ -62,7 +61,7 @@ const MagazineHeader: React.FunctionComponent<IProps> = ({ categoryName }) => {
         behavior: 'smooth',
       });
       setValue(magazineMenu.id);
-      getMagazineList(magazineMenu.id);
+      getMagazineList(magazineMenu.menu);
     }
   }, [magazineMenu, dispatch]);
 
@@ -72,6 +71,7 @@ const MagazineHeader: React.FunctionComponent<IProps> = ({ categoryName }) => {
 
     setValue(newValue);
     setCategoryName(getCategoryName[0]);
+    dispatch(getFeatureMagazineAction(getCategoryName[0]));
     dispatch(getListMagazineAction(getCategoryName[0], 1));
   };
 
@@ -108,7 +108,7 @@ const MagazineHeader: React.FunctionComponent<IProps> = ({ categoryName }) => {
       {arrMenu.map((menu, index) => (
         <div className={classes.content} key={`${index + 1}`}>
           <TabPanel value={value} index={index}>
-            <MagazineContent category={caterogyName} title={menu.description} />
+            <MagazineContent category={caterogyName} />
           </TabPanel>
         </div>
       ))}
