@@ -32,4 +32,4 @@ export const MAGAZINE_COMMENT_API = `${HOST}/api/magazine/comment`;
 
 // FEATURE PHOTO + MAGAZINE
 export const FEARTURE_PHOTO_API = `${HOST}/api/photos/feature`;
-export const FEARTURE_MAGAZINE_API = `${HOST}/api/magazine/feature`;
+export const FEARTURE_MAGAZINE_API = `${HOST}/api/magazine/feature?category=`;

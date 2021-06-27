@@ -21,9 +21,9 @@ export const getFeaturePhotoAction = () => async (dispatch: Dispatch): Promise<a
     return 0;
   };
 
-export const getFeatureMagazineAction = () => async (dispatch: Dispatch): Promise<any> => {
+export const getFeatureMagazineAction = (category: string) => async (dispatch: Dispatch): Promise<any> => {
     try {
-      const response = await getMagazinePhotoFeature();
+      const response = await getMagazinePhotoFeature(category);
       const { data = {}, status = '' } = response;
       if (status === 200) {
         dispatch(featureListMagazine(data));

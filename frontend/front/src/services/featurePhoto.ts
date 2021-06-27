@@ -4,4 +4,4 @@ import { FEARTURE_PHOTO_API, FEARTURE_MAGAZINE_API } from 'src/apis';
 import request from 'src/configs';
 
 export const getPhotoFeature = (): any => request(FEARTURE_PHOTO_API, 'GET');
-export const getMagazinePhotoFeature = (): any => request(FEARTURE_MAGAZINE_API, 'GET');
+export const getMagazinePhotoFeature = (category: string): any => request(`${FEARTURE_MAGAZINE_API}${category}`, 'GET');

@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { isEmpty } from 'lodash';
 import { getListCategoryAction, getListMagazineAction } from 'src/features/Magazine/MagazineAction';
 import { RootState } from 'src/store/store';
+import { getFeatureMagazineAction } from 'src/features/FeaturePhotos/FeaturePhotoAction';
 
 const MagazineHeader = lazy(() => import('./components/MagazineHeader'));
 
@@ -24,6 +25,7 @@ function MagazinePage(): JSX.Element {
     useEffect(() => {
       dispatch(getListCategoryAction());
       if (!magazineMenu.menu && catName) {
+        dispatch(getFeatureMagazineAction(catName));
         dispatch(getListMagazineAction(catName, 1));
       }
     }, [dispatch, magazineMenu.menu, catName]);
