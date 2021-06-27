@@ -274,14 +274,6 @@ def get_default_magazine():
 class MagazineFeature(models.Model):
     feature_magazine = ForeignKey(
         Magazine, related_name='feature', on_delete=models.CASCADE, default=get_default_magazine)
-    in_use = models.BooleanField(choices=modelConst.BINARY, default=True)
+    category = models.ForeignKey(MagazineCategory, on_delete=models.CASCADE, unique=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-
-    # when updated, there is only 1 config in use = true, others are false
-    def save(self, *args, **kwargs):
-        if not self.in_use:
-            return super(MagazineFeature, self).save(*args, **kwargs)
-        with transaction.atomic():
-            MagazineFeature.objects.filter(in_use=True).update(in_use=False)
-            return super(MagazineFeature, self).save(*args, **kwargs)
