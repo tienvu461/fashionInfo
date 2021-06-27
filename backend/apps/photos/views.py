@@ -605,7 +605,7 @@ class MagazineFeatureDetail(views.APIView):
         queryset = MagazineFeature.objects.filter(category__cat_name__iexact=category)
         if queryset.count() == 0:
             logger.error("Feature magazine does not exist")
-            return Response("Feature magazine does not exist", status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            return Response("Feature magazine does not exist", status=status.HTTP_400_BAD_REQUEST)
         serializer = MagazineFeatureSerializer(queryset, many=True)
         return Response(serializer.data)
 
