@@ -129,38 +129,39 @@ const MagazineContent: React.FunctionComponent<MangazineContentProps> = (props) 
        created_at = 0,
      } = data[0].feature_magazine;
 
-     return (
-       <div className={`magazine-container ${classes.container}`}>
-         <div className='magazine-img'>
-           <LazyLoadImage
-             alt='magazine-header-img'
-             src={checkPathImg(thumbnail)}
-             effect='blur'
-             height={controlHeithImg()}
-             width={controlWidthImg()}
-             delayMethod
-           />
-         </div>
-         <div className={classes.magazineHeader}>
-           <div className='magazine-title '>
-             <Typography variant='h3' component='h3' className={`${classes.magazineTitle} ${classes.headerTitle}`}>
-               {titleMagazine}
-             </Typography>
-             <Typography className={`${classes.magazineTitle} ${classes.headerSubTitle}`}>{summary}</Typography>
-             <div className={classes.author}>
-               <Typography variant='h6' component='h6' className={classes.authorName}>
-                 {sub_category}
+       return (
+         <div className={`magazine-container ${classes.container}`}>
+           <div className='magazine-img'>
+             <LazyLoadImage
+               alt='magazine-header-img'
+               src={checkPathImg(thumbnail)}
+               effect='blur'
+               height={controlHeithImg()}
+               width={controlWidthImg()}
+               delayMethod
+             />
+           </div>
+           <div className={classes.magazineHeader}>
+             <div className='magazine-title '>
+               <Typography variant='h3' component='h3' className={`${classes.magazineTitle} ${classes.headerTitle}`}>
+                 {titleMagazine}
                </Typography>
-               <Divider className={classes.divide} />
-               <Typography className={classes.authorTime}>{formatDate(created_at)}</Typography>
+               <Typography className={`${classes.magazineTitle} ${classes.headerSubTitle}`}>{summary}</Typography>
+               <div className={classes.author}>
+                 <Typography variant='h6' component='h6' className={classes.authorName}>
+                   {sub_category}
+                 </Typography>
+                 <Divider className={classes.divide} />
+                 <Typography className={classes.authorTime}>{formatDate(created_at)}</Typography>
+               </div>
              </div>
            </div>
          </div>
-       </div>
-     );
+       );
    };
 
   if (initialLoading) return <CircularProgress />;
+  if (isEmpty(listCard)) return null;
   return (
     <div className='magazine'>
       {isEmpty(featureListMagazine) ? null : renderMagazineTrending(featureListMagazine)}

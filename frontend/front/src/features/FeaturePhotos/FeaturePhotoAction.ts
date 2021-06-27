@@ -30,7 +30,7 @@ export const getFeatureMagazineAction = (category: string) => async (dispatch: D
         return data;
       }
     } catch (error) {
-      toast.error(`${error}`);
+      // toast.error(`${error}`);
     }
     return 0;
   };
