@@ -18,6 +18,7 @@ const useStyles: () => Record<
 > = makeStyles(() => ({
   container: {
     backgroundColor: gray2,
+    cursor: 'pointer'
   },
   magazineHeader: {
     backgroundColor: white,
