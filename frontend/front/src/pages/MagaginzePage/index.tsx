@@ -3,7 +3,7 @@ import React, { useEffect, lazy } from 'react';
 import { CircularProgress } from '@material-ui/core';
 import { useDispatch, useSelector } from 'react-redux';
 import { isEmpty } from 'lodash';
-import { getListCategoryAction, getListMagazineAction } from 'src/features/Magazine/MagazineAction';
+import { getListMagazineAction } from 'src/features/Magazine/MagazineAction';
 import { RootState } from 'src/store/store';
 import { getFeatureMagazineAction } from 'src/features/FeaturePhotos/FeaturePhotoAction';
 
@@ -23,7 +23,6 @@ function MagazinePage(): JSX.Element {
     const catName = getCategory();
 
     useEffect(() => {
-      dispatch(getListCategoryAction());
       if (!magazineMenu.menu && catName) {
         dispatch(getFeatureMagazineAction(catName));
         dispatch(getListMagazineAction(catName, 1));

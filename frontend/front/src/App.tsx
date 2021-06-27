@@ -34,6 +34,7 @@ import HeaderMenu from './components/HeaderMenu';
 import { loginSucess } from './features/Login/LoginSlice';
 import { getUserProfile } from './features/Profile/ProfileAction';
 import { refreshTokenAction } from './features/Login/LoginAction';
+import { getListCategoryAction } from './features/Magazine/MagazineAction';
 
 toast.configure({
   autoClose: 2000
@@ -108,6 +109,7 @@ function App(): JSX.Element {
   }
 
   useEffect(() => {
+    dispatch(getListCategoryAction());
     if (credentials) {
       dispatch(loginSucess(credentials));
       dispatch(getUserProfile());
