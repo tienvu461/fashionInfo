@@ -4,6 +4,7 @@
 /* eslint-disable import/no-unresolved */
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import { CircularProgress, Divider, Grid, RootRef, Typography, useMediaQuery } from '@material-ui/core';
 import { isEmpty } from 'lodash';
 import moment from 'moment';
@@ -14,6 +15,7 @@ import { getListMagazineAction } from 'src/features/Magazine/MagazineAction';
 import BtnViewMore from 'src/components/Buttons/ButtonViewMore';
 import { RootState } from 'src/store/store';
 import { HOST } from 'src/apis';
+import { ROUTE_MAGAZINE_DETAIL } from 'src/constants';
 
 import useStyles from './useStyles';
 import './_magazine.scss';
@@ -26,6 +28,7 @@ const MagazineContent: React.FunctionComponent<MangazineContentProps> = (props) 
   const classes = useStyles();
   const { category = '' } = props;
   const dispatch = useDispatch<any>();
+  const history = useHistory();
 
   const [loading, setLoading] = useState<boolean>(false);
   const [listCard, setListCard] = useState<Array<any>>([]);
@@ -127,10 +130,14 @@ const MagazineContent: React.FunctionComponent<MangazineContentProps> = (props) 
        summary = '',
        sub_category = '',
        created_at = 0,
+       id = 0
      } = data[0].feature_magazine;
 
        return (
-         <div className={`magazine-container ${classes.container}`}>
+         <div
+           onClick={() => history.push(`${ROUTE_MAGAZINE_DETAIL}/${id}`)}
+           className={`magazine-container ${classes.container}`}
+         >
            <div className='magazine-img'>
              <LazyLoadImage
                alt='magazine-header-img'
