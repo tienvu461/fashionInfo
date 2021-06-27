@@ -211,7 +211,7 @@ class MagazineCategoryAdmin(admin.ModelAdmin):
 @admin.register(MagazineFeature)
 class MagazineFeatureAdmin(admin.ModelAdmin):
     # form = CustomizedConfigForm
-    list_display = ('id', 'feature_magazine', 'in_use', 'created_at')
+    list_display = ('id', 'feature_magazine', 'category', 'created_at')
 
 @admin.register(MagazineSubCategory)
 class MagazineSubCategoryAdmin(admin.ModelAdmin):

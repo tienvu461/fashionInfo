@@ -597,10 +597,15 @@ class MagazineFeatureDetail(views.APIView):
     # serializer_class = MagazineFeatureSerializer
 
     def get(self, request, *args, **kwargs):
-        queryset = MagazineFeature.objects.filter(in_use=True)
+        category = request.GET.get('category', '')
+        logger.debug(category)
+        if not category:
+            raise ValidationError
+
+        queryset = MagazineFeature.objects.filter(category__cat_name__iexact=category)
         if queryset.count() == 0:
             logger.error("Feature magazine does not exist")
-            return Response("Feature magazine does not exist", status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            return Response("Feature magazine does not exist", status=status.HTTP_400_BAD_REQUEST)
         serializer = MagazineFeatureSerializer(queryset, many=True)
         return Response(serializer.data)
 

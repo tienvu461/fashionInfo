@@ -382,13 +382,14 @@ class MagazineSuggestSerializer(MagazineSerializer):
 class MagazineFeatureSerializer(serializers.ModelSerializer):
     class Meta:
         model = MagazineFeature
-        fields = ['id', 'feature_magazine', 'in_use', 'created_at']
+        fields = ['id', 'feature_magazine', 'category', 'created_at']
 
     def to_representation(self, instance):
         data_fields = super(MagazineFeatureSerializer, self).to_representation(instance)
         result = Magazine.objects.filter(id=data_fields['feature_magazine']).first()
         result = MagazineSerializer(result).data
         data_fields['feature_magazine'] = result
+        data_fields['created_at'] = int(instance.created_at.timestamp())
 
         return data_fields
 
