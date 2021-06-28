@@ -2,13 +2,13 @@
 /* eslint-disable import/no-unresolved */
 import React, { useState, useRef, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import { CircularProgress, Grid, InputBase, TextField } from '@material-ui/core';
 import { debounce } from 'lodash';
 
 import searchIcon from 'src/assets/images/searchIcon.svg';
 import clearIcon from 'src/assets/images/clearIcon.png';
-import { searchPhotoAction } from 'src/features/Search/searchAction';
+import { searchMagazineAction, searchPhotoAction } from 'src/features/Search/searchAction';
 import useStyles from './useStyles';
 
 interface SearchProps {
@@ -26,13 +26,15 @@ const Search: React.FunctionComponent<SearchProps> = (props) => {
   const [clear, setClear] = useState<boolean>(false);
   const [focused, setFocused] = useState(false);
   const valueRef = useRef<HTMLInputElement>();
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<any>();
+  const location = useLocation();
+
   const onChange = (event) => {
     const textSearch = event.target.value;
     setValue(textSearch);
   };
 
-  const search = debounce(() => {
+  const searchPhoto = debounce(() => {
     dispatch(searchPhotoAction(1, value)).then(() => {
       if (screen === 'mobile') {
         toggleDrawer('right', false);
@@ -44,11 +46,32 @@ const Search: React.FunctionComponent<SearchProps> = (props) => {
     valueRef.current?.blur();
   }, 1000);
 
+  const searchMagazine = debounce(() => {
+    dispatch(searchMagazineAction(1, value)).then(() => {
+      if (screen === 'mobile') {
+        toggleDrawer('right', false);
+      }
+    });
+    history.push(`/magazine/search/${value}`);
+    setValue('');
+    setLoading(false);
+    valueRef.current?.blur();
+  }, 1000);
+
   const handleKeyDown = (event: React.KeyboardEvent) => {
-    if (value !== '') {
-      if (event.key === 'Enter') {
-        setLoading(true);
-        search();
+    if (location.pathname.includes('/photo')) {
+      if (value !== '') {
+        if (event.key === 'Enter') {
+          setLoading(true);
+          searchPhoto();
+        }
+      }
+    } else if (location.pathname === '/') {
+      if (value !== '') {
+        if (event.key === 'Enter') {
+          setLoading(true);
+          searchMagazine();
+        }
       }
     }
   };
