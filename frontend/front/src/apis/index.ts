@@ -13,7 +13,8 @@ export const GET_AUTHEN_URL = `${HOST}/api/social/o/google-oauth2/?redirect_uri=
 export const USER_PROFILE_API = `${HOST}/api/user/profile/`;
 
 // SEARCH_TAG
-export const SEARCH_TAG_API = `${HOST}/api/photos`;
+export const SEARCH_TAG_PHOTO_API = `${HOST}/api/photos/search`;
+export const SEARCH_TAG_MAGAZINE_API = `${HOST}/api/magazine/search`;
 
 // PHOTO
 export const PHOTO_LIST_API = `${HOST}/api/photos/?page=`;

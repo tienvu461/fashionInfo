@@ -1,7 +1,16 @@
 /* eslint-disable import/no-unresolved */
 import { lazy } from 'react';
 
-import { ROUTE_FORUM, ROUTE_HOME, ROUTE_LOGIN, ROUTE_MAGAZINE_DETAIL, ROUTE_PHOTO, ROUTE_PHOTO_SEARCH, ROUTE_REGISTER } from 'src/constants';
+import {
+  ROUTE_FORUM,
+  ROUTE_HOME,
+  ROUTE_LOGIN,
+  ROUTE_MAGAZINE_DETAIL,
+  ROUTE_PHOTO,
+  ROUTE_PHOTO_SEARCH,
+  ROUTE_REGISTER,
+  ROUTE_MAGAZINE_SEARCH,
+} from 'src/constants';
 import ForumPage from 'src/pages/ForumPage';
 import LoginPage from 'src/pages/LoginPage';
 import NotFound from 'src/pages/NotFound';
@@ -9,6 +18,7 @@ import RegisterPage from 'src/pages/Register';
 import DetailPhoto from 'src/pages/PhotoPage/components/Detail';
 import DetailMagazine from 'src/pages/MagaginzePage/components/Detail';
 import PhotoSearchPage from 'src/pages/PhotoSearchPage';
+import MagazineSearchPage from 'src/pages/MagazineSearchPage';
 
 const MagazinePage = lazy(() => import('../pages/MagaginzePage'));
 const PhotoPage = lazy(() => import('../pages/PhotoPage'));
@@ -52,6 +62,11 @@ export const routes = [
   {
     path: ROUTE_PHOTO_SEARCH,
     component: PhotoSearchPage,
+    exact: true,
+  },
+  {
+    path: ROUTE_MAGAZINE_SEARCH,
+    component: MagazineSearchPage,
     exact: true,
   },
   {

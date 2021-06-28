@@ -13,12 +13,13 @@ const useStyles: () => Record<
   | 'authorTime'
   | 'topic'
   | 'divide'
-  | 'btn',
+  | 'btn'
+  | 'textSearch',
   string
 > = makeStyles(() => ({
   container: {
     backgroundColor: gray2,
-    cursor: 'pointer'
+    cursor: 'pointer',
   },
   magazineHeader: {
     backgroundColor: white,
@@ -119,6 +120,13 @@ const useStyles: () => Record<
   },
   btn: {
     padding: '40px 0 80px',
+  },
+  textSearch: {
+    fontSize: '120px',
+    textAlign: 'left',
+    fontFamily: 'Darker Grotesque',
+    fontWeight: 'bold',
+    backgroundColor: 'transparent',
   },
 }));
 
