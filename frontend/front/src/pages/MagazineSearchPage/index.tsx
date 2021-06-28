@@ -89,7 +89,7 @@ function MagazineSearchPage(): JSX.Element {
     }
 
     setListCard(newListCard);
-    valueRef?.current?.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'center' });
+    valueRef?.current?.scrollIntoView({ behavior: 'smooth' });
   };
 
   const handleSearchTagNotFound = () => {
