@@ -3,15 +3,17 @@ import { createSlice } from '@reduxjs/toolkit';
 interface InitialSate {
     dataSearch: {
         listPhoto: Array<any>;
-        dataOrigin: Record<string, string>;
-    }
+        dataOrigin: Record<string, any>;
+    };
+    textSearch: string;
 }
 
 const initialState: InitialSate = {
     dataSearch: {
         listPhoto: [],
         dataOrigin: {},
-    }
+    },
+    textSearch: ''
 };
 
 // function removeKeyinObject(object, value) {
@@ -25,16 +27,19 @@ const searchTagSlice = createSlice({
     initialState,
     reducers: {
         getDataSearch: (state, { payload }) => {
-        state.dataSearch = {
-            listPhoto: payload.data.results,
-            dataOrigin: { ...payload.data },
-        };
-    }
+            state.dataSearch = {
+                listPhoto: payload.data.results,
+                dataOrigin: { ...payload.data },
+            };
+        },
+        textSearch: (state, { payload }) => {
+            state.textSearch = payload;
+        }
 }
 });
 
 const { actions, reducer } = searchTagSlice;
-const { getDataSearch } = actions;
-export { getDataSearch };
+const { getDataSearch, textSearch } = actions;
+export { getDataSearch, textSearch };
 
 export default reducer;
