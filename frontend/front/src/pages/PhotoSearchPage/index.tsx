@@ -6,7 +6,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import { Grid, Typography, Box, RootRef } from '@material-ui/core';
 import Skeleton from '@material-ui/lab/Skeleton';
 import { useDispatch, useSelector } from 'react-redux';
-import { searchAction } from 'src/features/Search/searchAction';
+import { searchPhotoAction } from 'src/features/Search/searchAction';
 import Photo from 'src/components/Photo';
 import BtnViewMore from 'src/components/Buttons/ButtonViewMore';
 
@@ -31,7 +31,7 @@ function PhotoSearchPage(): JSX.Element {
     setLoading(true);
     setInitialLoading(true);
     setListImg([]);
-    dispatch(searchAction(1, `${textSearch}`)).then((data) => {
+    dispatch(searchPhotoAction(1, `${textSearch}`)).then((data) => {
       const { results = [] } = data;
       setListImg(results);
       setInitialLoading(false);
@@ -75,7 +75,7 @@ function PhotoSearchPage(): JSX.Element {
     const getStringSearch = nextPage.split('?page=').pop();
     if (key === 'next') {
       const getNum_textSearch = getStringSearch.split('&search_text=');
-      await dispatch(searchAction(getNum_textSearch[0], getNum_textSearch[1])).then((data) => {
+      await dispatch(searchPhotoAction(getNum_textSearch[0], getNum_textSearch[1])).then((data) => {
         const { results = [] } = data;
         results.forEach((item) => currentPhotoList.push(item));
         setLoading(false);
@@ -89,7 +89,7 @@ function PhotoSearchPage(): JSX.Element {
       if (exist) {
         prevNum = +`${previousPage.split('?page=').pop()}`;
       }
-      dispatch(searchAction(+`${prevNum}`, `${textSearch}`));
+      dispatch(searchPhotoAction(+`${prevNum}`, `${textSearch}`));
     }
     setListImg(currentPhotoList);
   };

@@ -8,7 +8,7 @@ import { debounce } from 'lodash';
 
 import searchIcon from 'src/assets/images/searchIcon.svg';
 import clearIcon from 'src/assets/images/clearIcon.png';
-import { searchAction } from 'src/features/Search/searchAction';
+import { searchPhotoAction } from 'src/features/Search/searchAction';
 import useStyles from './useStyles';
 
 interface SearchProps {
@@ -33,7 +33,7 @@ const Search: React.FunctionComponent<SearchProps> = (props) => {
   };
 
   const search = debounce(() => {
-    dispatch(searchAction(1, value)).then(() => {
+    dispatch(searchPhotoAction(1, value)).then(() => {
       if (screen === 'mobile') {
         toggleDrawer('right', false);
       }
