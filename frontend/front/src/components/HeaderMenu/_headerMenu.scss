@@ -20,16 +20,17 @@
     // screen >= 600
     @media screen and (min-width: 600px) {
         width: 100%;
+        padding: 0 20px;
     }
 
     // screen >= 960
     @media screen and (min-width: 960px) {
-        width: 760px;
+        // width: 760px;
     }
 
     // screen >= 1280
     @media screen and (min-width: 1280px) {
-        width: 1160px;
+        // width: 1160px;
     }
 
     // screen >= 1600
