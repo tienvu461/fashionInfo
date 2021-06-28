@@ -66,7 +66,7 @@ const Search: React.FunctionComponent<SearchProps> = (props) => {
           searchPhoto();
         }
       }
-    } else if (location.pathname === '/') {
+    } else if (location.pathname === '/' || location.pathname.includes('/magazine')) {
       if (value !== '') {
         if (event.key === 'Enter') {
           setLoading(true);
