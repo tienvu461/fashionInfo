@@ -35,6 +35,7 @@ import { loginSucess } from './features/Login/LoginSlice';
 import { getUserProfile } from './features/Profile/ProfileAction';
 import { refreshTokenAction } from './features/Login/LoginAction';
 import { getListCategoryAction } from './features/Magazine/MagazineAction';
+import { getFeaturePhotoAction } from './features/FeaturePhotos/FeaturePhotoAction';
 
 toast.configure({
   autoClose: 2000
@@ -110,6 +111,7 @@ function App(): JSX.Element {
 
   useEffect(() => {
     dispatch(getListCategoryAction());
+    dispatch(getFeaturePhotoAction());
     if (credentials) {
       dispatch(loginSucess(credentials));
       dispatch(getUserProfile());
