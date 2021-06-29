@@ -101,8 +101,14 @@ const useStyles: () => Record<
   },
   actions: {
     display: 'flex',
-    justifyContent: 'center',
     alignItems: 'center',
+    [theme.breakpoints.down('md')]: {
+      justifyContent: 'center',
+    },
+    [theme.breakpoints.up('md')]: {
+      width: '129px',
+      justifyContent: 'flex-end',
+    },
   },
   iconImg: {
     height: '40px',
