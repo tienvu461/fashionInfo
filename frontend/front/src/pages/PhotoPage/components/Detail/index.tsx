@@ -222,7 +222,7 @@ const DetaiPhoto: React.FunctionComponent<DetailProps> = (props) => {
               </Typography>
             </Grid>
             {renderInformation()}
-            <Tags listTags={listTags} />;
+            <Tags page='photo' listTags={listTags} />;
           </Grid>
         </div>
       </>

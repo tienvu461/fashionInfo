@@ -30,6 +30,11 @@ function PhotoSearchPage(): JSX.Element {
 
   // initial fetch data and set gallery to state once time
   useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: 'smooth',
+    });
     setLoading(true);
     setInitialLoading(true);
     setListImg([]);
