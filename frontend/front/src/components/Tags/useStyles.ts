@@ -13,6 +13,7 @@ const useStyles: () => Record<
     background: gray1,
     padding: '3px 15px',
     marginRight: '4px',
+    cursor: 'pointer',
 
     // responsive
     [theme.breakpoints.down('xs')]: {

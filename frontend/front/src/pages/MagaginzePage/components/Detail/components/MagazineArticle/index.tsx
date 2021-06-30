@@ -145,7 +145,7 @@ const MagazineArticle: React.FunctionComponent<MagazineArticleProps> = (props) =
         />
       </div>
       <div className='article-content'>{ReactHtmlParser(content)}</div>
-      <Tags listTags={tags} />
+      <Tags page='magazine' listTags={tags} />
     </>
   );
 };

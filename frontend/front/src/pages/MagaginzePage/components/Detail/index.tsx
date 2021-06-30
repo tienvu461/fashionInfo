@@ -64,7 +64,7 @@ const DetailMagazine: React.FunctionComponent<DetailProps> = (props) => {
   }
 
   const handleScrollToComment = () => {
-    valueRef?.current?.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'center' });
+    valueRef?.current?.scrollIntoView();
   };
 
   return (
