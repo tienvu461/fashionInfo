@@ -16,7 +16,6 @@ const useStyles: () => Record<
   string
 > = makeStyles((theme: Theme) => ({
   search: {
-    // position: 'relative',
     borderRadius: theme.shape.borderRadius,
     backgroundColor: fade(theme.palette.common.white, 0.15),
     '&:hover': { backgroundColor: fade(theme.palette.common.white, 0.25) },
@@ -41,12 +40,22 @@ const useStyles: () => Record<
   },
   inputDesktop: {
     paddingLeft: '53px',
-    width: '50vh',
+    [theme.breakpoints.down('lg')]: {
+      width: '30vh',
+    },
+    [theme.breakpoints.up('lg')]: {
+      width: '40vh',
+    },
     fontSize: '18px',
     fontFamily: 'Roboto',
     transition: theme.transitions.create('width'),
     '&.Mui-focused': {
-      width: '50vh',
+      [theme.breakpoints.down('lg')]: {
+        width: '30vh',
+      },
+      [theme.breakpoints.up('lg')]: {
+        width: '40vh',
+      },
     },
     '&.MuiInput-underline:before': {
       display: 'none',

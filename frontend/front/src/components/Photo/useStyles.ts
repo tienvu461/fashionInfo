@@ -1,6 +1,6 @@
 /* eslint-disable import/no-unresolved */
 import { makeStyles } from '@material-ui/core/styles';
-import { black } from 'src/styles/theme';
+import { black, theme } from 'src/styles/theme';
 
 const useStyles: () => Record<
   'card' | 'picture' | 'actions' | 'left' | 'leftActions' | 'right' | 'num' | 'icon',
@@ -10,7 +10,7 @@ const useStyles: () => Record<
     width: '100%',
     boxShadow: 'none !important',
     borderRadius: '0 !important',
-    background: 'transparent'
+    background: 'transparent',
   },
   picture: {
     height: '100%',
@@ -21,6 +21,9 @@ const useStyles: () => Record<
     justifyContent: 'space-between',
     alignItems: 'center',
     padding: '30px',
+    [theme.breakpoints.down('sm')]: {
+      padding: '30px 74px',
+    },
   },
   left: {
     display: 'flex',
