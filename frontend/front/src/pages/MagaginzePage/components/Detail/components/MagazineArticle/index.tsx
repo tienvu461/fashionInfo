@@ -142,6 +142,7 @@ const MagazineArticle: React.FunctionComponent<MagazineArticleProps> = (props) =
           height='100%'
           width='100%'
           delayMethod
+          placeholderSrc='loading'
         />
       </div>
       <div className='article-content'>{ReactHtmlParser(content)}</div>
