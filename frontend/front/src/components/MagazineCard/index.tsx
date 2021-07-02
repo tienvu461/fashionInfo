@@ -3,7 +3,7 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
 import moment from 'moment';
-import { LazyLoadImage } from 'react-lazy-load-image-component';
+import LazyLoad from 'react-lazyload';
 import { Card, CardActionArea, CardContent, Divider, Typography, useMediaQuery } from '@material-ui/core';
 
 import cardImg from 'src/assets/images/magazine/magazineCard.png';
@@ -28,7 +28,6 @@ const MagazineCard: React.FunctionComponent<MagazineCardProps> = (props) => {
     created_at: createAt = '',
     thumbnail = '',
   } = cardProps;
-  // console.log(cardProps)
 
   const screenMin = useMediaQuery('(min-width:1280px)');
   const screenMax = useMediaQuery('(max-width:1920px)');
@@ -58,18 +57,6 @@ const MagazineCard: React.FunctionComponent<MagazineCardProps> = (props) => {
     return `${HOST}${path}`;
   };
 
-  const controlWidthImg = () => {
-    if (matches) {
-      return 480;
-    }
-    if (matches1) {
-      return 360;
-    }
-    if (matches2) return 480;
-
-    return '100%';
-  };
-
   const controlHeithImg = () => {
     if (matches) {
       return 350;
@@ -86,15 +73,14 @@ const MagazineCard: React.FunctionComponent<MagazineCardProps> = (props) => {
     <>
       <Card className={`${classes.root} root-card`}>
         <CardActionArea onClick={() => history.push(`${ROUTE_MAGAZINE_DETAIL}/${id}`)}>
-          <LazyLoadImage
-            alt='Contemplative Reptile'
-            className={`${classes.cardMagazine} card-magazine`}
-            src={checkPathImg(thumbnail || cardImg)}
-            effect='blur'
-            height={controlHeithImg()}
-            width={controlWidthImg()}
-            delayMethod
-          />
+          <LazyLoad height={controlHeithImg()}>
+            <img
+              alt='Contemplative Reptile'
+              className={`${classes.cardMagazine} card-magazine`}
+              src={checkPathImg(thumbnail || cardImg)}
+              loading='lazy'
+            />
+          </LazyLoad>
           <CardContent className='card-magazine-content'>
             <div className='sub-category-magazine'>
               <Typography className={`${classes.headerText} ${classes.subCategory}`} variant='h6' component='h6'>

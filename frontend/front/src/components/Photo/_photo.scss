@@ -28,4 +28,20 @@
 		-ms-transition:all 0.3s ease-in-out;
 		transition:all 0.3s ease-in-out;
     }
+
+    @media screen and (max-width: 960px) {
+        .picture{
+          height: 600px;
+        }
+    }
+    @media screen and (min-width: 960px) {
+        .picture{
+          height: 450px;
+        }
+    }
+    @media screen and (min-width: 1600px) {
+      .picture{
+          height: 600px;
+      }
+    }
 }

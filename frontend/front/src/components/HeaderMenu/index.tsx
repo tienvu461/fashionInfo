@@ -17,6 +17,8 @@ import {
   IconButton,
   Toolbar,
 } from '@material-ui/core';
+import { LazyLoadImage } from 'react-lazy-load-image-component';
+
 import logo from 'src/assets/images/logoLucete.svg';
 import icon from 'src/assets/images/user.svg';
 import ScrollIcon from 'src/assets/images/scrollToTop.svg';
@@ -82,9 +84,16 @@ const HeaderMenu: React.FunctionComponent<AuxProps> = (props) => {
             aria-haspopup='true'
             onClick={handleProfileMenuOpen}
             color='inherit'
-            style={{ height: '40px', width: '40px' }}
           >
-            <img alt='avt' src={profiePhoto} className={classes.iconImg} />
+            <LazyLoadImage
+              alt='magazine-header-img'
+              src={profiePhoto}
+              className={classes.iconImg}
+              effect='blur'
+              height={40}
+              width={40}
+              delayMethod
+            />
           </IconButton>
         </Grid>
       );
