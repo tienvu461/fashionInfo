@@ -111,8 +111,8 @@ const useStyles: () => Record<
     },
   },
   iconImg: {
-    height: '40px',
-    width: '40px',
+    // height: '40px',
+    // width: '40px',
     borderRadius: '25px',
   },
   icon: { cursor: 'pointer' },

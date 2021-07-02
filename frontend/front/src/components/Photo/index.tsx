@@ -5,7 +5,7 @@ import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { Card, CardActionArea, useMediaQuery } from '@material-ui/core';
-import { LazyLoadImage } from 'react-lazy-load-image-component';
+import LazyLoad from 'react-lazyload';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import { toast } from 'react-toastify';
 
@@ -74,18 +74,6 @@ const Photo: React.FunctionComponent<PropsType> = (props) => {
     }
   }, [userLikes, userID]);
 
-  const controlWidthImg = () => {
-    if (matches) {
-      return 480;
-    }
-    if (matches1) {
-      return 360;
-    }
-    if (matches2) return 480;
-
-    return 480;
-  };
-
   const controlHeithImg = () => {
     if (matches) {
       return 600;
@@ -102,15 +90,9 @@ const Photo: React.FunctionComponent<PropsType> = (props) => {
     <>
       <Card className={`${classes.card} card`}>
         <CardActionArea onClick={() => history.push(`${ROUTE_PHOTO}/${id}`)}>
-          <LazyLoadImage
-            alt='Contemplative Reptile'
-            className={classes.picture}
-            src={checkPathImg(pathImg)}
-            effect='blur'
-            height={controlHeithImg()}
-            width={controlWidthImg()}
-            delayMethod
-          />
+          <LazyLoad height={controlHeithImg()}>
+            <img className={`${classes.picture} picture`} alt='Feature Photos' src={checkPathImg(pathImg)} />
+          </LazyLoad>
         </CardActionArea>
         <div className='cardActions'>
           <div className={classes.actions}>
