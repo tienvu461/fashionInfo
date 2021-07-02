@@ -5,7 +5,8 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { CircularProgress, Divider, Grid, RootRef, Typography } from '@material-ui/core';
+import LazyLoad from 'react-lazyload';
+import { CircularProgress, Divider, Grid, RootRef, Typography, useMediaQuery } from '@material-ui/core';
 import { isEmpty } from 'lodash';
 import moment from 'moment';
 
@@ -33,6 +34,10 @@ const MagazineContent: React.FunctionComponent<MangazineContentProps> = (props) 
   const [loading, setLoading] = useState<boolean>(false);
   const [listCard, setListCard] = useState<Array<any>>([]);
   const [initialLoading, setInitialLoading] = useState<boolean>(false);
+
+  const matches = useMediaQuery('(min-width:1600px)');
+  const matches1 = useMediaQuery('(min-width:1280px)');
+  const matches2 = useMediaQuery('(min-width:960px)');
 
   const valueRef = useRef<HTMLInputElement>(null);
   const magazineList = useSelector((state: RootState) => state.magazine.magazineList);
@@ -95,6 +100,18 @@ const MagazineContent: React.FunctionComponent<MangazineContentProps> = (props) 
     valueRef?.current?.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'center' });
   };
 
+  const controlHeithImg = () => {
+    if (matches) {
+      return 600;
+    }
+    if (matches1) {
+      return 1160 * (15 / 38);
+    }
+    if (matches2) return 'auto';
+
+    return '100%';
+  };
+
    const renderMagazineTrending = (data) => {
      const {
        thumbnail = '',
@@ -111,7 +128,13 @@ const MagazineContent: React.FunctionComponent<MangazineContentProps> = (props) 
            className={`magazine-container ${classes.container}`}
          >
            <div className='magazine-img'>
-             { loadingTab ? <CircularProgress /> : <img alt='ok' src={checkPathImg(thumbnail)} /> }
+             {loadingTab ? (
+               <CircularProgress />
+             ) : (
+               <LazyLoad height={controlHeithImg()}>
+                 <img alt='ok' src={checkPathImg(thumbnail)} />
+               </LazyLoad>
+             )}
            </div>
            <div className={classes.magazineHeader}>
              <div className='magazine-title '>
