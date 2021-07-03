@@ -131,7 +131,7 @@ const MagazineContent: React.FunctionComponent<MangazineContentProps> = (props) 
              {loadingTab ? (
                <CircularProgress />
              ) : (
-               <LazyLoad height={controlHeithImg()}>
+               <LazyLoad style={{ height: `${controlHeithImg()}px` }}>
                  <img alt='ok' src={checkPathImg(thumbnail)} />
                </LazyLoad>
              )}
