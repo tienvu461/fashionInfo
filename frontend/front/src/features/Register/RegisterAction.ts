@@ -5,7 +5,7 @@ import { Dispatch } from '@reduxjs/toolkit';
 import { toast } from 'react-toastify';
 
 import { registerService } from 'src/services/auth';
-import { registerSucess, registerFail } from './RegisterSlice';
+import { registerSucess } from './RegisterSlice';
 
 export const registerAction = (payload: {
     email: string; password: string; re_password: string

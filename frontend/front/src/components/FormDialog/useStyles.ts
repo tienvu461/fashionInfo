@@ -4,7 +4,7 @@ const useStyles: () => Record<
     | 'spanText'
     | 'field',
     string
-> = makeStyles(() => ({
+> = makeStyles((theme) => ({
     spanText: {
         lineHeight: '19px',
         fontFamily: 'Roboto',
@@ -16,6 +16,22 @@ const useStyles: () => Record<
     },
     field: {
         padding: '0px',
+        // width: '1260px',
+        [theme.breakpoints.up('xs')]: {
+            // width: '400px',
+        },
+        [theme.breakpoints.up('sm')]: {
+            // width: '400px',
+        },
+        [theme.breakpoints.up('md')]: {
+            // width: '400px',
+        },
+        [theme.breakpoints.up('lg')]: {
+            width: '1260px',
+        },
+        [theme.breakpoints.up('xl')]: {
+            width: '1260px',
+        }
     },
 }));
 

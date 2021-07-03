@@ -5,6 +5,7 @@ import {
   ROUTE_FORUM,
   ROUTE_HOME,
   ROUTE_LOGIN,
+  ROUTE_FORGOTPASSWORD,
   ROUTE_MAGAZINE_DETAIL,
   ROUTE_PHOTO,
   ROUTE_PHOTO_SEARCH,
@@ -13,11 +14,13 @@ import {
 } from 'src/constants';
 import ForumPage from 'src/pages/ForumPage';
 import LoginPage from 'src/pages/LoginPage';
+import ForgotPassword from 'src/pages/ForgotPasswordPage';
 import NotFound from 'src/pages/NotFound';
 import RegisterPage from 'src/pages/Register';
 import DetailPhoto from 'src/pages/PhotoPage/components/Detail';
 import DetailMagazine from 'src/pages/MagaginzePage/components/Detail';
 import PhotoSearchPage from 'src/pages/PhotoSearchPage';
+import ChangePassword from 'src/pages/ChangePassswordPage';
 import MagazineSearchPage from 'src/pages/MagazineSearchPage';
 
 const MagazinePage = lazy(() => import('../pages/MagaginzePage'));
@@ -60,8 +63,18 @@ export const routes = [
     exact: true,
   },
   {
+    path: ROUTE_FORGOTPASSWORD,
+    component: ForgotPassword,
+    exact: true,
+  },
+  {
     path: ROUTE_PHOTO_SEARCH,
     component: PhotoSearchPage,
+    exact: true,
+  },
+  {
+    path: '/user/reset_password_confirm/:uid/:token', // path changePW page render when active email
+    component: ChangePassword,
     exact: true,
   },
   {
