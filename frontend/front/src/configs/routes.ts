@@ -9,7 +9,8 @@ import {
   ROUTE_MAGAZINE_DETAIL,
   ROUTE_PHOTO,
   ROUTE_PHOTO_SEARCH,
-  ROUTE_REGISTER
+  ROUTE_REGISTER,
+  ROUTE_MAGAZINE_SEARCH,
 } from 'src/constants';
 import ForumPage from 'src/pages/ForumPage';
 import LoginPage from 'src/pages/LoginPage';
@@ -20,6 +21,7 @@ import DetailPhoto from 'src/pages/PhotoPage/components/Detail';
 import DetailMagazine from 'src/pages/MagaginzePage/components/Detail';
 import PhotoSearchPage from 'src/pages/PhotoSearchPage';
 import ChangePassword from 'src/pages/ChangePassswordPage';
+import MagazineSearchPage from 'src/pages/MagazineSearchPage';
 
 const MagazinePage = lazy(() => import('../pages/MagaginzePage'));
 const PhotoPage = lazy(() => import('../pages/PhotoPage'));
@@ -73,6 +75,11 @@ export const routes = [
   {
     path: '/user/reset_password_confirm/:uid/:token', // path changePW page render when active email
     component: ChangePassword,
+    exact: true,
+  },
+  {
+    path: ROUTE_MAGAZINE_SEARCH,
+    component: MagazineSearchPage,
     exact: true,
   },
   {

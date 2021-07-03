@@ -2,7 +2,7 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { LazyLoadImage } from 'react-lazy-load-image-component';
+import LazyLoad from 'react-lazyload';
 import { Typography, useMediaQuery } from '@material-ui/core';
 import BannerPic from 'src/assets/images/photos/hotPic.jpg';
 import { RootState } from 'src/store/store';
@@ -41,18 +41,6 @@ function PhotoHeader(): JSX.Element {
     return `${HOST}${path}`;
   };
 
-  const controlWidthImg = () => {
-    if (matches1) {
-      return '985.69px';
-    }
-    if (matches2) {
-      return '100%';
-    }
-    if (matches3) return '100%';
-
-    return '100%';
-  };
-
   const controlHeithImg = () => {
     if (matches1) {
       return 755;
@@ -81,15 +69,13 @@ function PhotoHeader(): JSX.Element {
           className='right-section'
           style={matches ? { marginBottom: '80px' } : {}}
         >
-          <LazyLoadImage
-            alt='Feature Photo'
-            className={classes.imgBanner}
-            src={checkPathImg(featurePhoto[0]?.feature_photo.image_path)}
-            effect='blur'
-            height={controlHeithImg()}
-            width={controlWidthImg()}
-            delayMethod
-          />
+          <LazyLoad height={controlHeithImg()}>
+            <img
+              className={classes.imgBanner}
+              alt='Feature Photos'
+              src={checkPathImg(featurePhoto[0]?.feature_photo.image_path)}
+            />
+          </LazyLoad>
         </div>
       </div>
     </div>

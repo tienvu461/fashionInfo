@@ -4,11 +4,12 @@
 /* eslint-disable import/no-unresolved */
 import React, { useEffect, useMemo, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Grid, Typography, Tabs, Tab, useMediaQuery } from '@material-ui/core';
+import { Grid, Typography, Tabs, Tab, useMediaQuery, CircularProgress } from '@material-ui/core';
 import { isEmpty } from 'lodash';
 import { RootState } from 'src/store/store';
 import banner from 'src/assets/images/magazine/banner.png';
 import { getListMagazineAction } from 'src/features/Magazine/MagazineAction';
+import { getFeatureMagazineAction } from 'src/features/FeaturePhotos/FeaturePhotoAction';
 import TabPanel from './component/TabPanel';
 import useStyles from './useStyles';
 import MagazineContent from '../MagazineContent';
@@ -27,8 +28,9 @@ interface IProps {
 const MagazineHeader: React.FunctionComponent<IProps> = ({ categoryName }) => {
   const classes = useStyles();
   const [value, setValue] = useState<number>(0);
+  const [loading, setLoading] = useState<boolean>(false);
   const [caterogyName, setCategoryName] = useState<string>(categoryName);
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<any>();
   const matches = useMediaQuery('(max-width:1080px)');
   const matchToRenderTab = useMediaQuery('(max-width:1280px)');
 
@@ -45,12 +47,10 @@ const MagazineHeader: React.FunctionComponent<IProps> = ({ categoryName }) => {
     return [];
   }, [categories.results]);
 
-  const getMagazineList = (id) => {
-    let getCategoryName = arrMenu.map((item, index) => (index === id ? item.label : null));
-    getCategoryName = getCategoryName.filter((item) => item !== null);
-
-    setCategoryName(getCategoryName[0]);
-    dispatch(getListMagazineAction(getCategoryName[0], 1));
+  const getMagazineList = (getCategoryName) => {
+    setCategoryName(getCategoryName);
+    dispatch(getFeatureMagazineAction(getCategoryName));
+    dispatch(getListMagazineAction(getCategoryName, 1));
   };
 
   // fetch menu tab when click item menu in Drawer sidebar at mobile screen mode
@@ -62,7 +62,7 @@ const MagazineHeader: React.FunctionComponent<IProps> = ({ categoryName }) => {
         behavior: 'smooth',
       });
       setValue(magazineMenu.id);
-      getMagazineList(magazineMenu.id);
+      getMagazineList(magazineMenu.menu);
     }
   }, [magazineMenu, dispatch]);
 
@@ -72,6 +72,8 @@ const MagazineHeader: React.FunctionComponent<IProps> = ({ categoryName }) => {
 
     setValue(newValue);
     setCategoryName(getCategoryName[0]);
+    setLoading(true);
+    dispatch(getFeatureMagazineAction(getCategoryName[0])).then(() => setLoading(false));
     dispatch(getListMagazineAction(getCategoryName[0], 1));
   };
 
@@ -108,7 +110,7 @@ const MagazineHeader: React.FunctionComponent<IProps> = ({ categoryName }) => {
       {arrMenu.map((menu, index) => (
         <div className={classes.content} key={`${index + 1}`}>
           <TabPanel value={value} index={index}>
-            <MagazineContent category={caterogyName} title={menu.description} />
+            <MagazineContent category={caterogyName} loading={loading} />
           </TabPanel>
         </div>
       ))}

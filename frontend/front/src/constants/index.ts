@@ -20,6 +20,7 @@ const ROUTE_REGISTER = '/register';
 const ROUTE_FORGOTPASSWORD = '/forgotpassword';
 const ROUTE_MAGAZINE_DETAIL = '/magazine';
 const ROUTE_PHOTO_SEARCH = '/photo/search/:nameTag';
+const ROUTE_MAGAZINE_SEARCH = '/magazine/search/:nameTag';
 const ROUTE_FORUM = '/forum';
 
 export {
@@ -33,4 +34,5 @@ export {
   ROUTE_FORUM,
   REFRESH_TOKEN_KEY,
   ROUTE_MAGAZINE_DETAIL,
+  ROUTE_MAGAZINE_SEARCH,
 };

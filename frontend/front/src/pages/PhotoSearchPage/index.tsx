@@ -5,10 +5,12 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { Grid, Typography, Box, RootRef } from '@material-ui/core';
 import Skeleton from '@material-ui/lab/Skeleton';
+import { useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { searchAction } from 'src/features/Search/searchAction';
+import { searchPhotoAction } from 'src/features/Search/searchAction';
 import Photo from 'src/components/Photo';
 import BtnViewMore from 'src/components/Buttons/ButtonViewMore';
+import { RootState } from 'src/store/store';
 
 import useStyles from '../PhotoPage/components/Photos/useStyles';
 import '../PhotoPage/components/Photos/_photos.scss';
@@ -20,28 +22,34 @@ function PhotoSearchPage(): JSX.Element {
   const [listImg, setListImg] = useState<Array<any>>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [initialLoading, setInitialLoading] = useState<boolean>(false);
-  const getUrlCurrent = window.location.pathname;
-  // get text search in url
-  const textSearch = getUrlCurrent.slice(14);
-  // replace % to '' in textSearch
-  const textTag = textSearch.replace(/%20/g, ' #');
+  const location = useLocation();
+
+  const getUrlCurrent = location.pathname;
+  const splitText = getUrlCurrent.split('/');
+  const valueSearch = splitText[splitText.length - 1];
 
   // initial fetch data and set gallery to state once time
   useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: 'smooth',
+    });
     setLoading(true);
     setInitialLoading(true);
     setListImg([]);
-    dispatch(searchAction(1, `${textSearch}`)).then((data) => {
+    dispatch(searchPhotoAction(1, `${valueSearch}`)).then((data) => {
       const { results = [] } = data;
       setListImg(results);
       setInitialLoading(false);
       setLoading(false);
     });
-  }, [dispatch, textSearch]);
+  }, [dispatch, valueSearch]);
 
   const dataPhoto = useSelector(
     (state: any) => state.searchTag.dataSearch.dataOrigin
   );
+  const textSearch = useSelector((state: RootState) => state.searchTag.textSearch);
 
   const renderPhoto = () => (
     <>
@@ -61,21 +69,21 @@ function PhotoSearchPage(): JSX.Element {
   const { results: photoList = [] } = dataPhoto;
   const currentPhotoList = [...photoList];
 
-  const handleSearchTagNotFound = (array) => {
-    if (!array.length) {
-      return (
-        <Typography className={`${classes.textSearch} textSearch`}>Tag is not found</Typography>
-      );
+  const handleSearchTagNotFound = () => {
+    if (dataPhoto.count === 0) {
+      return <Typography className={`${classes.textSearch} textSearch`}>Tag is not found</Typography>;
     }
     return null;
   };
+
   // test(currentPhotoList);
   const handleClick = async (key: string) => {
     const { next: nextPage = '', previous: previousPage = '' } = dataPhoto;
     const getStringSearch = nextPage.split('?page=').pop();
+    const nextNum = getStringSearch.split('&search_text=').shift();
+
     if (key === 'next') {
-      const getNum_textSearch = getStringSearch.split('&search_text=');
-      await dispatch(searchAction(getNum_textSearch[0], getNum_textSearch[1])).then((data) => {
+      await dispatch(searchPhotoAction(nextNum, textSearch)).then((data) => {
         const { results = [] } = data;
         results.forEach((item) => currentPhotoList.push(item));
         setLoading(false);
@@ -89,7 +97,7 @@ function PhotoSearchPage(): JSX.Element {
       if (exist) {
         prevNum = +`${previousPage.split('?page=').pop()}`;
       }
-      dispatch(searchAction(+`${prevNum}`, `${textSearch}`));
+      dispatch(searchPhotoAction(+`${prevNum}`, `${textSearch}`));
     }
     setListImg(currentPhotoList);
   };
@@ -131,8 +139,8 @@ function PhotoSearchPage(): JSX.Element {
       <div style={{ padding: '50px 0px', backgroundColor: '#EEEEEE' }} />
       <div className={`${classes.root} photoRoot`}>
         <Grid className='container' container>
-          <Typography className={`${classes.textSearch} textSearch`}>{`#${textTag}`}</Typography>
-          {handleSearchTagNotFound(currentPhotoList)}
+          <Typography className={`${classes.textSearch} textSearch`}>{`#${textSearch}`}</Typography>
+          {handleSearchTagNotFound()}
         </Grid>
       </div>
       <div className={`${classes.root} photoRoot`}>

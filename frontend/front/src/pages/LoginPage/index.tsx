@@ -2,7 +2,6 @@
 /* eslint-disable import/no-unresolved */
 import React, { useState, useEffect } from 'react';
 import { useHistory, Link, useLocation } from 'react-router-dom';
-import { LazyLoadImage } from 'react-lazy-load-image-component';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   Typography,
@@ -16,6 +15,7 @@ import {
   CircularProgress,
   IconButton,
 } from '@material-ui/core';
+import LazyLoad from 'react-lazyload';
 import CloseIcon from '@material-ui/icons/Close';
 import { RootState } from 'src/store/store';
 import { getUserProfile } from 'src/features/Profile/ProfileAction';
@@ -127,15 +127,17 @@ const LoginPage: React.FunctionComponent<LoginProps> = ({ closePopup }) => {
   return (
     <Grid className={classes.root} container>
       <Grid item xs={12} sm={12} md={6} lg={6} xl={6} className={classes.leftLoginPage}>
-        <LazyLoadImage
-          alt='login'
-          className={classes.loginImage}
-          src={
-            popUp
-              ? checkPathImg(featurePhoto[0]?.popup_photo.image_path)
-              : checkPathImg(featurePhoto[0]?.login_photo.image_path)
-          }
-        />
+        <LazyLoad height='100%'>
+          <img
+            alt='login'
+            className={classes.loginImage}
+            src={
+              popUp
+                ? checkPathImg(featurePhoto[0]?.popup_photo.image_path)
+                : checkPathImg(featurePhoto[0]?.login_photo.image_path)
+            }
+          />
+        </LazyLoad>
       </Grid>
       {handleCloseLoginPopup()}
       <Grid

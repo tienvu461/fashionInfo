@@ -16,7 +16,6 @@ const useStyles: () => Record<
   string
 > = makeStyles((theme: Theme) => ({
   search: {
-    // position: 'relative',
     borderRadius: theme.shape.borderRadius,
     backgroundColor: fade(theme.palette.common.white, 0.15),
     '&:hover': { backgroundColor: fade(theme.palette.common.white, 0.25) },
@@ -35,18 +34,28 @@ const useStyles: () => Record<
     position: 'absolute',
     display: 'flex',
     alignItems: 'flex-end',
-    marginBottom: '8px',
+    // marginBottom: '2px',
     pointerEvents: 'none',
     color: '#474747',
   },
   inputDesktop: {
     paddingLeft: '53px',
-    width: '50vh',
+    [theme.breakpoints.down('lg')]: {
+      width: '30vh',
+    },
+    [theme.breakpoints.up('lg')]: {
+      width: '40vh',
+    },
     fontSize: '18px',
     fontFamily: 'Roboto',
     transition: theme.transitions.create('width'),
     '&.Mui-focused': {
-      width: '50vh',
+      [theme.breakpoints.down('lg')]: {
+        width: '30vh',
+      },
+      [theme.breakpoints.up('lg')]: {
+        width: '40vh',
+      },
     },
     '&.MuiInput-underline:before': {
       display: 'none',
@@ -64,6 +73,7 @@ const useStyles: () => Record<
   placeHolderInput: {
     '&::placeholder': {
       fontSize: '24px',
+      paddingTop: '20px',
     },
   },
   mobile: {
@@ -105,6 +115,7 @@ const useStyles: () => Record<
   },
   clearDesktopSearch: {
     cursor: 'pointer',
+    paddingRight: '20px',
   },
   clearMobileSearch: {
     cursor: 'pointer',
@@ -113,8 +124,9 @@ const useStyles: () => Record<
     marginRight: '16px',
   },
   loadingIcon: {
-    display: 'flex'
-  }
+    display: 'flex',
+    paddingRight: '20px',
+  },
 }));
 
 export { useStyles as default };
