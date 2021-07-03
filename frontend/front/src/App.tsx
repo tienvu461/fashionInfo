@@ -18,6 +18,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import {
   ROUTE_LOGIN,
   ROUTE_REGISTER,
+  ROUTE_FORGOTPASSWORD
 } from './constants';
 import {
   clearStoreFromlocalStorage,
@@ -100,7 +101,7 @@ function App(): JSX.Element {
   };
   // handle footer
   function handleFoooter() {
-    if (!(location.pathname === ROUTE_REGISTER || location.pathname === ROUTE_LOGIN)) {
+    if (!(location.pathname === ROUTE_REGISTER || location.pathname === ROUTE_LOGIN || location.pathname === ROUTE_FORGOTPASSWORD)) {
       return (
         <Footer />
       );

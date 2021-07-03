@@ -2,8 +2,8 @@
 /* eslint-disable import/no-unresolved */
 /* eslint-disable camelcase */
 import React, { useState, useEffect } from 'react';
-import clsx from 'clsx';
 import { useHistory, Link } from 'react-router-dom';
+import { LazyLoadImage } from 'react-lazy-load-image-component';
 import { useDispatch, useSelector } from 'react-redux';
 import { Formik, FormikProps, Form } from 'formik';
 
@@ -21,7 +21,6 @@ import {
 import { RootState } from 'src/store/store';
 import { getUrlSocialAction } from 'src/features/Login/LoginAction';
 import { registerAction } from 'src/features/Register/RegisterAction';
-import imgRegister from 'src/assets/images/Mask_Group_Login.png';
 import iconFb from 'src/assets/images/iconFb_Login.png';
 import iconGg from 'src/assets/images/iconfinder_Google_Loginin.png';
 import './_register.scss';
@@ -92,7 +91,7 @@ function RegisterPage(): JSX.Element {
         xl={6}
         className={classes.leftRegister}
       >
-        <img
+        <LazyLoadImage
           alt='register'
           className={classes.registerImage}
           src={checkPathImg(featurePhoto[0]?.signup_photo.image_path)}
@@ -190,7 +189,7 @@ function RegisterPage(): JSX.Element {
                 errors,
                 handleBlur,
                 handleChange,
-                isSubmitting,
+                // isSubmitting,
               } = props;
               return (
                 <Form className={classes.form}>

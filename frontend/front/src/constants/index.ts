@@ -17,6 +17,7 @@ const ROUTE_LOGIN = '/login';
 const ROUTE_PHOTO = '/photo';
 const ROUTE_PROFILE = '/profile';
 const ROUTE_REGISTER = '/register';
+const ROUTE_FORGOTPASSWORD = '/forgotpassword';
 const ROUTE_MAGAZINE_DETAIL = '/magazine';
 const ROUTE_PHOTO_SEARCH = '/photo/search/:nameTag';
 const ROUTE_FORUM = '/forum';
@@ -25,6 +26,7 @@ export {
   ROUTE_HOME,
   ROUTE_REGISTER,
   ROUTE_LOGIN,
+  ROUTE_FORGOTPASSWORD,
   ROUTE_PROFILE,
   ROUTE_PHOTO,
   ROUTE_PHOTO_SEARCH,
