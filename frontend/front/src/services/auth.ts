@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable camelcase */
-import { LOGIN_API, REGISTER, GET_AUTHEN_URL, REFRESH_TOKEN_API, USER_PROFILE_API } from '../apis/index';
+import { LOGIN_API, REGISTER, GET_AUTHEN_URL, REFRESH_TOKEN_API, USER_PROFILE_API, FORGOTPASSWORD_API, COMFIRMPASSWORD_API } from '../apis/index';
 import request from '../configs/index';
 
 type PayloadType = {
@@ -20,3 +20,7 @@ export const profileService = async (): Promise<any> => request(USER_PROFILE_API
 export const getUrlSocialService = async (): Promise<any> => request(GET_AUTHEN_URL, 'GET');
 
 export const refreshTokenService = async (payload: { refresh: string }): Promise<any> => request(REFRESH_TOKEN_API, 'POST', payload);
+
+export const forgotPasswordService = async (payload: any): Promise<any> => request(FORGOTPASSWORD_API, 'POST', payload);
+
+export const confirmPasswordService = async (payload: any): Promise<any> => request(COMFIRMPASSWORD_API, 'POST', payload);

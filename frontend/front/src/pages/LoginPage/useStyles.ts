@@ -1,4 +1,3 @@
-import { green, red, blue, pink, orange } from '@material-ui/core/colors';
 import {
   makeStyles,
   Theme,

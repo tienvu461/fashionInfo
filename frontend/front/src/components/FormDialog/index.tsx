@@ -1,11 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable import/no-unresolved */
 import React, { useState, useCallback } from 'react';
-import { Dialog, DialogContent, Typography } from '@material-ui/core';
+import { Dialog, DialogContent, Typography, useMediaQuery } from '@material-ui/core';
+import { useHistory } from 'react-router-dom';
 import LoginPage from 'src/pages/LoginPage';
 
 import useStyles from './useStyles';
-// import LoginPopup from 'src/components/LoginPopup/components';
 
 interface FormDialogProps {
   redirectLogin: any;
@@ -14,12 +14,17 @@ interface FormDialogProps {
 const FormDialog: React.FunctionComponent<FormDialogProps> = (props) => {
   const classes = useStyles();
   const { redirectLogin } = props;
-
+  const history = useHistory();
+  const matches = useMediaQuery('(max-width:1080px)');
   const [open, setOpen] = useState<boolean>(false);
 
   const handleClickOpen = () => {
-    setOpen(true);
     redirectLogin();
+    if (matches) {
+      history.push('/login');
+      return;
+    }
+    setOpen(true);
   };
 
   const handleClose = () => {

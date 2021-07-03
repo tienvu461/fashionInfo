@@ -20,7 +20,6 @@ import CloseIcon from '@material-ui/icons/Close';
 import { RootState } from 'src/store/store';
 import { getUserProfile } from 'src/features/Profile/ProfileAction';
 import { loginAction, getUrlSocialAction } from 'src/features/Login/LoginAction';
-
 import iconFb from 'src/assets/images/iconFb_Login.png';
 import iconGg from 'src/assets/images/iconfinder_Google_Loginin.png';
 import { HOST } from 'src/apis';
@@ -56,12 +55,13 @@ const LoginPage: React.FunctionComponent<LoginProps> = ({ closePopup }) => {
   // Prevent re-login when login successful
   useEffect(() => {
     if (loginStatus === 200) {
+      if (cmtPhotoId) return;
       history.push(`${ROUTE_HOME}`);
     }
     if (!(location.pathname === ROUTE_LOGIN)) {
       setPopUp(true);
     }
-  }, [loginStatus, history, location]);
+  }, [dispatch, loginStatus, history, location, cmtPhotoId]);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setfield({
@@ -123,12 +123,6 @@ const LoginPage: React.FunctionComponent<LoginProps> = ({ closePopup }) => {
 
     return `${HOST}${path}`;
   };
-
-  // const loginInfo: {
-  //   image: string;
-  // } = {
-  //   image: imgLogin,
-  // }
 
   return (
     <Grid className={classes.root} container>
@@ -240,7 +234,7 @@ const LoginPage: React.FunctionComponent<LoginProps> = ({ closePopup }) => {
                 />
               </div>
               <div>
-                <Link className={classes.link}>
+                <Link className={classes.link} to='/forgotpassword'>
                   <span className={classes.fontManual}>Quên mật khẩu?</span>
                 </Link>
               </div>

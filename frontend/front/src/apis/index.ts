@@ -6,6 +6,8 @@ export const HOST = 'http://api.tienvv.com';
 export const LOGIN_API = `${HOST}/api/token`;
 export const REFRESH_TOKEN_API = `${HOST}/api/jwt/refresh/`;
 export const REGISTER = `${HOST}/api/users/`;
+export const FORGOTPASSWORD_API = `${HOST}/api/users/reset_password/`;
+export const COMFIRMPASSWORD_API = `${HOST}/api/users/reset_password_confirm/`;
 // SOCIAL AUTH
 export const GET_AUTHEN_URL = `${HOST}/api/social/o/google-oauth2/?redirect_uri=${HOST}/accounts/profile/`;
 
