@@ -7,6 +7,7 @@ import moment from 'moment';
 import { toast } from 'react-toastify';
 import ReactHtmlParser from 'react-html-parser';
 import { Typography, Divider } from '@material-ui/core';
+import LazyLoad from 'react-lazyload';
 
 import FavoriteIcon from '@material-ui/icons/Favorite';
 
@@ -134,11 +135,13 @@ const MagazineArticle: React.FunctionComponent<MagazineArticleProps> = (props) =
       <Typography className={classes.mainTitle}>{title}</Typography>
       {renderAction()}
       <div className='article-banner'>
-        <img
-          alt='Contemplative Reptile'
-          src={checkPathImg(banner)}
-          loading='lazy'
-        />
+        <LazyLoad>
+          <img
+            alt='Contemplative Reptile'
+            src={checkPathImg(banner)}
+            loading='lazy'
+          />
+        </LazyLoad>
       </div>
       <div className='article-content'>{ReactHtmlParser(content)}</div>
       <Tags page='magazine' listTags={tags} />
