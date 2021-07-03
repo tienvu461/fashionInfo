@@ -14,6 +14,7 @@ import { RootState } from 'src/store/store';
 import HeartIcon from 'src/assets/images/heart.svg';
 import ShareIcon from 'src/assets/images/share.svg';
 import Tags from 'src/components/Tags';
+import { loadingResponse } from 'src/features/Loading/LoadingSlice';
 import { getDetailAction, likePhotoAction } from 'src/features/Photo/photoAction';
 
 import PhotoComment from './components/PhotoComment';
@@ -34,11 +35,12 @@ const DetaiPhoto: React.FunctionComponent<DetailProps> = (props) => {
   const { match: { params: { id = '' } = {} } = {} } = props;
 
   const classes = useStyles();
-  const [loading, setLoading] = useState<boolean>(false);
+  // const [loading, setLoading] = useState<boolean>(false);
   const [likeAction, setLikeAction] = useState<boolean>(false);
   const dispatch = useDispatch<any>();
 
   const photoDetail = useSelector((state: RootState) => state.photo.photoDetail);
+  const loading = useSelector((state: RootState) => state.loading.isLoading);
   const [like, setLike] = useState<number>(0);
 
   const userLikes = useSelector((state: RootState) => state.photo.photoDetail?.user_likes);
@@ -48,7 +50,7 @@ const DetaiPhoto: React.FunctionComponent<DetailProps> = (props) => {
   const loginStatus = useSelector((state: any) => state.login.loginResponse?.status);
 
   useEffect(() => {
-    setLoading(true);
+    dispatch(loadingResponse(true));
 
     window.scrollTo({
       top: 100,
@@ -60,7 +62,7 @@ const DetaiPhoto: React.FunctionComponent<DetailProps> = (props) => {
     dispatch(getDetailAction(id)).then((res) => {
       const { status = '', data: { likes = 0 } = {} } = res;
       if (status === 200) {
-        setLoading(false);
+        dispatch(loadingResponse(false));
         setLike(likes);
       }
     });
@@ -81,12 +83,7 @@ const DetaiPhoto: React.FunctionComponent<DetailProps> = (props) => {
   // Fecch detail page again after comment to get the newest comment list
   useEffect(() => {
     if (photoComment.cmt_id) {
-      dispatch(getDetailAction(photoComment.photo_id)).then((res) => {
-        const { status = '' } = res;
-        if (status === 200) {
-          setLoading(false);
-        }
-      });
+      dispatch(getDetailAction(photoComment.photo_id));
     }
   }, [dispatch, photoComment, photoComment.cmt_id]);
 
@@ -229,20 +226,20 @@ const DetaiPhoto: React.FunctionComponent<DetailProps> = (props) => {
     );
   };
 
+  if (loading) {
+ return (
+   <div className={classes.loading}>
+     <CircularProgress color='primary' />
+   </div>
+  );
+}
+
   return (
     <div className={classes.detailRoot}>
       <div className={`${classes.root} detailRoot`}>
-        {loading ? (
-          <div className={classes.loading}>
-            <CircularProgress color='primary' />
-          </div>
-        ) : (
-          <>
-            <div className='photoDetail'>{renderDetailPhoto()}</div>
-            <Divider />
-            <PhotoComment paramsId={id} />
-          </>
-        )}
+        <div className='photoDetail'>{renderDetailPhoto()}</div>
+        <Divider />
+        <PhotoComment paramsId={id} />
       </div>
       <SuggestionComponent paramsId={id} />
     </div>

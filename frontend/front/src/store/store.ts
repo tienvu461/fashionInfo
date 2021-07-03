@@ -10,6 +10,7 @@ import magazineReducer from '../features/Magazine/MagazineSlice';
 import { clearStoreFromlocalStorage } from '../utils/localStorage';
 import featurePhotoReducer from '../features/FeaturePhotos/FeaturePhotoSlice';
 import searchTagReducer from '../features/Search/searchSlide';
+import loadingReducer from '../features/Loading/LoadingSlice';
 
 const appReducer = combineReducers({
   login: loginReducer,
@@ -19,6 +20,7 @@ const appReducer = combineReducers({
   featurePhoto: featurePhotoReducer,
   magazine: magazineReducer,
   searchTag: searchTagReducer,
+  loading: loadingReducer,
 });
 
 const rootReducer = (state: any, action: any) => {

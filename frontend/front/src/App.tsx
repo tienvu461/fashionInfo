@@ -58,6 +58,7 @@ const logOut = () => ({
 function App(): JSX.Element {
   const dispatch = useDispatch<any>();
   const logoutStatus = useSelector((state: RootState) => state.login.loginResponse?.status);
+  const loading = useSelector((state: RootState) => state.loading.isLoading);
   const location = useLocation();
 
   const getCredentials = getCredentialsFromLocalStorage();
@@ -103,7 +104,11 @@ function App(): JSX.Element {
   function handleFoooter() {
     if (!(location.pathname === ROUTE_REGISTER || location.pathname === ROUTE_LOGIN)) {
       return (
-        <Footer />
+        <>
+          {
+            loading ? null : <Footer />
+          }
+        </>
       );
     }
     return null;
