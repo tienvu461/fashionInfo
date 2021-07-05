@@ -59,7 +59,12 @@
         justify-content: center;
     }
 
-    .container{
+    .containerPhoto{
+
+        // screen < 960
+        @media screen and (max-width: 600px) {
+            padding: 0 20px;
+        }
 
         // screen < 960
         @media screen and (max-width: 960px) {

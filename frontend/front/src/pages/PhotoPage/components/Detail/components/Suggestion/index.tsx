@@ -107,7 +107,7 @@ const SuggestionComponent: React.FunctionComponent<SuggestionProps> = (props) =>
         </Typography>
       </div>
       <div className='root'>
-        <Grid container className='container'>
+        <Grid container className='containerPhoto'>
           {initialLoading ? (
             <>{loadingPhoto()}</>
           ) : (
