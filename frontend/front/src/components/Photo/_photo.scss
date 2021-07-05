@@ -17,16 +17,20 @@
     }
 
     .cardActions{
-        cursor: pointer;
+      cursor: pointer;
+      width: 100%;
+      
+      @media screen and (min-width: 960px) {
         background-color: #EEEEEE;
-		position: absolute;
-		opacity: 0;
-		width: 100%;
-		-webkit-transition:all 0.3s ease-in-out;
-		-moz-transition:all 0.3s ease-in-out;
-		-o-transition:all 0.3s ease-in-out;
-		-ms-transition:all 0.3s ease-in-out;
-		transition:all 0.3s ease-in-out;
+        cursor: pointer;
+        position: absolute;
+        opacity: 0;
+        -webkit-transition:all 0.3s ease-in-out;
+        -moz-transition:all 0.3s ease-in-out;
+        -o-transition:all 0.3s ease-in-out;
+        -ms-transition:all 0.3s ease-in-out;
+        transition:all 0.3s ease-in-out;ht: 450px;
+      }
     }
 
     @media screen and (max-width: 960px) {
@@ -45,4 +49,14 @@
           height: 600px;
       }
     }
+}
+
+.cardActions{
+  cursor: pointer;
+  width: 100%;
+  
+  @media screen and (max-width: 960px) {
+    background-color: #EEEEEE;
+  }
+
 }

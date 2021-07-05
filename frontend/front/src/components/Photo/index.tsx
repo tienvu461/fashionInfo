@@ -94,6 +94,38 @@ const Photo: React.FunctionComponent<PropsType> = (props) => {
             <img className={`${classes.picture} picture`} alt='Feature Photos' src={checkPathImg(pathImg)} />
           </CardActionArea>
         </LazyLoad>
+        {
+          matches2 ? null : (
+            <div className='cardActions'>
+              <div className={classes.actions}>
+                <div className={classes.left}>
+                  <div className={classes.leftActions}>
+                    {likeAction ? (
+                      <FavoriteIcon style={{ color: 'red' }} onClick={() => likePhoto(id, 'unlike')} />
+                    ) : (
+                      <img
+                        alt='heart-icon'
+                        onClick={() => likePhoto(id, 'like')}
+                        className={classes.icon}
+                        src={HeartIcon}
+                      />
+                    )}
+                    <div className={classes.num}>{like}</div>
+                  </div>
+                  <div className={classes.leftActions}>
+                    <img alt='comment-icon' className={classes.icon} src={CommentIcon} />
+                    <div className={classes.num}>{comments}</div>
+                  </div>
+                </div>
+                <div className={classes.right}>
+                  <img alt='share-icon' src={ShareIcon} />
+                </div>
+              </div>
+            </div>
+          )
+        }
+      </Card>
+      {matches2 ? (
         <div className='cardActions'>
           <div className={classes.actions}>
             <div className={classes.left}>
@@ -120,7 +152,7 @@ const Photo: React.FunctionComponent<PropsType> = (props) => {
             </div>
           </div>
         </div>
-      </Card>
+      ) : null}
     </>
   );
 };
