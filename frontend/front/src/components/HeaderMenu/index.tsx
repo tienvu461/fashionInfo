@@ -84,6 +84,7 @@ const HeaderMenu: React.FunctionComponent<AuxProps> = (props) => {
             aria-haspopup='true'
             onClick={handleProfileMenuOpen}
             color='inherit'
+            className={classes.iconBtn}
           >
             <LazyLoadImage
               alt='magazine-header-img'
@@ -170,7 +171,7 @@ const HeaderMenu: React.FunctionComponent<AuxProps> = (props) => {
                 handleMenuClose={handleMenuClose}
               />
               <Hidden mdUp>
-                <Grid className={classes.actions}>{handleIconLogIn()}</Grid>
+                <Grid>{handleIconLogIn()}</Grid>
                 <SideDrawer setActive={setActive} navLinks={navLinks} />
               </Hidden>
             </div>

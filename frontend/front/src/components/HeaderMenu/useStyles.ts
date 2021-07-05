@@ -16,6 +16,7 @@ const useStyles: () => Record<
   | 'textActive'
   | 'sectionDesktop'
   | 'iconImg'
+  | 'iconBtn'
   | 'navLinks',
   string
 > = makeStyles(() => ({
@@ -116,6 +117,9 @@ const useStyles: () => Record<
     borderRadius: '25px',
   },
   icon: { cursor: 'pointer' },
+  iconBtn: {
+    padding: 0
+  }
 }));
 
 export { useStyles as default };

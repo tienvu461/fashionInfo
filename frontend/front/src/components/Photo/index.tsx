@@ -89,11 +89,11 @@ const Photo: React.FunctionComponent<PropsType> = (props) => {
   return (
     <>
       <Card className={`${classes.card} card`}>
-        <CardActionArea onClick={() => history.push(`${ROUTE_PHOTO}/${id}`)}>
-          <LazyLoad height={controlHeithImg()}>
+        <LazyLoad height={controlHeithImg()}>
+          <CardActionArea onClick={() => history.push(`${ROUTE_PHOTO}/${id}`)}>
             <img className={`${classes.picture} picture`} alt='Feature Photos' src={checkPathImg(pathImg)} />
-          </LazyLoad>
-        </CardActionArea>
+          </CardActionArea>
+        </LazyLoad>
         <div className='cardActions'>
           <div className={classes.actions}>
             <div className={classes.left}>

@@ -31,7 +31,8 @@
 
     @media screen and (max-width: 960px) {
         .picture{
-          height: 600px;
+          height: auto;
+          width: 100%;
         }
     }
     @media screen and (min-width: 960px) {
