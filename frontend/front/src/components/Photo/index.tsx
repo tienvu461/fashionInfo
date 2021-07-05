@@ -86,6 +86,35 @@ const Photo: React.FunctionComponent<PropsType> = (props) => {
     return 600;
   };
 
+  const cardActions = () => (
+    <div className='cardActions'>
+      <div className={classes.actions}>
+        <div className={classes.left}>
+          <div className={classes.leftActions}>
+            {likeAction ? (
+              <FavoriteIcon style={{ color: 'red' }} onClick={() => likePhoto(id, 'unlike')} />
+            ) : (
+              <img
+                alt='heart-icon'
+                onClick={() => likePhoto(id, 'like')}
+                className={classes.icon}
+                src={HeartIcon}
+              />
+            )}
+            <div className={classes.num}>{like}</div>
+          </div>
+          <div className={classes.leftActions}>
+            <img alt='comment-icon' className={classes.icon} src={CommentIcon} />
+            <div className={classes.num}>{comments}</div>
+          </div>
+        </div>
+        <div className={classes.right}>
+          <img alt='share-icon' src={ShareIcon} />
+        </div>
+      </div>
+    </div>
+  );
+
   return (
     <>
       <Card className={`${classes.card} card`}>
@@ -95,64 +124,10 @@ const Photo: React.FunctionComponent<PropsType> = (props) => {
           </CardActionArea>
         </LazyLoad>
         {
-          matches2 ? null : (
-            <div className='cardActions'>
-              <div className={classes.actions}>
-                <div className={classes.left}>
-                  <div className={classes.leftActions}>
-                    {likeAction ? (
-                      <FavoriteIcon style={{ color: 'red' }} onClick={() => likePhoto(id, 'unlike')} />
-                    ) : (
-                      <img
-                        alt='heart-icon'
-                        onClick={() => likePhoto(id, 'like')}
-                        className={classes.icon}
-                        src={HeartIcon}
-                      />
-                    )}
-                    <div className={classes.num}>{like}</div>
-                  </div>
-                  <div className={classes.leftActions}>
-                    <img alt='comment-icon' className={classes.icon} src={CommentIcon} />
-                    <div className={classes.num}>{comments}</div>
-                  </div>
-                </div>
-                <div className={classes.right}>
-                  <img alt='share-icon' src={ShareIcon} />
-                </div>
-              </div>
-            </div>
-          )
+          matches2 ? null : cardActions()
         }
       </Card>
-      {matches2 ? (
-        <div className='cardActions'>
-          <div className={classes.actions}>
-            <div className={classes.left}>
-              <div className={classes.leftActions}>
-                {likeAction ? (
-                  <FavoriteIcon style={{ color: 'red' }} onClick={() => likePhoto(id, 'unlike')} />
-                ) : (
-                  <img
-                    alt='heart-icon'
-                    onClick={() => likePhoto(id, 'like')}
-                    className={classes.icon}
-                    src={HeartIcon}
-                  />
-                )}
-                <div className={classes.num}>{like}</div>
-              </div>
-              <div className={classes.leftActions}>
-                <img alt='comment-icon' className={classes.icon} src={CommentIcon} />
-                <div className={classes.num}>{comments}</div>
-              </div>
-            </div>
-            <div className={classes.right}>
-              <img alt='share-icon' src={ShareIcon} />
-            </div>
-          </div>
-        </div>
-      ) : null}
+      {matches2 ? cardActions() : null}
     </>
   );
 };
